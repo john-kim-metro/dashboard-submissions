@@ -1,0 +1,298 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body,html{font-family:'Inter',system-ui,sans-serif;background:#f5f5f4;color:#1a1a1a;font-size:14px}
+.db{background:#f5f5f4;padding:20px;min-height:100vh}
+.db-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.db-title{font-size:18px;font-weight:600;color:#1a1a1a;letter-spacing:-0.01em}
+.db-sub{font-size:12px;color:#6b7280;margin-top:3px}
+.badge{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:500;background:#dbeafe;color:#1e40af;white-space:nowrap}
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.kpi-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px}
+.kpi-lbl{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;font-weight:500}
+.kpi-lbl span{font-size:10px;color:#9ca3af;font-weight:400;text-transform:none;letter-spacing:0}
+.kpi-val{font-size:36px;font-weight:600;line-height:1;letter-spacing:-0.02em}
+.kpi-delta{font-size:13px;font-weight:500;margin-top:5px}
+.kpi-delta.good{color:#059669}
+.kpi-delta.warn{color:#d97706}
+.kpi-target{font-size:11px;color:#9ca3af;margin-top:5px}
+.kpi-bar-bg{height:5px;background:#e5e7eb;border-radius:3px;margin-top:12px}
+.kpi-bar-fill{height:5px;border-radius:3px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}
+.card.full{grid-column:1/-1}
+.card-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.card-period{font-size:11px;color:#9ca3af;margin-bottom:12px}
+.leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:#6b7280;margin-bottom:10px}
+.leg-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
+.leg-dash{width:18px;height:0;display:inline-block;margin-right:4px;vertical-align:middle;border-top:2px dashed rgba(226,75,74,0.5)}
+.stat-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.stat{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px}
+.stat-lbl{font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;font-weight:500}
+.stat-val{font-size:20px;font-weight:600;color:#1a1a1a;letter-spacing:-0.01em}
+.stat-chg{font-size:11px;margin-top:3px;font-weight:500}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#9ca3af;font-weight:500;padding:8px 12px;border-bottom:1px solid #f3f4f6;text-align:left;white-space:nowrap;background:#fafafa}
+.tbl td{padding:9px 12px;border-bottom:1px solid #f3f4f6;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl-weekly tbody tr{cursor:pointer;transition:background .1s}
+.tbl-weekly tbody tr:hover td{background:#f9fafb}
+.tbl-weekly tbody tr.sel td{background:#eff6ff;font-weight:500}
+.pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.pill-green{background:#d1fae5;color:#065f46}
+.pill-yellow{background:#fef3c7;color:#92400e}
+.pill-red{background:#fee2e2;color:#991b1b}
+.case-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.case-title{font-size:13px;font-weight:600;color:#1a1a1a}
+.case-sub{font-size:11px;color:#9ca3af}
+.empty-state{text-align:center;color:#9ca3af;padding:28px;font-style:italic;font-size:13px}
+.note{font-size:11px;color:#9ca3af;margin-top:8px;font-style:italic;padding:0 4px}
+</style>
+
+<div class="db">
+
+<div class="db-hdr">
+  <div>
+    <div class="db-title">Notes & claims — submissions team</div>
+    <div class="db-sub">Metro Dermatology &nbsp;·&nbsp; Refreshed weekly &nbsp;·&nbsp; Period anchor: submission date (visits: service date)</div>
+  </div>
+  <span class="badge">Week of Mar 25, 2026</span>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi-card">
+    <div class="kpi-lbl">Charge lag — avg days <span>(last 30 days &nbsp;·&nbsp; primary &nbsp;·&nbsp; service date)</span></div>
+    <div class="kpi-val" style="color:#d97706">4.2</div>
+    <div class="kpi-delta warn">&#9650; 0.6 days vs prior 30 days</div>
+    <div class="kpi-target">Target: &le;3 days &nbsp;|&nbsp; Best in class: 1&ndash;2 days</div>
+    <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:72%;background:#d97706"></div></div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-lbl">Clean claim rate <span>(last 30 days &nbsp;·&nbsp; primary &nbsp;·&nbsp; first submission)</span></div>
+    <div class="kpi-val" style="color:#059669">96.1%</div>
+    <div class="kpi-delta good">&#9650; 0.8% vs prior 30 days</div>
+    <div class="kpi-target">Target: &ge;95% &nbsp;|&nbsp; Best in class: 98%+</div>
+    <div class="kpi-bar-bg"><div class="kpi-bar-fill" style="width:96%;background:#059669"></div></div>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <div class="card-title">Charge lag — year-over-year</div>
+    <div class="card-period">Weekly avg &nbsp;·&nbsp; primary claims &nbsp;·&nbsp; bucketed by service date &nbsp;·&nbsp; by calendar week</div>
+    <div class="leg">
+      <span><span class="leg-sq" style="background:#bfdbfe"></span>2024</span>
+      <span><span class="leg-sq" style="background:#3b82f6"></span>2025</span>
+      <span><span class="leg-sq" style="background:#1e3a8a"></span>2026</span>
+      <span><span class="leg-dash"></span>Target (3d)</span>
+    </div>
+    <div style="position:relative;height:190px"><canvas id="c1"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Clean claim rate — year-over-year</div>
+    <div class="card-period">Weekly &nbsp;·&nbsp; primary first submissions &nbsp;·&nbsp; bucketed by submission date &nbsp;·&nbsp; by calendar week</div>
+    <div class="leg">
+      <span><span class="leg-sq" style="background:#a7f3d0"></span>2024</span>
+      <span><span class="leg-sq" style="background:#10b981"></span>2025</span>
+      <span><span class="leg-sq" style="background:#064e3b"></span>2026</span>
+      <span><span class="leg-dash"></span>Target (95%)</span>
+    </div>
+    <div style="position:relative;height:190px"><canvas id="c2"></canvas></div>
+  </div>
+</div>
+
+<div class="card full" style="margin-bottom:14px">
+  <div class="card-title">Volume trends — claims submitted, visits &amp; on hold</div>
+  <div class="card-period">Weekly &nbsp;·&nbsp; last 52 weeks &nbsp;·&nbsp; submitted &amp; on hold by submission date &nbsp;·&nbsp; visits by service date</div>
+  <div class="leg">
+    <span><span class="leg-sq" style="background:#3b82f6"></span>Claims submitted</span>
+    <span><span class="leg-sq" style="background:#9ca3af"></span>Visits</span>
+    <span><span class="leg-sq" style="background:#ef4444"></span>On hold</span>
+  </div>
+  <div style="position:relative;height:210px"><canvas id="c3"></canvas></div>
+</div>
+
+<div class="stat-grid">
+  <div class="stat">
+    <div class="stat-lbl">Visits (svc date)</div>
+    <div class="stat-val">3,133</div>
+    <div class="stat-chg" style="color:#059669">&#9650; 3% vs prior week</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lbl">Claims submitted</div>
+    <div class="stat-val">3,133</div>
+    <div class="stat-chg" style="color:#059669">&#9650; 1% vs prior week</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lbl">Charges billed</div>
+    <div class="stat-val">$870K</div>
+    <div class="stat-chg" style="color:#dc2626">&#9660; 10% vs prior week</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lbl">Rejected + invalid</div>
+    <div class="stat-val">41</div>
+    <div class="stat-chg" style="color:#059669">&#9660; 10% vs prior week</div>
+  </div>
+  <div class="stat">
+    <div class="stat-lbl">On hold</div>
+    <div class="stat-val" style="color:#dc2626">673</div>
+    <div class="stat-chg" style="color:#dc2626">&#9650; 22% vs prior week</div>
+  </div>
+</div>
+
+<div class="card full" style="margin-bottom:14px">
+  <div class="card-title">Weekly detail — last 12 weeks</div>
+  <div class="card-period">Bucketed by week start (submission date) &nbsp;·&nbsp; primary claims &nbsp;·&nbsp; click a row to view case details below</div>
+  <div style="overflow-x:auto">
+  <table class="tbl tbl-weekly" id="wtbl">
+    <thead><tr>
+      <th style="width:90px">Week start</th>
+      <th style="width:65px">Visits</th>
+      <th style="width:85px">Submitted</th>
+      <th style="width:80px">Charges</th>
+      <th style="width:80px">Rej + inv</th>
+      <th style="width:75px">On hold</th>
+      <th style="width:70px">CCR</th>
+      <th style="width:85px">Charge lag</th>
+    </tr></thead>
+    <tbody id="wb"></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="card full">
+  <div class="case-hdr">
+    <div>
+      <div class="case-title" id="ct">Case details</div>
+      <div class="case-sub" id="cs">Select a week above to view individual cases</div>
+    </div>
+    <span id="cc" style="font-size:12px;color:#9ca3af"></span>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="tbl" id="ctbl">
+    <thead><tr>
+      <th style="width:100px">Service date</th>
+      <th style="width:105px">Submission date</th>
+      <th style="width:80px">MRN</th>
+      <th style="width:95px">Status</th>
+      <th style="width:85px">Charges</th>
+      <th style="width:80px">Charge lag</th>
+      <th style="width:75px">Case link</th>
+    </tr></thead>
+    <tbody id="cb"><tr><td colspan="7" class="empty-state">Click a row in the weekly table to load cases</td></tr></tbody>
+  </table>
+  </div>
+  <p class="note" id="cn"></p>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var wk=[];for(var i=1;i<=52;i++)wk.push('W'+i);
+function rs(s){return function(){s=(s*9301+49297)%233280;return s/233280;};}
+function gL(s,o){var r=rs(s);return wk.map(function(_,i){return parseFloat((3.2+o+Math.sin(i/8)*.6+r()*.8-.4).toFixed(1));});}
+function gC(s,o){var r=rs(s);return wk.map(function(_,i){return parseFloat((95.5+o+Math.sin(i/10)*1+r()*1.2-.6).toFixed(1));});}
+var grid='rgba(0,0,0,0.06)';
+var tf={size:11,family:"'Inter',system-ui,sans-serif"};
+function bO(y){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,titleFont:tf,bodyFont:tf}},scales:{x:{ticks:{font:tf,maxRotation:0,autoSkip:true,maxTicksLimit:13},grid:{color:grid}},y:Object.assign({ticks:{font:tf},grid:{color:grid}},y||{})}};}
+
+new Chart(document.getElementById('c1'),{type:'line',data:{labels:wk,datasets:[
+  {label:'2024',data:gL(11,.4),borderColor:'#bfdbfe',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+  {label:'2025',data:gL(22,.1),borderColor:'#3b82f6',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+  {label:'2026',data:gL(33,-.1).slice(0,13),borderColor:'#1e3a8a',borderWidth:2,pointRadius:0,tension:.3,fill:false},
+  {label:'Target',data:Array(52).fill(3),borderColor:'rgba(239,68,68,.4)',borderWidth:1,borderDash:[4,4],pointRadius:0,fill:false}
+]},options:bO({min:1,max:7,ticks:{font:tf,callback:function(v){return v+'d';}}})});
+
+new Chart(document.getElementById('c2'),{type:'line',data:{labels:wk,datasets:[
+  {label:'2024',data:gC(44,-.5),borderColor:'#a7f3d0',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+  {label:'2025',data:gC(55,.2),borderColor:'#10b981',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+  {label:'2026',data:gC(66,.4).slice(0,13),borderColor:'#064e3b',borderWidth:2,pointRadius:0,tension:.3,fill:false},
+  {label:'Target',data:Array(52).fill(95),borderColor:'rgba(239,68,68,.4)',borderWidth:1,borderDash:[4,4],pointRadius:0,fill:false}
+]},options:bO({min:92,max:100,ticks:{font:tf,callback:function(v){return v+'%';}}})});
+
+var v52=['Oct W1','Oct W2','Oct W3','Oct W4','Nov W1','Nov W2','Nov W3','Nov W4','Nov W5','Dec W1','Dec W2','Dec W3','Dec W4','Jan W1','Jan W2','Jan W3','Jan W4','Feb W1','Feb W2','Feb W3','Feb W4','Mar W1','Mar W2','Mar W3','Mar W4','Apr W1','Apr W2','Apr W3','Apr W4','May W1','May W2','May W3','May W4','Jun W1','Jun W2','Jun W3','Jun W4','Jul W1','Jul W2','Jul W3','Jul W4','Aug W1','Aug W2','Aug W3','Aug W4','Sep W1','Sep W2','Sep W3','Sep W4','Oct W1','Oct W2','Oct W3'];
+new Chart(document.getElementById('c3'),{type:'line',data:{labels:v52,datasets:[
+  {label:'Submitted',data:[3515,3709,3815,2838,3124,3040,2748,3524,3241,2896,2330,2266,2114,2566,3145,2614,2593,2483,2435,2693,2531,3131,3100,2696,3133,3050,2980,3200,3100,2900,3050,3150,2800,3000,3200,2950,3100,3050,2800,2900,3100,3200,3150,2900,3050,3200,3100,2950,3050,3150,2800,3000],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.05)',borderWidth:1.5,pointRadius:0,tension:.3,fill:true},
+  {label:'Visits',data:[3417,2998,2986,2891,3199,3084,2484,3206,3061,3212,2119,2020,3418,3181,3082,2051,3079,2980,2924,2203,3022,3230,3046,3133,3133,3000,2950,3150,3050,2850,3000,3100,2750,2950,3150,2900,3050,3000,2750,2850,3050,3150,3100,2850,3000,3150,3050,2900,3000,3100,2750,2950],borderColor:'#9ca3af',borderWidth:1.5,pointRadius:0,tension:.3,fill:false},
+  {label:'On hold',data:[351,320,319,267,267,70,60,65,6,6,14,75,155,290,467,612,809,1003,1009,751,735,389,552,673,673,620,580,540,510,480,460,440,420,400,380,360,340,420,460,500,540,480,440,400,360,320,360,400,440,480,520,560],borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.05)',borderWidth:1.5,pointRadius:0,tension:.3,fill:true}
+]},options:bO({ticks:{font:tf,callback:function(v){return v>=1000?(v/1000).toFixed(1)+'K':v;}}})});
+
+var wrows=[
+  {wk:'Mar 25',vis:'3,133',sub:'3,133',chg:'$870K',ri:'41',hold:'673',ccr:'96.1%',lag:'4.2d'},
+  {wk:'Mar 18',vis:'3,046',sub:'3,100',chg:'$968K',ri:'47',hold:'552',ccr:'96.2%',lag:'4.1d'},
+  {wk:'Mar 11',vis:'3,230',sub:'3,131',chg:'$882K',ri:'39',hold:'389',ccr:'96.0%',lag:'4.0d'},
+  {wk:'Mar 4', vis:'3,022',sub:'2,531',chg:'$699K',ri:'53',hold:'735',ccr:'95.8%',lag:'3.9d'},
+  {wk:'Feb 25',vis:'2,203',sub:'2,693',chg:'$784K',ri:'49',hold:'751',ccr:'96.1%',lag:'3.7d'},
+  {wk:'Feb 18',vis:'2,924',sub:'2,435',chg:'$786K',ri:'54',hold:'1,009',ccr:'95.9%',lag:'4.3d'},
+  {wk:'Feb 11',vis:'2,980',sub:'2,483',chg:'$789K',ri:'62',hold:'1,003',ccr:'95.6%',lag:'4.1d'},
+  {wk:'Feb 4', vis:'3,079',sub:'2,593',chg:'$875K',ri:'57',hold:'809',ccr:'95.3%',lag:'3.9d'},
+  {wk:'Jan 28',vis:'2,051',sub:'2,614',chg:'$836K',ri:'73',hold:'612',ccr:'95.8%',lag:'4.0d'},
+  {wk:'Jan 21',vis:'3,082',sub:'3,145',chg:'$1,005K',ri:'61',hold:'467',ccr:'96.3%',lag:'3.8d'},
+  {wk:'Jan 14',vis:'3,181',sub:'2,566',chg:'$830K',ri:'78',hold:'290',ccr:'94.8%',lag:'5.1d'},
+  {wk:'Jan 7', vis:'3,418',sub:'2,114',chg:'$672K',ri:'92',hold:'155',ccr:'94.2%',lag:'5.4d'},
+];
+
+function pCCR(v){var n=parseFloat(v);return n>=97?'pill-green':n>=95?'pill-yellow':'pill-red';}
+function pH(v){var n=parseInt(v.replace(/,/g,''));return n<200?'pill-green':n<600?'pill-yellow':'pill-red';}
+function pL(v){var n=parseFloat(v);return n<=3?'pill-green':n<=5?'pill-yellow':'pill-red';}
+
+var wb=document.getElementById('wb');
+wrows.forEach(function(r,idx){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td>'+r.wk+'</td><td>'+r.vis+'</td><td>'+r.sub+'</td><td>'+r.chg+'</td><td>'+r.ri+'</td>'
+    +'<td><span class="pill '+pH(r.hold)+'">'+r.hold+'</span></td>'
+    +'<td><span class="pill '+pCCR(r.ccr)+'">'+r.ccr+'</span></td>'
+    +'<td><span class="pill '+pL(r.lag)+'">'+r.lag+'</span></td>';
+  tr.addEventListener('click',function(){
+    document.querySelectorAll('#wb tr').forEach(function(t){t.classList.remove('sel');});
+    tr.classList.add('sel');
+    loadCases(r,idx);
+  });
+  wb.appendChild(tr);
+});
+
+var statuses=['','','','','on hold','rejected','invalid','on hold','','rejected','','invalid','on hold','','','rejected','on hold','','invalid','','on hold','rejected','','','on hold'];
+var mrns=['MRN-10421','MRN-10422','MRN-10423','MRN-10424','MRN-10425','MRN-10426','MRN-10427','MRN-10428','MRN-10429','MRN-10430','MRN-10431','MRN-10432','MRN-10433','MRN-10434','MRN-10435'];
+
+function fmtDate(base,offset){
+  var months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5};
+  var parts=base.split(' ');
+  var d=new Date(2026,months[parts[0]],parseInt(parts[1]));
+  d.setDate(d.getDate()+offset);
+  return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear();
+}
+
+function sPill(s){
+  if(!s)return '<span class="pill pill-green">Clean</span>';
+  if(s==='on hold')return '<span class="pill pill-yellow">On hold</span>';
+  return '<span class="pill pill-red">'+s.charAt(0).toUpperCase()+s.slice(1)+'</span>';
+}
+
+function loadCases(row,idx){
+  var seed=rs(idx*37+17);var count=15;
+  document.getElementById('ct').textContent='Cases — week of '+row.wk;
+  document.getElementById('cs').textContent='Showing sample of '+count+' cases · primary claims · sorted by charge lag desc';
+  document.getElementById('cc').textContent=row.sub+' total claims this week';
+  document.getElementById('cn').textContent='In production: clicking Case Link opens the case in your practice management system.';
+  var cb=document.getElementById('cb');cb.innerHTML='';
+  for(var i=0;i<count;i++){
+    var svc=Math.floor(seed()*5);
+    var lag=Math.round(seed()*8+1);
+    var svcD=fmtDate(row.wk,svc);
+    var subD=fmtDate(row.wk,svc+lag);
+    var mrn=mrns[i%mrns.length];
+    var st=statuses[i%statuses.length];
+    var chg='$'+(Math.round((seed()*800+100)*100)/100).toFixed(2);
+    var lc=lag<=3?'pill-green':lag<=5?'pill-yellow':'pill-red';
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+svcD+'</td><td>'+subD+'</td><td style="color:#6b7280">'+mrn+'</td>'
+      +'<td>'+sPill(st)+'</td><td>'+chg+'</td>'
+      +'<td><span class="pill '+lc+'">'+lag+'d</span></td>'
+      +'<td><a href="#" style="color:#2563eb;text-decoration:none;font-size:12px;font-weight:500" onclick="return false">Open &#8599;</a></td>';
+    cb.appendChild(tr);
+  }
+}
+</script>
