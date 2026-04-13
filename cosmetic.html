@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Cosmetic Volume & No-Show Dashboard · March 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #7F77DD;padding-bottom:14px;margin-bottom:22px}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#534AB7;letter-spacing:-0.3px}
+  .db-header-left p{font-size:12px;color:#666;margin-top:3px}
+  .db-header-right{text-align:right;font-size:11px;color:#888;line-height:1.7}
+  .db-header-right strong{color:#534AB7}
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#534AB7;line-height:1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:10px;flex-wrap:wrap}
+  .kpi-delta{font-size:11px;font-weight:500;display:flex;align-items:center;gap:3px}
+  .kpi-delta .lbl{font-size:10px;color:#aaa;font-weight:400}
+  .up{color:#0d7a55}.dn{color:#b91c1c}.nt{color:#888}
+  .sec-label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
+  .card-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card-sub{font-size:11px;color:#888;margin-bottom:12px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .grid-6040{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
+  .full{margin-bottom:14px}
+  .leg{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#666;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:5px}
+  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#534AB7;color:#fff;padding:8px 10px;font-weight:600;text-align:left;font-size:11px;white-space:nowrap}
+  th.r{text-align:right}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a1a;white-space:nowrap}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:hover td{background:#f5f3ff}
+  .pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}
+  .pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}
+  .pill-b{background:#dbeafe;color:#1e40af}
+  .cat-def{margin-top:14px;border-top:1px solid #f0f0f0;padding-top:12px}
+  .cat-def h4{font-size:11px;font-weight:600;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+  .cat-rows{display:flex;flex-direction:column;gap:6px}
+  .cat-row{display:grid;grid-template-columns:140px 1fr;gap:8px;font-size:11px}
+  .cat-row-name{font-weight:600;color:#534AB7;padding-top:1px}
+  .cat-row-types{color:#888;line-height:1.6}
+  .excl-note{font-size:10px;color:#bbb;margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5}
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="db-header">
+    <div class="db-header-left">
+      <h1>Metro Dermatology &mdash; Cosmetic Volume &amp; No-Show Dashboard</h1>
+      <p>Reporting period: March 2026 &nbsp;|&nbsp; 5 cosmetic locations &nbsp;|&nbsp; NS% = NS / (NS + Completed)</p>
+    </div>
+    <div class="db-header-right"><strong>Prepared April 12, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Completed visits</div><div class="kpi-value">1,050</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+17.8%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&#8722;10.0%</div></div></div>
+    <div class="kpi"><div class="kpi-label">No-show rate</div><div class="kpi-value">5.0%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&#8722;0.2pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+1.5pp</div></div></div>
+    <div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value">25.0%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&#8722;1.7pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+1.5pp</div></div></div>
+    <div class="kpi"><div class="kpi-label">Total appt demand</div><div class="kpi-value">1,473</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+15.0%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&#8722;9.7%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Top location &mdash; Fort Lee</div><div class="kpi-value">356</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+21.5%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+18.3%</div></div></div>
+  </div>
+
+  <!-- Seasonal trend -->
+  <div class="sec-label">Volume trend</div>
+  <div class="full card">
+    <div class="card-title">Completed cosmetic visits &mdash; seasonal trend by year</div>
+    <div class="card-sub">2026 YTD running below 2025 pace. Data available from Jan 2025 — single prior year shown.</div>
+    <div class="leg">
+      <span><span class="sw-line" style="background:#AFA9EC"></span>2025</span>
+      <span><span class="sw-line" style="background:#534AB7"></span>2026 YTD</span>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="seasonal"></canvas></div>
+  </div>
+
+  <!-- NS trend + Location table -->
+  <div class="grid-6040">
+    <div class="card">
+      <div class="card-title">No-show &amp; cancellation rate &mdash; monthly trend</div>
+      <div class="card-sub">NS rate drifting higher since Q3 2025 but well below medical (5% vs 18.8%). Cancellations structurally elevated at ~25%.</div>
+      <div class="leg">
+        <span><span class="sw-line" style="background:#7c3aed"></span>No-show rate</span>
+        <span><span class="sw-line" style="background:#c4b5fd"></span>Cancellation rate</span>
+      </div>
+      <div style="position:relative;height:220px"><canvas id="nsTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">March visits by location</div>
+      <div class="card-sub">Mar 2025 &middot; Mar 2026 &middot; MoM vs Feb '26 &middot; YoY vs Mar '25</div>
+      <div class="tbl-wrap">
+        <table id="locTable">
+          <thead><tr><th>Location</th><th class="r">Mar '25</th><th class="r">Mar '26</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category trend + Category table -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Completed visits by category &mdash; monthly (log scale)</div>
+      <div class="card-sub">Walk-in and Laser &amp; Energy dominate. Log scale reveals smaller category trends.</div>
+      <div class="leg" id="catLeg"></div>
+      <div style="position:relative;height:260px"><canvas id="catTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">March 2026 &mdash; appointment category summary</div>
+      <div class="card-sub">MoM vs Feb 2026 &middot; YoY vs Mar 2025</div>
+      <div class="tbl-wrap">
+        <table id="catTable">
+          <thead><tr><th>Category</th><th class="r">Visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="cat-def">
+        <h4>Category definitions</h4>
+        <div class="cat-rows">
+          <div class="cat-row"><div class="cat-row-name">Walk-in</div><div class="cat-row-types">Walk In (existing patients only)</div></div>
+          <div class="cat-row"><div class="cat-row-name">Laser &amp; Energy</div><div class="cat-row-types">Laser Toning &bull; Laser Hair Removal &bull; V-Beam &bull; NDYAG PICO &bull; LaseMD &bull; eCO2 &bull; DermaV &bull; Hollywood Peel &bull; Laser Genesis &bull; Clarity Laser</div></div>
+          <div class="cat-row"><div class="cat-row-name">Consult &amp; Follow-up</div><div class="cat-row-types">Cosmetic Consult &bull; Cosmetic Follow-Up &bull; Cosmetic Virtual Consult</div></div>
+          <div class="cat-row"><div class="cat-row-name">Injectables</div><div class="cat-row-types">Cosmetic Botox &bull; Filler &bull; PRP &bull; Skin Botox</div></div>
+          <div class="cat-row"><div class="cat-row-name">New Patient</div><div class="cat-row-types">New Patient Cosmetic &bull; Walk In NEW PT &bull; New Patient</div></div>
+          <div class="cat-row"><div class="cat-row-name">Skin Treatments</div><div class="cat-row-types">Microneedling &bull; HydraFacial &bull; Oligio &bull; Thermage &bull; Ultherapy &bull; Genius &bull; Cross &bull; Indiba RF &bull; MIRIA &bull; Aqua Peel &bull; Chemical Peel &bull; Subcision &bull; Ulthermage</div></div>
+          <div class="cat-row"><div class="cat-row-name">Other Procedures</div><div class="cat-row-types">ED &bull; Tattoo Removal &bull; Mole Removal &bull; CoolSculpting &bull; Skin Tag Removal &bull; Xanthelasma &bull; Thread Lifting</div></div>
+        </div>
+        <div class="excl-note">Excluded from category analysis: Cosmetic TX 30/60/90, Cosmetic Training, Excel V, Marketing Filming, Photochemotherapy, Suture Removal, PDT, Others (miscellaneous low-volume types).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="db-footer">Data sources: Cosmetic appointments CSV (Jan 2025&ndash;Mar 2026). NS% = NS / (NS + Completed). Cancellations excluded from NS denominator. MED&ndash;Elmhurst excluded (zero completed visits). Historical data begins Jan 2025 — single prior year available for YoY comparison. Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const LABELS_MONTHLY=["Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26"];
+const NS_M=[4.7,5.1,3.5,4.5,4.9,5.5,5.9,4.6,5.3,6.4,6.1,4.0,4.8,5.2,5.0];
+const CAN_M=[25.5,26.9,23.5,23.0,22.5,24.1,24.1,22.6,26.1,23.5,23.6,24.5,25.9,26.7,25.0];
+
+const s2025=[1008,946,1167,1054,1116,986,1062,959,927,997,826,1023];
+const s2026=[941,891,1050,null,null,null,null,null,null,null,null,null];
+
+const locData=[
+  {l:'Bronx Concourse',  c25:196,cf:121,c26:132,ns:14.3},
+  {l:'Elmhurst',         c25:175,cf:118,c26:153,ns:3.8},
+  {l:'Flushing Northern',c25:384,cf:268,c26:286,ns:2.7},
+  {l:'Fort Lee',         c25:301,cf:293,c26:356,ns:3.3},
+  {l:'Glen Oaks',        c25:111,cf:91, c26:123,ns:5.4},
+];
+
+const catData=[
+  {c:'Laser & Energy',     v:272,mom:18.8, yoy:-7.5,  ns:4.6, can:26.7},
+  {c:'Walk-in',            v:227,mom:13.5, yoy:-13.0, ns:0.0, can:3.0},
+  {c:'Consult & Follow-up',v:174,mom:39.2, yoy:4.8,   ns:9.4, can:31.4},
+  {c:'Injectables',        v:153,mom:-3.2, yoy:-20.3, ns:3.8, can:30.3},
+  {c:'New Patient',        v:81, mom:19.1, yoy:-18.2, ns:12.9,can:26.2},
+  {c:'Skin Treatments',    v:63, mom:21.2, yoy:-7.4,  ns:7.4, can:33.3},
+  {c:'Other Procedures',   v:55, mom:41.0, yoy:-12.7, ns:1.8, can:36.4},
+];
+
+const catSeries={
+  'Laser & Energy':      [273,251,294,252,271,245,218,187,228,251,198,239,233,229,272],
+  'Walk-in':             [254,208,261,235,273,244,282,242,244,226,205,217,194,200,227],
+  'Consult & Follow-up': [98,122,166,151,150,117,107,134,121,130,109,164,125,125,174],
+  'Injectables':         [148,146,192,158,162,134,216,182,129,162,151,190,143,158,153],
+  'New Patient':         [91,79,99,96,92,92,98,77,78,81,61,69,89,68,81],
+  'Skin Treatments':     [70,62,68,79,74,76,58,70,58,68,50,75,62,52,63],
+  'Other Procedures':    [41,44,63,63,52,53,52,50,50,52,33,40,58,39,55],
+};
+const catColors={
+  'Laser & Energy':'#534AB7','Walk-in':'#0891b2','Consult & Follow-up':'#D85A30',
+  'Injectables':'#1D9E75','New Patient':'#b45309','Skin Treatments':'#888780','Other Procedures':'#AFA9EC'
+};
+
+// ── Chart 1: Seasonal YoY ──
+new Chart(document.getElementById('seasonal'),{
+  type:'line',
+  data:{labels:MO,datasets:[
+    {label:'2025',data:s2025,borderColor:'#AFA9EC',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2026',data:s2026,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.06)',fill:true,borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},
+    scales:{
+      x:{ticks:{font:{size:11}}},
+      y:{grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>v.toLocaleString()},title:{display:true,text:'Completed visits',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// ── Chart 2: NS / Can trend ──
+new Chart(document.getElementById('nsTrend'),{
+  type:'line',
+  data:{labels:LABELS_MONTHLY,datasets:[
+    {label:'No-show',data:NS_M,borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,0.05)',fill:true,borderWidth:2,pointRadius:1.5,tension:.3},
+    {label:'Cancellation',data:CAN_M,borderColor:'#c4b5fd',backgroundColor:'transparent',borderWidth:1.5,pointRadius:1.5,tension:.3,borderDash:[5,4]},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+    scales:{
+      x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false,callback:(v,i)=>i%2===0?LABELS_MONTHLY[i]:''}},
+      y:{min:0,max:35,grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>v+'%'}}
+    }
+  }
+});
+
+// ── Location table ──
+(function(){
+  const tb=document.querySelector('#locTable tbody');
+  locData.forEach(r=>{
+    const mom=((r.c26-r.cf)/r.cf*100).toFixed(1);
+    const yoy=r.c25?((r.c26-r.c25)/r.c25*100).toFixed(1):null;
+    const mH=`<span class="pill ${+mom>=0?'pill-g':'pill-r'}">${+mom>=0?'+':''}${mom}%</span>`;
+    const yH=yoy?`<span class="pill ${+yoy>=0?'pill-g':'pill-r'}">${+yoy>=0?'+':''}${yoy}%</span>`:'<span class="pill pill-b">New</span>';
+    const nC=r.ns>=10?'pill-r':r.ns>=5?'pill-a':'pill-g';
+    tb.innerHTML+=`<tr>
+      <td>${r.l}</td>
+      <td class="r">${r.c25.toLocaleString()}</td>
+      <td class="r"><strong>${r.c26.toLocaleString()}</strong></td>
+      <td class="r">${mH}</td>
+      <td class="r">${yH}</td>
+      <td class="r"><span class="pill ${nC}">${r.ns}%</span></td>
+    </tr>`;
+  });
+})();
+
+// ── Category trend (log) ──
+(function(){
+  const cats=Object.keys(catColors);
+  const datasets=cats.map(cat=>({
+    label:cat,data:catSeries[cat],borderColor:catColors[cat],backgroundColor:'transparent',
+    borderWidth:cat==='Laser & Energy'||cat==='Walk-in'?2.5:1.8,
+    pointRadius:cat==='Laser & Energy'||cat==='Walk-in'?2.5:1.5,
+    tension:.3,borderDash:cat==='Laser & Energy'||cat==='Walk-in'?[]:[5,4],spanGaps:false
+  }));
+  const legEl=document.getElementById('catLeg');
+  cats.forEach(cat=>{legEl.innerHTML+=`<span><span class="sw" style="background:${catColors[cat]}"></span>${cat}</span>`;});
+  new Chart(document.getElementById('catTrend'),{type:'line',data:{labels:LABELS_MONTHLY,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},
+      scales:{
+        x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false,callback:(v,i)=>i%2===0?LABELS_MONTHLY[i]:''}},
+        y:{type:'logarithmic',grid:{color:'#f0f0f0'},
+          ticks:{font:{size:10},callback:v=>{const vals=[50,100,200,500];return vals.includes(v)?String(v):'';}},
+          title:{display:true,text:'Completed visits (log scale)',font:{size:10},color:'#888'}}
+      }
+    }
+  });
+})();
+
+// ── Category table ──
+(function(){
+  const tb=document.querySelector('#catTable tbody');
+  catData.forEach(r=>{
+    const mC=r.mom>=0?'pill-g':'pill-r';
+    const yC=r.yoy>=0?'pill-g':'pill-r';
+    const nC=r.ns>=10?'pill-r':r.ns>=5?'pill-a':'pill-g';
+    const cC=r.can>=30?'pill-r':r.can>=20?'pill-a':'pill-g';
+    tb.innerHTML+=`<tr>
+      <td>${r.c}</td>
+      <td class="r"><strong>${r.v.toLocaleString()}</strong></td>
+      <td class="r"><span class="pill ${mC}">${r.mom>=0?'+':''}${r.mom.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${yC}">${r.yoy>=0?'+':''}${r.yoy.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${nC}">${r.ns.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${cC}">${r.can.toFixed(1)}%</span></td>
+    </tr>`;
+  });
+})();
+</script>
+</body>
+</html>
