@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Volume &amp; No-Show Dashboard · March 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-0.3px}
+  .db-header-left p{font-size:12px;color:#666;margin-top:3px}
+  .db-header-right{text-align:right;font-size:11px;color:#888;line-height:1.7}
+  .db-header-right strong{color:#1A3A5C}
+  .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:10px;flex-wrap:wrap}
+  .kpi-delta{font-size:11px;font-weight:500;display:flex;align-items:center;gap:3px}
+  .kpi-delta .lbl{font-size:10px;color:#aaa;font-weight:400}
+  .up{color:#0d7a55}.dn{color:#b91c1c}.nt{color:#888}
+  .sec-label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
+  .card-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card-sub{font-size:11px;color:#888;margin-bottom:12px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .grid-6040{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
+  .full{margin-bottom:14px}
+  .leg{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#666;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:5px}
+  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#1A3A5C;color:#fff;padding:8px 10px;font-weight:600;text-align:left;font-size:11px;white-space:nowrap}
+  th.r{text-align:right}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a1a;white-space:nowrap}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:hover td{background:#f0f6ff}
+  .pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}
+  .pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}
+  .pill-b{background:#dbeafe;color:#1e40af}
+  .cat-def{margin-top:14px;border-top:1px solid #f0f0f0;padding-top:12px}
+  .cat-def h4{font-size:11px;font-weight:600;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+  .cat-rows{display:flex;flex-direction:column;gap:7px}
+  .cat-row{display:grid;grid-template-columns:140px 1fr;gap:8px;font-size:11px}
+  .cat-row-name{font-weight:600;color:#1A3A5C;padding-top:1px}
+  .cat-row-types{color:#888;line-height:1.6}
+  .excl-note{font-size:10px;color:#bbb;margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5}
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="db-header">
+    <div class="db-header-left">
+      <h1>Metro Dermatology &mdash; Volume &amp; No-Show Dashboard</h1>
+      <p>Reporting period: March 2026 &nbsp;|&nbsp; All 6 locations &nbsp;|&nbsp; NS% = NS / (NS + Completed)</p>
+    </div>
+    <div class="db-header-right"><strong>Prepared April 12, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Completed visits</div><div class="kpi-value">12,553</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+21.9%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+0.6%</div></div></div>
+    <div class="kpi"><div class="kpi-label">No-show rate</div><div class="kpi-value">18.8%</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>+0.2pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+3.2pp</div></div></div>
+    <div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value">25.0%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&#8722;4.9pp</div><div class="kpi-delta up"><span class="lbl">YoY</span>&#8722;0.7pp</div></div></div>
+    <div class="kpi"><div class="kpi-label">Total appt demand</div><div class="kpi-value">20,593</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+14.7%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+0.4%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Top type &mdash; Follow-up</div><div class="kpi-value">7,091</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+26.3%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+5.1%</div></div></div>
+    <div class="kpi"><div class="kpi-label">New patients (all types)</div><div class="kpi-value">1,830</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+19.9%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+5.5%</div></div></div>
+  </div>
+
+  <div class="sec-label">Volume trend</div>
+  <div class="full card">
+    <div class="card-title">Completed visits &mdash; seasonal trend by year (2023&ndash;2026)</div>
+    <div class="card-sub">March is a consistent spring peak. 2026 tracking flat YoY &mdash; system-level volume growth has plateaued.</div>
+    <div class="leg">
+      <span><span class="sw-line" style="background:#d1d5db"></span>2023</span>
+      <span><span class="sw-line" style="background:#93c5fd"></span>2024</span>
+      <span><span class="sw-line" style="background:#1A3A5C"></span>2025</span>
+      <span><span class="sw-line" style="background:#D85A30"></span>2026 YTD</span>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="seasonal"></canvas></div>
+  </div>
+
+  <div class="grid-6040">
+    <div class="card">
+      <div class="card-title">System no-show &amp; cancellation rate &mdash; monthly trend (2023&ndash;2026)</div>
+      <div class="card-sub">NS rate reversed three consecutive years of improvement in Q4 2025. Cancellations spiked Jan&ndash;Feb 2026 then recovered.</div>
+      <div class="leg">
+        <span><span class="sw-line" style="background:#b91c1c"></span>No-show rate</span>
+        <span><span class="sw-line" style="background:#fca5a5"></span>Cancellation rate</span>
+      </div>
+      <div style="position:relative;height:220px"><canvas id="nsTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">March completed visits by location</div>
+      <div class="card-sub">2023&ndash;2026 with MoM, YoY and March NS rate</div>
+      <div class="tbl-wrap">
+        <table id="locTable">
+          <thead><tr><th>Location</th><th class="r">2023</th><th class="r">2024</th><th class="r">2025</th><th class="r">Mar '26</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Completed visits by category &mdash; monthly (2024&ndash;2026) &middot; log scale</div>
+      <div class="card-sub">Log scale reveals trends in smaller categories otherwise hidden by Follow-up volume.</div>
+      <div class="leg" id="catTrendLeg"></div>
+      <div style="position:relative;height:260px"><canvas id="catTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">March 2026 &mdash; appointment category summary</div>
+      <div class="card-sub">MoM vs Feb 2026 &middot; YoY vs Mar 2025</div>
+      <div class="tbl-wrap">
+        <table id="catTable">
+          <thead><tr><th>Category</th><th class="r">Visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="cat-def">
+        <h4>Category definitions</h4>
+        <div class="cat-rows">
+          <div class="cat-row"><div class="cat-row-name">Follow-up</div><div class="cat-row-types">Follow-up &bull; Follow-up 12 Months &bull; Follow-Up 36 Months &bull; Telehealth Follow up &bull; Urgent Follow-up</div></div>
+          <div class="cat-row"><div class="cat-row-name">Procedures</div><div class="cat-row-types">AS SAAS &bull; Excimer Laser &bull; Photochemotherapy 96910 &bull; Photo NBUVB 96900 &bull; Hand Foot Unit</div></div>
+          <div class="cat-row"><div class="cat-row-name">New Patient</div><div class="cat-row-types">New Patient &bull; Walk In NEW PT &bull; ZocDoc New &bull; Telehealth NEW &bull; Urgent New Pt</div></div>
+          <div class="cat-row"><div class="cat-row-name">Chronic Disease</div><div class="cat-row-types">Biologics &bull; Accutane &bull; Telehealth Accutane</div></div>
+          <div class="cat-row"><div class="cat-row-name">Walk-in</div><div class="cat-row-types">Walk In (existing patients only)</div></div>
+          <div class="cat-row"><div class="cat-row-name">Screening &amp; Dx</div><div class="cat-row-types">Total Body Exam &bull; Labs</div></div>
+        </div>
+        <div class="excl-note">Excluded from category analysis: Surgery, Biopsy, Suture Removal, Patch Placement/Reading, all Cosmetic types, Botox for Hyperhidrosis, PDT, Port-Wine Stains, V-Beam, EMLA, DermaV, and miscellaneous low-volume types.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="db-footer">Data sources: Appointments CSV (Jan 2023&ndash;Mar 2026). NS% = NS / (NS + Completed) &mdash; cancellations excluded from denominator. Categories consolidated from included appointment types only; see definitions above. Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
+</div>
+
+<script>
+const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const seasonal=[{y:2023,n:1,v:6692},{y:2023,n:2,v:9205},{y:2023,n:3,v:10978},{y:2023,n:4,v:9793},{y:2023,n:5,v:11042},{y:2023,n:6,v:11427},{y:2023,n:7,v:10740},{y:2023,n:8,v:11239},{y:2023,n:9,v:10027},{y:2023,n:10,v:10627},{y:2023,n:11,v:9830},{y:2023,n:12,v:9014},{y:2024,n:1,v:10226},{y:2024,n:2,v:10231},{y:2024,n:3,v:11304},{y:2024,n:4,v:11635},{y:2024,n:5,v:12566},{y:2024,n:6,v:11943},{y:2024,n:7,v:12764},{y:2024,n:8,v:13140},{y:2024,n:9,v:11998},{y:2024,n:10,v:13064},{y:2024,n:11,v:11711},{y:2024,n:12,v:11344},{y:2025,n:1,v:12339},{y:2025,n:2,v:10983},{y:2025,n:3,v:12477},{y:2025,n:4,v:11725},{y:2025,n:5,v:13045},{y:2025,n:6,v:12963},{y:2025,n:7,v:13475},{y:2025,n:8,v:13115},{y:2025,n:9,v:12668},{y:2025,n:10,v:13285},{y:2025,n:11,v:11117},{y:2025,n:12,v:11797},{y:2026,n:1,v:11592},{y:2026,n:2,v:10298},{y:2026,n:3,v:12553}];
+
+const sysM=[{y:2023,n:1,ns:21.4,c:19.4},{y:2023,n:2,ns:18.9,c:22.7},{y:2023,n:3,ns:17.6,c:23.3},{y:2023,n:4,ns:20.2,c:22.6},{y:2023,n:5,ns:18.9,c:24.2},{y:2023,n:6,ns:17.6,c:27.4},{y:2023,n:7,ns:17.2,c:25.9},{y:2023,n:8,ns:16.6,c:26.8},{y:2023,n:9,ns:18.8,c:28.3},{y:2023,n:10,ns:16.7,c:28.8},{y:2023,n:11,ns:18.0,c:29.9},{y:2023,n:12,ns:19.3,c:30.0},{y:2024,n:1,ns:18.5,c:28.8},{y:2024,n:2,ns:16.7,c:29.2},{y:2024,n:3,ns:17.1,c:25.6},{y:2024,n:4,ns:16.9,c:25.4},{y:2024,n:5,ns:16.7,c:24.7},{y:2024,n:6,ns:17.9,c:25.3},{y:2024,n:7,ns:18.9,c:27.7},{y:2024,n:8,ns:16.8,c:26.1},{y:2024,n:9,ns:17.0,c:26.7},{y:2024,n:10,ns:16.0,c:24.7},{y:2024,n:11,ns:16.9,c:24.7},{y:2024,n:12,ns:17.7,c:25.6},{y:2025,n:1,ns:16.5,c:26.4},{y:2025,n:2,ns:15.7,c:26.6},{y:2025,n:3,ns:15.6,c:25.7},{y:2025,n:4,ns:16.3,c:25.0},{y:2025,n:5,ns:17.0,c:25.6},{y:2025,n:6,ns:17.5,c:25.4},{y:2025,n:7,ns:16.6,c:26.4},{y:2025,n:8,ns:16.4,c:24.4},{y:2025,n:9,ns:18.4,c:25.5},{y:2025,n:10,ns:18.4,c:24.9},{y:2025,n:11,ns:19.0,c:26.5},{y:2025,n:12,ns:17.8,c:28.7},{y:2026,n:1,ns:17.9,c:30.4},{y:2026,n:2,ns:18.6,c:29.9},{y:2026,n:3,ns:18.8,c:25.0}];
+
+const locData=[
+  {l:"Bronx Concourse",  c23:3753,c24:2860,c25:2800,cf:2118,c26:2664,ns24:23.7,ns25:23.4,ns26:25.8},
+  {l:"Bronx Fordham",    c24:1190,c25:1465,cf:1416,c26:1632,ns24:27.3,ns25:25.7,ns26:31.4},
+  {l:"Elmhurst",         c23:2073,c24:2109,c25:2208,cf:1702,c26:2036,ns24:17.2,ns25:13.0,ns26:17.9},
+  {l:"Flushing Northern",c23:2923,c24:3084,c25:2880,cf:2162,c26:2664,ns24:9.2, ns25:9.7, ns26:10.8},
+  {l:"Fort Lee",         c23:2229,c24:2061,c25:2301,cf:2053,c26:2465,ns24:10.7,ns25:8.9, ns26:11.1},
+  {l:"Glen Oaks",        c25:823, cf:847,  c26:1092, ns25:9.2, ns26:12.4}
+];
+
+const apptCat=[
+  {c:"Follow-up",              v:7091, mom:26.3, yoy:5.1,   ns:21.6, can:28.0},
+  {c:"Procedures",             v:2012, mom:11.1, yoy:-21.8, ns:14.3, can:15.5},
+  {c:"New Patient",            v:1830, mom:19.9, yoy:5.5,   ns:18.4, can:22.7},
+  {c:"Chronic Disease Mgmt",   v:921,  mom:14.7, yoy:16.7,  ns:15.0, can:24.0},
+  {c:"Walk-in",                v:334,  mom:48.4, yoy:29.5,  ns:0.0,  can:5.9},
+  {c:"Screening & Diagnostics",v:126,  mom:37.0, yoy:15.6,  ns:14.9, can:31.2}
+];
+
+const catRaw={
+  "Follow-up":              [5575,5456,6146,6320,6895,6435,6984,7152,6506,7206,6373,6205,6859,5963,6746,6265,7160,7055,7450,7211,6962,7383,6023,6679,6508,5613,7091],
+  "Procedures":             [2115,2135,2308,2368,2470,2442,2483,2641,2504,2614,2507,2406,2387,2234,2573,2505,2544,2570,2444,2488,2462,2526,2349,2137,2004,1811,2012],
+  "New Patient":            [1234,1341,1427,1424,1548,1519,1962,1999,1683,1913,1609,1491,1755,1538,1734,1637,1910,1882,2095,1934,1856,1870,1430,1506,1622,1526,1830],
+  "Chronic Disease Mgmt":   [589,561,642,627,700,640,688,721,688,687,665,665,743,755,789,704,774,796,784,796,734,797,727,840,846,803,921],
+  "Walk-in":                [459,446,431,545,573,574,318,272,279,253,221,203,182,173,258,275,318,288,313,328,272,271,222,238,241,225,334],
+  "Screening & Diagnostics":[63,63,97,88,105,75,89,118,124,111,90,95,114,86,109,103,120,99,119,136,130,127,128,117,111,92,126]
+};
+
+// Seasonal
+(function(){
+  const by={2023:{},2024:{},2025:{},2026:{}};
+  seasonal.forEach(r=>{by[r.y][r.n]=r.v;});
+  const mk=yr=>Array.from({length:12},(_,i)=>by[yr][i+1]||null);
+  new Chart(document.getElementById('seasonal'),{type:'line',data:{labels:mo,datasets:[
+    {label:'2023',data:mk(2023),borderColor:'#d1d5db',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2024',data:mk(2024),borderColor:'#93c5fd',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:mk(2025),borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2,pointRadius:2.5,tension:.3},
+    {label:'2026',data:mk(2026),borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y?.toLocaleString()}`}}},scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>(v/1000).toFixed(0)+'k'},title:{display:true,text:'Completed visits',font:{size:10},color:'#888'}}}}});
+})();
+
+// NS/Can trend
+(function(){
+  const lbl=sysM.map(r=>mo[r.n-1]+(r.n===1?` '${String(r.y).slice(2)}`:''));
+  new Chart(document.getElementById('nsTrend'),{type:'line',data:{labels:lbl,datasets:[
+    {label:'No-show',data:sysM.map(r=>r.ns),borderColor:'#b91c1c',backgroundColor:'rgba(185,28,28,0.05)',fill:true,borderWidth:2,pointRadius:1.5,tension:.3},
+    {label:'Cancellation',data:sysM.map(r=>r.c),borderColor:'#fca5a5',backgroundColor:'transparent',borderWidth:1.5,pointRadius:1.5,tension:.3,borderDash:[5,4]},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{ticks:{font:{size:9},maxRotation:45,callback:(v,i)=>i%3===0?lbl[i]:''}},y:{min:10,max:36,grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>v+'%'}}}}});
+})();
+
+// Location table
+(function(){
+  const tb=document.querySelector('#locTable tbody');
+  locData.forEach(r=>{
+    const mom=r.cf?((r.c26-r.cf)/r.cf*100):null;
+    const yoy=r.c25?((r.c26-r.c25)/r.c25*100):null;
+    const mH=mom!==null?`<span class="pill ${mom>=0?'pill-g':'pill-r'}">${mom>=0?'+':''}${mom.toFixed(1)}%</span>`:'&mdash;';
+    const yH=yoy!==null?`<span class="pill ${yoy>=0?'pill-g':'pill-r'}">${yoy>=0?'+':''}${yoy.toFixed(1)}%</span>`:'<span class="pill pill-b">New</span>';
+    const nC=r.ns26>=25?'pill-r':r.ns26>=15?'pill-a':'pill-g';
+    tb.innerHTML+=`<tr>
+      <td>${r.l}</td>
+      <td class="r">${r.c23?.toLocaleString()||'&mdash;'}</td>
+      <td class="r">${r.c24?.toLocaleString()||'&mdash;'}</td>
+      <td class="r">${r.c25?.toLocaleString()||'&mdash;'}</td>
+      <td class="r"><strong>${r.c26.toLocaleString()}</strong></td>
+      <td class="r">${mH}</td>
+      <td class="r">${yH}</td>
+      <td class="r"><span class="pill ${nC}">${r.ns26}%</span></td>
+    </tr>`;
+  });
+})();
+
+// Category trend (log scale)
+(function(){
+  const cats=['Follow-up','Procedures','New Patient','Chronic Disease Mgmt','Walk-in','Screening & Diagnostics'];
+  const colors=['#1A3A5C','#0d7a55','#D85A30','#b45309','#0891b2','#7c3aed'];
+  const dashes=[[],[],[5,4],[5,4],[5,4],[5,4]];
+  const tl=[];
+  for(let mn=1;mn<=12;mn++) tl.push(mo[mn-1]+" '24");
+  for(let mn=1;mn<=12;mn++) tl.push(mo[mn-1]+" '25");
+  for(let mn=1;mn<=3;mn++) tl.push(mo[mn-1]+" '26");
+
+  const datasets=cats.map((cat,ci)=>({
+    label:cat,data:catRaw[cat],borderColor:colors[ci],backgroundColor:'transparent',
+    borderWidth:ci<2?2.5:1.8,pointRadius:ci<2?2.5:1.5,tension:.3,borderDash:dashes[ci]
+  }));
+
+  const legEl=document.getElementById('catTrendLeg');
+  cats.forEach((cat,i)=>{legEl.innerHTML+=`<span><span class="sw" style="background:${colors[i]}"></span>${cat}</span>`;});
+
+  new Chart(document.getElementById('catTrend'),{type:'line',data:{labels:tl,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},
+      scales:{
+        x:{ticks:{font:{size:9},maxRotation:45,callback:(v,i)=>i%3===0?tl[i]:''}},
+        y:{type:'logarithmic',grid:{color:'#f0f0f0'},
+          ticks:{font:{size:10},callback:v=>{
+            const vals=[50,100,200,500,1000,2000,5000,10000];
+            return vals.includes(v)?(v>=1000?(v/1000).toFixed(0)+'k':String(v)):'';
+          }},
+          title:{display:true,text:'Completed visits (log scale)',font:{size:10},color:'#888'}}
+      }
+    }
+  });
+})();
+
+// Category table
+(function(){
+  const tb=document.querySelector('#catTable tbody');
+  apptCat.forEach(r=>{
+    const mC=r.mom>=0?'pill-g':'pill-r';
+    const yC=r.yoy>=0?'pill-g':'pill-r';
+    const nC=r.ns>=20?'pill-r':r.ns>=12?'pill-a':'pill-g';
+    const cC=r.can>=28?'pill-r':r.can>=20?'pill-a':'pill-g';
+    tb.innerHTML+=`<tr>
+      <td>${r.c}</td>
+      <td class="r"><strong>${r.v.toLocaleString()}</strong></td>
+      <td class="r"><span class="pill ${mC}">${r.mom>=0?'+':''}${r.mom.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${yC}">${r.yoy>=0?'+':''}${r.yoy.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${nC}">${r.ns.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${cC}">${r.can.toFixed(1)}%</span></td>
+    </tr>`;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Productivity Dashboard · March 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+
+  /* Header */
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-0.3px}
+  .db-header-left p{font-size:12px;color:#666;margin-top:3px}
+  .db-header-right{text-align:right;font-size:11px;color:#888;line-height:1.7}
+  .db-header-right strong{color:#1A3A5C}
+
+  /* KPI row */
+  .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:10px;flex-wrap:wrap}
+  .kpi-delta{font-size:11px;font-weight:500;display:flex;align-items:center;gap:3px}
+  .kpi-delta .lbl{font-size:10px;color:#aaa;font-weight:400}
+  .up{color:#0d7a55}.dn{color:#b91c1c}.nt{color:#888}
+
+  /* Section label */
+  .sec-label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+
+  /* Cards */
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
+  .card-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card-sub{font-size:11px;color:#888;margin-bottom:12px}
+
+  /* Grids */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .full{margin-bottom:14px}
+
+  /* Legend */
+  .leg{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#666;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:5px}
+  .leg-item{display:flex;align-items:center;gap:5px;cursor:pointer;padding:3px 8px;border-radius:20px;border:0.5px solid #e4e4e4;font-size:11px;color:#555;transition:background .12s,border-color .12s}
+  .leg-item:hover{background:#f0f6ff;border-color:#93c5fd}
+  .leg-item.active{background:#f0f6ff;border-color:#1A3A5C}
+  .leg-item.dimmed{opacity:.28}
+  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+
+  /* Note */
+  .note{font-size:11px;color:#888;margin-top:10px;font-style:italic;border-top:1px solid #f0f0f0;padding-top:8px}
+
+  /* Insight cards */
+  .insight-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .ins{background:#f7f9fb;border:1px solid #e4e4e4;border-radius:8px;padding:12px 14px}
+  .ins-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-bottom:6px}
+  .tag-g{background:#dcfce7;color:#166534}
+  .tag-r{background:#fee2e2;color:#991b1b}
+  .tag-a{background:#fef3c7;color:#92400e}
+  .tag-b{background:#dbeafe;color:#1e40af}
+  .tag-p{background:#ede9fe;color:#5b21b6}
+  .ins-head{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+  .ins-body{font-size:11px;color:#555;line-height:1.6}
+
+  /* Bubble chart note */
+  .bubble-note{font-size:11px;color:#888;margin-top:8px;font-style:italic}
+
+  /* Footer */
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="db-header">
+    <div class="db-header-left">
+      <h1>Metro Dermatology &mdash; Productivity Dashboard</h1>
+      <p>Reporting period: March 2026 &nbsp;|&nbsp; All 6 locations &nbsp;|&nbsp; VPH = Completed Visits / Scheduled Hours</p>
+    </div>
+    <div class="db-header-right"><strong>Prepared April 12, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">System VPH &mdash; Mar 2026</div>
+      <div class="kpi-value">5.22</div>
+      <div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+11.1%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+5.5%</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Scheduled hours</div>
+      <div class="kpi-value">2,002</div>
+      <div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+11.6%</div><div class="kpi-delta nt"><span class="lbl">Feb</span>1,794</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Active providers</div>
+      <div class="kpi-value">17</div>
+      <div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">Peak</span>19 (Jun '25)</div><div class="kpi-delta nt"><span class="lbl">Start</span>16 (May '24)</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Top VPH &mdash; Lee H.S.</div>
+      <div class="kpi-value">7.35</div>
+      <div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">3mo avg</span>7.07</div><div class="kpi-delta up"><span class="lbl">YoY</span>+25%</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Fastest rising &mdash; FO (Ortiz)</div>
+      <div class="kpi-value">6.22</div>
+      <div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">Start</span>3.23 (Q2 '25)</div><div class="kpi-delta up"><span class="lbl">+</span>1 qtr to avg</div></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Capacity gap (Garcia + Sit)</div>
+      <div class="kpi-value">~640</div>
+      <div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">VPH</span>2.52 &amp; 3.23</div><div class="kpi-delta dn"><span class="lbl">vs avg</span>5.22</div></div>
+    </div>
+  </div>
+
+  <!-- Chart 1: System Productivity Monthly -->
+  <div class="sec-label">1 &mdash; System productivity (monthly, May 2024 &ndash; Mar 2026)</div>
+  <div class="full card">
+    <div class="card-title">System VPH (line) &middot; Scheduled hours (blue bars) &middot; Completed visits (teal bars)</div>
+    <div class="card-sub">Numbers atop bars = active providers with scheduled hours that month. Glen Oaks opened Sep 2024.</div>
+    <div class="leg">
+      <span><span class="sw" style="background:#B5D4F4"></span>Scheduled hours</span>
+      <span><span class="sw" style="background:rgba(29,158,117,0.55)"></span>Completed visits</span>
+      <span><span class="sw-line" style="background:#1A3A5C"></span>System VPH (left axis)</span>
+      <span><span class="sw" style="background:#7F77DD;border-radius:50%"></span>Glen Oaks opens</span>
+    </div>
+    <div style="position:relative;height:300px"><canvas id="sysProd"></canvas></div>
+    <div class="note">Apr 2024 excluded (partial hours data). Reliable trend begins May 2024. System VPH held in a stable 4.7&ndash;5.4 band across 23 months despite capacity expansion from 16 to 19 providers. The June 2025 VPH dip to 4.86 with 19 active providers reflects newer hires still in ramp.</div>
+  </div>
+
+  <!-- Chart 2: Provider Matrix -->
+  <div class="sec-label">2 &mdash; Provider productivity matrix (Jan&ndash;Mar 2026 average)</div>
+  <div class="full card">
+    <div class="card-title">VPH vs no-show rate &middot; bubble size = avg monthly completed visits &middot; initials = firstname + lastname</div>
+    <div class="card-sub">Ideal quadrant: right (high VPH) + bottom (low NS). 3-month average smooths single-month variation. Hover for detail.</div>
+    <div style="position:relative;height:400px"><canvas id="bubble"></canvas></div>
+    <div class="bubble-note">DS and SH each appear twice (Diana Sun / David Shin; Stephanie Hu / Samantha Hussain) &mdash; hover to distinguish. Providers with fewer than 100 total visits over the 3-month window omitted. Initials = firstname initial + lastname initial (e.g. HL = Hyun Soo Lee).</div>
+    <div class="insight-row">
+      <div class="ins"><span class="ins-tag tag-b">Ideal quadrant</span><div class="ins-head">HL, SH (Hu), DS (Sun) &mdash; high VPH + low NS</div><div class="ins-body">Lee (7.07 VPH, 7.6% NS), Hu (6.01, 10.1%), Sun (5.86, 11.0%). Highest throughput with best patient adherence. Benchmark for scheduling density.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Leaky panel</span><div class="ins-head">FO, AM &mdash; high VPH but high NS</div><div class="ins-body">Ortiz (6.08 VPH, 31.0% NS) and Mamanova (6.54, 28.0%) generate strong volume but lose nearly 1 in 3 booked appointments. Panel composition or lead-time review warranted.</div></div>
+      <div class="ins"><span class="ins-tag tag-a">Below benchmark</span><div class="ins-head">GG, PS &mdash; low VPH, 9+ months in</div><div class="ins-body">Garcia (2.52 VPH) and Sit (3.23 VPH) are well below the 5.22 system average despite 136&ndash;144 scheduled hours/month. Combined ~640 visit/month capacity gap. No ramp trend visible.</div></div>
+    </div>
+  </div>
+
+  <!-- Chart 3: Rising Provider VPH Velocity -->
+  <div class="sec-label">3 &mdash; Rising provider VPH velocity (quarterly, Q2 2024 &ndash; Q1 2026)</div>
+  <div class="full card">
+    <div class="card-title">Quarterly VPH trajectory for newer providers &middot; click a label to isolate</div>
+    <div class="card-sub">System average shown as dashed red reference line. Q2 2024 = May&ndash;Jun only (Apr excluded).</div>
+    <div id="risingLeg" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+    <div style="position:relative;height:300px"><canvas id="rising"></canvas></div>
+    <div class="insight-row">
+      <div class="ins"><span class="ins-tag tag-p">Fastest ramp</span><div class="ins-head">FO (Ortiz) &mdash; system avg in 1 quarter</div><div class="ins-body">Joined Q2 '25 at 3.53 VPH. Crossed system average by Q3 '25 (5.91) and has held 6.0+ for three consecutive quarters &mdash; fastest and most sustained ramp in the cohort.</div></div>
+      <div class="ins"><span class="ins-tag tag-g">Steady growth</span><div class="ins-head">SY, CP &mdash; consistent climb, not peaked</div><div class="ins-body">Yu (SY) grew from 2.68 to 4.49 VPH over 8 quarters with no down quarter since Q4 '24. Park Chohee (CP) broke above 4.5 in Q4 '25 and is holding. Neither has plateaued.</div></div>
+      <div class="ins"><span class="ins-tag tag-g">Step-change</span><div class="ins-head">RH (Huh) &mdash; slow start, sharp jump</div><div class="ins-body">Spent Q2&ndash;Q4 '24 below 3.5 VPH (minimal early hours). Jumped to 5.1 in Q3 '25 and held near 5.0 since. Quarterly data confirms this was structural, not a one-month spike.</div></div>
+      <div class="ins"><span class="ins-tag tag-b">On track</span><div class="ins-head">CH (Huang) &mdash; linear slope since Q1 '25</div><div class="ins-body">Four consecutive quarters of improvement: 1.1 &rarr; 2.1 &rarr; 2.8 &rarr; 3.3 &rarr; 4.1 VPH. Consistent ~0.8 VPH/quarter slope. On pace to reach system average by Q3 '26.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Stalled</span><div class="ins-head">GG &amp; PS &mdash; flat for 3+ quarters</div><div class="ins-body">Garcia (GG) averaged 2.39 VPH across Q3 '25, Q4 '25, Q1 '26 with no upward trend. Sit (PS) similar at 2.8&ndash;3.2. Neither fits a normal ramp curve after 9+ months.</div></div>
+      <div class="ins"><span class="ins-tag tag-a">Benchmark</span><div class="ins-head">System avg ~5.0&ndash;5.4 VPH</div><div class="ins-body">FO and RH are at or above. SY and CP approaching. CH on track. GG and PS are 2.5&ndash;2.7 points below with no convergence trajectory visible.</div></div>
+    </div>
+  </div>
+
+  <div class="db-footer">Data sources: Appointments CSV (Jan 2023&ndash;Mar 2026) &middot; Visits &amp; Hours CSV (May 2024&ndash;Mar 2026). VPH = Completed / Scheduled Hours. Provider matrix = Jan&ndash;Mar 2026 3-month average. NS% = NS / (NS + Completed). Apr 2024 excluded from all VPH calculations (partial hours data). Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const sysLabels=["May '24","Jun '24","Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26"];
+const sysVPH=[5.18,5.60,5.15,5.16,5.06,4.90,5.24,5.14,4.57,4.86,4.95,5.22,5.23,4.86,5.14,5.32,4.82,4.96,5.12,5.17,4.87,4.70,5.22];
+const sysHrs=[1935,1686,1983,2018,1868,2117,1745,1727,2162,1790,1985,1754,1994,2125,2134,1984,2104,2155,1695,1854,1952,1794,2002];
+const sysComp=[12566,11943,12764,13140,11998,13064,11711,11344,12339,10983,12477,11725,13045,12963,13475,13115,12668,13285,11117,11797,11592,10298,12553];
+const activeProvs=[16,16,16,17,17,17,17,17,18,17,16,16,17,19,18,18,18,18,18,18,17,17,17];
+const glenIdx=4; // Sep '24
+
+const provs=[
+  {name:'Lee, Hyun Soo',    init:'HL', vph:7.07, ns:7.6,  vol:612, color:'#0C447C'},
+  {name:'Mamanova, Angelina',init:'AM',vph:6.54, ns:28.0, vol:777, color:'#E24B4A'},
+  {name:'Ortiz, Fabian',    init:'FO', vph:6.08, ns:31.0, vol:834, color:'#E24B4A'},
+  {name:'Hu, Stephanie',    init:'SH', vph:6.01, ns:10.1, vol:353, color:'#1D9E75'},
+  {name:'Park, Hyeyoon',    init:'HP', vph:5.87, ns:18.1, vol:736, color:'#BA7517'},
+  {name:'Sun, Diana',       init:'DS', vph:5.86, ns:11.0, vol:338, color:'#1D9E75'},
+  {name:'Shin, David',      init:'DS', vph:5.68, ns:19.8, vol:688, color:'#BA7517'},
+  {name:'Hussain, Samantha',init:'SH', vph:5.14, ns:18.2, vol:693, color:'#BA7517'},
+  {name:'Li, Stacy',        init:'SL', vph:4.99, ns:15.6, vol:628, color:'#BA7517'},
+  {name:'Park, Chohee',     init:'CP', vph:4.92, ns:12.3, vol:625, color:'#1D9E75'},
+  {name:'Huh, Ra La',       init:'RH', vph:4.58, ns:11.5, vol:630, color:'#1D9E75'},
+  {name:'Yu, Sophy',        init:'SY', vph:4.49, ns:14.0, vol:569, color:'#378ADD'},
+  {name:'Kwak, Charles',    init:'CK', vph:4.22, ns:23.6, vol:557, color:'#E24B4A'},
+  {name:'Huang, Cindy',     init:'CH', vph:4.10, ns:24.3, vol:585, color:'#E24B4A'},
+  {name:'Sit, Pui Yi',      init:'PS', vph:3.23, ns:25.6, vol:460, color:'#E24B4A'},
+  {name:'Garcia, Giselle',  init:'GG', vph:2.52, ns:18.6, vol:333, color:'#BA7517'},
+];
+
+const qLabels=["Q2 '24†","Q3 '24","Q4 '24","Q1 '25","Q2 '25","Q3 '25","Q4 '25","Q1 '26"];
+const sysAvgQ=[5.37,5.13,5.08,4.78,5.10,5.09,5.08,4.94];
+
+const risingProvs=[
+  {label:'FO — Ortiz',   data:[null,null,null,null,3.53,5.91,6.03,6.08], color:'#0C447C'},
+  {label:'RH — Huh',    data:[0.59,1.73,3.24,3.27,3.78,5.10,4.91,4.58], color:'#1D9E75'},
+  {label:'SY — Yu',     data:[2.68,3.20,2.63,2.36,3.46,3.77,3.70,4.49], color:'#378ADD'},
+  {label:'CP — Park C.',data:[3.18,3.57,4.26,4.09,4.33,4.28,4.78,4.92], color:'#7F77DD'},
+  {label:'CH — Huang',  data:[null,null,null,1.13,2.10,2.81,3.28,4.10], color:'#D85A30'},
+  {label:'GG — Garcia', data:[null,null,null,null,2.02,2.30,2.34,2.52], color:'#888780'},
+  {label:'PS — Sit',    data:[null,null,null,null,1.65,2.82,2.84,3.23], color:'#B4B2A9'},
+];
+
+// ── CHART 1: System Productivity ──────────────────────────────────────────────
+const annotPlugin={id:'annot',afterDraw(chart){
+  const ctx=chart.ctx,xS=chart.scales.x,yS=chart.scales.y;
+  const x=xS.getPixelForValue(glenIdx),yT=yS.top,yB=yS.bottom;
+  ctx.save();
+  ctx.strokeStyle='#7F77DD';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(x,yT+22);ctx.lineTo(x,yB);ctx.stroke();
+  ctx.setLineDash([]);ctx.fillStyle='#7F77DD';ctx.font='bold 10px sans-serif';
+  ctx.textAlign='center';ctx.fillText('Glen Oaks opens',x,yT+14);ctx.restore();
+}};
+
+const provCountPlugin={id:'provCounts',afterDatasetsDraw(chart){
+  const ctx=chart.ctx,meta=chart.getDatasetMeta(0);
+  ctx.save();
+  meta.data.forEach((bar,i)=>{
+    ctx.fillStyle='#185FA5';ctx.font='bold 10px sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='bottom';
+    ctx.fillText(activeProvs[i]+'p',bar.x,bar.y-5);
+  });
+  ctx.restore();
+}};
+
+new Chart(document.getElementById('sysProd'),{
+  type:'bar',plugins:[annotPlugin,provCountPlugin],
+  data:{labels:sysLabels,datasets:[
+    {type:'bar',label:'Scheduled hours',data:sysHrs,backgroundColor:'#B5D4F4',yAxisID:'y2',order:3,barPercentage:.6,categoryPercentage:.85},
+    {type:'bar',label:'Completed visits',data:sysComp,backgroundColor:'rgba(29,158,117,0.55)',yAxisID:'y2',order:3,barPercentage:.6,categoryPercentage:.85},
+    {type:'line',label:'System VPH',data:sysVPH,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:3.5,pointBackgroundColor:'#1A3A5C',tension:.3,yAxisID:'y',order:1},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:c=>{if(c.dataset.label==='System VPH')return`VPH: ${c.parsed.y.toFixed(2)}`;if(c.dataset.label==='Scheduled hours')return`Sched. hrs: ${c.parsed.y.toLocaleString()}`;return`Completed visits: ${c.parsed.y.toLocaleString()}`;},
+      afterBody:items=>[`Active providers: ${activeProvs[items[0].dataIndex]}`]
+    }}},
+    scales:{
+      x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false,callback:(v,i)=>i%2===0?sysLabels[i]:''}},
+      y:{position:'left',min:3.5,max:7.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'VPH',font:{size:10},color:'#888'}},
+      y2:{position:'right',min:0,max:20000,grid:{display:false},ticks:{font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},title:{display:true,text:'Hours / Visits',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// ── CHART 2: Provider Matrix ──────────────────────────────────────────────────
+const labelPlugin={id:'bubbleLabels',afterDatasetsDraw(chart){
+  const ctx=chart.ctx;ctx.save();
+  chart.data.datasets.forEach((ds,di)=>{
+    const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+    meta.data.forEach(el=>{
+      ctx.fillStyle='#fff';ctx.font='bold 9px sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(provs[di].init,el.x,el.y);
+    });
+  });
+  ctx.restore();
+}};
+
+new Chart(document.getElementById('bubble'),{
+  type:'bubble',plugins:[labelPlugin],
+  data:{datasets:provs.map(p=>({
+    label:p.name,data:[{x:p.vph,y:p.ns,r:Math.sqrt(p.vol)*0.58}],
+    backgroundColor:p.color+'aa',borderColor:p.color,borderWidth:1.5
+  }))},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:14,bottom:14,left:14,right:14}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+      const p=provs[c.datasetIndex];
+      return[p.name,`VPH: ${p.vph.toFixed(2)}`,`NS: ${p.ns.toFixed(1)}%`,`Avg visits/mo: ${p.vol}`];
+    }}}},
+    scales:{
+      x:{min:1.5,max:9.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'Visits per hour (3-mo avg)',font:{size:10},color:'#888'}},
+      y:{min:0,max:38,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// ── CHART 3: Rising Provider Velocity ─────────────────────────────────────────
+const risingChart=new Chart(document.getElementById('rising'),{
+  type:'line',
+  data:{labels:qLabels,datasets:[
+    ...risingProvs.map(p=>({
+      label:p.label,data:p.data,borderColor:p.color,backgroundColor:'transparent',
+      borderWidth:2.5,pointRadius:4,pointBackgroundColor:p.color,tension:.3,spanGaps:false
+    })),
+    {label:'System avg',data:sysAvgQ,borderColor:'#E24B4A',backgroundColor:'transparent',
+     borderWidth:1,pointRadius:0,tension:.0,borderDash:[3,3],spanGaps:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toFixed(2)} VPH`:null}}},
+    scales:{
+      x:{ticks:{font:{size:11}}},
+      y:{min:0,max:7.5,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'VPH',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// Interactive legend for rising chart
+let activeRisingIdx=null;
+const legEl=document.getElementById('risingLeg');
+risingProvs.forEach((p,i)=>{
+  const item=document.createElement('div');
+  item.className='leg-item';
+  item.innerHTML=`<span class="sw" style="background:${p.color}"></span>${p.label}`;
+  item.addEventListener('click',()=>{
+    if(activeRisingIdx===i){
+      activeRisingIdx=null;
+      risingChart.data.datasets.forEach((ds,di)=>{
+        if(di<risingProvs.length){ds.borderColor=risingProvs[di].color;ds.pointBackgroundColor=risingProvs[di].color;ds.borderWidth=2.5;}
+      });
+      document.querySelectorAll('.leg-item').forEach(el=>el.classList.remove('dimmed','active'));
+    }else{
+      activeRisingIdx=i;
+      risingChart.data.datasets.forEach((ds,di)=>{
+        if(di===i){ds.borderColor=risingProvs[di].color;ds.pointBackgroundColor=risingProvs[di].color;ds.borderWidth=3;}
+        else if(di<risingProvs.length){ds.borderColor='rgba(180,180,180,0.2)';ds.pointBackgroundColor='rgba(180,180,180,0.2)';ds.borderWidth=1.5;}
+      });
+      document.querySelectorAll('.leg-item').forEach((el,j)=>{
+        el.classList.toggle('dimmed',j!==i);el.classList.toggle('active',j===i);
+      });
+    }
+    risingChart.update();
+  });
+  legEl.appendChild(item);
+});
+const sysItem=document.createElement('div');
+sysItem.style.cssText='display:flex;align-items:center;gap:5px;font-size:11px;color:#888;padding:3px 8px';
+sysItem.innerHTML='<span class="sw-line" style="background:#E24B4A"></span>System avg';
+legEl.appendChild(sysItem);
+</script>
+</body>
+</html>
