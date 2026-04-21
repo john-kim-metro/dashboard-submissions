@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telehealth Reimbursement Analysis — Metro Dermatology 2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--border:#e2ddd6;
+    --text:#1a1916;--text2:#6b6760;--text3:#9e9b96;
+    --accent:#1a3a5c;--radius:10px;
+    --shadow:0 1px 3px rgba(0,0,0,.07),0 4px 12px rgba(0,0,0,.05);
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+  .header{background:var(--accent);color:#fff;padding:22px 32px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .header h1{font-size:20px;font-weight:600;letter-spacing:-.3px;margin-bottom:2px}
+  .header p{font-size:13px;opacity:.65;font-weight:300}
+  .hbadge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;white-space:nowrap}
+  .header-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .main{padding:24px 32px 48px;max-width:1700px;margin:0 auto}
+  .kpi-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:24px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+  .kpi-value{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
+  .kpi-sub{font-size:11px;color:var(--text3);margin-top:4px}
+  .good{color:#1d6f42}.warn{color:#8a6200}.bad{color:#a32d2d}
+  .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+  .card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:16px}
+  .tabs{display:flex;gap:2px;background:var(--surface2);border-radius:8px;padding:3px;width:fit-content;margin-bottom:14px}
+  .tab-btn{padding:6px 16px;border:none;border-radius:6px;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+  .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0;gap:12px;flex-wrap:wrap}
+  .tbl-wrap{overflow-x:auto;overflow-y:auto;max-height:560px;border-radius:8px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  thead{position:sticky;top:0;z-index:2}
+  th{background:var(--surface2);text-align:left;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;padding:9px 10px;border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none}
+  th:hover{color:var(--text)}
+  th.sort-asc::after{content:' ↑';color:var(--accent)}
+  th.sort-desc::after{content:' ↓';color:var(--accent)}
+  td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#faf9f7}
+  .num{text-align:right;font-family:'DM Mono',monospace;font-size:11px}
+  .bold{font-weight:600}
+  .rate-cell{display:flex;align-items:center;gap:7px}
+  .rate-track{width:60px;height:5px;background:var(--border);border-radius:3px;flex-shrink:0;overflow:hidden}
+  .rate-fill{height:100%;border-radius:3px}
+  .rate-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;min-width:34px}
+  .badge{display:inline-block;padding:1px 7px;border-radius:20px;font-size:10px;font-weight:500;white-space:nowrap}
+  .b-ppo{background:#e8f0fb;color:#1a3a8a}
+  .b-med{background:#fef3e2;color:#7a4500}
+  .b-mce{background:#f1f8f0;color:#1a5c35}
+  .b-ma{background:#e8f5f0;color:#0d5c3d}
+  .b-chip{background:#f0eafd;color:#5c2d91}
+  .b-com{background:#f0f0f0;color:#404040}
+  .b-aca{background:#fdeaea;color:#8a1a1a}
+  .b-epo{background:#fde8f5;color:#8a1a6b}
+  .b-pos{background:#e8f5fd;color:#1a6b8a}
+  .b-hmo{background:#f5f0e8;color:#6b4a00}
+  .state-ny{background:#e8f0fb;color:#1a3a8a;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+  .state-nj{background:#fef3e2;color:#7a4500;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+  .prov-md{background:#edf7f0;color:#1a5c35;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+  .prov-mid{background:#f0eafd;color:#5c2d91;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:600}
+  .filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  select{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);outline:none;cursor:pointer}
+  select:focus{border-color:var(--accent)}
+  .filter-label{font-size:11px;color:var(--text3)}
+  .pane{display:none}.pane.active{display:block}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+  .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+  .footnote{font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+  /* expandable detail rows */
+  .detail-row{display:none;background:#fafaf7}
+  .detail-row.open{display:table-row}
+  .detail-inner{padding:0 10px 10px 32px}
+  .detail-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
+  .detail-table th{background:#f0ede8;font-size:10px;color:var(--text2);padding:5px 8px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border);cursor:default}
+  .detail-table td{padding:5px 8px;border-bottom:1px solid #ede9e2;color:var(--text);font-family:'DM Mono',monospace;font-size:11px}
+  .detail-table tr:last-child td{border-bottom:none}
+  .expand-btn{cursor:pointer;user-select:none;color:var(--text3);font-size:11px;transition:transform .15s;display:inline-block;width:16px;text-align:center}
+  .expand-btn.open{transform:rotate(90deg);color:var(--accent)}
+  tbody tr.combo-row:hover{cursor:pointer}
+  @media(max-width:1100px){
+    .kpi-row{grid-template-columns:repeat(3,1fr)}
+    .charts-row,.split{grid-template-columns:1fr}
+    .main{padding:16px}
+    .header{padding:16px;flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <h1>Telehealth Reimbursement Analysis</h1>
+    <p>Metro Dermatology &nbsp;·&nbsp; January – December 2025 &nbsp;·&nbsp; 2026 encounters excluded to negate payment lag</p>
+  </div>
+  <div class="header-badges">
+    <span class="hbadge">306 encounters</span>
+    <span class="hbadge">43 payers</span>
+    <span class="hbadge">NJ + NY</span>
+    <span class="hbadge">Insurance + patient consolidated</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Total billed</div><div class="kpi-value">$47,897</div><div class="kpi-sub">Gross charges</div></div>
+    <div class="kpi"><div class="kpi-label">Insurance collected</div><div class="kpi-value warn">$16,811</div><div class="kpi-sub">35.1% of charges</div></div>
+    <div class="kpi"><div class="kpi-label">Patient collected</div><div class="kpi-value">$4,426</div><div class="kpi-sub">9.2% of charges</div></div>
+    <div class="kpi"><div class="kpi-label">Total collected</div><div class="kpi-value good">$21,237</div><div class="kpi-sub">Insurance + patient</div></div>
+    <div class="kpi"><div class="kpi-label">Gross collection rate</div><div class="kpi-value warn">44.3%</div><div class="kpi-sub">Target: 95–98% NCR</div></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="card">
+      <div class="card-title">Monthly collections — 2025</div>
+      <div style="position:relative;height:240px;">
+        <canvas id="monthlyChart" role="img" aria-label="Monthly bar chart showing insurance and patient collections by month for 2025"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1a3a5c"></div>Insurance paid</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8fb8d8"></div>Patient paid</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#e67e22;width:18px;height:2px;border-radius:1px"></div>GCR %</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Collection split by policy type</div>
+      <div style="position:relative;height:240px;">
+        <canvas id="typeChart" role="img" aria-label="Donut chart showing total collections by policy type"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <div class="section-head" style="margin-bottom:14px;">
+      <div class="tabs" id="main-tabs">
+        <button class="tab-btn active" onclick="switchTab('payer')">Payer summary</button>
+        <button class="tab-btn" onclick="switchTab('combo')">CPT + Modifier + POS detail</button>
+      </div>
+      <div class="filter-row" id="combo-filters" style="display:none;">
+        <span class="filter-label">Filter:</span>
+        <select id="pf-state" onchange="renderCombo()"><option value="">All states</option><option>NJ</option><option>NY</option></select>
+        <select id="pf-prov" onchange="renderCombo()"><option value="">All providers</option><option>MD</option><option>MID</option></select>
+        <select id="pf-payer" onchange="renderCombo()"><option value="">All payers</option></select>
+        <select id="pf-cpt" onchange="renderCombo()"><option value="">All CPTs</option></select>
+        <select id="pf-type" onchange="renderCombo()"><option value="">All types</option></select>
+      </div>
+    </div>
+
+    <div class="pane active" id="pane-payer">
+      <div class="tbl-wrap">
+        <table id="ptbl">
+          <thead><tr>
+            <th onclick="sortTbl('ptbl',0,'s')">Payer</th>
+            <th onclick="sortTbl('ptbl',1,'s')">Type</th>
+            <th onclick="sortTbl('ptbl',2,'n')" style="text-align:right">Encounters</th>
+            <th onclick="sortTbl('ptbl',3,'n')" style="text-align:right">Total billed</th>
+            <th onclick="sortTbl('ptbl',4,'n')" style="text-align:right">Avg allowed</th>
+            <th onclick="sortTbl('ptbl',5,'n')" style="text-align:right">Ins paid</th>
+            <th onclick="sortTbl('ptbl',6,'n')" style="text-align:right">Pt paid</th>
+            <th onclick="sortTbl('ptbl',7,'n')" style="text-align:right">Total collected</th>
+            <th onclick="sortTbl('ptbl',8,'n')">Gross coll. rate</th>
+            <th onclick="sortTbl('ptbl',9,'n')" style="text-align:right">Total col / encounter</th>
+          </tr></thead>
+          <tbody id="ptbl-body"></tbody>
+        </table>
+      </div>
+      <p class="footnote">Gross collection rate = (insurance + patient payments) / charges. Avg allowed = average payer-contracted rate per encounter. Total col / encounter = average net reimbursement per encounter. 2025 DOS only.</p>
+    </div>
+
+    <div class="pane" id="pane-combo">
+      <div class="tbl-wrap" style="margin-top:4px;">
+        <table id="ctbl">
+          <thead><tr>
+            <th style="width:18px;padding:9px 6px;cursor:default;"></th>
+            <th onclick="sortTbl('ctbl',1,'s')">State</th>
+            <th onclick="sortTbl('ctbl',2,'s')">Provider</th>
+            <th onclick="sortTbl('ctbl',3,'s')">Payer</th>
+            <th onclick="sortTbl('ctbl',4,'s')">Type</th>
+            <th onclick="sortTbl('ctbl',5,'n')" style="text-align:right">CPT</th>
+            <th onclick="sortTbl('ctbl',6,'s')" style="text-align:center">Mod</th>
+            <th onclick="sortTbl('ctbl',7,'s')" style="text-align:center">POS</th>
+            <th onclick="sortTbl('ctbl',8,'n')" style="text-align:right">Encounters</th>
+            <th onclick="sortTbl('ctbl',9,'n')" style="text-align:right">Avg allowed</th>
+            <th onclick="sortTbl('ctbl',10,'n')" style="text-align:right">Avg ins paid</th>
+            <th onclick="sortTbl('ctbl',11,'n')" style="text-align:right">Avg pt paid</th>
+            <th onclick="sortTbl('ctbl',12,'n')" style="text-align:right">Avg total</th>
+            <th onclick="sortTbl('ctbl',13,'n')">Gross col rate</th>
+          </tr></thead>
+          <tbody id="ctbl-body"></tbody>
+        </table>
+      </div>
+      <p class="footnote">Click any row to expand and see individual MRNs and dates of service. Avg allowed = payer contracted rate. Avg ins paid = insurance portion. Avg total = insurance + patient.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Avg allowed rate by payer — bubble size = encounter volume &nbsp;·&nbsp; color = gross collection rate</div>
+    <div style="position:relative;height:380px;">
+      <canvas id="scatterChart" role="img" aria-label="Scatter plot comparing average allowed amount per payer, with bubble size representing encounter volume and color representing gross collection rate"></canvas>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;align-items:center;">
+      <span style="font-size:11px;color:var(--text2);font-weight:500;">GCR color key:</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);"><span style="width:12px;height:12px;border-radius:50%;background:#1d6f42;display:inline-block;"></span>≥ 55%</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);"><span style="width:12px;height:12px;border-radius:50%;background:#8a6200;display:inline-block;"></span>40–54%</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);"><span style="width:12px;height:12px;border-radius:50%;background:#c4720a;display:inline-block;"></span>25–39%</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);"><span style="width:12px;height:12px;border-radius:50%;background:#a32d2d;display:inline-block;"></span>&lt; 25%</span>
+      <span style="margin-left:12px;font-size:11px;color:var(--text3);">Bubble size ∝ encounter volume. Payers sorted left → right by avg allowed (highest first). Hover for details.</span>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="card">
+      <div class="card-title">Gross collection rate by payer (min 3 encounters)</div>
+      <div style="position:relative;" id="payerBarWrap">
+        <canvas id="payerBar" role="img" aria-label="Horizontal bar chart of gross collection rates by payer"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Rate interpretation guide</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;font-size:13px;">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:2px;background:#1d6f42;flex-shrink:0;"></div><div><strong style="color:#1d6f42;">≥ 55%</strong> — Strong. Payer paying well; low patient balance leakage.</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:2px;background:#8a6200;flex-shrink:0;"></div><div><strong style="color:#8a6200;">40–54%</strong> — Acceptable. Verify patient balance follow-up is complete.</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:2px;background:#c4720a;flex-shrink:0;"></div><div><strong style="color:#c4720a;">25–39%</strong> — Below average. Possible denial pattern or high write-off rate.</div></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:12px;height:12px;border-radius:2px;background:#a32d2d;flex-shrink:0;"></div><div><strong style="color:#a32d2d;">Below 25%</strong> — Critical. Likely systematic denial or contract issue.</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:14px;">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;">Key findings</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:12px;">
+          <div style="padding:8px 10px;background:#edf7f0;border-left:3px solid #1d6f42;border-radius:0 6px 6px 0;"><strong>Horizon BCBS NJ</strong> is best performer at 68.9% gross — 99214 + mod 95 + POS 10 averaging $165 ins + $27 pt = $192/encounter</div>
+          <div style="padding:8px 10px;background:#edf7f0;border-left:3px solid #1d6f42;border-radius:0 6px 6px 0;"><strong>Fidelis Care NJ Medicaid</strong> at 31.1% — underperforms NY Fidelis. Worth comparing contract rates.</div>
+          <div style="padding:8px 10px;background:#fef9e8;border-left:3px solid #8a6200;border-radius:0 6px 6px 0;"><strong>Aetna ACA Exchange</strong> — 0% insurance, 45% gross via patient pay. High-deductible plan behavior, not denials.</div>
+          <div style="padding:8px 10px;background:#fdeaea;border-left:3px solid #a32d2d;border-radius:0 6px 6px 0;"><strong>UHC PPO / EPO / POS</strong> at 4–9% insurance rate. Even with patient collections only 19–24% gross. Needs AR audit.</div>
+          <div style="padding:8px 10px;background:#fdeaea;border-left:3px solid #a32d2d;border-radius:0 6px 6px 0;"><strong>Oxford Health PPO</strong> at 18.9% gross — 99214 + mod 95 avg allowed only $49. Contract or billing issue.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const monthly = [{"Month": "2025-01", "Encounters": 22, "Charged": 3226.38, "Ins_Paid": 544.16, "Pat_Paid": 831.58, "Total": 1375.74, "GCR": 42.6}, {"Month": "2025-02", "Encounters": 26, "Charged": 4349.34, "Ins_Paid": 1473.72, "Pat_Paid": 780.02, "Total": 2253.7400000000002, "GCR": 51.8}, {"Month": "2025-03", "Encounters": 24, "Charged": 3416.12, "Ins_Paid": 847.63, "Pat_Paid": 518.9, "Total": 1366.53, "GCR": 40.0}, {"Month": "2025-04", "Encounters": 26, "Charged": 4125.3, "Ins_Paid": 1212.71, "Pat_Paid": 543.71, "Total": 1756.42, "GCR": 42.6}, {"Month": "2025-05", "Encounters": 18, "Charged": 2007.26, "Ins_Paid": 869.37, "Pat_Paid": 160.0, "Total": 1029.37, "GCR": 51.3}, {"Month": "2025-06", "Encounters": 8, "Charged": 1712.6000000000001, "Ins_Paid": 682.53, "Pat_Paid": 65.0, "Total": 747.53, "GCR": 43.6}, {"Month": "2025-07", "Encounters": 15, "Charged": 2881.04, "Ins_Paid": 933.75, "Pat_Paid": 114.33, "Total": 1048.08, "GCR": 36.4}, {"Month": "2025-08", "Encounters": 18, "Charged": 2283.04, "Ins_Paid": 732.01, "Pat_Paid": 183.42000000000002, "Total": 915.43, "GCR": 40.1}, {"Month": "2025-09", "Encounters": 43, "Charged": 6935.200000000001, "Ins_Paid": 2780.74, "Pat_Paid": 272.88, "Total": 3053.62, "GCR": 44.0}, {"Month": "2025-10", "Encounters": 32, "Charged": 5689.74, "Ins_Paid": 2216.74, "Pat_Paid": 115.0, "Total": 2331.74, "GCR": 41.0}, {"Month": "2025-11", "Encounters": 26, "Charged": 4306.66, "Ins_Paid": 1540.71, "Pat_Paid": 317.46000000000004, "Total": 1858.17, "GCR": 43.1}, {"Month": "2025-12", "Encounters": 48, "Charged": 7857.400000000001, "Ins_Paid": 2977.35, "Pat_Paid": 523.37, "Total": 3500.72, "GCR": 44.6}];
+const payerData = [{"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "Encounters": 32, "Total_Charged": 6610.92, "Avg_Allowed": 92.36, "Total_Ins": 1837.44, "Total_Pat": 678.65, "Total_Collected": 2516.09, "GCR": 38.1, "Avg_Total": 78.63}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "Encounters": 29, "Total_Charged": 6123.0, "Avg_Allowed": 145.73, "Total_Ins": 2863.73, "Total_Pat": 1354.28, "Total_Collected": 4218.01, "GCR": 68.9, "Avg_Total": 145.45}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "MEDICAID", "Encounters": 13, "Total_Charged": 3302.9, "Avg_Allowed": 126.84, "Total_Ins": 1273.19, "Total_Pat": 0.0, "Total_Collected": 1273.19, "GCR": 38.5, "Avg_Total": 97.94}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "Encounters": 13, "Total_Charged": 2826.28, "Avg_Allowed": 111.1, "Total_Ins": 1272.23, "Total_Pat": 125.0, "Total_Collected": 1397.23, "GCR": 49.4, "Avg_Total": 107.48}, {"Primary_Payer": "United Healthcare Community Plan New Jersey", "Policy_Type": "MEDICAID", "Encounters": 11, "Total_Charged": 2709.0600000000004, "Avg_Allowed": 58.88, "Total_Ins": 561.85, "Total_Pat": 0.0, "Total_Collected": 561.85, "GCR": 20.7, "Avg_Total": 51.08}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "Encounters": 8, "Total_Charged": 2030.88, "Avg_Allowed": 107.89, "Total_Ins": 853.12, "Total_Pat": 10.0, "Total_Collected": 863.12, "GCR": 42.5, "Avg_Total": 107.89}, {"Primary_Payer": "Oxford Health Plan", "Policy_Type": "PPO", "Encounters": 7, "Total_Charged": 1640.42, "Avg_Allowed": 44.41, "Total_Ins": 120.85, "Total_Pat": 190.0, "Total_Collected": 310.84999999999997, "GCR": 18.9, "Avg_Total": 44.41}, {"Primary_Payer": "Emblem GHI", "Policy_Type": "PPO", "Encounters": 6, "Total_Charged": 1631.5, "Avg_Allowed": 45.83, "Total_Ins": 152.0, "Total_Pat": 150.0, "Total_Collected": 302.0, "GCR": 18.5, "Avg_Total": 50.33}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "PPO", "Encounters": 8, "Total_Charged": 1453.7800000000002, "Avg_Allowed": 43.06, "Total_Ins": 80.2, "Total_Pat": 264.28, "Total_Collected": 344.48, "GCR": 23.7, "Avg_Total": 43.06}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "ACA EXCHANGE", "Encounters": 6, "Total_Charged": 1309.08, "Avg_Allowed": 98.18, "Total_Ins": 0.0, "Total_Pat": 589.08, "Total_Collected": 589.08, "GCR": 45.0, "Avg_Total": 98.18}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 5, "Total_Charged": 1238.2, "Avg_Allowed": 146.2, "Total_Ins": 706.01, "Total_Pat": 25.0, "Total_Collected": 731.01, "GCR": 59.0, "Avg_Total": 146.2}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 5, "Total_Charged": 1221.52, "Avg_Allowed": 109.5, "Total_Ins": 497.51, "Total_Pat": 25.0, "Total_Collected": 522.51, "GCR": 42.8, "Avg_Total": 104.5}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "MEDICAID", "Encounters": 5, "Total_Charged": 1221.52, "Avg_Allowed": 109.5, "Total_Ins": 547.51, "Total_Pat": 0.0, "Total_Collected": 547.51, "GCR": 44.8, "Avg_Total": 109.5}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "Encounters": 6, "Total_Charged": 1098.8600000000001, "Avg_Allowed": 57.12, "Total_Ins": 342.74, "Total_Pat": 0.0, "Total_Collected": 342.74, "GCR": 31.2, "Avg_Total": 57.12}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICAID", "Encounters": 4, "Total_Charged": 1043.0, "Avg_Allowed": 100.38, "Total_Ins": 401.53999999999996, "Total_Pat": 0.0, "Total_Collected": 401.53999999999996, "GCR": 38.5, "Avg_Total": 100.38}, {"Primary_Payer": "Cigna", "Policy_Type": "PPO", "Encounters": 5, "Total_Charged": 964.12, "Avg_Allowed": 67.07, "Total_Ins": 113.94, "Total_Pat": 154.15, "Total_Collected": 268.09, "GCR": 27.8, "Avg_Total": 53.62}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "EPO", "Encounters": 5, "Total_Charged": 928.0, "Avg_Allowed": 42.62, "Total_Ins": 63.12, "Total_Pat": 150.0, "Total_Collected": 213.12, "GCR": 23.0, "Avg_Total": 42.62}, {"Primary_Payer": "United Healthcare Community Plan New York", "Policy_Type": "MEDICAID", "Encounters": 4, "Total_Charged": 893.76, "Avg_Allowed": 100.42, "Total_Ins": 401.68, "Total_Pat": 0.0, "Total_Collected": 401.68, "GCR": 44.9, "Avg_Total": 100.42}, {"Primary_Payer": "1199 Local Benefit Fund", "Policy_Type": "PPO", "Encounters": 4, "Total_Charged": 833.7, "Avg_Allowed": 88.16, "Total_Ins": 352.64, "Total_Pat": 0.0, "Total_Collected": 352.64, "GCR": 42.3, "Avg_Total": 88.16}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "MEDICAID", "Encounters": 3, "Total_Charged": 794.6800000000001, "Avg_Allowed": 79.97, "Total_Ins": 239.92000000000002, "Total_Pat": 90.49, "Total_Collected": 330.41, "GCR": 41.6, "Avg_Total": 110.14}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "CHIP", "Encounters": 3, "Total_Charged": 692.4200000000001, "Avg_Allowed": 81.5, "Total_Ins": 294.27, "Total_Pat": 0.0, "Total_Collected": 294.27, "GCR": 42.5, "Avg_Total": 98.09}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICARE ADVANTAGE", "Encounters": 3, "Total_Charged": 660.14, "Avg_Allowed": 47.6, "Total_Ins": 111.96, "Total_Pat": 0.0, "Total_Collected": 111.96, "GCR": 17.0, "Avg_Total": 37.32}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "EPO", "Encounters": 3, "Total_Charged": 659.8, "Avg_Allowed": 76.36, "Total_Ins": 129.07999999999998, "Total_Pat": 60.0, "Total_Collected": 189.08, "GCR": 28.7, "Avg_Total": 63.03}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 3, "Total_Charged": 581.24, "Avg_Allowed": 81.84, "Total_Ins": 245.51999999999998, "Total_Pat": 0.0, "Total_Collected": 245.51999999999998, "GCR": 42.2, "Avg_Total": 81.84}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "CHIP", "Encounters": 2, "Total_Charged": 571.24, "Avg_Allowed": 111.4, "Total_Ins": 222.79000000000002, "Total_Pat": 0.0, "Total_Collected": 222.79000000000002, "GCR": 39.0, "Avg_Total": 111.4}, {"Primary_Payer": "Amerigroup - WellPoint New Jersey", "Policy_Type": "MEDICAID", "Encounters": 2, "Total_Charged": 557.32, "Avg_Allowed": 84.3, "Total_Ins": 168.59, "Total_Pat": 0.0, "Total_Collected": 168.59, "GCR": 30.3, "Avg_Total": 84.3}, {"Primary_Payer": "UnitedHealthcare Student Resources", "Policy_Type": "PPO", "Encounters": 2, "Total_Charged": 521.54, "Avg_Allowed": 58.52, "Total_Ins": 28.4, "Total_Pat": 50.0, "Total_Collected": 78.4, "GCR": 15.0, "Avg_Total": 39.2}, {"Primary_Payer": "Fidelis Care New Jersey", "Policy_Type": "MEDICAID", "Encounters": 2, "Total_Charged": 496.84000000000003, "Avg_Allowed": 77.13, "Total_Ins": 154.26999999999998, "Total_Pat": 0.0, "Total_Collected": 154.26999999999998, "GCR": 31.1, "Avg_Total": 77.13}, {"Primary_Payer": "Oscar Health Insurance", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 2, "Total_Charged": 496.84000000000003, "Avg_Allowed": 75.04, "Total_Ins": 140.09, "Total_Pat": 10.0, "Total_Collected": 150.09, "GCR": 30.2, "Avg_Total": 75.04}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "HMO", "Encounters": 2, "Total_Charged": 446.88, "Avg_Allowed": 106.69, "Total_Ins": 158.86, "Total_Pat": 0.0, "Total_Collected": 158.86, "GCR": 35.5, "Avg_Total": 79.43}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "POS", "Encounters": 2, "Total_Charged": 401.92, "Avg_Allowed": 62.22, "Total_Ins": 34.44, "Total_Pat": 50.0, "Total_Collected": 84.44, "GCR": 21.0, "Avg_Total": 42.22}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "POS", "Encounters": 2, "Total_Charged": 374.52, "Avg_Allowed": 71.44, "Total_Ins": 19.58, "Total_Pat": 123.31, "Total_Collected": 142.89, "GCR": 38.2, "Avg_Total": 71.44}, {"Primary_Payer": "Affinity by Molina Healthcare of New York", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 1, "Total_Charged": 290.56, "Avg_Allowed": 222.49, "Total_Ins": 207.49, "Total_Pat": 15.0, "Total_Collected": 222.49, "GCR": 76.6, "Avg_Total": 222.49}, {"Primary_Payer": "SOMOS Emblem", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 1, "Total_Charged": 285.62, "Avg_Allowed": 109.25, "Total_Ins": 109.25, "Total_Pat": 0.0, "Total_Collected": 109.25, "GCR": 38.3, "Avg_Total": 109.25}, {"Primary_Payer": "Emblem - HIP of Greater New York", "Policy_Type": "MEDICAID", "Encounters": 1, "Total_Charged": 285.62, "Avg_Allowed": 112.37, "Total_Ins": 112.37, "Total_Pat": 0.0, "Total_Collected": 112.37, "GCR": 39.3, "Avg_Total": 112.37}, {"Primary_Payer": "United Healthcare Empire Plan", "Policy_Type": "PPO", "Encounters": 1, "Total_Charged": 278.66, "Avg_Allowed": 53.4, "Total_Ins": 28.4, "Total_Pat": 25.0, "Total_Collected": 53.4, "GCR": 19.2, "Avg_Total": 53.4}, {"Primary_Payer": "Oxford Health Plan", "Policy_Type": "EPO", "Encounters": 1, "Total_Charged": 242.88, "Avg_Allowed": 58.55, "Total_Ins": 0.0, "Total_Pat": 58.55, "Total_Collected": 58.55, "GCR": 24.1, "Avg_Total": 58.55}, {"Primary_Payer": "Meritain Health Minneapolis", "Policy_Type": "PPO", "Encounters": 1, "Total_Charged": 223.44, "Avg_Allowed": 100.66, "Total_Ins": 80.66, "Total_Pat": 20.0, "Total_Collected": 100.66, "GCR": 45.1, "Avg_Total": 100.66}, {"Primary_Payer": "1199 Local Benefit Fund", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 1, "Total_Charged": 223.44, "Avg_Allowed": 95.89, "Total_Ins": 95.89, "Total_Pat": 0.0, "Total_Collected": 95.89, "GCR": 42.9, "Avg_Total": 95.89}, {"Primary_Payer": "Medicare of New Jersey", "Policy_Type": "MEDICARE", "Encounters": 1, "Total_Charged": 198.52, "Avg_Allowed": 99.26, "Total_Ins": 97.66999999999999, "Total_Pat": 0.0, "Total_Collected": 97.66999999999999, "GCR": 49.2, "Avg_Total": 97.67}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "COMMERCIAL OTHER", "Encounters": 1, "Total_Charged": 151.08, "Avg_Allowed": 79.32, "Total_Ins": 44.32, "Total_Pat": 0.0, "Total_Collected": 44.32, "GCR": 29.3, "Avg_Total": 44.32}, {"Primary_Payer": "Ambetter Health for all Plans", "Policy_Type": "PPO", "Encounters": 1, "Total_Charged": 147.98, "Avg_Allowed": 73.99, "Total_Ins": 73.99, "Total_Pat": 0.0, "Total_Collected": 73.99, "GCR": 50.0, "Avg_Total": 73.99}, {"Primary_Payer": "United Healthcare Community Plan New York", "Policy_Type": "MEDICARE", "Encounters": 1, "Total_Charged": 126.4, "Avg_Allowed": 78.28, "Total_Ins": 76.71, "Total_Pat": 0.0, "Total_Collected": 76.71, "GCR": 60.7, "Avg_Total": 76.71}];
+const comboData = [{"Primary_Payer": "1199 Local Benefit Fund", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 64.97, "Avg_Ins": 64.97, "Avg_Pat": 0.0, "Avg_Total": 64.97, "Total_Charged": 151.08, "Total_Collected": 64.97, "GCR": 43.0, "detail": [{"MRN": "MM0000033956", "DOS_str": "2025-12-26", "Ins_Payments": 64.97, "Pat_Payments": 0.0, "Total_Collected": 64.97, "Allowed": 64.97}]}, {"Primary_Payer": "1199 Local Benefit Fund", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 95.89, "Avg_Ins": 95.89, "Avg_Pat": 0.0, "Avg_Total": 95.89, "Total_Charged": 223.44, "Total_Collected": 95.89, "GCR": 42.9, "detail": [{"MRN": "353962", "DOS_str": "2025-12-18", "Ins_Payments": 95.89, "Pat_Payments": 0.0, "Total_Collected": 95.89, "Allowed": 95.89}]}, {"Primary_Payer": "1199 Local Benefit Fund", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 3, "Avg_Allowed": 95.89, "Avg_Ins": 95.89, "Avg_Pat": 0.0, "Avg_Total": 95.89, "Total_Charged": 682.62, "Total_Collected": 287.67, "GCR": 42.1, "detail": [{"MRN": "520644", "DOS_str": "2025-04-24", "Ins_Payments": 95.89, "Pat_Payments": 0.0, "Total_Collected": 95.89, "Allowed": 95.89}, {"MRN": "520644", "DOS_str": "2025-09-11", "Ins_Payments": 95.89, "Pat_Payments": 0.0, "Total_Collected": 95.89, "Allowed": 95.89}, {"MRN": "520644", "DOS_str": "2025-10-27", "Ins_Payments": 95.89, "Pat_Payments": 0.0, "Total_Collected": 95.89, "Allowed": 95.89}]}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 6.37, "Avg_Ins": 6.37, "Avg_Pat": 0.0, "Avg_Total": 6.37, "Total_Charged": 10.0, "Total_Collected": 6.37, "GCR": 63.7, "detail": [{"MRN": "MM0000029252", "DOS_str": "2025-11-04", "Ins_Payments": 6.37, "Pat_Payments": 0.0, "Total_Collected": 6.37, "Allowed": 6.37}]}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 6.37, "Avg_Ins": 6.37, "Avg_Pat": 0.0, "Avg_Total": 6.37, "Total_Charged": 10.0, "Total_Collected": 6.37, "GCR": 63.7, "detail": [{"MRN": "MM0000029252", "DOS_str": "2025-12-09", "Ins_Payments": 6.37, "Pat_Payments": 0.0, "Total_Collected": 6.37, "Allowed": 6.37}]}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99203, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 75.0, "Avg_Ins": 75.0, "Avg_Pat": 0.0, "Avg_Total": 75.0, "Total_Charged": 242.88, "Total_Collected": 75.0, "GCR": 30.9, "detail": [{"MRN": "MM0000070289", "DOS_str": "2025-12-01", "Ins_Payments": 75.0, "Pat_Payments": 0.0, "Total_Collected": 75.0, "Allowed": 75.0}]}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 85.0, "Avg_Ins": 85.0, "Avg_Pat": 0.0, "Avg_Total": 85.0, "Total_Charged": 557.32, "Total_Collected": 170.0, "GCR": 30.5, "detail": [{"MRN": "MM0000029252", "DOS_str": "2025-11-04", "Ins_Payments": 85.0, "Pat_Payments": 0.0, "Total_Collected": 85.0, "Allowed": 85.0}, {"MRN": "MM0000069246", "DOS_str": "2025-12-16", "Ins_Payments": 85.0, "Pat_Payments": 0.0, "Total_Collected": 85.0, "Allowed": 85.0}]}, {"Primary_Payer": "Aetna Better Health of New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 85.0, "Avg_Ins": 85.0, "Avg_Pat": 0.0, "Avg_Total": 85.0, "Total_Charged": 278.66, "Total_Collected": 85.0, "GCR": 30.5, "detail": [{"MRN": "MM0000029252", "DOS_str": "2025-12-09", "Ins_Payments": 85.0, "Pat_Payments": 0.0, "Total_Collected": 85.0, "Allowed": 85.0}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MD", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 87.27, "Avg_Ins": 47.27, "Avg_Pat": 40.0, "Avg_Total": 87.27, "Total_Charged": 218.18, "Total_Collected": 87.27000000000001, "GCR": 40.0, "detail": [{"MRN": "422920", "DOS_str": "2025-04-14", "Ins_Payments": 47.27, "Pat_Payments": 40.0, "Total_Collected": 87.27000000000001, "Allowed": 87.27}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 0.0, "Avg_Ins": 0.0, "Avg_Pat": 0.0, "Avg_Total": 0.0, "Total_Charged": 20.0, "Total_Collected": 0.0, "GCR": 0.0, "detail": [{"MRN": "546063", "DOS_str": "2025-09-18", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "546063", "DOS_str": "2025-11-11", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 59.2, "Avg_Ins": 34.2, "Avg_Pat": 25.0, "Avg_Total": 59.2, "Total_Charged": 147.98, "Total_Collected": 59.2, "GCR": 40.0, "detail": [{"MRN": "363744", "DOS_str": "2025-04-22", "Ins_Payments": 34.2, "Pat_Payments": 25.0, "Total_Collected": 59.2, "Allowed": 59.2}, {"MRN": "497716", "DOS_str": "2025-10-01", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 59.2}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "ACA EXCHANGE", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 110.18, "Avg_Ins": 0.0, "Avg_Pat": 110.18, "Avg_Total": 110.18, "Total_Charged": 872.72, "Total_Collected": 440.72, "GCR": 50.5, "detail": [{"MRN": "422434", "DOS_str": "2025-01-28", "Ins_Payments": 0.0, "Pat_Payments": 218.18, "Total_Collected": 218.18, "Allowed": 218.18}, {"MRN": "422434", "DOS_str": "2025-02-28", "Ins_Payments": 0.0, "Pat_Payments": 74.18, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "MM0000023007", "DOS_str": "2025-01-28", "Ins_Payments": 0.0, "Pat_Payments": 74.18, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "MM0000023007", "DOS_str": "2025-03-07", "Ins_Payments": 0.0, "Pat_Payments": 74.18, "Total_Collected": 74.18, "Allowed": 74.18}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "ACA EXCHANGE", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 2, "Avg_Allowed": 74.18, "Avg_Ins": 0.0, "Avg_Pat": 74.18, "Avg_Total": 74.18, "Total_Charged": 436.36, "Total_Collected": 148.36, "GCR": 34.0, "detail": [{"MRN": "422434", "DOS_str": "2025-03-28", "Ins_Payments": 0.0, "Pat_Payments": 74.18, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "MM0000023007", "DOS_str": "2025-04-11", "Ins_Payments": 0.0, "Pat_Payments": 74.18, "Total_Collected": 74.18, "Allowed": 74.18}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "EPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 74.18, "Avg_Ins": 44.18, "Avg_Pat": 30.0, "Avg_Total": 74.18, "Total_Charged": 436.36, "Total_Collected": 148.36, "GCR": 34.0, "detail": [{"MRN": "399897", "DOS_str": "2025-01-30", "Ins_Payments": 44.18, "Pat_Payments": 30.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "399897", "DOS_str": "2025-03-03", "Ins_Payments": 44.18, "Pat_Payments": 30.0, "Total_Collected": 74.18, "Allowed": 74.18}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 12, "Avg_Allowed": 86.91, "Avg_Ins": 53.6, "Avg_Pat": 16.61, "Avg_Total": 70.21, "Total_Charged": 2618.16, "Total_Collected": 842.48, "GCR": 32.2, "detail": [{"MRN": "363744", "DOS_str": "2025-01-07", "Ins_Payments": 49.18, "Pat_Payments": 25.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "363744", "DOS_str": "2025-02-14", "Ins_Payments": 62.27, "Pat_Payments": 25.0, "Total_Collected": 87.27000000000001, "Allowed": 87.27}, {"MRN": "363744", "DOS_str": "2025-03-18", "Ins_Payments": 62.27, "Pat_Payments": 25.0, "Total_Collected": 87.27000000000001, "Allowed": 87.27}, {"MRN": "399897", "DOS_str": "2025-07-14", "Ins_Payments": 0.0, "Pat_Payments": 9.33, "Total_Collected": 9.33, "Allowed": 161.45}, {"MRN": "422920", "DOS_str": "2025-02-10", "Ins_Payments": 34.18, "Pat_Payments": 40.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "422920", "DOS_str": "2025-03-10", "Ins_Payments": 34.18, "Pat_Payments": 40.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "497716", "DOS_str": "2025-03-19", "Ins_Payments": 47.27, "Pat_Payments": 0.0, "Total_Collected": 47.27, "Allowed": 87.27}, {"MRN": "497716", "DOS_str": "2025-04-22", "Ins_Payments": 47.27, "Pat_Payments": 0.0, "Total_Collected": 47.27, "Allowed": 87.27}, {"MRN": "535431", "DOS_str": "2025-02-04", "Ins_Payments": 114.63, "Pat_Payments": 0.0, "Total_Collected": 114.63, "Allowed": 74.18}, {"MRN": "535431", "DOS_str": "2025-03-11", "Ins_Payments": 65.45, "Pat_Payments": 0.0, "Total_Collected": 65.45, "Allowed": 74.18}, {"MRN": "535431", "DOS_str": "2025-09-23", "Ins_Payments": 62.27, "Pat_Payments": 25.0, "Total_Collected": 87.27000000000001, "Allowed": 87.27}, {"MRN": "546063", "DOS_str": "2025-09-18", "Ins_Payments": 64.18, "Pat_Payments": 10.0, "Total_Collected": 74.18, "Allowed": 74.18}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 183.27, "Avg_Ins": 34.18, "Avg_Pat": 40.0, "Avg_Total": 74.18, "Total_Charged": 218.18, "Total_Collected": 74.18, "GCR": 34.0, "detail": [{"MRN": "422920", "DOS_str": "2025-01-08", "Ins_Payments": 34.18, "Pat_Payments": 40.0, "Total_Collected": 74.18, "Allowed": 183.27}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 6, "Avg_Allowed": 76.36, "Avg_Ins": 47.36, "Avg_Pat": 9.17, "Avg_Total": 56.53, "Total_Charged": 1309.08, "Total_Collected": 339.15000000000003, "GCR": 25.9, "detail": [{"MRN": "399897", "DOS_str": "2025-05-30", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "399897", "DOS_str": "2025-08-15", "Ins_Payments": 0.0, "Pat_Payments": 10.0, "Total_Collected": 10.0, "Allowed": 74.18}, {"MRN": "399897", "DOS_str": "2025-09-19", "Ins_Payments": 59.34, "Pat_Payments": 0.0, "Total_Collected": 59.34, "Allowed": 74.18}, {"MRN": "432153", "DOS_str": "2025-10-14", "Ins_Payments": 49.18, "Pat_Payments": 25.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "497716", "DOS_str": "2025-07-01", "Ins_Payments": 47.27, "Pat_Payments": 0.0, "Total_Collected": 47.27, "Allowed": 87.27}, {"MRN": "546063", "DOS_str": "2025-11-11", "Ins_Payments": 64.18, "Pat_Payments": 10.0, "Total_Collected": 74.18, "Allowed": 74.18}, {"MRN": "546063", "DOS_str": "2025-12-11", "Ins_Payments": 64.18, "Pat_Payments": 10.0, "Total_Collected": 74.18, "Allowed": 74.18}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 123.03, "Avg_Ins": 84.37, "Avg_Pat": 0.0, "Avg_Total": 84.37, "Total_Charged": 198.52, "Total_Collected": 84.37, "GCR": 42.5, "detail": [{"MRN": "497716", "DOS_str": "2025-10-01", "Ins_Payments": 84.37, "Pat_Payments": 0.0, "Total_Collected": 84.37, "Allowed": 123.03}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 153.37, "Avg_Ins": 143.37, "Avg_Pat": 10.0, "Avg_Total": 153.37, "Total_Charged": 278.66, "Total_Collected": 153.37, "GCR": 55.0, "detail": [{"MRN": "546063", "DOS_str": "2025-04-11", "Ins_Payments": 143.37, "Pat_Payments": 10.0, "Total_Collected": 153.37, "Allowed": 153.37}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 153.37, "Avg_Ins": 151.83, "Avg_Pat": 15.34, "Avg_Total": 167.17, "Total_Charged": 557.32, "Total_Collected": 334.33000000000004, "GCR": 60.0, "detail": [{"MRN": "399897", "DOS_str": "2025-04-11", "Ins_Payments": 151.83, "Pat_Payments": 30.67, "Total_Collected": 182.5, "Allowed": 153.37}, {"MRN": "399897", "DOS_str": "2025-05-30", "Ins_Payments": 151.83, "Pat_Payments": 0.0, "Total_Collected": 151.83, "Allowed": 153.37}, {"MRN": "399897", "DOS_str": "2025-07-14", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "497716", "DOS_str": "2025-02-19", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "497716", "DOS_str": "2025-03-19", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "497716", "DOS_str": "2025-04-22", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "HMO", "State": "NY", "Provider": "MD", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 118.42, "Avg_Ins": 103.9, "Avg_Pat": 0.0, "Avg_Total": 103.9, "Total_Charged": 223.44, "Total_Collected": 103.9, "GCR": 46.5, "detail": [{"MRN": "463971", "DOS_str": "2025-03-31", "Ins_Payments": 103.9, "Pat_Payments": 0.0, "Total_Collected": 103.9, "Allowed": 118.42}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "HMO", "State": "NY", "Provider": "MD", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 94.96, "Avg_Ins": 54.96, "Avg_Pat": 0.0, "Avg_Total": 54.96, "Total_Charged": 223.44, "Total_Collected": 54.96, "GCR": 24.6, "detail": [{"MRN": "463971", "DOS_str": "2025-02-03", "Ins_Payments": 54.96, "Pat_Payments": 0.0, "Total_Collected": 54.96, "Allowed": 94.96}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NY", "Provider": "MD", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 118.42, "Avg_Ins": 118.42, "Avg_Pat": 0.0, "Avg_Total": 118.42, "Total_Charged": 223.44, "Total_Collected": 118.42, "GCR": 53.0, "detail": [{"MRN": "MM0000056557", "DOS_str": "2025-09-16", "Ins_Payments": 118.42, "Pat_Payments": 0.0, "Total_Collected": 118.42, "Allowed": 118.42}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "POS", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 54.58, "Avg_Ins": 19.58, "Avg_Pat": 35.0, "Avg_Total": 54.58, "Total_Charged": 151.08, "Total_Collected": 54.58, "GCR": 36.1, "detail": [{"MRN": "499649", "DOS_str": "2025-04-05", "Ins_Payments": 19.58, "Pat_Payments": 35.0, "Total_Collected": 54.58, "Allowed": 54.58}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 68.06, "Avg_Ins": 61.25, "Avg_Pat": 6.81, "Avg_Total": 68.06, "Total_Charged": 151.08, "Total_Collected": 68.06, "GCR": 45.0, "detail": [{"MRN": "MM0000071127", "DOS_str": "2025-12-26", "Ins_Payments": 61.25, "Pat_Payments": 6.81, "Total_Collected": 68.06, "Allowed": 68.06}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "EPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 80.72, "Avg_Ins": 40.72, "Avg_Pat": 0.0, "Avg_Total": 40.72, "Total_Charged": 223.44, "Total_Collected": 40.72, "GCR": 18.2, "detail": [{"MRN": "490933", "DOS_str": "2025-07-17", "Ins_Payments": 40.72, "Pat_Payments": 0.0, "Total_Collected": 40.72, "Allowed": 80.72}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "POS", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 88.31, "Avg_Ins": 0.0, "Avg_Pat": 88.31, "Avg_Total": 88.31, "Total_Charged": 223.44, "Total_Collected": 88.31, "GCR": 39.5, "detail": [{"MRN": "344146", "DOS_str": "2025-11-18", "Ins_Payments": 0.0, "Pat_Payments": 88.31, "Total_Collected": 88.31, "Allowed": 88.31}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 118.42, "Avg_Ins": 83.42, "Avg_Pat": 35.0, "Avg_Total": 118.42, "Total_Charged": 223.44, "Total_Collected": 118.42, "GCR": 53.0, "detail": [{"MRN": "443884", "DOS_str": "2025-02-26", "Ins_Payments": 83.42, "Pat_Payments": 35.0, "Total_Collected": 118.42, "Allowed": 118.42}]}, {"Primary_Payer": "Aetna Health Plans", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 2, "Avg_Allowed": 118.42, "Avg_Ins": 0.0, "Avg_Pat": 118.42, "Avg_Total": 118.42, "Total_Charged": 446.88, "Total_Collected": 236.84, "GCR": 53.0, "detail": [{"MRN": "MM0000050323", "DOS_str": "2025-04-28", "Ins_Payments": 0.0, "Pat_Payments": 118.42, "Total_Collected": 118.42, "Allowed": 118.42}, {"MRN": "MM0000050323", "DOS_str": "2025-08-14", "Ins_Payments": 0.0, "Pat_Payments": 118.42, "Total_Collected": 118.42, "Allowed": 118.42}]}, {"Primary_Payer": "Affinity by Molina Healthcare of New York", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 222.49, "Avg_Ins": 207.49, "Avg_Pat": 15.0, "Avg_Total": 222.49, "Total_Charged": 290.56, "Total_Collected": 222.49, "GCR": 76.6, "detail": [{"MRN": "464607", "DOS_str": "2025-01-31", "Ins_Payments": 207.49, "Pat_Payments": 15.0, "Total_Collected": 222.49, "Allowed": 222.49}]}, {"Primary_Payer": "Ambetter Health for all Plans", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98005, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 73.99, "Avg_Ins": 73.99, "Avg_Pat": 0.0, "Avg_Total": 73.99, "Total_Charged": 147.98, "Total_Collected": 73.99, "GCR": 50.0, "detail": [{"MRN": "MM0000005959", "DOS_str": "2025-08-26", "Ins_Payments": 73.99, "Pat_Payments": 0.0, "Total_Collected": 73.99, "Allowed": 73.99}]}, {"Primary_Payer": "Amerigroup - WellPoint New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 84.3, "Avg_Ins": 84.3, "Avg_Pat": 0.0, "Avg_Total": 84.3, "Total_Charged": 557.32, "Total_Collected": 168.59, "GCR": 30.3, "detail": [{"MRN": "MM0000055120", "DOS_str": "2025-09-22", "Ins_Payments": 71.06, "Pat_Payments": 0.0, "Total_Collected": 71.06, "Allowed": 71.06}, {"MRN": "MM0000055120", "DOS_str": "2025-11-25", "Ins_Payments": 97.53, "Pat_Payments": 0.0, "Total_Collected": 97.53, "Allowed": 97.53}]}, {"Primary_Payer": "Cigna", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98005, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 45.65, "Avg_Ins": 45.65, "Avg_Pat": 0.0, "Avg_Total": 45.65, "Total_Charged": 147.98, "Total_Collected": 45.65, "GCR": 30.8, "detail": [{"MRN": "MM0000058652", "DOS_str": "2025-07-31", "Ins_Payments": 45.65, "Pat_Payments": 0.0, "Total_Collected": 45.65, "Allowed": 45.65}]}, {"Primary_Payer": "Cigna", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 67.24, "Avg_Ins": 0.0, "Avg_Pat": 0.0, "Avg_Total": 0.0, "Total_Charged": 218.18, "Total_Collected": 0.0, "GCR": 0.0, "detail": [{"MRN": "MM0000064984", "DOS_str": "2025-09-24", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 67.24}]}, {"Primary_Payer": "Cigna", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 46.26, "Avg_Ins": 46.26, "Avg_Pat": 0.0, "Avg_Total": 46.26, "Total_Charged": 151.08, "Total_Collected": 46.26, "GCR": 30.6, "detail": [{"MRN": "430910", "DOS_str": "2025-07-25", "Ins_Payments": 46.26, "Pat_Payments": 0.0, "Total_Collected": 46.26, "Allowed": 46.26}]}, {"Primary_Payer": "Cigna", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 88.09, "Avg_Ins": 11.02, "Avg_Pat": 77.08, "Avg_Total": 88.09, "Total_Charged": 446.88, "Total_Collected": 176.18, "GCR": 39.4, "detail": [{"MRN": "469998", "DOS_str": "2025-01-24", "Ins_Payments": 22.03, "Pat_Payments": 45.0, "Total_Collected": 67.03, "Allowed": 67.03}, {"MRN": "MM0000018643", "DOS_str": "2025-11-25", "Ins_Payments": 0.0, "Pat_Payments": 109.15, "Total_Collected": 109.15, "Allowed": 109.15}]}, {"Primary_Payer": "Emblem - HIP of Greater New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 112.37, "Avg_Ins": 112.37, "Avg_Pat": 0.0, "Avg_Total": 112.37, "Total_Charged": 285.62, "Total_Collected": 112.37, "GCR": 39.3, "detail": [{"MRN": "492172", "DOS_str": "2025-09-26", "Ins_Payments": 112.37, "Pat_Payments": 0.0, "Total_Collected": 112.37, "Allowed": 112.37}]}, {"Primary_Payer": "Emblem GHI", "Policy_Type": "PPO", "State": "NY", "Provider": "MD", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 47.0, "Avg_Ins": 17.0, "Avg_Pat": 0.0, "Avg_Total": 17.0, "Total_Charged": 203.4, "Total_Collected": 17.0, "GCR": 8.4, "detail": [{"MRN": "MM0000023537", "DOS_str": "2025-10-08", "Ins_Payments": 17.0, "Pat_Payments": 0.0, "Total_Collected": 17.0, "Allowed": 47.0}]}, {"Primary_Payer": "Emblem GHI", "Policy_Type": "PPO", "State": "NY", "Provider": "MD", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 5, "Avg_Allowed": 45.6, "Avg_Ins": 27.0, "Avg_Pat": 30.0, "Avg_Total": 57.0, "Total_Charged": 1428.1, "Total_Collected": 285.0, "GCR": 20.0, "detail": [{"MRN": "MM0000023537", "DOS_str": "2025-02-18", "Ins_Payments": 27.0, "Pat_Payments": 30.0, "Total_Collected": 57.0, "Allowed": 57.0}, {"MRN": "MM0000023537", "DOS_str": "2025-04-08", "Ins_Payments": 27.0, "Pat_Payments": 30.0, "Total_Collected": 57.0, "Allowed": 0.0}, {"MRN": "MM0000023537", "DOS_str": "2025-05-21", "Ins_Payments": 27.0, "Pat_Payments": 30.0, "Total_Collected": 57.0, "Allowed": 57.0}, {"MRN": "MM0000023537", "DOS_str": "2025-07-09", "Ins_Payments": 27.0, "Pat_Payments": 30.0, "Total_Collected": 57.0, "Allowed": 57.0}, {"MRN": "MM0000023537", "DOS_str": "2025-08-13", "Ins_Payments": 27.0, "Pat_Payments": 30.0, "Total_Collected": 57.0, "Allowed": 57.0}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MD", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 74.37, "Avg_Ins": 49.37, "Avg_Pat": 25.0, "Avg_Total": 74.37, "Total_Charged": 151.08, "Total_Collected": 74.37, "GCR": 49.2, "detail": [{"MRN": "MM0000054702", "DOS_str": "2025-07-09", "Ins_Payments": 49.37, "Pat_Payments": 25.0, "Total_Collected": 74.37, "Allowed": 74.37}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MD", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 110.36, "Avg_Ins": 110.36, "Avg_Pat": 0.0, "Avg_Total": 110.36, "Total_Charged": 223.44, "Total_Collected": 110.36, "GCR": 49.4, "detail": [{"MRN": "MM0000051237", "DOS_str": "2025-10-23", "Ins_Payments": 110.36, "Pat_Payments": 0.0, "Total_Collected": 110.36, "Allowed": 110.36}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 76.67, "Avg_Ins": 36.67, "Avg_Pat": 40.0, "Avg_Total": 76.67, "Total_Charged": 151.08, "Total_Collected": 76.67, "GCR": 50.7, "detail": [{"MRN": "MM0000058290", "DOS_str": "2025-12-24", "Ins_Payments": 36.67, "Pat_Payments": 40.0, "Total_Collected": 76.67, "Allowed": 76.67}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 3, "Avg_Allowed": 111.5, "Avg_Ins": 100.81, "Avg_Pat": 3.33, "Avg_Total": 104.14, "Total_Charged": 674.42, "Total_Collected": 312.42, "GCR": 46.3, "detail": [{"MRN": "525988", "DOS_str": "2025-09-26", "Ins_Payments": 103.77, "Pat_Payments": 10.0, "Total_Collected": 113.77, "Allowed": 113.77}, {"MRN": "538751", "DOS_str": "2025-02-12", "Ins_Payments": 85.36, "Pat_Payments": 25.0, "Total_Collected": 110.36, "Allowed": 110.36}, {"MRN": "MM0000017074", "DOS_str": "2025-07-14", "Ins_Payments": 88.29, "Pat_Payments": 0.0, "Total_Collected": 88.29, "Allowed": 110.36}, {"MRN": "MM0000033424", "DOS_str": "2025-09-20", "Ins_Payments": 110.36, "Pat_Payments": 0.0, "Total_Collected": 110.36, "Allowed": 110.36}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 3, "Avg_Allowed": 110.36, "Avg_Ins": 93.69, "Avg_Pat": 16.67, "Avg_Total": 110.36, "Total_Charged": 670.3199999999999, "Total_Collected": 331.08, "GCR": 49.4, "detail": [{"MRN": "MM0000001127", "DOS_str": "2025-10-16", "Ins_Payments": 100.36, "Pat_Payments": 10.0, "Total_Collected": 110.36, "Allowed": 110.36}, {"MRN": "MM0000015862", "DOS_str": "2025-09-10", "Ins_Payments": 70.36, "Pat_Payments": 40.0, "Total_Collected": 110.36, "Allowed": 110.36}, {"MRN": "MM0000033424", "DOS_str": "2025-06-07", "Ins_Payments": 110.36, "Pat_Payments": 0.0, "Total_Collected": 110.36, "Allowed": 110.36}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 3, "Avg_Allowed": 111.5, "Avg_Ins": 111.5, "Avg_Pat": 0.0, "Avg_Total": 111.5, "Total_Charged": 670.3199999999999, "Total_Collected": 334.49, "GCR": 49.9, "detail": [{"MRN": "MM0000033424", "DOS_str": "2025-07-14", "Ins_Payments": 110.36, "Pat_Payments": 0.0, "Total_Collected": 110.36, "Allowed": 110.36}, {"MRN": "MM0000033424", "DOS_str": "2025-10-18", "Ins_Payments": 110.36, "Pat_Payments": 0.0, "Total_Collected": 110.36, "Allowed": 110.36}, {"MRN": "MM0000051237", "DOS_str": "2025-09-05", "Ins_Payments": 113.77, "Pat_Payments": 0.0, "Total_Collected": 113.77, "Allowed": 113.77}]}, {"Primary_Payer": "Empire BC - Anthem BCBS NY", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 182.84, "Avg_Ins": 157.84, "Avg_Pat": 0.0, "Avg_Total": 157.84, "Total_Charged": 285.62, "Total_Collected": 157.84, "GCR": 55.3, "detail": [{"MRN": "355937", "DOS_str": "2025-10-03", "Ins_Payments": 157.84, "Pat_Payments": 0.0, "Total_Collected": 157.84, "Allowed": 182.84}]}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 81025, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 5.6, "Avg_Ins": 5.6, "Avg_Pat": 0.0, "Avg_Total": 5.6, "Total_Charged": 10.0, "Total_Collected": 5.6, "GCR": 56.0, "detail": [{"MRN": "544392", "DOS_str": "2025-10-03", "Ins_Payments": 5.6, "Pat_Payments": 0.0, "Total_Collected": 5.6, "Allowed": 5.6}]}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 0.0, "Avg_Ins": 0.0, "Avg_Pat": 90.49, "Avg_Total": 90.49, "Total_Charged": 223.44, "Total_Collected": 90.49, "GCR": 40.5, "detail": [{"MRN": "35479", "DOS_str": "2025-12-05", "Ins_Payments": 0.0, "Pat_Payments": 90.49, "Total_Collected": 90.49, "Allowed": 0.0}]}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "CHIP", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 111.4, "Avg_Ins": 111.4, "Avg_Pat": 0.0, "Avg_Total": 111.4, "Total_Charged": 571.24, "Total_Collected": 222.79000000000002, "GCR": 39.0, "detail": [{"MRN": "MM0000033506", "DOS_str": "2025-09-22", "Ins_Payments": 107.11, "Pat_Payments": 0.0, "Total_Collected": 107.11, "Allowed": 107.11}, {"MRN": "MM0000033506", "DOS_str": "2025-10-27", "Ins_Payments": 115.68, "Pat_Payments": 0.0, "Total_Collected": 115.68, "Allowed": 115.68}]}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 119.96, "Avg_Ins": 119.96, "Avg_Pat": 0.0, "Avg_Total": 119.96, "Total_Charged": 571.24, "Total_Collected": 239.92000000000002, "GCR": 42.0, "detail": [{"MRN": "544392", "DOS_str": "2025-04-29", "Ins_Payments": 132.81, "Pat_Payments": 0.0, "Total_Collected": 132.81, "Allowed": 132.81}, {"MRN": "544392", "DOS_str": "2025-10-03", "Ins_Payments": 107.11, "Pat_Payments": 0.0, "Total_Collected": 107.11, "Allowed": 107.11}]}, {"Primary_Payer": "Empire BC - Anthem Health Plus", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 119.96, "Avg_Ins": 119.96, "Avg_Pat": 0.0, "Avg_Total": 119.96, "Total_Charged": 571.24, "Total_Collected": 239.92000000000002, "GCR": 42.0, "detail": [{"MRN": "534815", "DOS_str": "2025-09-12", "Ins_Payments": 132.81, "Pat_Payments": 0.0, "Total_Collected": 132.81, "Allowed": 132.81}, {"MRN": "544823", "DOS_str": "2025-09-02", "Ins_Payments": 107.11, "Pat_Payments": 0.0, "Total_Collected": 107.11, "Allowed": 107.11}]}, {"Primary_Payer": "Fidelis Care New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 65.45, "Avg_Ins": 65.45, "Avg_Pat": 0.0, "Avg_Total": 65.45, "Total_Charged": 218.18, "Total_Collected": 65.45, "GCR": 30.0, "detail": [{"MRN": "488069", "DOS_str": "2025-08-25", "Ins_Payments": 65.45, "Pat_Payments": 0.0, "Total_Collected": 65.45, "Allowed": 65.45}]}, {"Primary_Payer": "Fidelis Care New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 88.82, "Avg_Ins": 88.82, "Avg_Pat": 0.0, "Avg_Total": 88.82, "Total_Charged": 278.66, "Total_Collected": 88.82, "GCR": 31.9, "detail": [{"MRN": "488067", "DOS_str": "2025-08-29", "Ins_Payments": 169.98, "Pat_Payments": 0.0, "Total_Collected": 169.98, "Allowed": 194.98}, {"MRN": "488067", "DOS_str": "2025-09-30", "Ins_Payments": 88.82, "Pat_Payments": 0.0, "Total_Collected": 88.82, "Allowed": 88.82}, {"MRN": "488069", "DOS_str": "2025-09-29", "Ins_Payments": 140.73, "Pat_Payments": 0.0, "Total_Collected": 140.73, "Allowed": 165.73}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MD", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 79.32, "Avg_Ins": 44.32, "Avg_Pat": 0.0, "Avg_Total": 44.32, "Total_Charged": 151.08, "Total_Collected": 44.32, "GCR": 29.3, "detail": [{"MRN": "3800", "DOS_str": "2025-12-23", "Ins_Payments": 44.32, "Pat_Payments": 0.0, "Total_Collected": 44.32, "Allowed": 79.32}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICARE ADVANTAGE", "State": "NY", "Provider": "MD", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 0.0, "Avg_Ins": 0.0, "Avg_Pat": 0.0, "Avg_Total": 0.0, "Total_Charged": 151.08, "Total_Collected": 0.0, "GCR": 0.0, "detail": [{"MRN": "60799", "DOS_str": "2025-12-17", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 86.02, "Avg_Ins": 86.02, "Avg_Pat": 0.0, "Avg_Total": 86.02, "Total_Charged": 446.88, "Total_Collected": 172.04, "GCR": 38.5, "detail": [{"MRN": "518043", "DOS_str": "2025-02-10", "Ins_Payments": 86.02, "Pat_Payments": 0.0, "Total_Collected": 86.02, "Allowed": 86.02}, {"MRN": "518043", "DOS_str": "2025-05-05", "Ins_Payments": 86.02, "Pat_Payments": 0.0, "Total_Collected": 86.02, "Allowed": 86.02}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 86.02, "Avg_Ins": 86.02, "Avg_Pat": 0.0, "Avg_Total": 86.02, "Total_Charged": 223.44, "Total_Collected": 86.02, "GCR": 38.5, "detail": [{"MRN": "MM0000046235", "DOS_str": "2025-10-03", "Ins_Payments": 86.02, "Pat_Payments": 0.0, "Total_Collected": 86.02, "Allowed": 86.02}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICARE ADVANTAGE", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 0.0, "Avg_Ins": 0.0, "Avg_Pat": 0.0, "Avg_Total": 0.0, "Total_Charged": 223.44, "Total_Collected": 0.0, "GCR": 0.0, "detail": [{"MRN": "379880", "DOS_str": "2025-08-05", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "379880", "DOS_str": "2025-11-07", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99204, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 143.48, "Avg_Ins": 143.48, "Avg_Pat": 0.0, "Avg_Total": 143.48, "Total_Charged": 372.68, "Total_Collected": 143.48, "GCR": 38.5, "detail": [{"MRN": "MM0000071727", "DOS_str": "2025-12-16", "Ins_Payments": 143.48, "Pat_Payments": 0.0, "Total_Collected": 143.48, "Allowed": 143.48}]}, {"Primary_Payer": "Fidelis Care New York", "Policy_Type": "MEDICARE ADVANTAGE", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 142.81, "Avg_Ins": 111.96, "Avg_Pat": 0.0, "Avg_Total": 111.96, "Total_Charged": 285.62, "Total_Collected": 111.96, "GCR": 39.2, "detail": [{"MRN": "379880", "DOS_str": "2025-11-07", "Ins_Payments": 111.96, "Pat_Payments": 0.0, "Total_Collected": 111.96, "Allowed": 142.81}]}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 8.18, "Avg_Ins": 0.0, "Avg_Pat": 0.0, "Avg_Total": 0.0, "Total_Charged": 10.0, "Total_Collected": 0.0, "GCR": 0.0, "detail": [{"MRN": "507637", "DOS_str": "2025-05-02", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 8.18}]}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 67.99, "Avg_Ins": 57.79, "Avg_Pat": 0.0, "Avg_Total": 57.79, "Total_Charged": 151.08, "Total_Collected": 57.79, "GCR": 38.3, "detail": [{"MRN": "437968", "DOS_str": "2025-06-09", "Ins_Payments": 57.79, "Pat_Payments": 0.0, "Total_Collected": 57.79, "Allowed": 67.99}]}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "CHIP", "State": "NY", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 50.85, "Avg_Ins": 86.44, "Avg_Pat": 0.0, "Avg_Total": 86.44, "Total_Charged": 406.8, "Total_Collected": 172.88, "GCR": 42.5, "detail": [{"MRN": "537485", "DOS_str": "2025-09-17", "Ins_Payments": 86.44, "Pat_Payments": 0.0, "Total_Collected": 86.44, "Allowed": 101.7}, {"MRN": "MM0000059447", "DOS_str": "2025-10-15", "Ins_Payments": 86.44, "Pat_Payments": 0.0, "Total_Collected": 86.44, "Allowed": 0.0}]}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "CHIP", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 142.81, "Avg_Ins": 121.39, "Avg_Pat": 0.0, "Avg_Total": 121.39, "Total_Charged": 285.62, "Total_Collected": 121.39, "GCR": 42.5, "detail": [{"MRN": "MM0000059447", "DOS_str": "2025-11-21", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}]}, {"Primary_Payer": "Healthfirst New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 11, "Avg_Allowed": 142.97, "Avg_Ins": 110.49, "Avg_Pat": 0.0, "Avg_Total": 110.49, "Total_Charged": 3141.82, "Total_Collected": 1215.4, "GCR": 38.7, "detail": [{"MRN": "352854", "DOS_str": "2025-12-11", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "437968", "DOS_str": "2025-12-06", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "497165", "DOS_str": "2025-10-01", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "507637", "DOS_str": "2025-05-02", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 142.81}, {"MRN": "537014", "DOS_str": "2025-02-27", "Ins_Payments": 122.14, "Pat_Payments": 0.0, "Total_Collected": 122.14, "Allowed": 143.7}, {"MRN": "537014", "DOS_str": "2025-04-24", "Ins_Payments": 122.14, "Pat_Payments": 0.0, "Total_Collected": 122.14, "Allowed": 143.7}, {"MRN": "MM0000017190", "DOS_str": "2025-08-28", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "MM0000017190", "DOS_str": "2025-10-02", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "MM0000017190", "DOS_str": "2025-11-01", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "MM0000017190", "DOS_str": "2025-12-04", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "MM0000025872", "DOS_str": "2025-11-20", "Ins_Payments": 121.39, "Pat_Payments": 0.0, "Total_Collected": 121.39, "Allowed": 142.81}, {"MRN": "MM0000063494", "DOS_str": "2025-10-09", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MD", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 194.98, "Avg_Ins": 184.98, "Avg_Pat": 10.0, "Avg_Total": 194.98, "Total_Charged": 278.66, "Total_Collected": 194.98, "GCR": 70.0, "detail": [{"MRN": "MM0000018833", "DOS_str": "2025-02-20", "Ins_Payments": 184.98, "Pat_Payments": 10.0, "Total_Collected": 194.98, "Allowed": 194.98}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 5.04, "Avg_Ins": 2.52, "Avg_Pat": 0.0, "Avg_Total": 2.52, "Total_Charged": 10.0, "Total_Collected": 2.52, "GCR": 25.2, "detail": [{"MRN": "MM0000006981", "DOS_str": "2025-09-12", "Ins_Payments": 2.52, "Pat_Payments": 0.0, "Total_Collected": 2.52, "Allowed": 5.04}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 36415, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 3.0, "Avg_Ins": 0.0, "Avg_Pat": 3.0, "Avg_Total": 3.0, "Total_Charged": 10.0, "Total_Collected": 3.0, "GCR": 30.0, "detail": [{"MRN": "365613", "DOS_str": "2025-01-25", "Ins_Payments": 0.0, "Pat_Payments": 3.0, "Total_Collected": 3.0, "Allowed": 3.0}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98005, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 102.51, "Avg_Ins": 28.76, "Avg_Pat": 73.76, "Avg_Total": 102.51, "Total_Charged": 295.96, "Total_Collected": 205.01999999999998, "GCR": 69.3, "detail": [{"MRN": "453832", "DOS_str": "2025-02-06", "Ins_Payments": 0.0, "Pat_Payments": 102.51, "Total_Collected": 102.51, "Allowed": 102.51}, {"MRN": "MM0000011288", "DOS_str": "2025-02-25", "Ins_Payments": 57.51, "Pat_Payments": 45.0, "Total_Collected": 102.50999999999999, "Allowed": 102.51}, {"MRN": "MM0000040058", "DOS_str": "2025-03-04", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 157.82, "Avg_Ins": 64.32, "Avg_Pat": 92.08, "Avg_Total": 156.41, "Total_Charged": 872.72, "Total_Collected": 625.63, "GCR": 71.7, "detail": [{"MRN": "365613", "DOS_str": "2025-02-26", "Ins_Payments": 0.0, "Pat_Payments": 177.82, "Total_Collected": 177.82, "Allowed": 177.82}, {"MRN": "546063", "DOS_str": "2025-02-07", "Ins_Payments": 151.15, "Pat_Payments": 0.0, "Total_Collected": 151.15, "Allowed": 151.15}, {"MRN": "548369", "DOS_str": "2025-03-05", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "MM0000006981", "DOS_str": "2025-09-12", "Ins_Payments": 0.0, "Pat_Payments": 0.0, "Total_Collected": 0.0, "Allowed": 0.0}, {"MRN": "MM0000011289", "DOS_str": "2025-02-22", "Ins_Payments": 106.15, "Pat_Payments": 45.0, "Total_Collected": 151.15, "Allowed": 151.15}, {"MRN": "MM0000025622", "DOS_str": "2025-02-11", "Ins_Payments": 0.0, "Pat_Payments": 145.51, "Total_Collected": 145.51, "Allowed": 151.15}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 177.82, "Avg_Ins": 0.0, "Avg_Pat": 177.82, "Avg_Total": 177.82, "Total_Charged": 218.18, "Total_Collected": 177.82, "GCR": 81.5, "detail": [{"MRN": "365613", "DOS_str": "2025-01-25", "Ins_Payments": 0.0, "Pat_Payments": 177.82, "Total_Collected": 177.82, "Allowed": 177.82}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99204, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 299.15, "Avg_Ins": 264.15, "Avg_Pat": 35.0, "Avg_Total": 299.15, "Total_Charged": 362.56, "Total_Collected": 299.15, "GCR": 82.5, "detail": [{"MRN": "MM0000070881", "DOS_str": "2025-12-05", "Ins_Payments": 264.15, "Pat_Payments": 35.0, "Total_Collected": 299.15, "Allowed": 299.15}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "COMMERCIAL OTHER", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 68.09, "Avg_Ins": 63.09, "Avg_Pat": 5.0, "Avg_Total": 68.09, "Total_Charged": 123.56, "Total_Collected": 68.09, "GCR": 55.1, "detail": [{"MRN": "MM0000050461", "DOS_str": "2025-04-08", "Ins_Payments": 63.09, "Pat_Payments": 5.0, "Total_Collected": 68.09, "Allowed": 68.09}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 77.1, "Avg_Ins": 39.57, "Avg_Pat": 37.52, "Avg_Total": 77.1, "Total_Charged": 494.24, "Total_Collected": 308.39, "GCR": 62.4, "detail": [{"MRN": "365613", "DOS_str": "2025-03-31", "Ins_Payments": 0.0, "Pat_Payments": 80.1, "Total_Collected": 80.1, "Allowed": 80.1}, {"MRN": "548369", "DOS_str": "2025-04-25", "Ins_Payments": 50.1, "Pat_Payments": 30.0, "Total_Collected": 80.1, "Allowed": 80.1}, {"MRN": "548369", "DOS_str": "2025-05-30", "Ins_Payments": 50.1, "Pat_Payments": 30.0, "Total_Collected": 80.1, "Allowed": 80.1}, {"MRN": "MM0000018833", "DOS_str": "2025-04-25", "Ins_Payments": 58.09, "Pat_Payments": 10.0, "Total_Collected": 68.09, "Allowed": 68.09}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 127.55, "Avg_Ins": 75.67, "Avg_Pat": 51.88, "Avg_Total": 127.55, "Total_Charged": 794.08, "Total_Collected": 510.2, "GCR": 64.3, "detail": [{"MRN": "421405", "DOS_str": "2025-12-30", "Ins_Payments": 0.0, "Pat_Payments": 132.52, "Total_Collected": 132.52, "Allowed": 132.52}, {"MRN": "MM0000040058", "DOS_str": "2025-03-04", "Ins_Payments": 102.52, "Pat_Payments": 30.0, "Total_Collected": 132.51999999999998, "Allowed": 132.52}, {"MRN": "MM0000040058", "DOS_str": "2025-07-08", "Ins_Payments": 102.52, "Pat_Payments": 30.0, "Total_Collected": 132.51999999999998, "Allowed": 132.52}, {"MRN": "MM0000057089", "DOS_str": "2025-10-11", "Ins_Payments": 97.64, "Pat_Payments": 15.0, "Total_Collected": 112.64, "Allowed": 112.64}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "COMMERCIAL OTHER", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 165.73, "Avg_Ins": 160.73, "Avg_Pat": 5.0, "Avg_Total": 165.73, "Total_Charged": 1114.64, "Total_Collected": 662.92, "GCR": 59.5, "detail": [{"MRN": "MM0000050461", "DOS_str": "2025-06-10", "Ins_Payments": 160.73, "Pat_Payments": 5.0, "Total_Collected": 165.73, "Allowed": 165.73}, {"MRN": "MM0000050461", "DOS_str": "2025-07-29", "Ins_Payments": 160.73, "Pat_Payments": 5.0, "Total_Collected": 165.73, "Allowed": 165.73}, {"MRN": "MM0000050461", "DOS_str": "2025-10-09", "Ins_Payments": 160.73, "Pat_Payments": 5.0, "Total_Collected": 165.73, "Allowed": 165.73}, {"MRN": "MM0000050461", "DOS_str": "2025-11-20", "Ins_Payments": 160.73, "Pat_Payments": 5.0, "Total_Collected": 165.73, "Allowed": 165.73}]}, {"Primary_Payer": "Horizon Blue Cross Blue Shield of New Jersey", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 10, "Avg_Allowed": 189.13, "Avg_Ins": 163.63, "Avg_Pat": 25.5, "Avg_Total": 189.13, "Total_Charged": 2786.6000000000004, "Total_Collected": 1891.3, "GCR": 67.9, "detail": [{"MRN": "488067", "DOS_str": "2025-11-05", "Ins_Payments": 169.98, "Pat_Payments": 25.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "488067", "DOS_str": "2025-12-05", "Ins_Payments": 169.98, "Pat_Payments": 25.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "488069", "DOS_str": "2025-11-18", "Ins_Payments": 169.98, "Pat_Payments": 25.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "548369", "DOS_str": "2025-03-05", "Ins_Payments": 164.98, "Pat_Payments": 30.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "548369", "DOS_str": "2025-06-30", "Ins_Payments": 164.98, "Pat_Payments": 30.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "548369", "DOS_str": "2025-07-31", "Ins_Payments": 150.73, "Pat_Payments": 15.0, "Total_Collected": 165.73, "Allowed": 165.73}, {"MRN": "548369", "DOS_str": "2025-09-29", "Ins_Payments": 164.98, "Pat_Payments": 30.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "548369", "DOS_str": "2025-10-29", "Ins_Payments": 164.98, "Pat_Payments": 30.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "548369", "DOS_str": "2025-12-01", "Ins_Payments": 164.98, "Pat_Payments": 30.0, "Total_Collected": 194.98, "Allowed": 194.98}, {"MRN": "MM0000006981", "DOS_str": "2025-09-12", "Ins_Payments": 150.73, "Pat_Payments": 15.0, "Total_Collected": 165.73, "Allowed": 165.73}]}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99202, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 66.57, "Avg_Ins": 66.57, "Avg_Pat": 0.0, "Avg_Total": 66.57, "Total_Charged": 156.64, "Total_Collected": 66.57, "GCR": 42.5, "detail": [{"MRN": "MM0000072219", "DOS_str": "2025-12-23", "Ins_Payments": 66.57, "Pat_Payments": 0.0, "Total_Collected": 66.57, "Allowed": 66.57}]}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99204, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 154.09, "Avg_Ins": 154.09, "Avg_Pat": 0.0, "Avg_Total": 154.09, "Total_Charged": 362.56, "Total_Collected": 154.09, "GCR": 42.5, "detail": [{"MRN": "MM0000070929", "DOS_str": "2025-12-03", "Ins_Payments": 154.09, "Pat_Payments": 0.0, "Total_Collected": 154.09, "Allowed": 154.09}]}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 84.37, "Avg_Ins": 84.37, "Avg_Pat": 0.0, "Avg_Total": 84.37, "Total_Charged": 397.04, "Total_Collected": 168.74, "GCR": 42.5, "detail": [{"MRN": "532555", "DOS_str": "2025-09-22", "Ins_Payments": 84.37, "Pat_Payments": 0.0, "Total_Collected": 84.37, "Allowed": 84.37}, {"MRN": "MM0000011579", "DOS_str": "2025-12-29", "Ins_Payments": 84.37, "Pat_Payments": 0.0, "Total_Collected": 84.37, "Allowed": 84.37}]}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 118.43, "Avg_Ins": 113.43, "Avg_Pat": 5.0, "Avg_Total": 118.43, "Total_Charged": 278.66, "Total_Collected": 118.43, "GCR": 42.5, "detail": [{"MRN": "495576", "DOS_str": "2025-09-25", "Ins_Payments": 113.43, "Pat_Payments": 5.0, "Total_Collected": 118.43, "Allowed": 118.43}]}, {"Primary_Payer": "Horizon NJ Health", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 3, "Avg_Allowed": 118.43, "Avg_Ins": 116.76, "Avg_Pat": 1.67, "Avg_Total": 118.43, "Total_Charged": 835.98, "Total_Collected": 355.29, "GCR": 42.5, "detail": [{"MRN": "342527", "DOS_str": "2025-11-25", "Ins_Payments": 118.43, "Pat_Payments": 0.0, "Total_Collected": 118.43, "Allowed": 118.43}, {"MRN": "495576", "DOS_str": "2025-10-30", "Ins_Payments": 113.43, "Pat_Payments": 5.0, "Total_Collected": 118.43, "Allowed": 118.43}, {"MRN": "MM0000009081", "DOS_str": "2025-10-09", "Ins_Payments": 118.43, "Pat_Payments": 0.0, "Total_Collected": 118.43, "Allowed": 118.43}]}, {"Primary_Payer": "Medicare of New Jersey", "Policy_Type": "MEDICARE", "State": "NJ", "Provider": "MD", "CPT": 99213, "Modifiers": "-", "POS": "11 - Office", "Encounters": 1, "Avg_Allowed": 99.26, "Avg_Ins": 97.67, "Avg_Pat": 0.0, "Avg_Total": 97.67, "Total_Charged": 198.52, "Total_Collected": 97.66999999999999, "GCR": 49.2, "detail": [{"MRN": "4111", "DOS_str": "2025-09-18", "Ins_Payments": 97.66999999999999, "Pat_Payments": 0.0, "Total_Collected": 97.66999999999999, "Allowed": 99.26}]}, {"Primary_Payer": "Meritain Health Minneapolis", "Policy_Type": "PPO", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 100.66, "Avg_Ins": 80.66, "Avg_Pat": 20.0, "Avg_Total": 100.66, "Total_Charged": 223.44, "Total_Collected": 100.66, "GCR": 45.1, "detail": [{"MRN": "MM0000047143", "DOS_str": "2025-12-19", "Ins_Payments": 80.66, "Pat_Payments": 20.0, "Total_Collected": 100.66, "Allowed": 100.66}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 2, "Avg_Allowed": 100.42, "Avg_Ins": 75.42, "Avg_Pat": 12.5, "Avg_Total": 87.92, "Total_Charged": 446.88, "Total_Collected": 175.84, "GCR": 39.3, "detail": [{"MRN": "490091", "DOS_str": "2025-03-22", "Ins_Payments": 75.42, "Pat_Payments": 25.0, "Total_Collected": 100.42, "Allowed": 100.42}, {"MRN": "517689", "DOS_str": "2025-09-18", "Ins_Payments": 75.42, "Pat_Payments": 0.0, "Total_Collected": 75.42, "Allowed": 100.42}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "11 - Office", "Encounters": 2, "Avg_Allowed": 100.42, "Avg_Ins": 100.42, "Avg_Pat": 0.0, "Avg_Total": 100.42, "Total_Charged": 446.88, "Total_Collected": 200.84, "GCR": 44.9, "detail": [{"MRN": "466280", "DOS_str": "2025-05-06", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}, {"MRN": "466280", "DOS_str": "2025-06-10", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 90.95, "Avg_Ins": 90.95, "Avg_Pat": 0.0, "Avg_Total": 90.95, "Total_Charged": 203.4, "Total_Collected": 90.95, "GCR": 44.7, "detail": [{"MRN": "464769", "DOS_str": "2025-12-01", "Ins_Payments": 90.95, "Pat_Payments": 0.0, "Total_Collected": 90.95, "Allowed": 90.95}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 90.95, "Avg_Ins": 90.95, "Avg_Pat": 0.0, "Avg_Total": 90.95, "Total_Charged": 203.4, "Total_Collected": 90.95, "GCR": 44.7, "detail": [{"MRN": "406738", "DOS_str": "2025-08-15", "Ins_Payments": 90.95, "Pat_Payments": 0.0, "Total_Collected": 90.95, "Allowed": 90.95}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 127.86, "Avg_Ins": 127.86, "Avg_Pat": 0.0, "Avg_Total": 127.86, "Total_Charged": 571.24, "Total_Collected": 255.72, "GCR": 44.8, "detail": [{"MRN": "MM0000004160", "DOS_str": "2025-12-30", "Ins_Payments": 127.86, "Pat_Payments": 0.0, "Total_Collected": 127.86, "Allowed": 127.86}, {"MRN": "MM0000049843", "DOS_str": "2025-02-24", "Ins_Payments": 127.86, "Pat_Payments": 0.0, "Total_Collected": 127.86, "Allowed": 127.86}]}, {"Primary_Payer": "MetroPlus Health Plan", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 127.86, "Avg_Ins": 127.86, "Avg_Pat": 0.0, "Avg_Total": 127.86, "Total_Charged": 571.24, "Total_Collected": 255.72, "GCR": 44.8, "detail": [{"MRN": "MM0000025193", "DOS_str": "2025-12-30", "Ins_Payments": 127.86, "Pat_Payments": 0.0, "Total_Collected": 127.86, "Allowed": 127.86}, {"MRN": "MM0000061515", "DOS_str": "2025-11-25", "Ins_Payments": 127.86, "Pat_Payments": 0.0, "Total_Collected": 127.86, "Allowed": 127.86}]}, {"Primary_Payer": "Oscar Health Insurance", "Policy_Type": "COMMERCIAL OTHER", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 109.09, "Avg_Ins": 104.09, "Avg_Pat": 5.0, "Avg_Total": 109.09, "Total_Charged": 218.18, "Total_Collected": 109.09, "GCR": 50.0, "detail": [{"MRN": "MM0000008408", "DOS_str": "2025-04-04", "Ins_Payments": 104.09, "Pat_Payments": 5.0, "Total_Collected": 109.09, "Allowed": 109.09}]}, {"Primary_Payer": "Oscar Health Insurance", "Policy_Type": "COMMERCIAL OTHER", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 41.0, "Avg_Ins": 36.0, "Avg_Pat": 5.0, "Avg_Total": 41.0, "Total_Charged": 278.66, "Total_Collected": 41.0, "GCR": 14.7, "detail": [{"MRN": "MM0000008408", "DOS_str": "2025-12-12", "Ins_Payments": 36.0, "Pat_Payments": 5.0, "Total_Collected": 41.0, "Allowed": 41.0}]}, {"Primary_Payer": "Oxford Health Plan", "Policy_Type": "EPO", "State": "NJ", "Provider": "MID", "CPT": 99203, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 58.55, "Avg_Ins": 0.0, "Avg_Pat": 58.55, "Avg_Total": 58.55, "Total_Charged": 242.88, "Total_Collected": 58.55, "GCR": 24.1, "detail": [{"MRN": "14788", "DOS_str": "2025-12-30", "Ins_Payments": 0.0, "Pat_Payments": 58.55, "Total_Collected": 58.55, "Allowed": 58.55}]}, {"Primary_Payer": "Oxford Health Plan", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 32.6, "Avg_Ins": 7.6, "Avg_Pat": 25.0, "Avg_Total": 32.6, "Total_Charged": 247.12, "Total_Collected": 65.2, "GCR": 26.4, "detail": [{"MRN": "529385", "DOS_str": "2025-03-11", "Ins_Payments": 7.6, "Pat_Payments": 25.0, "Total_Collected": 32.6, "Allowed": 32.6}, {"MRN": "529385", "DOS_str": "2025-04-11", "Ins_Payments": 7.6, "Pat_Payments": 25.0, "Total_Collected": 32.6, "Allowed": 32.6}]}, {"Primary_Payer": "Oxford Health Plan", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 5, "Avg_Allowed": 49.13, "Avg_Ins": 21.13, "Avg_Pat": 28.0, "Avg_Total": 49.13, "Total_Charged": 1393.3000000000002, "Total_Collected": 245.64999999999998, "GCR": 17.6, "detail": [{"MRN": "529385", "DOS_str": "2025-01-31", "Ins_Payments": 24.13, "Pat_Payments": 25.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}, {"MRN": "529385", "DOS_str": "2025-08-26", "Ins_Payments": 24.13, "Pat_Payments": 25.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}, {"MRN": "529385", "DOS_str": "2025-09-29", "Ins_Payments": 24.13, "Pat_Payments": 25.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}, {"MRN": "529385", "DOS_str": "2025-10-27", "Ins_Payments": 24.13, "Pat_Payments": 25.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}, {"MRN": "529385", "DOS_str": "2025-12-03", "Ins_Payments": 9.13, "Pat_Payments": 40.0, "Total_Collected": 49.13, "Allowed": 49.13}, {"MRN": "MM0000061292", "DOS_str": "2025-11-21", "Ins_Payments": 19.13, "Pat_Payments": 30.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}, {"MRN": "MM0000061292", "DOS_str": "2025-12-22", "Ins_Payments": 19.13, "Pat_Payments": 30.0, "Total_Collected": 49.129999999999995, "Allowed": 49.13}]}, {"Primary_Payer": "SOMOS Emblem", "Policy_Type": "COMMERCIAL OTHER", "State": "NY", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 109.25, "Avg_Ins": 109.25, "Avg_Pat": 0.0, "Avg_Total": 109.25, "Total_Charged": 285.62, "Total_Collected": 109.25, "GCR": 38.3, "detail": [{"MRN": "MM0000069561", "DOS_str": "2025-12-02", "Ins_Payments": 109.25, "Pat_Payments": 0.0, "Total_Collected": 109.25, "Allowed": 109.25}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "EPO", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 3, "Avg_Allowed": 35.44, "Avg_Ins": 5.44, "Avg_Pat": 30.0, "Avg_Total": 35.44, "Total_Charged": 370.68, "Total_Collected": 106.32, "GCR": 28.7, "detail": [{"MRN": "MM0000038046", "DOS_str": "2025-03-07", "Ins_Payments": 5.44, "Pat_Payments": 30.0, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000038046", "DOS_str": "2025-04-07", "Ins_Payments": 5.44, "Pat_Payments": 30.0, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000038046", "DOS_str": "2025-05-07", "Ins_Payments": 5.44, "Pat_Payments": 30.0, "Total_Collected": 35.44, "Allowed": 35.44}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 5, "Avg_Allowed": 36.86, "Avg_Ins": 6.68, "Avg_Pat": 30.18, "Avg_Total": 36.86, "Total_Charged": 617.8, "Total_Collected": 184.28, "GCR": 29.8, "detail": [{"MRN": "MM0000011874", "DOS_str": "2025-03-05", "Ins_Payments": 0.0, "Pat_Payments": 35.44, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000011874", "DOS_str": "2025-04-07", "Ins_Payments": 0.0, "Pat_Payments": 35.44, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000014472", "DOS_str": "2025-03-21", "Ins_Payments": 15.44, "Pat_Payments": 20.0, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000014472", "DOS_str": "2025-05-22", "Ins_Payments": 15.44, "Pat_Payments": 20.0, "Total_Collected": 35.44, "Allowed": 35.44}, {"MRN": "MM0000016713", "DOS_str": "2025-04-08", "Ins_Payments": 2.52, "Pat_Payments": 40.0, "Total_Collected": 42.52, "Allowed": 42.52}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "POS", "State": "NJ", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 48.58, "Avg_Ins": 8.58, "Avg_Pat": 0.0, "Avg_Total": 8.58, "Total_Charged": 198.52, "Total_Collected": 8.58, "GCR": 4.3, "detail": [{"MRN": "MM0000069895", "DOS_str": "2025-12-04", "Ins_Payments": 8.58, "Pat_Payments": 0.0, "Total_Collected": 8.58, "Allowed": 48.58}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "EPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 53.4, "Avg_Ins": 23.4, "Avg_Pat": 30.0, "Avg_Total": 53.4, "Total_Charged": 557.32, "Total_Collected": 106.8, "GCR": 19.2, "detail": [{"MRN": "MM0000038046", "DOS_str": "2025-01-03", "Ins_Payments": 23.4, "Pat_Payments": 30.0, "Total_Collected": 53.4, "Allowed": 53.4}, {"MRN": "MM0000038046", "DOS_str": "2025-06-16", "Ins_Payments": 23.4, "Pat_Payments": 30.0, "Total_Collected": 53.4, "Allowed": 53.4}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 3, "Avg_Allowed": 53.4, "Avg_Ins": 15.6, "Avg_Pat": 37.8, "Avg_Total": 53.4, "Total_Charged": 835.98, "Total_Collected": 160.2, "GCR": 19.2, "detail": [{"MRN": "30887", "DOS_str": "2025-09-24", "Ins_Payments": 13.4, "Pat_Payments": 40.0, "Total_Collected": 53.4, "Allowed": 53.4}, {"MRN": "MM0000011874", "DOS_str": "2025-01-29", "Ins_Payments": 0.0, "Pat_Payments": 53.4, "Total_Collected": 53.4, "Allowed": 53.4}, {"MRN": "MM0000014472", "DOS_str": "2025-01-23", "Ins_Payments": 33.4, "Pat_Payments": 20.0, "Total_Collected": 53.4, "Allowed": 53.4}, {"MRN": "MM0000018388", "DOS_str": "2025-01-24", "Ins_Payments": 28.4, "Pat_Payments": 25.0, "Total_Collected": 53.4, "Allowed": 53.4}]}, {"Primary_Payer": "United HealthCare of all states", "Policy_Type": "POS", "State": "NY", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 75.86, "Avg_Ins": 25.86, "Avg_Pat": 50.0, "Avg_Total": 75.86, "Total_Charged": 203.4, "Total_Collected": 75.86, "GCR": 37.3, "detail": [{"MRN": "516681", "DOS_str": "2025-05-05", "Ins_Payments": 25.86, "Pat_Payments": 50.0, "Total_Collected": 75.86, "Allowed": 75.86}]}, {"Primary_Payer": "United Healthcare Community Plan New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 98006, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 2, "Avg_Allowed": 61.51, "Avg_Ins": 61.51, "Avg_Pat": 0.0, "Avg_Total": 61.51, "Total_Charged": 436.36, "Total_Collected": 123.02, "GCR": 28.2, "detail": [{"MRN": "509832", "DOS_str": "2025-10-13", "Ins_Payments": 61.51, "Pat_Payments": 0.0, "Total_Collected": 61.51, "Allowed": 61.51}, {"MRN": "MM0000052075", "DOS_str": "2025-10-13", "Ins_Payments": 61.51, "Pat_Payments": 0.0, "Total_Collected": 61.51, "Allowed": 61.51}]}, {"Primary_Payer": "United Healthcare Community Plan New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 26.52, "Avg_Ins": 18.56, "Avg_Pat": 0.0, "Avg_Total": 18.56, "Total_Charged": 123.56, "Total_Collected": 18.56, "GCR": 15.0, "detail": [{"MRN": "MM0000046330", "DOS_str": "2025-03-28", "Ins_Payments": 18.56, "Pat_Payments": 0.0, "Total_Collected": 18.56, "Allowed": 26.52}]}, {"Primary_Payer": "United Healthcare Community Plan New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99213, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 44.16, "Avg_Ins": 44.16, "Avg_Pat": 0.0, "Avg_Total": 44.16, "Total_Charged": 198.52, "Total_Collected": 44.16, "GCR": 22.2, "detail": [{"MRN": "MM0000061876", "DOS_str": "2025-08-13", "Ins_Payments": 44.16, "Pat_Payments": 0.0, "Total_Collected": 44.16, "Allowed": 44.16}]}, {"Primary_Payer": "United Healthcare Community Plan New Jersey", "Policy_Type": "MEDICAID", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 7, "Avg_Allowed": 64.85, "Avg_Ins": 53.73, "Avg_Pat": 0.0, "Avg_Total": 53.73, "Total_Charged": 1950.6200000000001, "Total_Collected": 376.11, "GCR": 19.3, "detail": [{"MRN": "509832", "DOS_str": "2025-09-12", "Ins_Payments": 64.85, "Pat_Payments": 0.0, "Total_Collected": 64.85, "Allowed": 64.85}, {"MRN": "509832", "DOS_str": "2025-11-14", "Ins_Payments": 45.39, "Pat_Payments": 0.0, "Total_Collected": 45.39, "Allowed": 64.85}, {"MRN": "MM0000024251", "DOS_str": "2025-10-24", "Ins_Payments": 45.39, "Pat_Payments": 0.0, "Total_Collected": 45.39, "Allowed": 64.85}, {"MRN": "MM0000052075", "DOS_str": "2025-06-03", "Ins_Payments": 64.85, "Pat_Payments": 0.0, "Total_Collected": 64.85, "Allowed": 64.85}, {"MRN": "MM0000052075", "DOS_str": "2025-07-03", "Ins_Payments": 64.85, "Pat_Payments": 0.0, "Total_Collected": 64.85, "Allowed": 64.85}, {"MRN": "MM0000052075", "DOS_str": "2025-09-12", "Ins_Payments": 45.39, "Pat_Payments": 0.0, "Total_Collected": 45.39, "Allowed": 64.85}, {"MRN": "MM0000069862", "DOS_str": "2025-12-19", "Ins_Payments": 45.39, "Pat_Payments": 0.0, "Total_Collected": 45.39, "Allowed": 64.85}]}, {"Primary_Payer": "United Healthcare Community Plan New York", "Policy_Type": "MEDICAID", "State": "NY", "Provider": "MD", "CPT": 98006, "Modifiers": "-", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 4, "Avg_Allowed": 100.42, "Avg_Ins": 100.42, "Avg_Pat": 0.0, "Avg_Total": 100.42, "Total_Charged": 893.76, "Total_Collected": 401.68, "GCR": 44.9, "detail": [{"MRN": "518750", "DOS_str": "2025-02-27", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}, {"MRN": "518750", "DOS_str": "2025-03-25", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}, {"MRN": "518750", "DOS_str": "2025-04-22", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}, {"MRN": "518750", "DOS_str": "2025-09-11", "Ins_Payments": 100.42, "Pat_Payments": 0.0, "Total_Collected": 100.42, "Allowed": 100.42}]}, {"Primary_Payer": "United Healthcare Community Plan New York", "Policy_Type": "MEDICARE", "State": "NY", "Provider": "MID", "CPT": 99212, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 78.28, "Avg_Ins": 76.71, "Avg_Pat": 0.0, "Avg_Total": 76.71, "Total_Charged": 126.4, "Total_Collected": 76.71, "GCR": 60.7, "detail": [{"MRN": "518705", "DOS_str": "2025-05-23", "Ins_Payments": 76.71, "Pat_Payments": 0.0, "Total_Collected": 76.71, "Allowed": 78.28}]}, {"Primary_Payer": "United Healthcare Empire Plan", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 53.4, "Avg_Ins": 28.4, "Avg_Pat": 25.0, "Avg_Total": 53.4, "Total_Charged": 278.66, "Total_Collected": 53.4, "GCR": 19.2, "detail": [{"MRN": "MM0000018388", "DOS_str": "2025-02-26", "Ins_Payments": 28.4, "Pat_Payments": 25.0, "Total_Collected": 53.4, "Allowed": 53.4}]}, {"Primary_Payer": "UnitedHealthcare Student Resources", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99203, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 63.64, "Avg_Ins": 0.0, "Avg_Pat": 25.0, "Avg_Total": 25.0, "Total_Charged": 242.88, "Total_Collected": 25.0, "GCR": 10.3, "detail": [{"MRN": "412954", "DOS_str": "2025-11-24", "Ins_Payments": 0.0, "Pat_Payments": 25.0, "Total_Collected": 25.0, "Allowed": 63.64}]}, {"Primary_Payer": "UnitedHealthcare Student Resources", "Policy_Type": "PPO", "State": "NJ", "Provider": "MID", "CPT": 99214, "Modifiers": "95", "POS": "10 - Telehealth Provided in Patient\u2019s Home", "Encounters": 1, "Avg_Allowed": 53.4, "Avg_Ins": 28.4, "Avg_Pat": 25.0, "Avg_Total": 53.4, "Total_Charged": 278.66, "Total_Collected": 53.4, "GCR": 19.2, "detail": [{"MRN": "MM0000012208", "DOS_str": "2025-01-30", "Ins_Payments": 28.4, "Pat_Payments": 25.0, "Total_Collected": 53.4, "Allowed": 53.4}]}];
+
+function rateColor(r){
+  if(r>=55) return '#1d6f42';
+  if(r>=40) return '#8a6200';
+  if(r>=25) return '#c4720a';
+  return '#a32d2d';
+}
+function ratePill(r){
+  const c=rateColor(r), w=Math.min(r,100);
+  return `<div class="rate-cell"><div class="rate-track"><div class="rate-fill" style="width:${w}%;background:${c};"></div></div><span class="rate-num" style="color:${c};">${r.toFixed(1)}%</span></div>`;
+}
+function badge(t){
+  const m={'PPO':'b-ppo','MEDICAID':'b-med','MEDICARE':'b-mce','MEDICARE ADVANTAGE':'b-ma',
+    'CHIP':'b-chip','COMMERCIAL OTHER':'b-com','ACA EXCHANGE':'b-aca','EPO':'b-epo','POS':'b-pos','HMO':'b-hmo'};
+  return `<span class="badge ${m[t]||'b-com'}">${t}</span>`;
+}
+function stateBadge(s){ return `<span class="${s==='NY'?'state-ny':'state-nj'}">${s}</span>`; }
+function provBadge(p){ const c={'MD':'prov-md','MID':'prov-mid'}; return `<span class="${c[p]||'prov-mid'}">${p}</span>`; }
+function dollar(n){ return n==null?'—':'$'+Math.round(n).toLocaleString(); }
+function dollar2(n){ return n==null?'—':'$'+Number(n).toFixed(0); }
+
+// ── PAYER TABLE ──────────────────────────────────────────────────────────────
+function renderPayer(){
+  document.getElementById('ptbl-body').innerHTML = payerData.map(r=>`
+    <tr>
+      <td class="bold">${r.Primary_Payer}</td>
+      <td>${badge(r.Policy_Type)}</td>
+      <td class="num">${r.Encounters}</td>
+      <td class="num">${dollar(r.Total_Charged)}</td>
+      <td class="num">${dollar2(r.Avg_Allowed)}</td>
+      <td class="num">${dollar(r.Total_Ins)}</td>
+      <td class="num">${dollar(r.Total_Pat)}</td>
+      <td class="num bold">${dollar(r.Total_Collected)}</td>
+      <td>${ratePill(r.GCR)}</td>
+      <td class="num bold">${dollar2(r.Avg_Total)}</td>
+    </tr>`).join('');
+}
+
+// ── COMBO TABLE ──────────────────────────────────────────────────────────────
+function populateFilters(){
+  const ps=document.getElementById('pf-payer');
+  const cs=document.getElementById('pf-cpt');
+  const ts=document.getElementById('pf-type');
+  [...new Set(comboData.map(r=>r.Primary_Payer))].sort().forEach(p=>{ps.innerHTML+=`<option value="${p}">${p}</option>`;});
+  [...new Set(comboData.map(r=>r.CPT))].sort((a,b)=>a-b).forEach(c=>{cs.innerHTML+=`<option value="${c}">${c}</option>`;});
+  [...new Set(comboData.map(r=>r.Policy_Type))].sort().forEach(t=>{ts.innerHTML+=`<option value="${t}">${t}</option>`;});
+}
+
+let expandedRows = new Set();
+
+function renderCombo(){
+  expandedRows.clear();
+  const sf=document.getElementById('pf-state').value;
+  const pvf=document.getElementById('pf-prov').value;
+  const pf=document.getElementById('pf-payer').value;
+  const cf=document.getElementById('pf-cpt').value;
+  const tf=document.getElementById('pf-type').value;
+  let rows=comboData;
+  if(sf) rows=rows.filter(r=>r.State===sf);
+  if(pvf) rows=rows.filter(r=>r.Provider===pvf);
+  if(pf) rows=rows.filter(r=>r.Primary_Payer===pf);
+  if(cf) rows=rows.filter(r=>String(r.CPT)===cf);
+  if(tf) rows=rows.filter(r=>r.Policy_Type===tf);
+
+  // Apply sort if active
+  if(comboSortCol !== null && comboColMap[comboSortCol]){
+    const {key, type} = comboColMap[comboSortCol];
+    rows = [...rows].sort((a,b)=>{
+      const av = a[key], bv = b[key];
+      if(type==='n') return comboSortAsc ? av-bv : bv-av;
+      return comboSortAsc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    });
+  }
+
+  const tbody=document.getElementById('ctbl-body');
+  tbody.innerHTML='';
+  rows.forEach((r,i)=>{
+    const posShort=r.POS.includes('10')?'POS 10':r.POS.includes('11')?'POS 11':r.POS;
+    const modLabel=r.Modifiers==='-'?'<span style="color:#ccc">—</span>':`<code style="font-family:DM Mono;font-size:10px">${r.Modifiers}</code>`;
+    const detailHtml = r.detail.map(d=>`
+      <tr>
+        <td>${d.MRN}</td>
+        <td>${d.DOS_str}</td>
+        <td style="text-align:right">${dollar2(d.Ins_Payments)}</td>
+        <td style="text-align:right">${dollar2(d.Pat_Payments)}</td>
+        <td style="text-align:right">${dollar2(d.Total_Collected)}</td>
+        <td style="text-align:right">${d.Allowed>0?dollar2(d.Allowed):'—'}</td>
+      </tr>`).join('');
+
+    const mainRow=document.createElement('tr');
+    mainRow.className='combo-row';
+    mainRow.dataset.idx=i;
+    mainRow.innerHTML=`
+      <td style="padding:8px 6px;text-align:center"><span class="expand-btn" id="exp-${i}">▶</span></td>
+      <td>${stateBadge(r.State)}</td>
+      <td>${provBadge(r.Provider)}</td>
+      <td class="bold">${r.Primary_Payer}</td>
+      <td>${badge(r.Policy_Type)}</td>
+      <td class="num" style="font-family:'DM Mono',monospace;font-size:11px">${r.CPT}</td>
+      <td style="text-align:center">${modLabel}</td>
+      <td style="text-align:center"><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:var(--surface2)">${posShort}</span></td>
+      <td class="num">${r.Encounters}</td>
+      <td class="num">${r.Avg_Allowed>0?dollar2(r.Avg_Allowed):'—'}</td>
+      <td class="num">${dollar2(r.Avg_Ins)}</td>
+      <td class="num">${dollar2(r.Avg_Pat)}</td>
+      <td class="num bold">${dollar2(r.Avg_Total)}</td>
+      <td>${ratePill(r.GCR)}</td>`;
+    mainRow.onclick=()=>toggleDetail(i);
+
+    const detailRow=document.createElement('tr');
+    detailRow.className='detail-row';
+    detailRow.id=`detail-${i}`;
+    detailRow.innerHTML=`<td colspan="14">
+      <div class="detail-inner">
+        <table class="detail-table">
+          <thead><tr>
+            <th>MRN</th><th>Date of service</th>
+            <th style="text-align:right">Ins paid</th>
+            <th style="text-align:right">Pt paid</th>
+            <th style="text-align:right">Total collected</th>
+            <th style="text-align:right">Allowed</th>
+          </tr></thead>
+          <tbody>${detailHtml}</tbody>
+        </table>
+      </div>
+    </td>`;
+
+    tbody.appendChild(mainRow);
+    tbody.appendChild(detailRow);
+  });
+}
+
+function toggleDetail(i){
+  const dr=document.getElementById('detail-'+i);
+  const btn=document.getElementById('exp-'+i);
+  const isOpen=dr.classList.contains('open');
+  dr.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+}
+
+// ── TAB SWITCH ───────────────────────────────────────────────────────────────
+function switchTab(t){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pane-'+t).classList.add('active');
+  document.querySelectorAll('.tab-btn')[t==='payer'?0:1].classList.add('active');
+  document.getElementById('combo-filters').style.display=t==='combo'?'flex':'none';
+}
+
+// ── SORT ─────────────────────────────────────────────────────────────────────
+const sortState={};
+// Combo sort state lives separately so filters don't clear it
+let comboSortCol = null, comboSortAsc = true;
+
+// Map column index → data key + type for combo table
+const comboColMap = {
+  1: {key:'State',       type:'s'},
+  2: {key:'Provider',    type:'s'},
+  3: {key:'Primary_Payer',type:'s'},
+  4: {key:'Policy_Type', type:'s'},
+  5: {key:'CPT',         type:'n'},
+  6: {key:'Modifiers',   type:'s'},
+  7: {key:'POS',         type:'s'},
+  8: {key:'Encounters',  type:'n'},
+  9: {key:'Avg_Allowed', type:'n'},
+  10:{key:'Avg_Ins',     type:'n'},
+  11:{key:'Avg_Pat',     type:'n'},
+  12:{key:'Avg_Total',   type:'n'},
+  13:{key:'GCR',         type:'n'},
+};
+
+function sortCombo(col){
+  if(comboSortCol === col){ comboSortAsc = !comboSortAsc; }
+  else { comboSortCol = col; comboSortAsc = true; }
+  renderCombo();
+  // Re-apply sort indicator after render
+  const tbl = document.getElementById('ctbl');
+  tbl.querySelectorAll('th').forEach((th,i)=>{
+    th.classList.remove('sort-asc','sort-desc');
+    if(i===col) th.classList.add(comboSortAsc?'sort-asc':'sort-desc');
+  });
+}
+
+function sortTbl(id,col,type){
+  if(id==='ctbl'){ sortCombo(col); return; }
+  const key=id+'_'+col;
+  const asc=sortState[key]!=='asc';
+  sortState[key]=asc?'asc':'desc';
+  const tbl=document.getElementById(id);
+  tbl.querySelectorAll('th').forEach((th,i)=>{th.classList.remove('sort-asc','sort-desc');if(i===col)th.classList.add(asc?'sort-asc':'sort-desc');});
+  const rows=[...tbl.querySelector('tbody').querySelectorAll('tr')];
+  rows.sort((a,b)=>{
+    let av=a.cells[col].textContent.replace(/[$,%↑↓\s]/g,'');
+    let bv=b.cells[col].textContent.replace(/[$,%↑↓\s]/g,'');
+    if(type==='n'){av=parseFloat(av.replace(/,/g,''))||0;bv=parseFloat(bv.replace(/,/g,''))||0;return asc?av-bv:bv-av;}
+    return asc?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>tbl.querySelector('tbody').appendChild(r));
+}
+
+// ── MONTHLY CHART ─────────────────────────────────────────────────────────────
+function buildMonthly(){
+  new Chart(document.getElementById('monthlyChart'),{
+    data:{
+      labels:monthly.map(m=>m.Month.slice(5)),
+      datasets:[
+        {type:'bar',label:'Insurance paid',data:monthly.map(m=>m.Ins_Paid),backgroundColor:'#1a3a5c',borderRadius:3,stack:'a',order:2},
+        {type:'bar',label:'Patient paid',data:monthly.map(m=>m.Pat_Paid),backgroundColor:'#8fb8d8',borderRadius:3,stack:'a',order:2},
+        {type:'line',label:'GCR %',data:monthly.map(m=>m.GCR),yAxisID:'y2',
+          borderColor:'#e67e22',backgroundColor:'transparent',pointBackgroundColor:'#e67e22',
+          pointRadius:4,pointHoverRadius:6,borderWidth:2.5,tension:0.3,order:1,z:10}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#9e9b96'}},
+        y:{stacked:true,grid:{color:'#f0ede8'},ticks:{font:{size:11},color:'#9e9b96',callback:v=>'$'+v.toLocaleString()}},
+        y2:{position:'right',min:0,max:100,grid:{display:false},ticks:{font:{size:11},color:'#e67e22',callback:v=>v+'%'}}
+      }
+    }
+  });
+}
+
+// ── TYPE DONUT ───────────────────────────────────────────────────────────────
+function buildTypeChart(){
+  const typeMap={};
+  payerData.forEach(r=>{typeMap[r.Policy_Type]=(typeMap[r.Policy_Type]||0)+r.Total_Collected;});
+  const labels=Object.keys(typeMap), vals=labels.map(l=>typeMap[l]);
+  const colors=['#1a3a5c','#c4720a','#2d6a4f','#5c2d91','#a32d2d','#1d6f42','#b85c00','#6b6760','#8a1a6b'];
+  new Chart(document.getElementById('typeChart'),{
+    type:'doughnut',
+    data:{labels,datasets:[{data:vals,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:9,boxWidth:11,boxHeight:11,color:'#6b6760'}},
+        tooltip:{callbacks:{label:ctx=>` ${ctx.label}: $${Math.round(ctx.parsed).toLocaleString()}`}}}}
+  });
+}
+
+// ── PAYER BAR ─────────────────────────────────────────────────────────────────
+function buildPayerBar(){
+  const filtered=payerData.filter(r=>r.Encounters>=3).sort((a,b)=>b.GCR-a.GCR);
+  document.getElementById('payerBarWrap').style.height=(filtered.length*30+60)+'px';
+  new Chart(document.getElementById('payerBar'),{
+    type:'bar',
+    data:{
+      labels:filtered.map(r=>r.Primary_Payer),
+      datasets:[{data:filtered.map(r=>r.GCR),backgroundColor:filtered.map(r=>rateColor(r.GCR)+'cc'),
+        borderColor:filtered.map(r=>rateColor(r.GCR)),borderWidth:1,borderRadius:3}]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{min:0,max:100,grid:{color:'#f0ede8'},ticks:{font:{size:11},color:'#9e9b96',callback:v=>v+'%'}},
+        y:{grid:{display:false},ticks:{font:{size:11},color:'#6b6760'}}}}
+  });
+}
+
+// ── SCATTER: AVG ALLOWED BY PAYER ────────────────────────────────────────────
+function buildScatter(){
+  // Roll up payerData to payer name level (collapse across policy types)
+  const byPayer = {};
+  payerData.forEach(r => {
+    const k = r.Primary_Payer;
+    if(!byPayer[k]) byPayer[k] = {name:k, encounters:0, totalAllowed:0, totalCharged:0, totalCollected:0};
+    byPayer[k].encounters      += r.Encounters;
+    byPayer[k].totalAllowed    += r.Avg_Allowed * r.Encounters; // weighted sum
+    byPayer[k].totalCharged    += r.Total_Charged;
+    byPayer[k].totalCollected  += r.Total_Collected;
+  });
+  const rows = Object.values(byPayer).map(p => ({
+    name: p.name,
+    encounters: p.encounters,
+    avgAllowed: p.encounters > 0 ? p.totalAllowed / p.encounters : 0,
+    gcr: p.totalCharged > 0 ? p.totalCollected / p.totalCharged * 100 : 0
+  }));
+
+  // Sort by avgAllowed descending (left = highest)
+  rows.sort((a,b) => b.avgAllowed - a.avgAllowed);
+
+  // Bubble radius scale: sqrt so area ∝ encounters; min 6, max 28
+  const maxEnc = Math.max(...rows.map(r => r.encounters));
+  const radius = r => Math.max(6, Math.min(28, 6 + (Math.sqrt(r.encounters / maxEnc)) * 22));
+
+  // x = index position (categorical-style scatter)
+  const points = rows.map((r, i) => ({
+    x: i,
+    y: Math.round(r.avgAllowed * 100) / 100,
+    r: radius(r),
+    name: r.name,
+    encounters: r.encounters,
+    gcr: Math.round(r.gcr * 10) / 10
+  }));
+
+  new Chart(document.getElementById('scatterChart'), {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        data: points,
+        backgroundColor: points.map(p => rateColor(p.gcr) + 'b0'),
+        borderColor:     points.map(p => rateColor(p.gcr)),
+        borderWidth: 1.5,
+        hoverBackgroundColor: points.map(p => rateColor(p.gcr) + 'dd'),
+        hoverBorderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const p = ctx.raw;
+              return [
+                ` ${p.name}`,
+                ` Avg allowed: $${p.y.toFixed(0)}`,
+                ` GCR: ${p.gcr}%`,
+                ` Encounters: ${p.encounters}`
+              ];
+            }
+          },
+          padding: 10,
+          boxPadding: 4,
+          titleFont: { size: 0 },  // suppress title; label has the name
+          bodyFont: { size: 12 }
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: -0.8,
+          max: rows.length - 0.2,
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            callback: (val) => {
+              const idx = Math.round(val);
+              if(idx >= 0 && idx < rows.length && Math.abs(val - idx) < 0.01) {
+                const name = rows[idx].name;
+                // Shorten long names
+                return name.length > 22 ? name.slice(0, 20) + '…' : name;
+              }
+              return '';
+            },
+            maxRotation: 45,
+            minRotation: 35,
+            font: { size: 10 },
+            color: '#6b6760',
+            autoSkip: false
+          }
+        },
+        y: {
+          title: { display: true, text: 'Avg allowed ($)', font: { size: 11 }, color: '#9e9b96' },
+          grid: { color: '#f0ede8' },
+          ticks: { font: { size: 11 }, color: '#9e9b96', callback: v => '$' + v }
+        }
+      },
+      layout: { padding: { bottom: 10 } }
+    }
+  });
+}
+
+renderPayer();
+populateFilters();
+renderCombo();
+buildMonthly();
+buildTypeChart();
+buildPayerBar();
+buildScatter();
+</script>
+</body>
+</html>
