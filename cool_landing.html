@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoolSculpting® — Metro Laser &amp; Aesthetics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ---------- DESIGN TOKENS ----------
+     Brand: Metro Laser & Aesthetics
+     Primary: salmon/coral pink (drawn from the breadcrumb bar in the brand reference)
+     Typography: Poppins throughout — matches the bold geometric sans on the brand mark
+     This is body-content only — no header/footer; intended to drop into the existing
+     site shell on metrodermatology.net under Cosmetic > Body Contouring. */
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #faf7f5;
+    --bg-soft: #fdeee8;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #7a7a7a;
+    --line: #e8e2dd;
+    --line-soft: #f0ebe6;
+    --salmon: #f08571;
+    --salmon-deep: #e26a55;
+    --salmon-light: #fbe5dd;
+    --salmon-bg: #fdf2ed;
+    --gold: #d49a5c;
+    --shadow-sm: 0 1px 3px rgba(26, 26, 26, 0.06);
+    --shadow-md: 0 6px 20px rgba(26, 26, 26, 0.08);
+    --shadow-lg: 0 16px 48px rgba(226, 106, 85, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Mockup-only: simulates the existing site breadcrumb + page title bar
+     (from the screenshot you shared) so we can preview how the body content
+     sits underneath. Remove these two blocks when integrating. */
+  .mockup-breadcrumb {
+    background: var(--salmon);
+    color: #fff;
+    padding: 22px 32px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .mockup-breadcrumb-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .mockup-page-title {
+    background: var(--bg-alt);
+    padding: 56px 32px 64px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .mockup-page-title-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .mockup-page-title h1 {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  /* ============================================================
+     ===== EVERYTHING BELOW IS THE LANDING PAGE BODY CONTENT =====
+     ============================================================ */
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .container-narrow {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn-primary {
+    background: var(--salmon);
+    color: #fff;
+    padding: 20px 44px;
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    box-shadow: var(--shadow-md);
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: var(--salmon-deep);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .btn-secondary {
+    color: var(--ink);
+    padding: 20px 0;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border-bottom: 2px solid var(--salmon);
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { color: var(--salmon-deep); }
+  .btn-secondary::after {
+    content: " →";
+    transition: transform 0.2s;
+    display: inline-block;
+    margin-left: 4px;
+  }
+  .btn-secondary:hover::after { transform: translateX(6px); }
+
+  /* ---------- TYPE SCALE ---------- */
+  .eyebrow {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--salmon-deep);
+    margin-bottom: 20px;
+  }
+  h2.section-title {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    max-width: 22ch;
+  }
+  h2.section-title em {
+    font-style: normal;
+    color: var(--salmon-deep);
+  }
+  .section-deck {
+    font-size: 21px;
+    color: var(--ink-soft);
+    margin-bottom: 64px;
+    max-width: 60ch;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: linear-gradient(180deg, var(--salmon-bg) 0%, var(--bg-alt) 100%);
+    padding: 88px 32px 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(240, 133, 113, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: 68px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--salmon-deep);
+  }
+  .hero p.lead {
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    max-width: 56ch;
+    font-weight: 400;
+  }
+  .hero-cta-row {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* hero promo card */
+  .promo-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 40px 40px 36px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    border: 2px solid var(--salmon);
+  }
+  .promo-flag {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--salmon);
+    padding: 8px 16px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .promo-card h2 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: -0.015em;
+  }
+  .promo-card .promo-sub {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .promo-savings {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 28px;
+  }
+  .promo-fact { flex: 1; }
+  .promo-fact .num {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--salmon-deep);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .promo-fact .label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .promo-card .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+  }
+  .promo-fine {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 16px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 112px 0; }
+  section.alt-bg { background: var(--bg-alt); }
+  section.salmon-tint { background: var(--salmon-bg); }
+
+  /* ---------- WHAT IS COOLSCULPTING ---------- */
+  .what-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 32px;
+  }
+  .what-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 44px 36px;
+    border: 1px solid var(--line-soft);
+    transition: all 0.3s;
+  }
+  .what-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--salmon-light);
+  }
+  .what-card-icon {
+    width: 64px; height: 64px;
+    background: var(--salmon-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .what-card-icon svg {
+    width: 32px; height: 32px;
+    stroke: var(--salmon-deep);
+    fill: none;
+    stroke-width: 2;
+  }
+  .what-card h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .what-card p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ---------- BENEFITS (5-card grid, no image) ---------- */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .benefit-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 36px 32px 32px;
+    border: 1px solid var(--line-soft);
+    border-top: 4px solid var(--salmon);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .benefit-card .benefit-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--salmon);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .benefit-card h4 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .benefit-card p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  /* Last 2 cards in row 2 stay aligned with row 1; the layout naturally
+     leaves a graceful gap when there are 5 items in a 3-col grid. */
+  .benefit-card.featured {
+    grid-column: span 1;
+    background: linear-gradient(135deg, var(--salmon) 0%, var(--salmon-deep) 100%);
+    border: none;
+    color: #fff;
+  }
+  .benefit-card.featured .benefit-num,
+  .benefit-card.featured h4 { color: #fff; }
+  .benefit-card.featured p { color: rgba(255,255,255,0.92); }
+  .benefit-card.featured .featured-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 14px;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  /* ---------- TIMELINE (vertical) ---------- */
+  .timeline {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 16px 0 16px 16px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 32px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--salmon-light), var(--salmon), var(--salmon-light));
+    z-index: 0;
+  }
+  .timeline-step {
+    position: relative;
+    padding-left: 80px;
+    padding-bottom: 48px;
+    z-index: 1;
+  }
+  .timeline-step:last-child {
+    padding-bottom: 0;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 4px solid var(--salmon);
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px var(--bg-alt);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--salmon-deep);
+  }
+  .timeline-step .duration {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--salmon-deep);
+    margin-bottom: 8px;
+  }
+  .timeline-step h4 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .timeline-step p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ---------- TREATMENT AREAS ---------- */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 32px;
+  }
+  .area-pill {
+    background: #fff;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    padding: 36px 24px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .area-pill:hover {
+    border-color: var(--salmon);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .area-pill h5 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .area-pill p {
+    font-size: 15px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  /* ---------- BEFORE & AFTER CAROUSEL ---------- */
+  .carousel {
+    position: relative;
+    margin-top: 48px;
+  }
+  .carousel-track {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+  .ba-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    transition: all 0.3s;
+  }
+  .ba-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+  .ba-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--line);
+  }
+  .ba-image {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--salmon-bg) 0%, var(--salmon-light) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    position: relative;
+  }
+  .ba-image .ba-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--salmon-deep);
+    padding: 6px 14px;
+    border-radius: 3px;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
+  .ba-image .ba-placeholder-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--salmon-deep);
+    margin-top: auto;
+  }
+  .ba-card-body {
+    padding: 28px 32px;
+  }
+  .ba-card-body h4 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .ba-card-body p {
+    font-size: 16px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .ba-disclaimer {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 15px;
+    color: var(--ink-mute);
+    text-align: center;
+    line-height: 1.6;
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--line);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+  }
+  .carousel-dot.active {
+    background: var(--salmon);
+    transform: scale(1.4);
+  }
+
+  /* ---------- CANDIDATE ---------- */
+  .candidate-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 32px;
+  }
+  .candidate-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 44px 40px;
+    border: 1px solid var(--line-soft);
+  }
+  .candidate-card.yes { border-top: 5px solid var(--salmon); }
+  .candidate-card.no { border-top: 5px solid var(--ink-mute); }
+  .candidate-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .candidate-card ul { list-style: none; }
+  .candidate-card li {
+    padding-left: 36px;
+    margin-bottom: 18px;
+    position: relative;
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .candidate-card.yes li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--salmon-deep);
+    font-weight: 800;
+    font-size: 22px;
+  }
+  .candidate-card.no li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-mute);
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  /* ---------- WHY MD ---------- */
+  .why-md-section {
+    background: var(--ink);
+    color: #fff;
+    padding: 112px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .why-md-section::before {
+    content: "";
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(240, 133, 113, 0.15) 0%, transparent 70%);
+  }
+  .why-md-section .eyebrow { color: var(--salmon-light); }
+  .why-md-section h2.section-title { color: #fff; }
+  .why-md-section h2.section-title em { color: var(--salmon); }
+  .why-md-section .section-deck { color: rgba(255,255,255,0.75); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 32px;
+  }
+  .why-item h4 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #fff;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .why-item p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.6;
+  }
+
+  /* ---------- BIG PROMO ---------- */
+  .promo-section {
+    padding: 112px 0;
+    background: var(--salmon-bg);
+    position: relative;
+  }
+  .promo-big {
+    background: #fff;
+    border-radius: 12px;
+    padding: 72px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    border-top: 8px solid var(--salmon);
+    text-align: center;
+  }
+  .promo-big-flag {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--salmon);
+    padding: 8px 18px;
+    border-radius: 3px;
+    margin-bottom: 28px;
+  }
+  .promo-big h2 {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.02;
+    color: var(--ink);
+    margin-bottom: 24px;
+    letter-spacing: -0.025em;
+  }
+  .promo-big h2 em {
+    font-style: normal;
+    color: var(--salmon-deep);
+  }
+  .promo-big .promo-big-sub {
+    font-size: 21px;
+    color: var(--ink-soft);
+    margin-bottom: 44px;
+    line-height: 1.5;
+    max-width: 56ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .promo-big-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 44px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .promo-big-stat .num {
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--salmon-deep);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.025em;
+  }
+  .promo-big-stat .label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .promo-big-cta-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .promo-fine-print {
+    margin-top: 28px;
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---------- LOCATIONS ---------- */
+  .locations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 48px;
+  }
+  .location-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 48px 44px;
+    border: 1px solid var(--line-soft);
+    transition: all 0.2s;
+  }
+  .location-card:hover {
+    border-color: var(--salmon);
+    box-shadow: var(--shadow-md);
+  }
+  .location-flag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--salmon-deep);
+    margin-bottom: 16px;
+  }
+  .location-card h3 {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.015em;
+  }
+  .location-card .addr {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+  .location-phone {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+  .location-phone:hover { color: var(--salmon-deep); }
+  .location-card .btn-primary {
+    padding: 16px 32px;
+    font-size: 15px;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list {
+    margin-top: 48px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .faq-item summary {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--salmon);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-left: 24px;
+  }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item[open] summary { color: var(--salmon-deep); }
+  .faq-answer {
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 18px;
+    line-height: 1.65;
+    max-width: 80ch;
+  }
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta {
+    background: var(--salmon);
+    color: #fff;
+    padding: 112px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .final-cta-inner {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .final-cta h2 {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    letter-spacing: -0.025em;
+    color: #fff;
+  }
+  .final-cta h2 em {
+    font-style: normal;
+    color: rgba(255,255,255,0.85);
+  }
+  .final-cta p {
+    font-size: 22px;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 44px;
+    line-height: 1.5;
+    max-width: 56ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .final-cta .btn-primary {
+    background: var(--ink);
+    color: #fff;
+    padding: 22px 52px;
+    font-size: 17px;
+  }
+  .final-cta .btn-primary:hover { background: #000; }
+  .final-cta-row {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .final-cta a.phone-link {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    padding-bottom: 4px;
+    transition: border-color 0.2s;
+  }
+  .final-cta a.phone-link:hover { border-bottom-color: #fff; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px) {
+    section { padding: 72px 0; }
+    .container, .container-narrow { padding: 0 24px; }
+    .hero { padding: 56px 24px 72px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero h1 { font-size: 46px; }
+    .hero p.lead { font-size: 19px; }
+    h2.section-title { font-size: 40px; }
+    .section-deck { font-size: 19px; margin-bottom: 48px; }
+    .what-grid { grid-template-columns: 1fr; gap: 24px; }
+    .benefits-grid { grid-template-columns: 1fr; gap: 18px; }
+    .benefit-card { padding: 28px 24px; }
+    .timeline { padding-left: 0; }
+    .timeline::before { left: 24px; }
+    .timeline-step { padding-left: 64px; padding-bottom: 36px; }
+    .timeline-step h4 { font-size: 24px; }
+    .timeline-dot { left: 8px; width: 32px; height: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .candidate-layout { grid-template-columns: 1fr; gap: 24px; }
+    .why-grid { grid-template-columns: 1fr; gap: 36px; }
+    .promo-big { padding: 48px 32px; }
+    .promo-big h2 { font-size: 42px; }
+    .promo-big-grid { grid-template-columns: 1fr; gap: 20px; }
+    .promo-big-sub { font-size: 18px; }
+    .locations-grid { grid-template-columns: 1fr; }
+    .final-cta h2 { font-size: 42px; }
+    .final-cta p { font-size: 19px; }
+    .mockup-page-title h1 { font-size: 44px; }
+    .mockup-page-title { padding: 40px 24px 48px; }
+    .mockup-breadcrumb { padding: 18px 24px; font-size: 15px; }
+  }
+  @media (max-width: 520px) {
+    .hero h1 { font-size: 38px; }
+    h2.section-title { font-size: 32px; }
+    .promo-card h2 { font-size: 30px; }
+    .promo-big h2 { font-size: 34px; }
+    .areas-grid { grid-template-columns: 1fr; }
+    .final-cta h2 { font-size: 32px; }
+    .faq-item summary { font-size: 19px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1, .hero p.lead, .hero-cta-row {
+    animation: fadeUp 0.7s ease-out backwards;
+  }
+  .hero p.lead { animation-delay: 0.1s; }
+  .hero-cta-row { animation-delay: 0.2s; }
+  .promo-card { animation: fadeUp 0.7s ease-out 0.3s backwards; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     MOCKUP-ONLY: simulates the existing site breadcrumb + page
+     title bar. Remove these two blocks when integrating into
+     the live Metro Dermatology site.
+     ============================================================ -->
+<div class="mockup-breadcrumb">
+  <div class="mockup-breadcrumb-inner">
+    Metro Dermatology &nbsp;/&nbsp; Cosmetic &nbsp;/&nbsp; Body Contouring &nbsp;/&nbsp; CoolSculpting®
+  </div>
+</div>
+<div class="mockup-page-title">
+  <div class="mockup-page-title-inner">
+    <h1>CoolSculpting<sup style="font-size:0.4em;">®</sup></h1>
+  </div>
+</div>
+
+<!-- ============================================================
+     ===== LANDING PAGE BODY CONTENT STARTS HERE =====
+     ============================================================ -->
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">Non-surgical body contouring</span>
+      <h1>Freeze away stubborn fat. <em>Permanently.</em> No surgery.</h1>
+      <p class="lead">FDA-cleared body contouring that targets fat cells beneath the skin and eliminates them — naturally and gradually. Performed under the supervision of board-certified dermatologists at our Flushing and Fort Lee offices.</p>
+      <div class="hero-cta-row">
+        <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Book Free Consultation</a>
+        <a href="#how-it-works" class="btn-secondary">Learn how it works</a>
+      </div>
+    </div>
+    <aside class="promo-card">
+      <span class="promo-flag">Summer Special</span>
+      <h2>Buy 3 cycles, get 1 free.</h2>
+      <p class="promo-sub">Save up to $500 on a complete CoolSculpting® treatment plan. Limited time only.</p>
+      <div class="promo-savings">
+        <div class="promo-fact">
+          <div class="num">25%</div>
+          <div class="label">Off list price</div>
+        </div>
+        <div class="promo-fact">
+          <div class="num">$500</div>
+          <div class="label">Average savings</div>
+        </div>
+      </div>
+      <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Claim This Offer</a>
+      <p class="promo-fine">Free consultation included. Cannot be combined with other offers.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- WHAT IS COOLSCULPTING -->
+<section>
+  <div class="container">
+    <span class="eyebrow">What is CoolSculpting®</span>
+    <h2 class="section-title">A clinically proven way to reduce <em>stubborn fat</em> — without surgery, needles, or downtime.</h2>
+    <p class="section-deck">CoolSculpting® uses precisely controlled cooling to target and eliminate fat cells beneath the skin. Once those cells are destroyed, your body naturally clears them away over the following weeks. The result is a more sculpted contour — visible, gradual, and lasting.</p>
+
+    <div class="what-grid">
+      <div class="what-card">
+        <div class="what-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>FDA-cleared technology</h3>
+        <p>Cleared for the abdomen, flanks, thighs, upper arms, bra fat, back, banana roll, and chin/jawline. Over 11 million treatments performed worldwide.</p>
+      </div>
+      <div class="what-card">
+        <div class="what-card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>No surgery, no downtime</h3>
+        <p>No incisions, anesthesia, or recovery. Most patients return to work, the gym, and daily activities the same day as treatment.</p>
+      </div>
+      <div class="what-card">
+        <div class="what-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Permanent results</h3>
+        <p>The fat cells destroyed during treatment do not regenerate. With a stable weight, the contoured results you see at three months are the results you keep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="alt-bg">
+  <div class="container">
+    <span class="eyebrow">Why patients choose CoolSculpting</span>
+    <h2 class="section-title">Five benefits that <em>matter most</em>.</h2>
+
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-num">01</div>
+        <h4>Targets fat that won't budge</h4>
+        <p>Even with diet and exercise, certain areas hold onto fat. CoolSculpting® targets those specific areas precisely — flanks, lower abdomen, inner thighs, under the chin, and more.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">02</div>
+        <h4>Natural-looking, gradual results</h4>
+        <p>Changes appear over weeks, not days. There's no obvious "before and after" moment — friends notice you look great without knowing exactly why.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">03</div>
+        <h4>Comfortable, predictable experience</h4>
+        <p>The treated area numbs within minutes. Most patients read, scroll their phone, or simply rest during the session. No anesthesia required.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">04</div>
+        <h4>Dermatologist-supervised at every step</h4>
+        <p>Unlike many medspas, your treatment plan is designed and overseen by board-certified dermatologists. Safer assessment, clearer expectations, better outcomes.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-num">05</div>
+        <h4>Pairs well with other treatments</h4>
+        <p>CoolSculpting® works beautifully alongside Ultherapy®, dermal fillers, Botox®, and our other aesthetic treatments — all in the same office, with the same trusted team.</p>
+      </div>
+      <div class="benefit-card featured">
+        <div class="featured-tag">Free</div>
+        <h4>Find out if CoolSculpting is right for you</h4>
+        <p>Every consultation is free, no-pressure, and includes a personalized treatment plan designed by our team.</p>
+        <a href="https://metroderm.typeform.com/to/hQY1NQMM" style="display:inline-block; margin-top:auto; padding-top:20px; color:#fff; font-weight:700; font-size:15px; letter-spacing:0.04em; text-decoration:none; border-bottom:2px solid rgba(255,255,255,0.5); align-self:flex-start;">Book Free Consultation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS / TIMELINE -->
+<section id="how-it-works">
+  <div class="container">
+    <span class="eyebrow">What to expect</span>
+    <h2 class="section-title">How CoolSculpting® <em>actually works</em>.</h2>
+    <p class="section-deck">From your first consultation to seeing your full results, here's what the journey looks like.</p>
+
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-dot">1</div>
+        <div class="duration">Day Zero</div>
+        <h4>Consultation</h4>
+        <p>A free, no-pressure consultation with our cosmetic team to discuss your goals, evaluate the area, and design a customized treatment plan that fits your body and your budget.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">2</div>
+        <div class="duration">Treatment Day</div>
+        <h4>Your Visit</h4>
+        <p>Each cycle takes 35–45 minutes. A typical 2-cycle session runs 1.5–2 hours; larger 4-cycle treatments take 2.5–3 hours. Bring something to read or watch — we make you comfortable. Return to normal activities the same day.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">3</div>
+        <div class="duration">3–4 Weeks</div>
+        <h4>First Changes</h4>
+        <p>You'll start to see early signs of contouring as your body begins to clear the destroyed fat cells through your lymphatic system. Mild numbness or tenderness in the treated area is normal during this period.</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">4</div>
+        <div class="duration">3 Months+</div>
+        <h4>Full Results</h4>
+        <p>Your final, more sculpted contour emerges around the 3-month mark. Results continue refining for up to 6 months and are permanent — as long as you maintain a stable weight, the contour you see is the contour you keep.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:64px;">
+      <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Schedule My Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE & AFTER CAROUSEL -->
+<section>
+  <div class="container">
+    <span class="eyebrow">Real results</span>
+    <h2 class="section-title">Before &amp; <em>After.</em></h2>
+    <p class="section-deck">Real CoolSculpting® patient results — see what's possible with a complete treatment plan.</p>
+
+    <div class="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="ba-card">
+          <div class="ba-images">
+            <div class="ba-image">
+              <span class="ba-label">Before</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+            <div class="ba-image">
+              <span class="ba-label">After</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+          </div>
+          <div class="ba-card-body">
+            <h4>Abdomen treatment</h4>
+            <p>Caption from vendor will appear here</p>
+          </div>
+        </div>
+        <div class="ba-card">
+          <div class="ba-images">
+            <div class="ba-image">
+              <span class="ba-label">Before</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+            <div class="ba-image">
+              <span class="ba-label">After</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+          </div>
+          <div class="ba-card-body">
+            <h4>Flanks treatment</h4>
+            <p>Caption from vendor will appear here</p>
+          </div>
+        </div>
+        <div class="ba-card">
+          <div class="ba-images">
+            <div class="ba-image">
+              <span class="ba-label">Before</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+            <div class="ba-image">
+              <span class="ba-label">After</span>
+              <span class="ba-placeholder-text">Vendor photo placeholder</span>
+            </div>
+          </div>
+          <div class="ba-card-body">
+            <h4>Submental treatment</h4>
+            <p>Caption from vendor will appear here</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="carousel-dot active" onclick="setCarouselSlide(0)" aria-label="Slide 1"></button>
+        <button class="carousel-dot" onclick="setCarouselSlide(1)" aria-label="Slide 2"></button>
+        <button class="carousel-dot" onclick="setCarouselSlide(2)" aria-label="Slide 3"></button>
+      </div>
+
+      <p class="ba-disclaimer">Photos shown are courtesy of Allergan Aesthetics and represent results from CoolSculpting® patients. Individual results vary and are not guaranteed. A personalized assessment during your free consultation will help set realistic expectations for your specific treatment plan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS A CANDIDATE -->
+<section class="alt-bg">
+  <div class="container">
+    <span class="eyebrow">Is it right for you?</span>
+    <h2 class="section-title">Designed for the <em>last 20–30 pounds</em> of stubborn fat.</h2>
+    <p class="section-deck">CoolSculpting® is a body contouring treatment, not a weight-loss procedure. It works best for patients near their goal weight who have specific areas resistant to diet and exercise.</p>
+
+    <div class="candidate-layout">
+      <div class="candidate-card yes">
+        <h3>You're likely a great candidate if…</h3>
+        <ul>
+          <li>You're within 20–30 pounds of your goal weight</li>
+          <li>You have specific areas of pinchable fat that won't respond to exercise</li>
+          <li>You've reached a stable weight after a fitness journey or GLP-1 weight loss</li>
+          <li>You want gradual, natural-looking results without surgery or downtime</li>
+        </ul>
+      </div>
+      <div class="candidate-card no">
+        <h3>CoolSculpting may not be right if…</h3>
+        <ul>
+          <li>You're looking for significant weight loss (consider medical weight management first)</li>
+          <li>You have significant skin laxity in the treatment area (skin tightening may be a better option)</li>
+          <li>You're pregnant or have certain cold-sensitivity conditions</li>
+          <li>You've had recent surgery in the treatment area</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:64px;">
+      <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Find Out During a Free Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY METRO LASER & AESTHETICS -->
+<section class="why-md-section">
+  <div class="container">
+    <span class="eyebrow">Why Metro Laser &amp; Aesthetics</span>
+    <h2 class="section-title">Dermatologist care. <em>Cosmetic results.</em></h2>
+    <p class="section-deck">Many medspas offer CoolSculpting®. We offer it the way it should be offered — designed and overseen by board-certified dermatologists who treat your skin and body as connected systems.</p>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <h4>Board-certified dermatologists</h4>
+        <p>Every treatment plan is reviewed and supervised by physicians with decades of combined experience in skin and body treatments — not by aestheticians alone.</p>
+      </div>
+      <div class="why-item">
+        <h4>30+ years of patient care</h4>
+        <p>Metro Dermatology has cared for patients across the NY Metro area and NJ for over 30 years. Trust built through generations of families.</p>
+      </div>
+      <div class="why-item">
+        <h4>Comprehensive aesthetic care</h4>
+        <p>CoolSculpting® works best as part of a complete plan. We offer Ultherapy®, Botox®, dermal fillers, and laser treatments all under one roof.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG PROMO -->
+<section class="promo-section" id="special">
+  <div class="promo-big">
+    <span class="promo-big-flag">Summer Special &middot; Limited Time</span>
+    <h2>Buy 3 cycles. <em>Get 1 free.</em></h2>
+    <p class="promo-big-sub">Our most popular CoolSculpting® offer is back for the season. Whether you're starting your first treatment plan or completing one you've already begun — this is the right time to act.</p>
+
+    <div class="promo-big-grid">
+      <div class="promo-big-stat">
+        <div class="num">4 cycles</div>
+        <div class="label">Pay for 3, get 1 free</div>
+      </div>
+      <div class="promo-big-stat">
+        <div class="num">$500</div>
+        <div class="label">Estimated savings</div>
+      </div>
+      <div class="promo-big-stat">
+        <div class="num">25%</div>
+        <div class="label">Effective discount</div>
+      </div>
+    </div>
+
+    <div class="promo-big-cta-row">
+      <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Book My Free Consultation</a>
+      <a href="tel:7185510047" class="btn-secondary">Or call (718) 551-0047</a>
+    </div>
+
+    <p class="promo-fine-print">A "cycle" is one applicator placement. Most treatment areas require multiple cycles for full results — your provider will design a personalized plan during your free consultation. Promotion subject to availability and standard CoolSculpting® candidacy criteria. Cannot be combined with other offers.</p>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section>
+  <div class="container">
+    <span class="eyebrow">Where to find us</span>
+    <h2 class="section-title">CoolSculpting® at <em>two locations</em>.</h2>
+    <p class="section-deck">Our Flushing and Fort Lee offices are equipped with CoolSculpting®. Both offer free consultations with our cosmetic team.</p>
+
+    <div class="locations-grid">
+      <div class="location-card">
+        <div class="location-flag">Queens, NY</div>
+        <h3>Flushing Office</h3>
+        <p class="addr">144-72 Northern Blvd, Suite 202<br>Queens, NY 11354</p>
+        <a href="tel:7185510047" class="location-phone">(718) 551-0047</a>
+        <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Schedule at Flushing</a>
+      </div>
+      <div class="location-card">
+        <div class="location-flag">Bergen County, NJ</div>
+        <h3>Fort Lee Office</h3>
+        <p class="addr">2175 Lemoine Ave, 6th Floor<br>Fort Lee, NJ 07024</p>
+        <a href="tel:7185510047" class="location-phone">(718) 551-0047</a>
+        <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Schedule at Fort Lee</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="alt-bg">
+  <div class="container-narrow">
+    <span class="eyebrow">Common questions</span>
+    <h2 class="section-title">Frequently <em>asked.</em></h2>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>What's the difference between a "cycle" and a "session"?</summary>
+        <div class="faq-answer">A cycle is one placement of the CoolSculpting® applicator on one spot — about 35–45 minutes of treatment. A session is your appointment, which may include multiple cycles back-to-back. Most treatment areas need 2–4 cycles per session, and most patients complete 1–2 sessions per area.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Does it hurt?</summary>
+        <div class="faq-answer">Most patients describe the first 5–10 minutes as intense cold with a pulling sensation from the suction. After that, the area numbs and many patients read, scroll, or even nap during the cycle. The post-treatment massage can be briefly uncomfortable. You may feel mild soreness, like a deep bruise, for a few days afterward.</div>
+      </details>
+      <details class="faq-item">
+        <summary>How many sessions will I need?</summary>
+        <div class="faq-answer">Most patients need 1–3 sessions per treatment area, spaced 6–8 weeks apart. Smaller areas like the chin often complete in one session; larger areas like the abdomen typically benefit from two. We will design a specific plan during your free consultation.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What areas of the body can be treated?</summary>
+        <div class="faq-answer">CoolSculpting® is FDA-cleared for nine areas: abdomen (upper and lower), flanks ("love handles"), inner and outer thighs, upper arms, the submental area (under the chin), the submandibular area (jawline), bra fat (side and back), and the banana roll (under the buttocks). It is precise enough to target small areas like the chin, and powerful enough to address larger areas like the abdomen and thighs.</div>
+      </details>
+      <details class="faq-item">
+        <summary>When will I see results?</summary>
+        <div class="faq-answer">First visible changes appear at 3–4 weeks. Most patients see noticeable results between 1–3 months. Full results emerge at 3–6 months as your body's lymphatic system completes clearing the destroyed fat cells.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Are the results permanent?</summary>
+        <div class="faq-answer">Yes — the fat cells destroyed by CoolSculpting® do not regenerate. However, the remaining fat cells in the area can still enlarge with significant weight gain. Maintaining a stable weight protects your results long-term.</div>
+      </details>
+      <details class="faq-item">
+        <summary>What does CoolSculpting cost at Metro Dermatology?</summary>
+        <div class="faq-answer">Pricing depends on the treatment area and the number of cycles needed for your goals. Our team will provide a detailed, personalized quote during your free consultation. With our current Buy 3 Get 1 Free promotion, most patients save 25% on a complete plan.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Is there any downtime?</summary>
+        <div class="faq-answer">No. You can return to work, exercise, and normal activities the same day. Some patients experience temporary redness, swelling, tingling, or numbness in the treated area, all of which typically resolve within 1–2 weeks.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Why choose Metro Dermatology over a medspa?</summary>
+        <div class="faq-answer">CoolSculpting® works best when paired with a comprehensive understanding of skin and body. Our board-certified dermatologists evaluate factors many medspas miss — skin laxity, scarring history, candidacy for combination treatments — and adjust your plan accordingly. The result is a safer assessment, better outcomes, and a treatment partner who knows your overall skin health, not just your contour.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2>Ready to feel <em>more like yourself?</em></h2>
+    <p>Free consultations are available now at our Flushing and Fort Lee offices. No commitment, no pressure — just an honest conversation about whether CoolSculpting® is right for you.</p>
+    <div class="final-cta-row">
+      <a href="https://metroderm.typeform.com/to/hQY1NQMM" class="btn-primary">Book My Free Consultation</a>
+      <a href="tel:7185510047" class="phone-link">Or call (718) 551-0047</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ===== END OF LANDING PAGE BODY CONTENT =====
+     ============================================================ -->
+
+<script>
+  function setCarouselSlide(index) {
+    document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+    const track = document.getElementById('carouselTrack');
+    if (track && window.innerWidth < 980) {
+      const cards = track.querySelectorAll('.ba-card');
+      if (cards[index]) {
+        cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

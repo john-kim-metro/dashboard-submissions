@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoolSculpting Research — Summer 2026 Promotion Planning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d1b2a;
+    --ink-soft: #2d3e52;
+    --ink-mute: #5b6b7e;
+    --paper: #fbfaf6;
+    --paper-2: #f3f0e8;
+    --line: #d8d3c4;
+    --line-strong: #1a2a3a;
+    --frost: #b8d4e3;
+    --frost-deep: #5a8ba8;
+    --accent: #c1463a;
+    --accent-soft: #e8a09a;
+    --highlight: #fef6c7;
+    --shadow: 0 1px 0 rgba(13, 27, 42, 0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- Header / Cover --- */
+  .cover {
+    border-bottom: 1px solid var(--line-strong);
+    padding: 28px 48px 36px;
+    background: var(--paper);
+    position: relative;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--frost-deep);
+  }
+  .cover .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Inter Tight';
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+    border-bottom: 1px dotted var(--line);
+    padding-bottom: 12px;
+  }
+  .cover h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .cover h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--frost-deep);
+  }
+  .cover .deck {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-top: 18px;
+    line-height: 1.45;
+  }
+  .cover .byline {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cover .byline span strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* --- TOC --- */
+  .toc {
+    padding: 24px 48px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .toc-title {
+    font-family: 'Inter Tight';
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: section;
+    column-count: 2;
+    column-gap: 48px;
+  }
+  .toc ol li {
+    counter-increment: section;
+    padding: 6px 0;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    border-bottom: 1px dotted var(--line);
+    break-inside: avoid;
+  }
+  .toc ol li::before {
+    content: counter(section, decimal-leading-zero);
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    color: var(--accent);
+    margin-right: 14px;
+    letter-spacing: 0.1em;
+  }
+  .toc ol li a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .toc ol li a:hover { color: var(--accent); }
+
+  /* --- Main Content --- */
+  main {
+    padding: 48px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .group-divider {
+    margin: 80px 0 48px;
+    padding: 32px 0;
+    border-top: 4px solid var(--ink);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+  .group-divider:first-of-type {
+    margin-top: 16px;
+  }
+  .group-divider .group-num {
+    font-family: 'Inter Tight';
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .group-divider h1.group-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+    border: none;
+    padding: 0;
+  }
+  .group-divider h1.group-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--frost-deep);
+  }
+  .group-divider .group-deck {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* Sales playbook — audience tag */
+  .audience-tag {
+    display: inline-block;
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  .audience-tag.front-desk {
+    background: var(--frost-deep);
+    color: var(--paper);
+  }
+  .audience-tag.provider {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .audience-tag.both {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Sales playbook — script block (word-for-word) */
+  .script {
+    background: var(--paper);
+    border-left: 4px solid var(--frost-deep);
+    border-right: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 22px 18px 24px;
+    margin: 14px 0;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .script::before {
+    content: "Say it like this";
+    display: block;
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--frost-deep);
+    margin-bottom: 8px;
+    font-style: normal;
+  }
+  .script.alt::before { content: "Alternative phrasing"; }
+
+  /* Sales playbook — framework block (principle) */
+  .framework {
+    background: var(--paper-2);
+    border-left: 4px solid var(--ink);
+    padding: 14px 22px 14px 22px;
+    margin: 10px 0 22px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .framework::before {
+    content: "Why it works";
+    display: block;
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .framework.adapt::before { content: "Adapt for your style"; }
+
+  /* Sales playbook — phrase card grid */
+  .phrase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .phrase-card {
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-top: 4px solid var(--frost-deep);
+    padding: 20px 22px;
+  }
+  .phrase-card .phrase-label {
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .phrase-card .phrase {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .phrase-card .phrase-when {
+    font-size: 13px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+
+  .toc-group {
+    margin-bottom: 18px;
+  }
+  .toc-group-label {
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--accent);
+  }
+  .toc-group ol {
+    column-count: 1;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 12px;
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    margin-top: 32px;
+    margin-bottom: 12px;
+    letter-spacing: -0.005em;
+  }
+
+  h4 {
+    font-family: 'Inter Tight';
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--frost-deep);
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  p strong { color: var(--ink); font-weight: 600; }
+
+  .lead {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 20px;
+    margin-bottom: 24px;
+  }
+
+  /* --- Tables --- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 8px;
+    font-size: 14.5px;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+  }
+  th {
+    font-family: 'Inter Tight';
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border-right: 1px solid var(--ink-soft);
+  }
+  th:last-child { border-right: none; }
+  td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+  td:last-child { border-right: none; }
+  tr:nth-child(even) td { background: var(--paper-2); }
+  td strong { color: var(--ink); font-weight: 600; }
+  caption {
+    caption-side: top;
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--ink-mute);
+    padding-bottom: 6px;
+  }
+
+  /* --- Callouts --- */
+  .callout {
+    background: var(--paper-2);
+    border-left: 4px solid var(--frost-deep);
+    padding: 18px 22px;
+    margin: 20px 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .callout.warn {
+    background: #fdf2ee;
+    border-left-color: var(--accent);
+  }
+  .callout.tip {
+    background: #f0f7ed;
+    border-left-color: #4a7a3a;
+  }
+  .callout-label {
+    font-family: 'Inter Tight';
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--frost-deep);
+    margin-bottom: 6px;
+  }
+  .callout.warn .callout-label { color: var(--accent); }
+  .callout.tip .callout-label { color: #4a7a3a; }
+
+  /* --- Stat Strip --- */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--line-strong);
+    margin: 24px 0;
+    background: var(--paper);
+  }
+  .stat {
+    padding: 22px 20px;
+    border-right: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-num small {
+    font-size: 18px;
+    color: var(--frost-deep);
+  }
+  .stat-label {
+    font-family: 'Inter Tight';
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* --- Two-column --- */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 16px 0;
+  }
+  .col-card {
+    border: 1px solid var(--line-strong);
+    padding: 22px 24px;
+    background: var(--paper);
+  }
+  .col-card.pro { border-top: 4px solid #4a7a3a; }
+  .col-card.con { border-top: 4px solid var(--accent); }
+  .col-card h4 { margin-top: 0; }
+  .col-card ul { padding-left: 18px; }
+  .col-card ul li {
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin-bottom: 8px;
+    color: var(--ink-soft);
+  }
+
+  /* --- Marketing matrix --- */
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .matrix-card {
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    padding: 18px 22px;
+  }
+  .matrix-card h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .matrix-card p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .matrix-card .tag {
+    font-family: 'Inter Tight';
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--frost-deep);
+  }
+
+  /* --- Quote pull --- */
+  .pull-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 22px 0;
+    margin: 28px 0;
+    text-align: center;
+  }
+  .pull-quote::before { content: "\201C"; font-size: 32px; color: var(--accent); }
+  .pull-quote::after { content: "\201D"; font-size: 32px; color: var(--accent); }
+
+  /* --- Footnotes --- */
+  footer {
+    border-top: 2px solid var(--line-strong);
+    padding: 32px 48px;
+    background: var(--paper-2);
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    line-height: 1.6;
+  }
+  footer h4 { color: var(--ink); margin-top: 0; }
+  footer p { font-size: 12.5px; max-width: none; }
+
+  /* --- Highlights --- */
+  .hl { background: var(--highlight); padding: 0 4px; }
+  .hl-frost { background: #e0eef5; padding: 0 4px; }
+
+  /* --- MD relevance markers --- */
+  .md-flag {
+    display: inline-block;
+    font-family: 'Inter Tight';
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .cover { padding: 24px; }
+    .cover h1 { font-size: 38px; }
+    main { padding: 28px 24px; }
+    h2 { font-size: 28px; }
+    .toc { padding: 24px; }
+    .toc ol { column-count: 1; }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+    .two-col, .matrix { grid-template-columns: 1fr; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+  }
+
+  @media print {
+    body { background: white; }
+    section { page-break-inside: avoid; }
+    .cover::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="meta">
+    <span>Metro Dermatology &middot; Marketing Research Brief</span>
+    <span>Prepared April 2026 &middot; v2 with timing &amp; 2027 calendar</span>
+  </div>
+  <h1>Freezing the<br><em>opportunity:</em><br>CoolSculpting in 2026.</h1>
+  <p class="deck">A landscape brief organized in three movements — the procedure itself, the 2026 market and MD's own data, and the marketing strategy that follows from both. Built for a meaningful late-summer 2026 launch and a fully-prepared 2027 calendar.</p>
+</header>
+
+<nav class="toc">
+  <div class="toc-title">In this brief</div>
+  <div class="toc-group">
+    <div class="toc-group-label">Part One &middot; Procedure Facts</div>
+    <ol>
+      <li><a href="#overview">The procedure at a glance</a></li>
+      <li><a href="#benefits">Benefits &amp; side effects</a></li>
+      <li><a href="#glossary">Cycle vs. session — terminology that matters</a></li>
+      <li><a href="#details">Procedure details patients ask about</a></li>
+    </ol>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Part Two &middot; 2026 Market &amp; Competition</div>
+    <ol start="5">
+      <li><a href="#trends">2026 procedure trends</a></li>
+      <li><a href="#alternatives">Competing &amp; alternative procedures</a></li>
+      <li><a href="#pricing">Industry pricing — national &amp; NY/NJ market</a></li>
+      <li><a href="#competitors">Local competitors — Fort Lee &amp; Queens</a></li>
+      <li><a href="#data">MD data analysis &amp; findings</a></li>
+    </ol>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Part Three &middot; 2026 Marketing Strategy</div>
+    <ol start="10">
+      <li><a href="#strategy">Marketing strategy &amp; target segments</a></li>
+      <li><a href="#economics">Unit economics &amp; pricing strategy</a></li>
+      <li><a href="#packages">Promotion &amp; package ideas</a></li>
+      <li><a href="#channels">Channels: existing patients vs. acquisition</a></li>
+      <li><a href="#targeting">Targeting strategy — Vital Interaction SMS</a></li>
+      <li><a href="#timing">Campaign timing — 2026 reality &amp; 2027 calendar</a></li>
+    </ol>
+  </div>
+  <div class="toc-group">
+    <div class="toc-group-label">Part Four &middot; Sales Playbook</div>
+    <ol start="16">
+      <li><a href="#pitches">Catch phrases &amp; elevator pitches</a></li>
+      <li><a href="#phone">Phone inquiry scripts</a></li>
+      <li><a href="#consult">Consult conversation framework</a></li>
+      <li><a href="#objections">Objection handling</a></li>
+      <li><a href="#pipeline">Pipeline, follow-up &amp; rebooking</a></li>
+      <li><a href="#provider">Provider talking points</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================================================ -->
+<!-- ===========  PART ONE — PROCEDURE FACTS  =================== -->
+<!-- ============================================================ -->
+
+<div class="group-divider">
+  <div class="group-num">Part One</div>
+  <h1 class="group-title">Procedure <em>facts.</em></h1>
+  <p class="group-deck">What CoolSculpting actually is, what it does to a patient's body, what they experience in the chair, and the vocabulary that prevents miscommunication. Foundation before strategy.</p>
+</div>
+
+<!-- ============================================================ -->
+<section id="overview">
+  <span class="section-tag">01 &middot; Overview</span>
+  <h2>The procedure at a glance</h2>
+  <p class="lead">CoolSculpting (cryolipolysis) is the FDA-cleared, non-surgical fat-reduction treatment that uses controlled cooling to freeze and permanently destroy subcutaneous fat cells in stubborn areas — abdomen, flanks, thighs, arms, bra fat, back, banana roll, and submental (chin/jawline). It is <em>not</em> a weight-loss procedure.</p>
+
+  <div class="stat-strip">
+    <div class="stat">
+      <div class="stat-num">11M<small>+</small></div>
+      <div class="stat-label">Treatments performed worldwide since 2010</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">20–25<small>%</small></div>
+      <div class="stat-label">Fat reduction per treated area, after a complete protocol</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">35–75<small>m</small></div>
+      <div class="stat-label">Per cycle &middot; full visit typically runs 1–3 hours with multiple cycles</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50<small>%</small></div>
+      <div class="stat-label">Of consumers consider body contouring before summer (Allergan, 2023)</div>
+    </div>
+  </div>
+
+  <p>Metro Dermatology already offers CoolSculpting at <strong>Flushing Northern</strong> and <strong>Fort Lee</strong>, the two locations where machines are installed. The summer 2026 push is therefore a <strong>volume and conversion play</strong> at those two locations, not a new-product launch.</p>
+
+  <div class="callout">
+    <div class="callout-label">Device generation note</div>
+    MD operates the <strong>original CoolSculpting</strong> device, not the newer CoolSculpting Elite. Both use identical cryolipolysis technology and deliver the same 20–25% fat reduction per cycle, with the same FDA clearances and clinical outcomes. The differences are hardware: Elite has dual applicators that can run two cycles simultaneously (cutting multi-area visit times roughly in half), C-shaped applicators that cover ~18% more area per placement, and a wider applicator-size selection. For MD, this means: <strong>(1) all clinical claims about effectiveness, safety, and permanence apply equally</strong>, but <strong>(2) multi-area visits run sequentially and take longer than at Elite-equipped competitors</strong>, and <strong>(3) marketing copy should refer to "CoolSculpting®" generically — never "Elite"</strong>. At least one direct local competitor (Better U Medical Spa in Fort Lee) markets explicitly as Elite-equipped, which is worth being aware of without conceding ground on it.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="benefits">
+  <span class="section-tag">02 &middot; Benefits &amp; risks</span>
+  <h2>Benefits &amp; potential side effects</h2>
+
+  <div class="two-col">
+    <div class="col-card pro">
+      <h4>Benefits</h4>
+      <ul>
+        <li><strong>Non-invasive.</strong> No incisions, anesthesia, needles, or surgical risk.</li>
+        <li><strong>Zero downtime.</strong> Patients return to work, gym, and routine the same day.</li>
+        <li><strong>Permanent.</strong> Destroyed fat cells do not regenerate.</li>
+        <li><strong>Natural-looking, gradual.</strong> Results emerge over weeks; no obvious "before/after" event.</li>
+        <li><strong>Low risk profile.</strong> Skin barrier is unbroken — minimal infection or scarring risk.</li>
+        <li><strong>Targets stubborn fat</strong> diet and exercise can't reach.</li>
+        <li><strong>Strong patient satisfaction</strong> — clinical-trial scores around 73% after a single visit; 89% after two visits.</li>
+      </ul>
+    </div>
+    <div class="col-card con">
+      <h4>Side effects &amp; risks</h4>
+      <ul>
+        <li><strong>Common &amp; temporary:</strong> redness, swelling, bruising, firmness, tingling, stinging, soreness, itching at the treatment site.</li>
+        <li><strong>Numbness</strong> in the treated area can persist up to several weeks (typically 1–4 weeks; rarely up to 12).</li>
+        <li><strong>Late-onset pain</strong> 3–5 days after treatment as nerve endings recover (described as "zaps").</li>
+        <li><strong>Rare (0.01–0.1%):</strong> Paradoxical Adipose Hyperplasia (PAH) — fat cells enlarge rather than shrink, may require surgical correction. Made famous by the 2022 Linda Evangelista case.</li>
+        <li><strong>Contraindicated</strong> for patients with cryoglobulinemia, cold agglutinin disease, paroxysmal cold hemoglobinuria, pregnancy, or recent surgery in the treatment area.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">Marketing implication</div>
+    PAH awareness is the single biggest objection in patient research. The Linda Evangelista coverage is now part of the public conversation. Marketing copy should not hide it — patients searching "CoolSculpting safe?" expect an answer. Lead with <span class="hl">FDA-cleared, dermatologist-supervised, 11M+ treatments worldwide</span>, and address PAH directly during consult rather than online.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="glossary">
+  <span class="section-tag">03 &middot; Terminology</span>
+  <h2>Cycle vs. session — the unit that matters</h2>
+
+  <p class="lead">CoolSculpting marketing uses "session" and "cycle" interchangeably, but they aren't the same thing. The distinction matters for how MD prices, packages, and explains treatment to patients — and for how we read competitor pricing.</p>
+
+  <table>
+    <caption>Definitions used throughout this brief</caption>
+    <thead>
+      <tr><th style="width:18%">Term</th><th>Definition</th><th>Typical scale</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Cycle</strong></td>
+        <td>One applicator placement on one spot. The applicator suctions the tissue, freezes for 35–45 minutes, then releases. Treats roughly the area covered by that applicator cup.</td>
+        <td>1 cycle = 1 applicator on 1 spot, ~35–45 min</td>
+      </tr>
+      <tr>
+        <td><strong>Treatment area</strong></td>
+        <td>An anatomical region (e.g., abdomen, flanks, chin). Most areas need <strong>multiple cycles</strong> to cover them fully — a full abdomen typically needs 4 cycles, flanks need 2 (one per side).</td>
+        <td>1 area = 1 to 6+ cycles depending on size</td>
+      </tr>
+      <tr>
+        <td><strong>Session (or visit)</strong></td>
+        <td>One appointment. Can include multiple cycles done back-to-back. <em>Note:</em> the newer CoolSculpting Elite generation can run two cycles simultaneously via dual applicators; MD's CoolSculpting device is the original (single-applicator) generation, so cycles run sequentially.</td>
+        <td>1 session = 1–8+ cycles, ~1–3 hours (longer for multi-area on the original device)</td>
+      </tr>
+      <tr>
+        <td><strong>Protocol (or treatment plan)</strong></td>
+        <td>The full course of treatment for a patient, usually <strong>1–3 sessions per area, spaced 6–8 weeks apart</strong>.</td>
+        <td>1 protocol = 1–3 sessions over 2–6 months</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Why this matters for pricing</h3>
+  <p>CoolSculpting is sold <strong>per cycle</strong>, not per session. This is how every reputable provider — including Allergan in their official materials — quotes it. When patients see "$800 starting price" or "$319/cycle," that's one applicator placement, not a complete area treatment.</p>
+
+  <p>A common patient misunderstanding: they hear "$500 to treat my stomach" and assume that's the total. In reality, a full abdomen typically needs 4 cycles per session, and most patients need 2 sessions for full results — so the realistic spend at MD's $500/cycle rate is closer to <strong>$4,000 per area</strong>. Setting this expectation honestly during consult is one of the highest-leverage retention moves a provider can make.</p>
+
+  <table>
+    <caption>Worked example — typical full-abdomen protocol at MD's $500/cycle rate</caption>
+    <thead>
+      <tr><th>Element</th><th>Quantity</th><th>Cost at MD's rate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cycles per session (full abdomen coverage)</td><td>4</td><td>$2,000</td></tr>
+      <tr><td>Sessions in a complete protocol</td><td>2 (spaced 6–8 weeks)</td><td>—</td></tr>
+      <tr><td>Total cycles in protocol</td><td>8</td><td>—</td></tr>
+      <tr><td><strong>Approximate total spend per patient</strong></td><td><strong>—</strong></td><td><strong>$4,000</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">Editorial note for MD copy</div>
+    Throughout the rest of this brief, when a number could be ambiguous, we specify <span class="hl">cycle</span>, <span class="hl">session</span>, <span class="hl">area</span>, or <span class="hl">protocol</span>. MD's website and marketing collateral should adopt the same precision. "First treatment" is fine in headlines (it's what Allergan uses), but consult, intake, and pricing pages should be explicit. Patients comparing offers across providers get confused by exactly this — and so do staff giving phone quotes.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="details">
+  <span class="section-tag">04 &middot; Procedure details</span>
+  <h2>What patients want to know</h2>
+
+  <table>
+    <caption>Patient FAQ snapshot</caption>
+    <thead>
+      <tr><th style="width:22%">Question</th><th>Answer</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>How long does a visit take?</strong></td>
+        <td>Each <strong>cycle</strong> runs 35–45 minutes (the applicator's freezing time), and the visit length depends on how many cycles are scheduled. At MD, cycles run sequentially: a typical 2-cycle session is 1.5–2 hours, and a 4-cycle full-abdomen session is approximately 2.5–3 hours including setup, post-cycle massage, and brief rest periods between cycles. <em>Note for staff: clinics with the newer CoolSculpting Elite device can run two cycles simultaneously via dual applicators, cutting visit time roughly in half. MD's device is the original generation.</em></td>
+      </tr>
+      <tr>
+        <td><strong>Does it hurt?</strong></td>
+        <td>Generally no. First 5–10 minutes of each cycle feel intensely cold with pulling/tugging from the suction; the area then numbs. Most patients read, scroll, or nap. The 2-minute post-cycle massage is the most uncomfortable part for some. Mild soreness, like a deep bruise, can last days.</td>
+      </tr>
+      <tr>
+        <td><strong>How many cycles will I need?</strong></td>
+        <td>Depends on the area. <strong>Submental (chin)</strong> typically 1–2 cycles. <strong>Flanks</strong> 2 cycles (one per side). <strong>Full abdomen</strong> usually 4 cycles. <strong>Thighs</strong> 2–4 cycles. The provider determines this in consult based on the area's size and the patient's anatomy.</td>
+      </tr>
+      <tr>
+        <td><strong>How many sessions?</strong></td>
+        <td>Most patients do <strong>1–3 sessions per area</strong> to reach desired results. Smaller areas (chin) often complete in one session; larger areas (abdomen, thighs) typically need 2 sessions. Sessions are spaced <strong>6–8 weeks apart</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong>When can it be repeated?</strong></td>
+        <td>Same area: 6–8 weeks minimum between sessions to allow the body to clear the treated cells. Different area: can be done in the same visit if applicator availability allows.</td>
+      </tr>
+      <tr>
+        <td><strong>When will I see results?</strong></td>
+        <td>First visible changes at 3–4 weeks. Noticeable results 1–3 months. Full results at 3–6 months as the lymphatic system clears destroyed cells.</td>
+      </tr>
+      <tr>
+        <td><strong>Permanent?</strong></td>
+        <td>Yes — destroyed fat cells do not regenerate. <em>However</em>, remaining cells can still enlarge with weight gain, so results require stable weight to maintain.</td>
+      </tr>
+      <tr>
+        <td><strong>Recovery / downtime?</strong></td>
+        <td>None. Return to normal activities immediately, including the gym. Most side effects resolve within 1–2 weeks.</td>
+      </tr>
+      <tr>
+        <td><strong>Who's a good candidate?</strong></td>
+        <td>Within ~20–30 lbs of goal weight. BMI ≤ 30 (≤ 46.2 for submental). Has pinchable, stubborn fat. Realistic about it being contouring, not weight loss.</td>
+      </tr>
+      <tr>
+        <td><strong>Is it permanent if I gain weight?</strong></td>
+        <td>The treated cells are gone, but new fat can deposit in the area or surrounding zones. Patients should be told this upfront — it sets honest expectations and supports retention messaging.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>FDA-cleared treatment areas</h3>
+  <p>Submental (under chin), submandibular (under jawline), abdomen, flanks, thighs (inner &amp; outer), upper arms, bra fat, back fat, and banana roll (under-buttock). <em>Not</em> calves or ankles. Submental treatment is also FDA-cleared to affect the appearance of lax tissue — a useful selling point for the chin/jawline angle.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- ===========  PART TWO — MARKET & COMPETITION  ============== -->
+<!-- ============================================================ -->
+
+<div class="group-divider">
+  <div class="group-num">Part Two</div>
+  <h1 class="group-title">2026 market &amp; <em>competition.</em></h1>
+  <p class="group-deck">The category Metro Dermatology is operating in — what's growing, what's competing, what the market charges, who else serves the same patients in Queens and Bergen, and what MD's own data says about its position in that landscape.</p>
+</div>
+
+<!-- ============================================================ -->
+<section id="trends">
+  <span class="section-tag">05 &middot; Trends</span>
+  <h2>2026 procedure trends</h2>
+
+  <h3>1. The GLP-1 effect — the dominant shift</h3>
+  <p>Patients who started Ozempic, Wegovy, and Mounjaro in 2024–25 are now reaching stable goal weights. Body contouring consultations linked to GLP-1 weight loss are <strong>one of the fastest-growing categories in plastic surgery</strong>, according to ASPS 2026 trend reports. McKinsey data: 61% of GLP-1 aesthetic patients lost 11–30% of body weight.</p>
+
+  <p>For CoolSculpting specifically, this is a <em>nuanced</em> opportunity:</p>
+  <ul style="margin-left:24px;">
+    <li>GLP-1 patients with <strong>residual stubborn fat pockets</strong> after stable weight loss are ideal candidates.</li>
+    <li>Patients with <strong>significant skin laxity</strong> are not — they need surgical lifts or RF skin tightening, not cryolipolysis.</li>
+    <li>The "GLP-1 maintenance + targeted contouring" angle is real and underused in dermatology marketing.</li>
+  </ul>
+
+  <h3>2. Combination protocols are now standard</h3>
+  <p>Single-modality treatment is fading. The 2026 standard is <strong>CoolSculpting + Emsculpt (or Emsculpt NEO) + skin tightening</strong> — fat reduction, muscle building, and skin laxity addressed together. Many providers now bundle, with strong evidence that Z-Wave or radial pulse therapy after CoolSculpting can <em>nearly double</em> fat loss at 8 weeks.</p>
+
+  <h3>3. Premium membership models</h3>
+  <p>Beyond per-session pricing, providers (StudioMD, Tribeca MedSpa) are layering in annual memberships ($99–$295/mo) that bundle CoolSculpting at deep discounts with CoolTone, skincare products, and other Allergan treatments — a retention play that converts one-time fat-reduction patients into long-term aesthetic clients.</p>
+
+  <h3>4. "Refined preservation" over dramatic transformation</h3>
+  <p>ASPS 2026 trend reports describe the year's aesthetic shift toward <em>"refined preservation, regenerative sculpting and natural, anatomy-honoring results."</em> CoolSculpting fits this narrative perfectly: gradual, subtle, no surgical signature.</p>
+
+  <h3>5. Allergan's national pull-through is strong</h3>
+  <p>Allergan's annual <strong>CoolMonth</strong> and Allē rewards program are aggressive demand-generation engines. Spring is the peak campaign window, and the program has grown each year (62,000+ treatments performed during a single CoolMonth in 2023). MD, as a CoolSculpting provider, has direct access to this co-op marketing infrastructure. <em>Detailed calendar in Section 15.</em></p>
+
+  <div class="callout tip">
+    <div class="callout-label">The trend that matters most for MD</div>
+    The GLP-1 wave is the most important trend to internalize. <strong>Position CoolSculpting as the finishing tool for GLP-1 success</strong> — not a competitor to weight-loss drugs, but the complement that handles what the medication can't (localized stubborn fat). Many MD patients are likely already on GLP-1s; the EHR can identify them once Darell's data-match project completes.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="alternatives">
+  <span class="section-tag">06 &middot; Competing procedures</span>
+  <h2>Competing &amp; alternative procedures</h2>
+
+  <table>
+    <caption>How CoolSculpting compares to the major alternatives</caption>
+    <thead>
+      <tr>
+        <th style="width:14%">Treatment</th>
+        <th style="width:14%">Mechanism</th>
+        <th>Best for</th>
+        <th>Sessions</th>
+        <th>Avg cost</th>
+        <th>vs. CoolSculpting</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CoolSculpting</strong> <em>(MD's device)</em></td>
+        <td>Cryolipolysis (cold)</td>
+        <td>Pinchable subcutaneous fat: abdomen, flanks, thighs, chin, arms, back, bra, banana roll</td>
+        <td>1–3 per area</td>
+        <td>$2K–$4K/session</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>SculpSure</strong></td>
+        <td>Laser/heat lipolysis</td>
+        <td>Same areas; better for non-pinchable / outer thighs</td>
+        <td>1–3</td>
+        <td>~$1,400–$1,500</td>
+        <td>Faster (25 min) but less precise; up to 24% reduction</td>
+      </tr>
+      <tr>
+        <td><strong>Kybella</strong></td>
+        <td>Deoxycholic acid injections</td>
+        <td>Submental fat (double chin) primarily</td>
+        <td>2–6, monthly</td>
+        <td>$1,200–$2,400 total</td>
+        <td>Better for very small chin pockets or as CoolSculpting "finishing touch"</td>
+      </tr>
+      <tr>
+        <td><strong>Emsculpt / Emsculpt NEO</strong></td>
+        <td>HIFEM electromagnetic muscle stim (NEO adds RF for fat)</td>
+        <td>Muscle building + modest fat reduction: abs, glutes, arms, thighs</td>
+        <td>4 (one week apart) + maintenance</td>
+        <td>$3,000–$4,000 (4-pack)</td>
+        <td>Complementary, not competitive — pair with CoolSculpting</td>
+      </tr>
+      <tr>
+        <td><strong>truSculpt iD / flex</strong></td>
+        <td>Monopolar RF (iD) / muscle stim (flex)</td>
+        <td>Smaller fat pockets, full sessions</td>
+        <td>1–2</td>
+        <td>$1,500–$3,000</td>
+        <td>Used by Flushing Medical Spa locally; competitor</td>
+      </tr>
+      <tr>
+        <td><strong>Vanquish</strong></td>
+        <td>Contactless RF (heat)</td>
+        <td>Larger areas (full abdomen)</td>
+        <td>4 weekly</td>
+        <td>~$2,500</td>
+        <td>Good for non-pinchable; no contact</td>
+      </tr>
+      <tr>
+        <td><strong>BodyTite</strong></td>
+        <td>RF-assisted minimally invasive lipo</td>
+        <td>Patients with skin laxity wanting more dramatic results</td>
+        <td>1, in-office</td>
+        <td>$5,000–$10,000</td>
+        <td>Step up from CoolSculpting; better for post-GLP-1 with laxity</td>
+      </tr>
+      <tr>
+        <td><strong>Liposuction</strong></td>
+        <td>Surgical fat removal</td>
+        <td>Larger volumes; immediate dramatic results</td>
+        <td>1, surgical</td>
+        <td>$3,500–$10,000+</td>
+        <td>Faster, more dramatic, but anesthesia, downtime, scars</td>
+      </tr>
+      <tr>
+        <td><strong>GLP-1 medications</strong></td>
+        <td>Systemic appetite suppression</td>
+        <td>Overall weight reduction</td>
+        <td>Ongoing weekly injection</td>
+        <td>$200–$1,300/mo</td>
+        <td>Different category — but the patient overlap is enormous</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pull-quote">CoolSculpting's strongest competitive angle isn't "best fat reduction" — it's <em>"the most flexible non-surgical option, dermatologist-supervised, with the most FDA-cleared treatment areas."</em></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="pricing">
+  <span class="section-tag">07 &middot; Industry pricing</span>
+  <h2>Industry pricing — national &amp; NY/NJ market</h2>
+
+  <p>This section covers what the market charges. MD's own pricing strategy is in <a href="#economics">Section 11 (Unit economics &amp; pricing strategy)</a>.</p>
+
+  <table>
+    <caption>National benchmarks</caption>
+    <thead>
+      <tr><th>Benchmark</th><th>Range</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Per cycle</td><td>$400 – $800</td><td>The fundamental pricing unit. Lower end is promo or volume pricing.</td></tr>
+      <tr><td>Per session (small area, e.g., chin)</td><td>$650 – $1,500</td><td>Often 1–2 cycles total</td></tr>
+      <tr><td>Per session (single larger area)</td><td>$2,000 – $4,000</td><td>Typically 4 cycles for a full area like abdomen</td></tr>
+      <tr><td>Per area, complete protocol</td><td>~$3,200 average</td><td>Across 1–3 sessions to complete one area</td></tr>
+      <tr><td>Multi-area protocol</td><td>$6,000 – $12,000+</td><td>Comprehensive transformation packages</td></tr>
+    </tbody>
+  </table>
+
+  <h3>NY metro &amp; NJ pricing intelligence</h3>
+  <table>
+    <caption>Local competitor price points (publicly listed, 2025–2026)</caption>
+    <thead>
+      <tr><th>Provider</th><th>Market</th><th>Listed price</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Tribeca MedSpa (Tribeca / UES)</td><td>Manhattan</td><td>Starts $800; avg $2,000–$4,000/session</td></tr>
+      <tr><td>Coolspa by Aethos (UES)</td><td>Manhattan</td><td>$650–$1,000 chin/arms (1–2 cycles); ~$1,500 abdomen/session</td></tr>
+      <tr><td>Cool Contouring NY</td><td>NYC</td><td>$319/cycle in pay-as-you-go plans</td></tr>
+      <tr><td>StudioMD (NYC)</td><td>NYC</td><td>Per cycle; $99 annual membership = up to 50% off</td></tr>
+      <tr><td>SKINNEY Medspa (Manhattan)</td><td>Manhattan</td><td>50% off first treatments (acquisition offer)</td></tr>
+      <tr><td>LUX Medical Spa (NJ)</td><td>NJ</td><td>~$3,200 average per area for Elite</td></tr>
+      <tr><td>Ethos Skin &amp; Laser (NJ)</td><td>NJ</td><td>~$1,600 average per area; abdomen $1,200–$1,600 per session</td></tr>
+      <tr><td>Better U Medical Spa</td><td>Fort Lee, NJ</td><td>Quote on consult; positions as "leading Fort Lee provider"</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">Reading the market</div>
+    Manhattan ($2K–$4K per session, often $600–$800/cycle) sets the premium ceiling. NJ medspas float around $400–$600/cycle. MD's current $500/cycle rate sits squarely in the NJ medspa range — below where dermatologist-supervised positioning would normally support. Whether to maintain that pricing or raise it is the strategic question addressed in <a href="#economics">Section 11</a>.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="competitors">
+  <span class="section-tag">08 &middot; Local competitors</span>
+  <h2>Local competitors — Fort Lee &amp; Queens</h2>
+
+  <h3>Queens (Flushing / Forest Hills / Glen Oaks corridor)</h3>
+  <table>
+    <caption>Competitors within MD's Flushing Northern service area</caption>
+    <thead>
+      <tr><th>Provider</th><th>Location</th><th>Key offerings</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Adult &amp; Pediatric Dermatology</strong> (Dr. Paltiel)</td>
+        <td>Forest Hills, 64-05 Yellowstone Blvd</td>
+        <td>CoolSculpting, EmSculpt, Botox, fillers</td>
+        <td><strong>Most direct competitor.</strong> Dermatologist-supervised model identical to MD's. 900+ reviews, 4.7★. Strong "CoolSculpting Queens" SEO position.</td>
+      </tr>
+      <tr>
+        <td>Flushing Medical Spa</td>
+        <td>Flushing</td>
+        <td>truSculpt iD (fat) + truSculpt flex (muscle); does NOT offer CoolSculpting</td>
+        <td>Cutera-equipped; competitive on price for non-CoolSculpting body contouring</td>
+      </tr>
+      <tr>
+        <td>Wellness Med Art</td>
+        <td>Forest Hills</td>
+        <td>General medspa, body/skin/hair</td>
+        <td>Lower-tier competitor; not CoolSculpting-focused</td>
+      </tr>
+      <tr>
+        <td>Beauty Icon Med Spa</td>
+        <td>72-44 Main St, Flushing</td>
+        <td>Laser, facials, weight loss, microneedling</td>
+        <td>Does not list CoolSculpting; weight loss + laser focus</td>
+      </tr>
+      <tr>
+        <td>Aesthetic Solutions NY</td>
+        <td>Queens</td>
+        <td>Botox, fillers, semaglutide, microneedling</td>
+        <td>GLP-1 weight loss provider — represents the category that may divert patients <em>away</em> from contouring before they're ready</td>
+      </tr>
+      <tr>
+        <td>Dr. V's MedSpa (Rego Park / Forest Hills / Kew Gardens)</td>
+        <td>Queens</td>
+        <td>CoolSculpting, body sculpting</td>
+        <td>Direct CoolSculpting competitor in the area</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Fort Lee, NJ &amp; Bergen County</h3>
+  <table>
+    <caption>Competitors within MD's Fort Lee service area</caption>
+    <thead>
+      <tr><th>Provider</th><th>Location</th><th>Key offerings</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Better U Medical Spa</strong> (Dr. Hetal Gor)</td>
+        <td>Englewood / Fort Lee area</td>
+        <td>CoolSculpting, BodyTite, SculpSure</td>
+        <td><strong>Most direct Fort Lee competitor.</strong> Explicitly markets as "leading Fort Lee CoolSculpting provider." Physician-led.</td>
+      </tr>
+      <tr>
+        <td>Hello Hydration NJ</td>
+        <td>Fort Lee, Paramus, Hoboken, Parsippany</td>
+        <td>CoolSculpting, lip injections, BBL, microneedling</td>
+        <td>Multi-location medspa competing on convenience</td>
+      </tr>
+      <tr>
+        <td>Reflections Center</td>
+        <td>Multiple NJ locations</td>
+        <td>CoolSculpting, SculpSure, Emsculpt, Liposonix, Exilis</td>
+        <td>Established physician-led; broader contouring menu</td>
+      </tr>
+      <tr>
+        <td>Ethos Spa (Summit, NJ + others)</td>
+        <td>NJ</td>
+        <td>CoolSculpting with all 6 applicator types</td>
+        <td>Lower-priced ($1,200–$1,600 per area); volume player</td>
+      </tr>
+      <tr>
+        <td>Metropolitan Dermatology</td>
+        <td>Multi-location NJ incl. Teaneck (services Fort Lee)</td>
+        <td>CoolSculpting Elite, dermatology</td>
+        <td>Direct dermatology-led model competitor</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">Competitive read</div>
+    The two most relevant competitors are <strong>Adult &amp; Pediatric Dermatology (Forest Hills)</strong> serving Flushing's catchment, and <strong>Better U Medical Spa (Fort Lee)</strong>. Both use the dermatologist/physician-supervision angle MD would naturally lean on. Neither has a multi-state footprint — MD's Flushing + Fort Lee combination is unusual in serving both Queens and Bergen patients under one brand.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="data">
+  <span class="section-tag">09 &middot; MD data analysis</span>
+  <h2>MD CoolSculpting data — findings</h2>
+
+  <p class="lead">Analysis of the EHR-extracted CoolSculpting transaction file (29 transactions, 2024–2026 YTD). Findings here ground the strategy in Part Three.</p>
+
+  <div class="callout">
+    <div class="callout-label">Machine footprint &amp; the 2025 spike</div>
+    CoolSculpting machines are currently installed only at <strong>Flushing Northern</strong> and <strong>Fort Lee</strong>. Elmhurst, Concourse, Fordham, and Glen Oaks do not offer the service. The strategic question for 2027 is whether to evaluate adding a machine at a third location (Glen Oaks is the most natural candidate given the Fort Lee/Bergen patient catchment).
+    <br><br>
+    Separately, the 2025 revenue spike (5x over 2024) reflects MD's first CoolSculpting promotion — a "buy 3 cycles, get 1 free" offer run in July and August. <strong>2025 is partially a promotion-driven year, not pure organic growth</strong>, and the strong July seasonality below is amplified by that single campaign.
+  </div>
+
+  <h3>Topline numbers</h3>
+  <div class="stat-strip">
+    <div class="stat">
+      <div class="stat-num">29</div>
+      <div class="stat-label">Transactions, 2024 – April 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">25</div>
+      <div class="stat-label">Unique patients across the dataset</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$53<small>K</small></div>
+      <div class="stat-label">Total revenue captured in the file</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$2,121</div>
+      <div class="stat-label">Average lifetime spend per unique patient</div>
+    </div>
+  </div>
+
+  <h3>Year-over-year trend</h3>
+  <table>
+    <caption>Annual performance, 2024 – April 2026</caption>
+    <thead>
+      <tr><th>Year</th><th>Transactions</th><th>Unique patients</th><th>Revenue</th><th>Avg per transaction</th><th>Revenue per patient</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2024 (full year)</td><td>5</td><td>5</td><td>$7,420</td><td>$1,484</td><td>$1,484</td></tr>
+      <tr><td>2025 (full year, w/ summer promo)</td><td>21</td><td>19</td><td>$39,400</td><td>$1,876</td><td>$2,074</td></tr>
+      <tr><td>2026 (Jan–Apr)</td><td>3</td><td>3</td><td>$6,200</td><td>$2,067</td><td>$2,067</td></tr>
+    </tbody>
+  </table>
+
+  <p>Average transaction size has been climbing year over year ($1,484 → $1,876 → $2,067), suggesting patients are buying more cycles per visit. Q1 2026 is on a slow pace volume-wise, but the three transactions are all at higher dollar values — and Q1 is historically the slowest CoolSculpting quarter for any practice.</p>
+
+  <h3>Location performance</h3>
+  <table>
+    <caption>By location, all years combined (machines installed at Flushing Northern and Fort Lee only)</caption>
+    <thead>
+      <tr><th>Location</th><th>Transactions</th><th>Unique patients</th><th>Revenue</th><th>Avg per transaction</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Flushing Northern</td><td>20 (69%)</td><td>17</td><td>$38,620 (73%)</td><td>$1,931</td></tr>
+      <tr><td>Fort Lee</td><td>9 (31%)</td><td>8</td><td>$14,400 (27%)</td><td>$1,600</td></tr>
+    </tbody>
+  </table>
+
+  <p>Flushing Northern is the dominant location, doing roughly 2.7x the revenue of Fort Lee. Average transaction size is comparable. Fort Lee's slightly lower average ($1,600 vs $1,931) may reflect a different patient mix or pricing pattern — worth understanding before designing differentiated location campaigns.</p>
+
+  <h3>Visits per patient — the retention problem</h3>
+  <table>
+    <caption>How many times each unique patient came in</caption>
+    <thead>
+      <tr><th>Visits</th><th>Patients</th><th>% of unique patients</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1 visit</td><td>21</td><td><strong>84%</strong></td></tr>
+      <tr><td>2 visits</td><td>4</td><td>16%</td></tr>
+      <tr><td>3+ visits</td><td>0</td><td>0%</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>This is the single most actionable finding in the data.</strong> Industry expectation is that most patients need 1–3 sessions per area for full results, and Allergan reports 89% patient satisfaction <em>after two visits</em> — implying two visits is the norm, not the exception. MD's data shows the opposite: only 16% of patients return.</p>
+
+  <p>Average visits per patient: <strong>1.16</strong>. Average lifetime spend per patient: <strong>$2,121</strong>. The four repeat patients in the data are worth looking at:</p>
+
+  <table>
+    <caption>The four repeat patients — the only patients who returned</caption>
+    <thead>
+      <tr><th>Patient</th><th>Visit pattern</th><th>Total spend</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>MRN 76380 (Fort Lee)</td><td>Jul 2025 ($3,500), Jan 2026 ($4,000)</td><td>$7,500</td><td>Highest-LTV patient in dataset; ~6 months between visits</td></tr>
+      <tr><td>MRN MM…51153 (Flushing)</td><td>May 2025 ($1,500), Jul 2025 ($1,500)</td><td>$3,000</td><td>~8 weeks apart — textbook protocol cadence</td></tr>
+      <tr><td>MRN MM…60020 (Flushing)</td><td>Aug 2025 ($2,700), Jan 2026 ($200)</td><td>$2,900</td><td>$200 second visit likely a deposit or correction, not a real session</td></tr>
+      <tr><td>MRN MM…06053 (Fort Lee)</td><td>Aug 2025 ($1,000), Sep 2025 ($800)</td><td>$1,800</td><td>~4 weeks apart — earlier than recommended protocol</td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <caption>Revenue lift scenario from improving session-2 retention</caption>
+    <thead>
+      <tr><th>Scenario</th><th>Repeat rate</th><th>Implied 2nd-visit revenue per repeater</th><th>Estimated annual lift (at 2025 patient volume)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Current state</td><td>16%</td><td>$1,800 average</td><td>(baseline)</td></tr>
+      <tr><td>Modest improvement</td><td>30%</td><td>$1,800</td><td>~$4,800/year additional</td></tr>
+      <tr><td>Industry-typical</td><td>50%</td><td>$1,800</td><td>~$11,500/year additional</td></tr>
+      <tr><td>Strong protocol completion</td><td>65%</td><td>$2,000</td><td>~$18,500/year additional</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:8px; font-size:13.5px; color:var(--ink-mute);">Estimates assume same number of unique patients per year as 2025 (n=19), holding acquisition flat. Improving acquisition <em>and</em> retention compounds the effect.</p>
+
+  <h3>Seasonality — patterns by month</h3>
+  <table>
+    <caption>Transactions and revenue by month, all years combined</caption>
+    <thead>
+      <tr><th>Month</th><th>Transactions</th><th>Revenue</th><th>Avg per transaction</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>January</td><td>3</td><td>$5,200</td><td>$1,733</td><td>"New Year resolution" demand visible</td></tr>
+      <tr><td>February</td><td>2</td><td>$3,000</td><td>$1,500</td><td></td></tr>
+      <tr><td>March</td><td>1</td><td>$800</td><td>$800</td><td>Slowest month</td></tr>
+      <tr><td>April</td><td>2</td><td>$2,300</td><td>$1,150</td><td></td></tr>
+      <tr><td>May</td><td>3</td><td>$6,000</td><td>$2,000</td><td>Pre-summer surge begins</td></tr>
+      <tr><td>June</td><td>3</td><td>$5,400</td><td>$1,800</td><td></td></tr>
+      <tr style="background:#fef6c7;"><td><strong>July</strong></td><td><strong>7</strong></td><td><strong>$16,700</strong></td><td><strong>$2,386</strong></td><td><strong>Peak month — amplified by 2025 promotion</strong></td></tr>
+      <tr><td>August</td><td>4</td><td>$6,320</td><td>$1,580</td><td></td></tr>
+      <tr><td>September</td><td>2</td><td>$1,700</td><td>$850</td><td></td></tr>
+      <tr><td>October</td><td>0</td><td>$0</td><td>—</td><td></td></tr>
+      <tr><td>November</td><td>2</td><td>$5,600</td><td>$2,800</td><td>Holiday-prep demand visible; high avg transaction</td></tr>
+      <tr><td>December</td><td>0</td><td>$0</td><td>—</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <p>Three insights from the seasonality:</p>
+  <ul style="margin-left:24px;">
+    <li><strong>July alone is 31% of all revenue.</strong> May–August accounts for ~63%. <em>Caveat:</em> the July figure is amplified by the 2025 "buy 3 get 1" promotion. Underlying summer demand is real, but more modest than the headline number suggests. A more conservative read: summer is ~50–55% of natural demand, and a well-timed summer promotion can push it higher.</li>
+    <li><strong>November shows strong avg transaction size ($2,800).</strong> Suggests "holiday reveal" / Thanksgiving-Christmas demand is real but underserved — supports the September–October campaign window proposed in Section 15.</li>
+    <li><strong>October and December are dead months.</strong> Treatment timing makes sense (results from October land at Christmas; December is too late for any immediate event), but these months are also opportunities for low-pressure consult booking and existing-patient outreach for January starts.</li>
+  </ul>
+
+  <h3>Cycle volume — confirmed</h3>
+  <p>At MD's actual per-cycle rate of $500, the dataset implies the following cycle volumes:</p>
+
+  <table>
+    <thead>
+      <tr><th>Period</th><th>Total revenue</th><th>Total cycles delivered (at $500/cycle)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2024 (full year)</td><td>$7,420</td><td>~15 cycles</td></tr>
+      <tr><td>2025 (full year, with summer promo)</td><td>$39,400</td><td>~79 cycles</td></tr>
+      <tr><td>2026 YTD (Jan–Apr)</td><td>$6,200</td><td>~12 cycles</td></tr>
+      <tr><td><strong>Total dataset</strong></td><td><strong>$53,020</strong></td><td><strong>~106 cycles</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p>For context: a single Manhattan provider like Tribeca MedSpa or SKINNEY likely does this volume in a week. <strong>MD has significant headroom to grow before hitting capacity constraints</strong> on either machine — the limiting factor is demand generation, not delivery capacity.</p>
+
+  <p>2025's ~79 cycles included a meaningful share of "free" cycles delivered as part of the buy-3-get-1 promotion. Realized revenue per cycle in 2025 was therefore lower than the $500 list rate — closer to ~$375 effective per cycle for promoted bookings vs $500 for non-promoted. <strong>Margin per promoted cycle dropped from $350 to $225</strong> (a ~36% margin hit). The promo worked for volume, but it's worth weighing that tradeoff before re-running the same offer in 2027.</p>
+
+  <div class="callout tip">
+    <div class="callout-label">What the data tells us about the strategy</div>
+    Three structural facts from the data shape every recommendation in Part Three: <strong>(1) MD has only 25 unique patients in 2+ years</strong> — acquisition channels are underdeveloped; <strong>(2) 84% of those patients are one-and-done</strong> — retention is the highest-leverage fix; <strong>(3) machine capacity is far from the constraint</strong> — demand generation is. The summer 2026 launch should be designed as a learning campaign at small scale; the goal is to build the assets that make 2027 a real growth year.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ===========  PART THREE — MARKETING STRATEGY  ============== -->
+<!-- ============================================================ -->
+
+<div class="group-divider">
+  <div class="group-num">Part Three</div>
+  <h1 class="group-title">2026 marketing <em>strategy.</em></h1>
+  <p class="group-deck">Who to target, what to charge, how to package, where to reach them, who to send to first, and when to run all of it. Built on the procedure facts in Part One and the market reality in Part Two.</p>
+</div>
+
+<!-- ============================================================ -->
+<section id="strategy">
+  <span class="section-tag">10 &middot; Strategy &amp; segments</span>
+  <h2>Marketing strategy &amp; target segments</h2>
+
+  <p class="lead">Every campaign decision below assumes MD's two structural realities from <a href="#data">Section 09</a>: a small but rising line of business, and a 16% repeat-visit rate that's the single highest-leverage fix available.</p>
+
+  <h3>Target patient segments</h3>
+  <table>
+    <thead>
+      <tr><th>Segment</th><th>Profile</th><th>Why CoolSculpting</th><th>MD-specific channel fit</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Existing MD cosmetic patients</strong></td>
+        <td>Past Botox, filler, laser, or Ultherapy patients at Flushing or Fort Lee</td>
+        <td>Already trust MD aesthetically; high LTV; low CAC</td>
+        <td>Vital Interaction SMS (Tier 1 — see Section 14), EHR list segmentation, Allē rewards cross-sell</td>
+      </tr>
+      <tr>
+        <td><strong>Existing MD medical-derm patients</strong></td>
+        <td>Saw MD for acne, eczema, skin cancer screening at Flushing or Fort Lee</td>
+        <td>Trust the brand; haven't yet considered cosmetic</td>
+        <td>In-office collateral, post-visit Vital Interaction email, provider conversation</td>
+      </tr>
+      <tr>
+        <td><strong>Past CoolSculpting one-and-dones</strong></td>
+        <td>The 21 patients in MD's data who came once and never returned</td>
+        <td>Highest-leverage segment in the practice; protocol completion drives the retention math</td>
+        <td>Sequenced Vital Interaction reminder at 6w/8w post-visit with second-session offer</td>
+      </tr>
+      <tr>
+        <td><strong>Post-GLP-1 stable-weight patients</strong></td>
+        <td>Lost 15–30% body weight on Ozempic/Wegovy/Mounjaro; now plateaued</td>
+        <td>Stubborn pockets remain; fits the "finishing tool" narrative</td>
+        <td>Targeted Google Ads, Concourse + Glen Oaks local SEO directing patients to Flushing or Fort Lee</td>
+      </tr>
+      <tr>
+        <td><strong>"Pre-summer" event-driven women, 35–55</strong></td>
+        <td>HHI $75K+; planning weddings, reunions, vacations, swimsuit season</td>
+        <td>Time-bound motivation; results emerge over 1–3 months</td>
+        <td>Facebook/Instagram paid, ZocDoc paid placements, Google search</td>
+      </tr>
+      <tr>
+        <td><strong>Men 30–55 ("Dad bod" / executive)</strong></td>
+        <td>HHI $100K+; flanks, abs, chin focus</td>
+        <td>Male body-contouring market growing; under-served by competitors</td>
+        <td>LinkedIn/Instagram, before/after photos with male patients (with consent)</td>
+      </tr>
+      <tr>
+        <td><strong>Submental ("double chin") patients</strong></td>
+        <td>Selfie/video-call era; image-conscious 28+</td>
+        <td>Smaller commitment, lower price (1–2 cycles), often single session</td>
+        <td>TikTok/Instagram organic; great low-friction entry point</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-label">The strategic priority order</div>
+    Given MD's data, the segments are not equally valuable. <strong>Past CoolSculpting one-and-dones</strong> are the highest-priority segment — fixing the 16% retention rate is worth more than any acquisition channel. <strong>Existing MD cosmetic patients</strong> are second — lowest CAC, highest brand fit. New-patient acquisition segments (event-driven women, men, submental) come third in priority sequencing, even though they may receive higher campaign budgets in absolute terms.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="economics">
+  <span class="section-tag">11 &middot; Unit economics</span>
+  <h2>Unit economics &amp; pricing strategy</h2>
+
+  <p class="lead">CoolSculpting has a per-cycle consumable cost that makes its margin structure different from most aesthetic services. Understanding this changes how MD should think about discounting, packaging, and whether to raise prices in 2027.</p>
+
+  <h3>The consumable model</h3>
+  <p>Every cycle requires single-use materials that the practice purchases from Allergan, plus an Allergan licensing/billing component. This differentiates CoolSculpting from, say, Botox (where the consumable is the toxin itself, sold by unit) or laser treatments (where the consumable cost is essentially zero after the device is purchased).</p>
+
+  <p>Per-cycle materials and licensing typically include:</p>
+  <ul style="margin-left:24px;">
+    <li><strong>Gel pads</strong> — placed between skin and applicator; single-use, disposed after each cycle.</li>
+    <li><strong>Applicator liners or sleeves</strong> — single-use protective covers on the applicators (U-shaped on the original device generation MD operates; C-shaped on the newer Elite generation).</li>
+    <li><strong>Treatment cards / cycle activation</strong> — Allergan's per-cycle licensing mechanism. Each cycle requires activation, and Allergan tracks/bills per cycle delivered.</li>
+  </ul>
+
+  <p>MD's confirmed cost per cycle is <strong>~$150</strong>. At MD's $500/cycle list price, that produces a <strong>70% gross margin per cycle</strong> ($350) before staff time and overhead.</p>
+
+  <h3>Margin math at MD's price points</h3>
+  <table>
+    <caption>Per-cycle gross margin at common price points (MD cost = $150/cycle confirmed)</caption>
+    <thead>
+      <tr>
+        <th>Price/cycle</th>
+        <th>Cycle cost</th>
+        <th>Gross margin/cycle</th>
+        <th>Margin %</th>
+        <th>Context</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>$375 (effective rate during 2025 buy-3-get-1 promo)</td><td>$150</td><td>$225</td><td>60%</td><td>What MD actually realized on promoted cycles in 2025</td></tr>
+      <tr><td><strong>$500 (MD current list rate)</strong></td><td>$150</td><td><strong>$350</strong></td><td><strong>70%</strong></td><td><strong>MD baseline today</strong></td></tr>
+      <tr><td>$600</td><td>$150</td><td>$450</td><td>75%</td><td>Mid-market NJ medspa range</td></tr>
+      <tr><td>$700</td><td>$150</td><td>$550</td><td>79%</td><td>Where dermatologist-supervised positioning would normally support</td></tr>
+      <tr><td>$800</td><td>$150</td><td>$650</td><td>81%</td><td>Premium NYC dermatology range</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The 2025 promo cost — what it actually meant</h3>
+  <p>The "buy 3 get 1" promotion in summer 2025 dropped MD's effective per-cycle revenue from $500 to $375 on promoted bookings. With cycle cost flat at $150, gross margin per cycle fell from $350 to $225 — a <strong>36% margin hit</strong> on those cycles. That's a meaningful tradeoff:</p>
+
+  <div class="two-col">
+    <div class="col-card pro">
+      <h4>What the promo achieved</h4>
+      <ul>
+        <li>Drove a 4x year-over-year transaction increase</li>
+        <li>Brought 14 new unique patients into the practice</li>
+        <li>Established CoolSculpting as a viable line — 2025 was MD's first real year for it</li>
+        <li>Generated revenue that wouldn't have existed at full price (most of those patients likely wouldn't have booked at $2,000 instead of $1,500)</li>
+      </ul>
+    </div>
+    <div class="col-card con">
+      <h4>What the promo cost</h4>
+      <ul>
+        <li>$225 less margin per promoted cycle</li>
+        <li>Anchored patients on a low price point — making it harder to raise rates later</li>
+        <li>Did not fix the retention problem (84% of those promo patients still didn't return)</li>
+        <li>Generated learning, but limited learning was captured in tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Why this changes how MD should discount in 2026</h3>
+  <p>A flat-dollar discount on a session looks small to the patient but consumes only a fraction of cycle margin. This is a <strong>cheaper acquisition lever</strong> than dropping the per-cycle rate. Compare two ways of running a $200-off promo on a 4-cycle abdomen session:</p>
+
+  <div class="two-col">
+    <div class="col-card pro">
+      <h4>Option A — flat $ discount on the session</h4>
+      <ul>
+        <li>List: 4 cycles × $500 = $2,000</li>
+        <li>Discount: $200</li>
+        <li>Patient pays: $1,800</li>
+        <li>Cycle costs: 4 × $150 = $600</li>
+        <li><strong>Gross margin: $1,200 (67%)</strong></li>
+        <li>Per-cycle realized rate: $450</li>
+      </ul>
+    </div>
+    <div class="col-card con">
+      <h4>Option B — buy-3-get-1 (last year's promo)</h4>
+      <ul>
+        <li>List rate: $500/cycle, but pay for 3 of 4</li>
+        <li>Patient pays: $1,500 for 4 cycles</li>
+        <li>Cycle costs: 4 × $150 = $600</li>
+        <li><strong>Gross margin: $900 (60%)</strong></li>
+        <li>Per-cycle realized rate: $375</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="margin-top:16px;">Option A preserves <strong>$300 more gross margin</strong> than the 2025 promotion structure on the same patient session. It also doesn't reset the patient's anchor on the per-cycle rate — which matters because that patient should ideally come back for session 2.</p>
+
+  <h3>Recommended MD pricing structure for 2027</h3>
+  <p>The 2027 question is whether to raise the per-cycle rate. MD's $500/cycle is below the dermatologist-supervised market position. A staged increase preserves the practice's pricing architecture without alienating existing patients.</p>
+
+  <table>
+    <caption>Suggested 2027 pricing framework</caption>
+    <thead>
+      <tr><th>Pricing tier</th><th>Per-cycle rate</th><th>Use case</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>List rate (suggested raise)</strong></td><td>$600/cycle</td><td>Walk-in pricing; positions MD between NJ medspa range and dermatology premium</td></tr>
+      <tr><td><strong>Bundle effective rate</strong></td><td>~$550/cycle</td><td>4+ cycle packages; preserves margin while creating headline savings</td></tr>
+      <tr><td><strong>Member rate</strong></td><td>$500/cycle (17% off)</td><td>MD Aesthetic Member annual program; retention driver; matches today's list</td></tr>
+      <tr><td><strong>Promo rate floor</strong></td><td>$450/cycle</td><td>CoolMonth-aligned acquisition only; never the standing public rate</td></tr>
+      <tr><td><strong>Hard floor</strong></td><td>$400/cycle</td><td>Below this, gross margin drops below 65% — diminishing returns on volume</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="callout-label">The pricing principle</div>
+    <strong>Discount in dollars, not in rate.</strong> A "$300 off your first treatment" headline does the same acquisition work as a per-cycle rate cut, but preserves the price anchor for session 2 and protects gross margin. Save per-cycle rate cuts for membership programs (where the reduced rate is a retention lever, not an acquisition tool).
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="packages">
+  <span class="section-tag">12 &middot; Packages</span>
+  <h2>Promotion &amp; package ideas</h2>
+
+  <p>Pricing in this section uses MD's confirmed $500/cycle. Promotional offers are illustrated; final pricing should be set against the framework in <a href="#economics">Section 11</a>.</p>
+
+  <table>
+    <caption>Recommended summer 2026 package menu</caption>
+    <thead>
+      <tr><th>Package</th><th>What's in it</th><th>Patient price (est.)</th><th>Target segment</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Beach Ready Bundle</strong></td>
+        <td>4 cycles CoolSculpting (1 area: abdomen <em>or</em> flanks) + 1 Ultherapy/laser tightening + take-home skincare</td>
+        <td>~$3,825 (15% off list of $4,500)</td>
+        <td>Women 35–55, summer event-driven</td>
+      </tr>
+      <tr>
+        <td><strong>Profile Refresh</strong> (chin/jawline)</td>
+        <td>1–2 cycles using the small (submental) applicator + 1 Botox masseter or Kybella touch-up</td>
+        <td>~$1,200–$2,000</td>
+        <td>Selfie/Zoom-conscious patients 28–45; lowest-friction entry point</td>
+      </tr>
+      <tr>
+        <td><strong>GLP-1 Finish Line</strong></td>
+        <td>Full multi-area protocol: 8–12 cycles across 3 areas over 2 sessions + skin tightening consult + nutrition follow-up letter</td>
+        <td>$5,500–$7,500</td>
+        <td>Post-Ozempic patients at stable weight; highest-LTV segment</td>
+      </tr>
+      <tr>
+        <td><strong>His Sculpt</strong></td>
+        <td>4 CoolSculpting cycles (flanks or abs) + 4 Emsculpt sessions</td>
+        <td>~$4,500 (bundle saves ~20%)</td>
+        <td>Men 30–55; "executive maintenance" framing</td>
+      </tr>
+      <tr>
+        <td><strong>Bridal / Reunion Countdown</strong></td>
+        <td>3-month protocol: 2 CoolSculpting sessions + 4 Emsculpt sessions + facial</td>
+        <td>~$5,500</td>
+        <td>Event-driven women; calendar-anchored urgency</td>
+      </tr>
+      <tr>
+        <td><strong>MD Aesthetic Member</strong></td>
+        <td>Annual membership: Botox/laser discount + 15–20% off CoolSculpting cycles + priority booking</td>
+        <td>Membership fee + per-service discounts</td>
+        <td>High-LTV repeat cosmetic patients; retention play</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Bundle gross profit example</h3>
+  <p>The Beach Ready Bundle at MD's actual costs:</p>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>List price</th><th>Cost to MD (est.)</th><th>Gross margin</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>4 CoolSculpting cycles</td><td>$2,000</td><td>$600</td><td>$1,400</td></tr>
+      <tr><td>1 Ultherapy / laser tightening</td><td>$1,500</td><td>~$200</td><td>$1,300</td></tr>
+      <tr><td>Take-home skincare kit</td><td>$200</td><td>~$60</td><td>$140</td></tr>
+      <tr style="background:#f0e8e0;"><td><strong>Bundle list</strong></td><td><strong>$3,700</strong></td><td><strong>$860</strong></td><td><strong>$2,840 (77%)</strong></td></tr>
+      <tr style="background:#fef6c7;"><td><strong>Bundle promo (15% off)</strong></td><td><strong>$3,145</strong></td><td><strong>$860</strong></td><td><strong>$2,285 (73%)</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p>The bundle preserves 73% gross margin while delivering a clean "Save $555" headline — and it commits the patient to a complete protocol up front rather than the typical one-cycle drop-off pattern.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="channels">
+  <span class="section-tag">13 &middot; Channels</span>
+  <h2>Marketing channels: existing vs. acquisition</h2>
+
+  <p class="lead">For each channel: what it does for CoolSculpting, and how ready MD is to use it. Channel-specific targeting strategy follows in Section 14.</p>
+
+  <h3>For existing patients (retention &amp; cross-sell)</h3>
+  <table>
+    <thead>
+      <tr><th>Channel</th><th>How to use it for CoolSculpting</th><th>MD readiness</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vital Interaction email/SMS</strong></td>
+        <td>Segmented sends to past cosmetic patients announcing summer CoolSculpting; sequenced post-treatment retention reminders. Targeting framework in Section 14 is the rulebook.</td>
+        <td>Already in active use for skin cancer recall — same playbook, different segment</td>
+      </tr>
+      <tr>
+        <td><strong>EHR (ModMed) patient-list pulls</strong></td>
+        <td>Identify candidates: GLP-1 prescribed, prior body-contouring conversation, BMI in range, age 28–60. Hand-off to Vital Interaction.</td>
+        <td>Possible once Darell's EHR data-match project completes</td>
+      </tr>
+      <tr>
+        <td><strong>In-office collateral</strong></td>
+        <td>Posters in exam rooms at Flushing &amp; Fort Lee, iPad slideshows in waiting rooms, before/after binders. Most patients don't know MD even offers this.</td>
+        <td>Allergan supplies free co-branded collateral via BrandBox</td>
+      </tr>
+      <tr>
+        <td><strong>Provider conversation</strong></td>
+        <td>Train every provider at Flushing &amp; Fort Lee to mention CoolSculpting when patients raise body concerns. The MD relationship is the most powerful conversion lever.</td>
+        <td>Internal training needed; coordinate with Chanju</td>
+      </tr>
+      <tr>
+        <td><strong>Allē rewards integration</strong></td>
+        <td>Any CoolSculpting patient should auto-enroll in Allē at checkout. Points then nudge them back for Botox, filler, etc. — a closed loyalty loop.</td>
+        <td>Requires staff workflow at front desk</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>For new patient acquisition</h3>
+  <table>
+    <thead>
+      <tr><th>Channel</th><th>How to use it for CoolSculpting</th><th>MD readiness</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Google Ads (search)</strong></td>
+        <td>Bid on "CoolSculpting Queens," "CoolSculpting Fort Lee," "CoolSculpting near me," "non-surgical fat reduction." High-intent. UTM-tracked landing pages per location.</td>
+        <td>Concourse + Glen Oaks already active for general derm; expand to dedicated CoolSculpting campaigns at Flushing + Fort Lee</td>
+      </tr>
+      <tr>
+        <td><strong>Google Business Profile</strong></td>
+        <td>Per-location posts about CoolSculpting offers; before/after photo updates monthly. Strong organic local-search lift.</td>
+        <td>Active; ensure CoolSculpting service is prominently listed at Flushing &amp; Fort Lee</td>
+      </tr>
+      <tr>
+        <td><strong>ZocDoc Sponsored Results</strong></td>
+        <td>Bid for "dermatologist + cosmetic" searches; pair with the Tier 2/Tier 3 location-specific links from the site audit work.</td>
+        <td>Pending tier rollout; financial model still being analyzed separately by channel</td>
+      </tr>
+      <tr>
+        <td><strong>Facebook / Instagram paid</strong></td>
+        <td>Lookalike audiences from existing cosmetic patient list; before/after carousel; lead-form ads.</td>
+        <td>Landing page decision still pending — needs resolution before launch</td>
+      </tr>
+      <tr>
+        <td><strong>SocialClimb postcards</strong></td>
+        <td>Glen Oaks + Fort Lee corridors (Bronx already deprioritized). Direct patients to Fort Lee specifically; layer body-contouring score if available.</td>
+        <td>Active; just retarget messaging for CoolSculpting</td>
+      </tr>
+      <tr>
+        <td><strong>Local SEO + content</strong></td>
+        <td>Per-location pages: "CoolSculpting Flushing," "CoolSculpting Fort Lee." Blog content: "CoolSculpting after Ozempic," "CoolSculpting vs liposuction," "CoolSculpting for double chin."</td>
+        <td>Site has body-contouring page; needs location-specific build-out</td>
+      </tr>
+      <tr>
+        <td><strong>Instagram / TikTok organic</strong></td>
+        <td>Provider-on-camera explainers (myth-busting, day-of-treatment tour). Patient testimonials with consent. Strongest under-30 acquisition channel.</td>
+        <td>Light current activity — represents biggest upside</td>
+      </tr>
+      <tr>
+        <td><strong>Local micro-influencers</strong></td>
+        <td>Bergen County / Queens lifestyle influencers, 5K–50K followers. Comp'd treatment in exchange for content rights.</td>
+        <td>New channel; would need vetting</td>
+      </tr>
+      <tr>
+        <td><strong>Open-house / event marketing</strong></td>
+        <td>Live demo, light catering, before/after wall, on-the-spot consult discount. Strongest single conversion event for high-ticket aesthetic services.</td>
+        <td>Coordinate with Allergan rep — they often co-fund these</td>
+      </tr>
+      <tr>
+        <td><strong>Local partnerships</strong></td>
+        <td>OBGYNs (post-baby "Mommy Makeover" referral), gyms, bridal shops, photo studios near Flushing &amp; Fort Lee. Co-branded postcards or referral discount cards.</td>
+        <td>Untapped; small effort, long-tail return</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="targeting">
+  <span class="section-tag">14 &middot; Targeting</span>
+  <h2>Targeting strategy — Vital Interaction SMS</h2>
+
+  <p class="lead">Vital Interaction's flat-fee SMS pricing makes the marginal cost of an additional message effectively zero. The intuitive response is "send to everyone." The right response is "send to a refined list anyway." The reasoning isn't about the platform invoice — it's about every other cost that broad sending creates.</p>
+
+  <h3>Why "free" SMS isn't actually free</h3>
+  <table>
+    <caption>Hidden costs of broad SMS sending, even when the platform charge is flat</caption>
+    <thead>
+      <tr><th style="width:28%">Cost</th><th>Why it matters even when SMS is "free"</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Carrier deliverability &amp; 10DLC standing</strong></td>
+        <td>T-Mobile, AT&amp;T, and Verizon penalize senders with high opt-out and complaint rates. MD's delivery rate to <em>all</em> future SMS — appointment reminders, skin cancer recall, post-op instructions, no-show prevention — degrades when broad promotional sends generate complaints. This is real and not quickly reversible.</td>
+      </tr>
+      <tr>
+        <td><strong>Opt-outs are permanent</strong></td>
+        <td>A patient who opts out of marketing SMS after an irrelevant CoolSculpting blast can no longer receive <em>any</em> MD SMS — including the appointment reminders that affect Fordham/Fort Lee no-show rates. You permanently lose the patient from the most effective retention channel MD operates.</td>
+      </tr>
+      <tr>
+        <td><strong>Brand erosion</strong></td>
+        <td>A 75-year-old eczema patient receiving a "$500 off CoolSculpting" text learns that MD treats them as a marketing target rather than a patient. Hard to measure, cumulatively expensive.</td>
+      </tr>
+      <tr>
+        <td><strong>Conversion-rate signal loss</strong></td>
+        <td>A 5,000-person blast generating 20 bookings tells you nothing actionable. A 500-person targeted send generating 20 bookings tells you the message worked for that segment — and gives you a baseline to test against. Targeting is how you learn.</td>
+      </tr>
+      <tr>
+        <td><strong>Internal capacity</strong></td>
+        <td>Every consult booked has to be staffed. A broad blast that generates 200 inquiries from non-candidates (BMI too high, too far from Flushing or Fort Lee, no cosmetic interest) consumes front-desk time on disqualification — time that could have been spent converting qualified leads.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The targeting principle</h3>
+  <div class="pull-quote">Every SMS spends a unit of patient trust and channel reputation. Those units are finite.</div>
+
+  <p>The right frame isn't "free to send vs. costs to send" — it's whether each individual recipient is likely to find this message useful enough that you're not net-burning trust. That question is answerable by segment, not by message volume.</p>
+
+  <h3>Tiered targeting framework for CoolSculpting SMS</h3>
+
+  <table>
+    <caption>Three-tier audience framework for CoolSculpting promotional SMS</caption>
+    <thead>
+      <tr>
+        <th style="width:14%">Tier</th>
+        <th>Definition</th>
+        <th>Why they qualify</th>
+        <th>Approx. size</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f0f7ed;">
+        <td><strong>Tier 1<br>Send confidently</strong></td>
+        <td>Past CoolSculpting patients who haven't returned for session 2; past cosmetic patients (Botox, filler, laser, Ultherapy) at Flushing or Fort Lee; patients with prior CoolSculpting consult but no booking; known GLP-1 patients within drive distance of Flushing or Fort Lee</td>
+        <td>High relevance, prior cosmetic intent, geographic fit. Lowest opt-out and complaint risk. Highest conversion rate.</td>
+        <td>~200–400 patients</td>
+      </tr>
+      <tr style="background:#fef6c7;">
+        <td><strong>Tier 2<br>Send selectively, with location-specific messaging</strong></td>
+        <td>Past cosmetic patients at Elmhurst, Concourse, Fordham, or Glen Oaks who could realistically travel to Flushing or Fort Lee; patients who clicked a CoolSculpting link on the website (if tracked); medical-derm patients age 28–55 with a prior cosmetic consult on file</td>
+        <td>Plausible interest. Message must explicitly name the destination location (Flushing or Fort Lee) — otherwise the patient is confused and the SMS feels generic.</td>
+        <td>~500–1,000 patients</td>
+      </tr>
+      <tr style="background:#fdf2ee;">
+        <td><strong>Tier 3<br>Do not send</strong></td>
+        <td>Pediatric dermatology patients; skin cancer / Mohs patients; medical-derm patients with no cosmetic history; patients outside realistic Flushing/Fort Lee catchment; anyone who has opted out of any prior marketing SMS</td>
+        <td>Low relevance. High brand-erosion risk. High opt-out risk that damages the entire SMS channel.</td>
+        <td>(do not include)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Recommended sequencing for the summer 2026 campaign</h3>
+  <table>
+    <caption>Two-wave SMS rollout for CoolSculpting summer 2026</caption>
+    <thead>
+      <tr><th>Wave</th><th>Audience</th><th>Approx. size</th><th>What to measure</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Wave 1<br>Week 1</strong></td>
+        <td>Tier 1 only — past cosmetic patients, past CoolSculpting consults, GLP-1 patients within drive distance of Flushing or Fort Lee</td>
+        <td>200–400</td>
+        <td>Click-through rate, consult bookings, opt-out rate. Establish baseline conversion benchmark for MD's audience specifically.</td>
+      </tr>
+      <tr>
+        <td><strong>Wave 2<br>Week 3</strong></td>
+        <td>Tier 2 with location-specific messaging — only if Wave 1 conversion is healthy and opt-out rate is below ~2%</td>
+        <td>500–1,000</td>
+        <td>Compare conversion rate to Wave 1; if dramatically lower, that's the answer on whether to expand further. If similar, expand.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>The 2027 test worth running</h3>
+  <p>For 2027 planning, MD can answer the "does refinement actually matter at our patient base" question with a controlled test rather than relying on industry rules of thumb. Hold out a randomly selected 20% of Tier 2 from the first send and compare conversion rates between the held-out group (sent later) and the immediate send. That gives MD a real number on the value of refinement specific to this practice's patient mix — and a defensible basis for sizing future SMS campaigns.</p>
+
+  <div class="callout tip">
+    <div class="callout-label">The bottom line on targeting</div>
+    Bulk sending is cheap on the platform invoice but expensive in places that don't show up there: SMS deliverability, patient trust, internal capacity, and learning. Targeted sending costs the same to send and produces dramatically better signal. <strong>Refine the list, even when sending is free.</strong> The exception is appointment reminders and clinical communications — those go to everyone they apply to. Marketing SMS is a different category and deserves a different rulebook.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="timing">
+  <span class="section-tag">15 &middot; Timing</span>
+  <h2>Campaign timing — 2026 reality &amp; 2027 calendar</h2>
+
+  <p class="lead">Two facts shape every CoolSculpting campaign: the biology doesn't move (results take 1–3 months to show, 6 months to fully resolve), and Allergan runs the same major promotional moments every year. A well-prepared annual marketing calendar capitalizes on both.</p>
+
+  <h3>The biological calendar — what determines campaign timing</h3>
+  <table>
+    <caption>Patient timeline from booking to visible results</caption>
+    <thead>
+      <tr><th>Treatment date</th><th>Visible change starts</th><th>Noticeable results</th><th>Full results</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Early May</td><td>Late May</td><td><strong>Late June – early July</strong></td><td>Late October</td></tr>
+      <tr><td>Early June</td><td>Late June</td><td><strong>Late July – early August</strong></td><td>Late November</td></tr>
+      <tr><td>Early July</td><td>Late July</td><td><strong>Late August – Labor Day</strong></td><td>Late December</td></tr>
+      <tr><td>Early August</td><td>Late August</td><td><strong>Late September – early October</strong></td><td>Late January</td></tr>
+      <tr><td>Early October</td><td>Late October</td><td><strong>Late November – holiday season</strong></td><td>Late March</td></tr>
+      <tr><td>Early January</td><td>Late January</td><td><strong>Late February – early March</strong></td><td>Late June</td></tr>
+    </tbody>
+  </table>
+
+  <p>This single table is the most important planning tool for body-contouring marketing. It explains why Allergan's CoolMonth runs in <em>spring</em> (April), why a fall "holiday-ready" push has a real audience, and why a January "New Year's resolution" push aligns with summer-ready results.</p>
+
+  <h3>2026 reality — what's still in play, what's not</h3>
+  <div class="two-col">
+    <div class="col-card pro">
+      <h4>Still in play (May 1 – August 15)</h4>
+      <ul>
+        <li><strong>Late June and Labor Day weekend events.</strong> Treatments done in May produce visible change by late June; June treatments resolve by Labor Day.</li>
+        <li><strong>August / September vacation-driven bookings.</strong> Very common in NY metro; long enough runway.</li>
+        <li><strong>"Rest of summer" / fall reveal reframe.</strong> Pivot the message from "beach body" to "feel sculpted all summer" or "ready for fall events."</li>
+        <li><strong>Existing-patient session 2 bookings.</strong> Anyone who did session 1 in February–March is due now. Pure existing-patient revenue, no acquisition cost — and addresses the retention problem from Section 09.</li>
+        <li><strong>Submental ("double chin") campaigns.</strong> Single-session, faster results, often visible in 4–6 weeks. Selfie/Zoom messaging works year-round.</li>
+        <li><strong>GLP-1 finishing protocol.</strong> Not season-dependent — patients are reaching plateau weight rolling all year.</li>
+      </ul>
+    </div>
+    <div class="col-card con">
+      <h4>Already too late for 2026</h4>
+      <ul>
+        <li><strong>Memorial Day weekend (May 25)</strong> — first-time patients can't realistically see results in a month.</li>
+        <li><strong>July 4th</strong> first-time-patient acquisition campaigns.</li>
+        <li><strong>"Be ready by July" messaging</strong> — sets unrealistic expectations and damages trust.</li>
+        <li><strong>Multi-session protocol completion</strong> in time for July/early August events. Even a May start completes session 2 in late June, with full results in fall.</li>
+        <li><strong>Stacking on April's Allergan CoolMonth</strong> — the 2026 window closed April 30. The 45-day redemption window means patients who claimed it have until ~mid-June to redeem.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The Allergan / Allē promotional calendar — what to plan around</h3>
+  <p>Allergan runs CoolMonth annually, and the cadence has been consistent enough to plan against. Critically, the calendar is <strong>shifting earlier</strong> — 2025's CoolMonth kicked off in <em>January</em> rather than April, signaling Allergan is moving to capture post-holiday "New Year's resolution" demand alongside the spring window. Plan for both moments in 2027.</p>
+
+  <table>
+    <caption>Allergan CoolMonth — historical cadence and 2027 expectation</caption>
+    <thead>
+      <tr><th>Year</th><th>CoolMonth window</th><th>New-patient offer</th><th>Sweepstakes</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2023</td><td>April 1–30</td><td>First annual; varied offers</td><td>—</td><td>62,000+ treatments performed during the month</td></tr>
+      <tr><td>2024</td><td>April 1–30</td><td>"CoolSavings" promotions</td><td>—</td><td>Second annual; "spring" framing</td></tr>
+      <tr><td>2025</td><td>January 7 – February 6, treat by March 24</td><td>$300 off, 45-day redemption</td><td>$10,000 cash giveaway</td><td><strong>Major shift earlier</strong> to capture post-holiday demand</td></tr>
+      <tr><td>2026</td><td>April 1–30</td><td>$400 off, 45-day redemption</td><td>Up to $5,000 in CoolSculpting</td><td>Returned to spring; explicit GLP-1 messaging in press release</td></tr>
+      <tr><td><strong>2027 (expected)</strong></td><td><strong>Likely January AND April windows</strong></td><td>Likely $300–$500 off</td><td>Likely sweepstakes element</td><td>Confirm via Allergan rep in Nov/Dec 2026</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Other Allergan / Allē moments to plan around</h3>
+  <ul style="margin-left:24px;">
+    <li><strong>May — Skin Cancer Awareness Month.</strong> Allergan partners with The Skin Cancer Foundation; donations triggered by Refer-a-Friend signups. Fits perfectly with MD's existing skin cancer screening campaigns.</li>
+    <li><strong>Refer-a-Friend (year-round).</strong> Allē members earn $10 per friend referred, up to 5 per year. Layer MD-specific incentives on top.</li>
+    <li><strong>Allē Members-only flash offers.</strong> Periodic promotions throughout the year. Worth subscribing the marketing team to Allergan BrandBox for advance notice.</li>
+    <li><strong>National Bikini Day (July 5).</strong> Proven medspa promotional moment.</li>
+  </ul>
+
+  <h3>Recommended 2027 annual calendar for Metro Dermatology</h3>
+  <p>Built around three campaign moments aligned to Allergan's cadence and the biological timeline. Each captures a different patient-motivation window. Promotional structure follows the principles in <a href="#economics">Section 11</a>: discount in dollars, not in rate.</p>
+
+  <table>
+    <caption>Proposed 2027 CoolSculpting marketing calendar</caption>
+    <thead>
+      <tr>
+        <th style="width:13%">Window</th>
+        <th>Campaign theme</th>
+        <th>Patient motivation</th>
+        <th>MD layered promotion</th>
+        <th>Channel mix</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Jan 5 – Feb 28</strong></td>
+        <td>"New Year, New Contour" — aligned to expected January CoolMonth</td>
+        <td>Resolution-driven; results land March–April for spring break / spring events</td>
+        <td>Stack $200–$300 off on top of Allergan's CoolMonth offer; bundle with Botox renewal</td>
+        <td>Vital Interaction Tier 1 send + Google Ads + IG/FB paid; SocialClimb postcards in early Jan</td>
+      </tr>
+      <tr>
+        <td><strong>Mar 15 – May 31</strong></td>
+        <td>"Sculpted for Summer" — aligned to expected April CoolMonth</td>
+        <td>Pre-summer body prep; results emerge June–August</td>
+        <td>Stack on Allergan offer; add multi-area discount; tie to a complimentary Botox or filler credit (Allē-redeemable)</td>
+        <td>Same as above, plus open-house events at both Flushing and Fort Lee in May; Allergan rep on site</td>
+      </tr>
+      <tr>
+        <td><strong>Sep 1 – Oct 31</strong></td>
+        <td>"Holiday Reveal" — fills the gap Allergan typically doesn't promote</td>
+        <td>Holiday party / family-gathering motivation; results emerge by Thanksgiving / Christmas</td>
+        <td>MD-original promo; less competition for share of voice</td>
+        <td>Heavier organic/social and existing-patient channels; Vital Interaction email; postcards in Bergen / Glen Oaks corridors</td>
+      </tr>
+      <tr>
+        <td><strong>Always-on</strong></td>
+        <td>"GLP-1 Finish Line" — segment-targeted</td>
+        <td>Patients reaching stable weight after Ozempic/Wegovy/Mounjaro all year long</td>
+        <td>Modest standing offer; positioned as consultative not promotional</td>
+        <td>Google Ads (high-intent search), Vital Interaction targeted at flagged GLP-1 patients via EHR (when Darell's match is live)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Action items for 2027 readiness</h3>
+  <table>
+    <caption>What MD needs in place before each campaign window</caption>
+    <thead>
+      <tr><th style="width:18%">Owner / function</th><th>Action</th><th>Deadline</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Marketing (John)</td><td>Schedule recurring quarterly calls with the Allergan rep to confirm CoolMonth dates, co-op funds, and BrandBox materials</td><td>Standing — first call by mid-November 2026</td></tr>
+      <tr><td>Marketing (John)</td><td>Subscribe marketing team to Allergan BrandBox notifications for promotion calendar updates</td><td>This week</td></tr>
+      <tr><td>Marketing (Chanju)</td><td>Build out location-specific CoolSculpting landing pages for Flushing and Fort Lee with proper UTM tracking</td><td>By end of Q3 2026</td></tr>
+      <tr><td>Operations</td><td>Establish Allē enrollment workflow at Flushing &amp; Fort Lee front desks — every CoolSculpting patient enrolled at checkout</td><td>By end of Q2 2026</td></tr>
+      <tr><td>Data (Darell)</td><td>Complete EHR-to-ZocDoc match; add CoolSculpting candidate flagging logic (BMI in range, GLP-1 history, prior cosmetic visits)</td><td>By end of Q4 2026 ahead of January 2027 launch</td></tr>
+      <tr><td>Marketing</td><td>Build a CoolSculpting-specific Vital Interaction sequence (consult reminder, post-treatment check-in at 2w/4w/6w/8w, session 2 reminder) — directly addresses the 84% one-and-done rate</td><td>By end of Q3 2026 — highest priority</td></tr>
+      <tr><td>Clinical</td><td>Provider training at Flushing &amp; Fort Lee on the full menu — especially the GLP-1 conversation, PAH discussion, and protocol expectation-setting</td><td>By end of Q2 2026</td></tr>
+      <tr><td>Marketing</td><td>Develop before/after photo bank with patient consent forms across both locations and patient demographics</td><td>Ongoing, target 50+ pairs by end of 2026</td></tr>
+      <tr><td>Strategy</td><td>Evaluate whether to add a third CoolSculpting machine — Glen Oaks is the most natural candidate given Bergen catchment</td><td>Decision by end of Q3 2026 for 2027 budget</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="callout-label">The compounding insight — closing thought</div>
+    The biggest reason to invest in a 2027 calendar now is that <strong>infrastructure built for one campaign serves every future one</strong>. Location-specific landing pages, the Allē enrollment workflow, the GLP-1 patient-flagging logic, the before/after photo bank, the Vital Interaction retention sequences — all of it is reusable. The summer 2026 campaign will be a learning exercise with imperfect timing; the goal is to use it to build the assets that make January and April 2027 fully prepared. That's where the real growth happens.
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- ===========  PART FOUR — SALES PLAYBOOK  =================== -->
+<!-- ============================================================ -->
+
+<div class="group-divider">
+  <div class="group-num">Part Four</div>
+  <h1 class="group-title">Sales <em>playbook.</em></h1>
+  <p class="group-deck">What to say, when to say it, and what to avoid — from the first phone call to the second-session rebook. Built for front-desk staff, cosmetic coordinators, and providers. Marketing brings patients to the door; this section is what happens after.</p>
+</div>
+
+<!-- ============================================================ -->
+<section id="pitches">
+  <span class="section-tag">16 &middot; Catch phrases</span>
+  <h2>Catch phrases &amp; elevator pitches</h2>
+
+  <p class="lead">Short, memorable framings staff can drop into casual conversation when CoolSculpting comes up — at the front desk, during a medical visit, on the phone. Each one earns its place by being true, specific, and emotionally resonant in under fifteen seconds.</p>
+
+  <p>The principle behind a good catch phrase isn't to "sell." It's to give the patient a clean, accurate mental model of the procedure in one sentence so they can make a decision. Avoid superlatives ("amazing," "incredible") — they sound like marketing. Use specifics — they sound like medicine.</p>
+
+  <h3>The core phrases <span class="audience-tag both">Both audiences</span></h3>
+
+  <div class="phrase-grid">
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "What is it?"</div>
+      <div class="phrase">"It's the only FDA-cleared way to permanently remove fat without surgery — the device freezes the fat cells and your body clears them out over the next few months."</div>
+      <div class="phrase-when">Best for first-time inquiries. Anchors three facts in one sentence: FDA, permanent, non-surgical.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "Does it actually work?"</div>
+      <div class="phrase">"In clinical studies, 89% of patients are satisfied after their second visit. We've seen the same here — most patients are surprised by how natural the results look."</div>
+      <div class="phrase-when">Pairs evidence with social proof. The "89% after their second visit" anchor also subtly establishes that two visits is normal.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "Is it for weight loss?"</div>
+      <div class="phrase">"Not weight loss — body contouring. It's for the stubborn fat that doesn't respond to diet and exercise. Most of our patients are already close to their goal weight."</div>
+      <div class="phrase-when">The most important reframe. Setting this expectation early prevents poor-fit consults and disappointed patients later.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "How is it different from a medspa?"</div>
+      <div class="phrase">"Every treatment plan here is designed and reviewed by a board-certified dermatologist — not just a technician. That changes what we can spot during the consult and how we adjust your plan."</div>
+      <div class="phrase-when">MD's strongest differentiator. Use without putting down medspas — let the comparison speak for itself.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "Will it hurt?"</div>
+      <div class="phrase">"The first ten minutes feel intensely cold, then the area numbs. Most patients read or scroll their phone during the rest of the cycle. Some take a nap."</div>
+      <div class="phrase-when">Honest about the cold. The "some take a nap" detail is disarmingly specific and lowers anxiety.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "When will I see results?"</div>
+      <div class="phrase">"You'll start to see change at three to four weeks, with full results at three months. It's gradual — friends notice you look great without knowing exactly why."</div>
+      <div class="phrase-when">The timing matters for booking the consult — they need to understand summer-event planning has to start now, not in July.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When asked "Is it really permanent?"</div>
+      <div class="phrase">"Yes — the fat cells we treat don't grow back. As long as your weight stays stable, the contour you see at three months is the contour you keep."</div>
+      <div class="phrase-when">The honest caveat ("as long as your weight stays stable") protects against unrealistic expectations and feels trustworthy.</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-label">When the patient is post-GLP-1</div>
+      <div class="phrase">"Ozempic does the heavy lifting on overall weight. CoolSculpting is what handles the specific spots that don't respond, even when the rest of your body has changed."</div>
+      <div class="phrase-when">The fastest-growing patient segment in 2026. This phrase positions MD as the next step in their journey, not a competitor to their progress.</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-label">Internalize, don't memorize</div>
+    Staff don't need to say these word for word. The goal is for the underlying facts to be second nature — the FDA clearance, the 89% number, the "contouring not weight loss" distinction, the dermatologist supervision angle. Once those are internalized, the phrasing comes naturally and feels conversational rather than scripted.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="phone">
+  <span class="section-tag">17 &middot; Phone scripts</span>
+  <h2>Phone inquiry scripts</h2>
+
+  <p class="lead">Cold inbound phone calls are the highest-leverage moment in the entire patient pipeline — the patient has already raised their hand. The job of the phone call is not to sell the procedure. It is to <strong>book the consult</strong> and prevent the patient from leaving the call without a date.</p>
+
+  <h3>The opening <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>The opening sets the tone. A warm, confident greeting is more important than the words themselves.</p>
+
+  <div class="script">
+    "Thanks for calling Metro Dermatology, this is [name]. Are you calling about CoolSculpting today?"
+  </div>
+
+  <div class="framework">
+    Naming CoolSculpting upfront does two things: it confirms you understood why they called, and it signals that this is a normal, frequent inquiry — not something exotic. If the caller hesitates, they may be calling about something else; pivot smoothly. If they confirm, you're already past introductions.
+  </div>
+
+  <h3>The qualification — three quick questions <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>Before quoting prices or describing the procedure in depth, qualify the lead. Three questions, in this order:</p>
+
+  <div class="script">
+    "Great. Just so I can point you in the right direction — have you had CoolSculpting before, or would this be your first time?<br><br>
+    And do you have a particular area you're hoping to treat?<br><br>
+    And which of our locations is most convenient — Flushing or Fort Lee?"
+  </div>
+
+  <div class="framework">
+    These three questions accomplish a lot quickly. The "first time" question helps you pitch the right thing (a first-timer needs education; a repeat patient needs a rebook). The "area" question gauges seriousness — vague answers ("I don't know, just whatever") often signal a price shopper. The "location" question subtly assumes they're going to book somewhere — a small commitment that makes the next step easier.
+  </div>
+
+  <h3>The pivot — from inquiry to consult <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>The most common mistake on the phone is over-explaining. Resist the urge to describe the entire procedure. The patient called to <em>schedule</em>, not to be educated. Move to the consult booking quickly:</p>
+
+  <div class="script">
+    "The best next step is a free consultation with our cosmetic team. They'll evaluate the area, design a plan that's specifically for you, and walk you through pricing — which depends on the area and the number of cycles you'll need. Consultations are free and there's no obligation. I have an opening this Thursday at 2pm or Friday at 10am — which works better for you?"
+  </div>
+
+  <div class="framework">
+    Three things to notice: <strong>(1)</strong> "free" and "no obligation" lower the perceived friction of saying yes; <strong>(2)</strong> the pricing question is deflected to the consult — never quote prices on a phone call, since pricing depends on the area and cycle count, and a wrong number sets a bad anchor; <strong>(3)</strong> offering two specific times is dramatically more effective than asking "when works for you?" The two-option close removes decision paralysis.
+  </div>
+
+  <h3>Handling the price question <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>This is the question every caller asks and the one most likely to lose them if handled poorly. Never quote a flat price. Never say "it depends" without context.</p>
+
+  <div class="script">
+    "It depends on the area and how many cycles you'll need — most patients invest somewhere between $1,500 and $4,000 for a complete treatment plan, but the consultation is what nails down your specific number. We also have a current promotion — buy three cycles and get the fourth free, which most of our patients qualify for. Would Thursday or Friday work better for the consult?"
+  </div>
+
+  <div class="framework">
+    The range gives the caller a real anchor without committing to a wrong number. The promo mention plants a value reason to act now. Then immediately back to the close — never let the conversation drift after a price discussion.
+  </div>
+
+  <h3>The price-shopper signal <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>Some callers won't accept the consult and will keep pushing for a precise price comparison. This is usually a price shopper who has already called three other clinics. Don't fight it; redirect honestly.</p>
+
+  <div class="script">
+    "I understand wanting to compare. The honest answer is that any clinic quoting a flat price over the phone is guessing — they haven't seen your area or your goals. What I can tell you is our cycles are $500 each, our patients average somewhere in the $1,500 to $4,000 range for a complete plan, and our pricing is comparable to other dermatology practices in the area. The consult is the only way to know what your number actually is, and it's free. Would you like to schedule one?"
+  </div>
+
+  <div class="framework">
+    Honesty disarms a price shopper better than a sales pitch. Stating the per-cycle rate ($500) gives them a real number to compare, without committing to a total. The "comparable to other dermatology practices" framing positions MD against medspas without naming them.
+  </div>
+
+  <h3>If they won't book <span class="audience-tag front-desk">Front-desk</span></h3>
+
+  <p>If after all of this the caller still won't commit to a consult, capture them for follow-up rather than letting them disappear:</p>
+
+  <div class="script">
+    "Totally understand wanting to think about it. Could I send you a quick text or email with the highlights and our promotion details, so you have it when you're ready? What's the best number for you?"
+  </div>
+
+  <div class="framework">
+    The opt-in collection here is critical. A "no" today is often a "yes" in three weeks if you can stay in front of them. The text/email choice gives the patient control. Make sure the opt-in is properly recorded so Vital Interaction can include them in future campaigns.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="consult">
+  <span class="section-tag">18 &middot; Consult framework</span>
+  <h2>Consult conversation framework</h2>
+
+  <p class="lead">The consult is where the real conversion happens. Done well, it ends with a booked first session and a patient who feels understood. Done poorly, it ends with "I need to think about it" — which is almost always a no. The framework below structures a 30–45 minute consult into seven stages.</p>
+
+  <h3>Stage 1 — Rapport &amp; framing (3 min) <span class="audience-tag both">Both</span></h3>
+
+  <p>Don't open with the procedure. Open with the person.</p>
+
+  <div class="script">
+    "Hi [name], I'm [your name]. Before we dive in, tell me a little about what brings you in today — what made you think about CoolSculpting, and what would feel like a great outcome for you?"
+  </div>
+
+  <div class="framework">
+    Two open questions that surface motivation and goals. The patient's answer here is the most valuable information you'll get all visit — it tells you which fears to address and which benefits to emphasize later. Take notes if appropriate. Don't interrupt.
+  </div>
+
+  <h3>Stage 2 — Goals discovery (5 min) <span class="audience-tag both">Both</span></h3>
+
+  <p>Drill into the goals from Stage 1. The patient said something general ("my stomach"). Get specific.</p>
+
+  <div class="framework adapt">
+    Ask follow-ups: "When you say your stomach, do you mean the lower abdomen specifically, or the whole area?" "Is there an event coming up — a wedding, vacation, reunion — or is this more of a long-term goal?" "Have you tried other approaches — diet, exercise, GLP-1 medications?" The answers tell you whether they're a strong candidate, what timing pressures exist, and what they've already ruled out.
+  </div>
+
+  <h3>Stage 3 — Candidacy assessment (5–8 min) <span class="audience-tag provider">Provider</span></h3>
+
+  <p>Physical evaluation: pinch test, assessment of skin laxity, evaluation of fat distribution and symmetry, BMI consideration, and screen for contraindications (cryoglobulinemia, cold agglutinin disease, recent surgery, pregnancy).</p>
+
+  <div class="framework">
+    Two outcomes are possible: the patient is a good candidate, or they're not. If not, the consult is over and you say so — kindly. Treating a poor-fit patient is the worst long-term decision a practice can make. It hurts them, it hurts the practice's reputation, and it costs you the referral they'd have given if you'd been honest. If they have significant skin laxity, redirect to Ultherapy or surgical lifting. If they're not yet at a stable weight, suggest they reach goal weight first.
+  </div>
+
+  <h3>Stage 4 — Setting expectations (5 min) <span class="audience-tag both">Both</span></h3>
+
+  <p>This is the stage that most directly affects retention. The consult is your chance to set the patient up for protocol completion (two sessions) rather than disappointment after one.</p>
+
+  <div class="script">
+    "Let me explain how this typically works, so you know exactly what to expect. CoolSculpting is sold per <em>cycle</em> — that's one applicator placement on one spot. For a full abdomen, most patients need four cycles per visit, and most patients do two visits about six to eight weeks apart, for the best result. So we're talking about a complete plan, not a single appointment.<br><br>
+    Results emerge gradually — you'll start seeing change at three to four weeks, and your full result at three months. It's not a dramatic moment; it's a gradual shift that you and the people around you notice over weeks."
+  </div>
+
+  <div class="framework">
+    Three things this script does: <strong>(1)</strong> introduces the cycle/session/protocol distinction explicitly, which prevents pricing surprises later; <strong>(2)</strong> normalizes two visits as the standard plan, addressing MD's 84% one-and-done retention problem at the moment of greatest leverage; <strong>(3)</strong> sets gradual-result expectations, which prevents the "is it working?" anxiety that drives some patients to give up before session 2.
+  </div>
+
+  <h3>Stage 5 — Pricing presentation (5 min) <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>The transition to pricing should feel natural, not transactional.</p>
+
+  <div class="script">
+    "Based on what we've discussed, here's the plan I'd recommend: [X cycles] over [N sessions]. At our standard rate of $500 per cycle, that's [$total]. With our current Buy 3 Get 1 Free promotion, your investment for the complete plan would be [$total with promo].<br><br>
+    We do offer financing through CareCredit if you'd like to spread the payment out, and many patients find it easier that way. Do you have any questions about the pricing or the plan?"
+  </div>
+
+  <div class="framework">
+    Frame the dollar amount as an "investment," not a "cost" — the word matters. Present financing proactively rather than waiting for the patient to ask, which removes a friction point. The closing question invites questions but doesn't push for a decision yet — that comes in Stage 7.
+  </div>
+
+  <h3>Stage 6 — Question &amp; objection handling (5–10 min) <span class="audience-tag both">Both</span></h3>
+
+  <p>Section 19 covers the specific objections and how to handle each. The framework is: listen fully, acknowledge the concern, address with a specific fact, and end with a question that moves the conversation forward.</p>
+
+  <h3>Stage 7 — The close (3 min) <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>The most important — and most underused — step. The patient has been educated, qualified, priced, and reassured. Ask for the booking.</p>
+
+  <div class="script">
+    "I think you'd be a great candidate, and the timing actually works well — if we book your first session in the next two weeks, your results will be at their peak just in time for [their event / late summer]. I have an opening Tuesday morning or Thursday afternoon next week. Which works better for you?"
+  </div>
+
+  <div class="framework">
+    Three components: <strong>(1)</strong> affirmation ("you'd be a great candidate") confirms their decision is sound; <strong>(2)</strong> timing logic links their goal back to a specific calendar — this is why setting expectations in Stage 4 matters; <strong>(3)</strong> the two-option close removes the open-ended "when would you like to come in?" question that often produces "let me check my schedule and get back to you" — which is usually code for "no."
+  </div>
+
+  <h3>If the close doesn't land <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>If the patient says "I need to think about it," that's not a no — it's a request for more information or more time. Don't push, but don't let them leave without a follow-up plan.</p>
+
+  <div class="script">
+    "Totally understand. What would help you make the decision? Is it the pricing, the timing, or something else?"
+  </div>
+
+  <div class="framework">
+    This question surfaces the real objection. "I need to think about it" almost always masks a specific concern — price, fear of pain, partner consultation, scheduling, fear of side effects. Once you know which one, you can address it directly. If they truly need time, schedule a follow-up call: "How about I check back with you on Friday — would that work?"
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="objections">
+  <span class="section-tag">19 &middot; Objection handling</span>
+  <h2>Objection handling</h2>
+
+  <p class="lead">Most consults end with the same handful of objections. Each one has a recommended response and a principle behind it. The principle matters more than the script — patients can tell when they're being recited at.</p>
+
+  <h3>"Isn't there a risk of that thing that happened to Linda Evangelista?" (PAH) <span class="audience-tag both">Both</span></h3>
+
+  <p>The most common safety objection in 2026, and the one most likely to surface unprompted. <strong>Don't deflect or minimize it.</strong> Address it directly and honestly.</p>
+
+  <div class="script">
+    "I'm glad you brought that up — it's a fair question. What you're referring to is called Paradoxical Adipose Hyperplasia, or PAH. It's real, and it does occur in roughly one in a thousand to one in ten thousand cases. It's why I want to do a thorough evaluation before treatment, why this needs to be done by a dermatologist-supervised practice, and why we follow up carefully after each session. The honest reason it became famous is that it can require surgical correction if it does occur — but the rate is low, and we've never seen it in our practice."
+  </div>
+
+  <div class="framework">
+    Three principles at work: <strong>(1)</strong> name the thing (PAH) — patients trust providers who use the medical term; <strong>(2)</strong> give the actual rate (1 in 1,000 to 1 in 10,000) — vague reassurance ("it's very rare") feels like avoidance; <strong>(3)</strong> tie it back to MD's differentiator (dermatologist supervision) without sounding like a sales pitch. If MD has had a PAH case, modify the last sentence honestly — never lie. Trust is built in moments like this.
+  </div>
+
+  <h3>"That's more than I expected. Can you do better on price?" <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>The instinct is to discount. Resist it.</p>
+
+  <div class="script">
+    "I hear you — it's a real investment. The promotion we have right now is the deepest discount we offer publicly: buy 3 cycles, get 1 free, which is a 25% effective savings. We can also break the payment up through CareCredit so you're not paying it all upfront — many patients prefer that. Would that help?"
+  </div>
+
+  <div class="framework">
+    Discounting on the spot trains patients (and the staff member) that prices are negotiable. Stay anchored on the promotion as the discount and offer financing as the friction reducer. If a patient genuinely cannot afford the full plan, suggest starting with a single area or single cycle rather than dropping the per-cycle rate.
+  </div>
+
+  <h3>"I saw [Better U / SKINNEY / a medspa] is cheaper. Why are you more expensive?" <span class="audience-tag both">Both</span></h3>
+
+  <p>Don't disparage competitors. Reframe the comparison.</p>
+
+  <div class="script">
+    "That's a fair question. The honest answer has two parts. First, our pricing reflects that every plan here is designed and supervised by a board-certified dermatologist — not a technician. That changes what we can spot during the evaluation, especially around skin laxity, scarring history, or whether you'd actually be better served by a different procedure. Second, we follow up with our patients carefully — we want you back for the second session because that's when the result really comes together. Some clinics treat each session as a transaction; we treat it as a plan."
+  </div>
+
+  <div class="framework">
+    Two value pillars — clinical expertise and protocol completion — both real differentiators that medspas can't credibly claim. The "not a technician" line lands without insulting medspas (they really are staffed primarily by aestheticians, by design). The "treat it as a plan" line connects price to MD's interest in the patient's outcome, not the transaction.
+  </div>
+
+  <h3>"They have CoolSculpting Elite — yours is the older model" <span class="audience-tag both">Both</span></h3>
+
+  <p>This will come up. The honest answer respects the patient's research without conceding clinical ground.</p>
+
+  <div class="script">
+    "Good catch — yes, our device is the original generation. The clinical results are identical: same FDA clearances, same fat reduction per cycle, same safety profile. The difference is hardware: Elite has dual applicators that can run two cycles at once, so a multi-area visit is shorter at an Elite-equipped clinic. With us, your visit will run about 30 minutes longer for a 4-cycle treatment. The trade-off is that you spend that time with a dermatologist-supervised team rather than a technician working alone. Most of our patients tell us they actually prefer the pace."
+  </div>
+
+  <div class="framework">
+    The principle here is <em>concede what's true, defend what matters</em>. Don't pretend MD's device is Elite. Don't pretend the visit length is the same. Both are easy to verify and lying creates much bigger trust problems later. Instead: own the difference, name it specifically (30 minutes longer), and pivot to the value MD does deliver. The "most patients prefer the pace" line is supported by general medspa-vs-derm consumer research and feels confident rather than defensive.
+  </div>
+
+  <h3>"Can I just do one cycle to try it out?" <span class="audience-tag both">Both</span></h3>
+
+  <p>Patients sometimes want to "test" before committing. The provider's job is to set realistic expectations about what one cycle will and won't do.</p>
+
+  <div class="script">
+    "You can — but I want to be honest with you about what one cycle does. For a smaller area like under the chin, one cycle might be enough to see a real change. For a larger area like the abdomen or flanks, one cycle covers a portion of the area, and the result will be uneven. Most patients who do one cycle and stop are disappointed — not because the procedure didn't work, but because it wasn't given a chance to. If you'd like to start with one cycle on a smaller area to see how your body responds, that can work. For a larger area, I'd really recommend a complete plan."
+  </div>
+
+  <div class="framework">
+    Honesty about under-treatment outcomes is one of the most important conversations in cosmetic medicine. Patients who do one cycle and stop become bad-review patients. The framework is: agree it's the patient's choice, explain what one cycle realistically produces, and recommend a different starting point that doesn't set them up to fail.
+  </div>
+
+  <h3>"I want to wait until after summer / until things calm down" <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>This is usually a soft objection that masks something else. Probe gently.</p>
+
+  <div class="script">
+    "That's fair — and it's actually a good reason to start now, not later. Results take three months to fully emerge. If you start in May, you're at peak result by Labor Day. If you wait until fall, you're at peak result for spring — which is great, but pushes your goal back six months. What were you hoping to look forward to?"
+  </div>
+
+  <div class="framework">
+    The biology timeline (Section 12) is the truth in this conversation. The patient's instinct to "wait" usually comes from believing the procedure has a recovery period or seasonal logic that doesn't actually apply. Reframe the timing around their goal, not around their schedule.
+  </div>
+
+  <h3>"I need to talk to my husband / partner first" <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>Almost never a real reason. Almost always a soft no driven by another concern — usually price, sometimes fear. Surface the underlying issue.</p>
+
+  <div class="script">
+    "Of course — that makes sense. Just so I can give you the right information to share with him, what do you think his main question will be? Pricing, time commitment, the procedure itself?"
+  </div>
+
+  <div class="framework">
+    Reframe "I need to talk to my husband" from objection to information request. The patient's answer to "what's his main question" reveals what their <em>own</em> hesitation actually is. Once you know, you can address it. If they really do need partner consultation (which happens), schedule a follow-up: "Would it help if I sent you a one-page summary you could share with him? And let's pencil in a call for Friday to check back."
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="pipeline">
+  <span class="section-tag">20 &middot; Pipeline &amp; rebooking</span>
+  <h2>Pipeline, follow-up &amp; second-session rebooking</h2>
+
+  <p class="lead">The 84% one-and-done rate from Section 09 is the single most actionable problem in the practice. It is overwhelmingly a sales problem, not a marketing problem — patients are showing up, they're just not coming back. The cadence below is designed to fix that.</p>
+
+  <h3>The patient pipeline — five stages <span class="audience-tag both">Both</span></h3>
+
+  <table>
+    <caption>Stages of the CoolSculpting patient journey, with conversion goals</caption>
+    <thead>
+      <tr><th style="width:18%">Stage</th><th>Trigger</th><th>Conversion goal</th><th>Owner</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>1. Inquiry</strong></td><td>Phone call, web form, walk-in</td><td>Book a consult</td><td>Front-desk</td></tr>
+      <tr><td><strong>2. Consult booked</strong></td><td>Consult on calendar</td><td>Patient shows up</td><td>Vital Interaction reminders + front-desk</td></tr>
+      <tr><td><strong>3. Consult held</strong></td><td>Patient in chair</td><td>Book first treatment session</td><td>Provider + coordinator</td></tr>
+      <tr><td><strong>4. First session held</strong></td><td>Treatment complete</td><td>Book second session</td><td>Provider + coordinator (at checkout)</td></tr>
+      <tr><td><strong>5. Second session held</strong></td><td>Protocol complete</td><td>Future treatment plan or membership enrollment</td><td>Coordinator</td></tr>
+    </tbody>
+  </table>
+
+  <p>MD's data shows healthy throughput at stages 1, 2, and 3 — patients are getting in the door. The dropoff is at stage 4-to-5: patients complete session 1 and don't return for session 2. The follow-up cadence below is designed to fix exactly that gap.</p>
+
+  <h3>The post-consult follow-up cadence <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>For consults that don't book the same day. The goal is to convert "let me think about it" into a booked session within 14 days.</p>
+
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Touchpoint</th><th>Channel</th><th>Message</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 0 (consult day)</td><td>Thank-you</td><td>Email or text</td><td>"Thanks for coming in today, [name]! Here's a quick summary of the plan we discussed: [details]. The promotion runs through [date]. Any questions, just reply."</td></tr>
+      <tr><td>Day 3</td><td>Soft check-in</td><td>Text</td><td>"Hi [name] — just checking in to see if any questions came up after our consult. Happy to answer anything."</td></tr>
+      <tr><td>Day 7</td><td>Value reinforcement</td><td>Email</td><td>"A quick reminder of the timeline: starting in [month] means peak results by [event]. The Buy 3 Get 1 Free promo runs through [date]. Want me to hold a slot?"</td></tr>
+      <tr><td>Day 14</td><td>Final nudge</td><td>Phone call</td><td>Conversational. "Just wanted to check in personally — anything we can answer? The promotion ends [date]."</td></tr>
+      <tr><td>Day 30</td><td>Long-tail</td><td>Email</td><td>Move to general nurture sequence; revisit at next promotional cycle.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The post-session-1 retention cadence — the most important sequence <span class="audience-tag both">Both</span></h3>
+
+  <p>This is where MD recovers the 84% retention gap. Every CoolSculpting patient who completes session 1 should automatically enter this sequence.</p>
+
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Touchpoint</th><th>Channel</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 1</td><td>Comfort check-in</td><td>Text</td><td>"Hi [name], how are you feeling today? Any soreness or numbness is completely normal and should resolve in a week or two. Reply anytime if you have questions."</td></tr>
+      <tr><td>Day 7</td><td>Side-effect normalization</td><td>Text</td><td>"At one week, some patients still feel mild numbness or tenderness — totally normal. You'll start to see early visible changes around week 3-4."</td></tr>
+      <tr><td>Day 21</td><td>Result anticipation</td><td>Email</td><td>"By now you may be noticing the first signs of change. Most patients see clearer results around weeks 6-8 — which is also when we recommend session 2 for the best final result."</td></tr>
+      <tr><td>Day 35</td><td>Rebook prompt</td><td>Phone call from coordinator</td><td>Live conversation. "How are you feeling about your results so far? Most patients book session 2 around now to keep the momentum. Tuesday or Thursday work for you?"</td></tr>
+      <tr><td>Day 42</td><td>Promo-anchored nudge</td><td>Text</td><td>"Hi [name] — your second session window is open. The Buy 3 Get 1 Free promo runs through [date], and you'll save [$] on your second visit if we book before then."</td></tr>
+      <tr><td>Day 56</td><td>Final scheduled outreach</td><td>Email + text</td><td>"You're at the ideal window for session 2. Locking it in now means peak results by [event/season]."</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The rebooking script — the most important 30 seconds in the practice <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>This conversation happens at checkout after session 1. <strong>Do not let the patient leave without a session 2 booking.</strong></p>
+
+  <div class="script">
+    "Great work today, [name]. Before you head out — let's go ahead and put your second session on the calendar now, while you're here. Most of our patients come back at the six-week mark for the strongest result. That puts us looking at the week of [date] — does Tuesday or Thursday morning work better for you?"
+  </div>
+
+  <div class="framework">
+    Five things this script does: <strong>(1)</strong> It assumes the booking — there's no "would you like to" question. <strong>(2)</strong> "While you're here" makes the timing feel natural, not pushy. <strong>(3)</strong> "Most of our patients come back at six weeks" normalizes the second session as the standard, not the exception. <strong>(4)</strong> The specific date removes ambiguity. <strong>(5)</strong> The two-option close prevents "let me check my schedule." If the patient genuinely can't book on the spot, schedule a tentative date and a follow-up call to confirm — don't let them walk away with no commitment.
+  </div>
+
+  <h3>The rebooking objection: "Let me see how the results look first" <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>The most common rebooking objection. Address with the biology, not with pressure.</p>
+
+  <div class="script">
+    "Totally fair — and that's actually why most patients book ahead. The full result from today's session emerges around the three-month mark, but session 2 needs to happen at six to eight weeks for the best combined outcome. If you wait until you can see today's full result, the window for session 2 is already closing. Let's hold a date — we can always reschedule, but having it on the calendar makes it easier to plan."
+  </div>
+
+  <div class="framework">
+    The principle: hold the date, even if tentatively. Patients who leave with no calendar entry rarely come back. Patients with even a tentative entry come back at much higher rates because there's a concrete commitment to keep or move. The scheduling itself is what creates retention, more than any single conversation.
+  </div>
+
+  <h3>Membership conversion — after session 2 <span class="audience-tag front-desk">Front-desk / Coordinator</span></h3>
+
+  <p>The patient who completes a full protocol is MD's highest-LTV opportunity. After session 2, transition the conversation toward an annual membership or a future treatment area.</p>
+
+  <div class="script">
+    "You've completed your full plan — you'll see your final result around three months from today. Some of our patients enroll in our annual aesthetic membership at this point — it gets you a discount on Botox, fillers, and any future CoolSculpting cycles. It also includes a complimentary treatment-planning session with our team each year. Would you like to hear about it, or schedule a check-in for three months out?"
+  </div>
+
+  <div class="framework">
+    Two paths — membership (high-LTV conversion) or three-month check-in (relationship continuation). Either is a win. The check-in option is important because patients who just had a procedure aren't always in the mindset to commit to a membership immediately, but they're easy to convert at the three-month mark when they can see results.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="provider">
+  <span class="section-tag">21 &middot; Provider talking points</span>
+  <h2>Provider talking points</h2>
+
+  <p class="lead">Dermatologists are the highest-trust voice in the practice. A single mention from Dr. Lee or another provider during a medical-derm visit can move a patient further than a dozen marketing emails. But the line between professional recommendation and feeling like a sales pitch is real, and the patient can sense the difference instantly. The frameworks below are designed to keep that line clean.</p>
+
+  <h3>The principle <span class="audience-tag provider">Provider</span></h3>
+
+  <p>Don't sell. Notice. The patient came in for something else — a rash, a screening, a follow-up. Their visit is not the time for a CoolSculpting pitch. But it is a fine time for a provider observation that opens a door, leaves it open, and lets the patient walk through if they want.</p>
+
+  <div class="callout">
+    <div class="callout-label">The line a provider should never cross</div>
+    <strong>Never raise CoolSculpting unprompted with a patient who hasn't expressed body-contouring interest, and never raise it as a comment on the patient's body.</strong> Saying "you might want to consider CoolSculpting" to a patient who came in for a mole check is a violation of the provider relationship and will be remembered as an insult, not a recommendation. The provider's role is to <em>respond</em> to patient-raised cues, not to volunteer cosmetic suggestions.
+  </div>
+
+  <h3>When the patient mentions weight, body, or appearance <span class="audience-tag provider">Provider</span></h3>
+
+  <p>If during the medical visit the patient brings up something appearance-related — "I've been struggling with this stomach pooch since the kids," "I've lost a lot of weight on Ozempic but my arms still bother me" — that's a patient-opened door. The provider can respond.</p>
+
+  <div class="script">
+    "That's actually something we treat here — we offer a non-surgical body contouring procedure called CoolSculpting that's specifically designed for the kind of stubborn fat that doesn't respond to weight loss alone. Our cosmetic team does free consultations if you ever want to learn more. Otherwise, let's get back to what brought you in today."
+  </div>
+
+  <div class="framework">
+    The structure: name the procedure, link it specifically to what they mentioned (Ozempic stubborn fat, post-pregnancy areas, etc.), offer the free consult as the next step, and immediately return to the original visit reason. The "let's get back to what brought you in" line is what makes this feel like a recommendation rather than a sale — the provider is signaling that they're not pivoting the visit.
+  </div>
+
+  <h3>When the patient asks the provider directly <span class="audience-tag provider">Provider</span></h3>
+
+  <p>If the patient asks ("I've been thinking about CoolSculpting — what do you think?"), the provider can speak with full authority.</p>
+
+  <div class="script">
+    "It's a procedure I've supported for years — it's safe, it's FDA-cleared, and the results in the right candidate are very natural. The key is candidacy. It works best for someone who's at a stable weight with specific areas of stubborn fat — it's not a weight-loss treatment. If you want, I can have our cosmetic team do a free consultation to see if you'd be a good fit."
+  </div>
+
+  <div class="framework">
+    The provider's voice carries weight precisely because they're not a salesperson. Use plain, honest language: "I've supported this for years," "the key is candidacy," "free consultation to see if you'd be a good fit." Avoid promotional language ("amazing results," "you'd love it"). Hand off to the cosmetic team for the actual sales conversation — the provider's job is the endorsement, not the close.
+  </div>
+
+  <h3>When the patient is post-GLP-1 <span class="audience-tag provider">Provider</span></h3>
+
+  <p>This is the highest-leverage provider conversation in the practice in 2026. Patients on or recently off GLP-1 medications often have stable goal weights with stubborn pocket areas — a textbook CoolSculpting candidate. They also frequently raise it themselves: "I've lost the weight but I still have…"</p>
+
+  <div class="script">
+    "Congratulations on the progress with [Ozempic / Wegovy / Mounjaro] — that's significant. The places where you're still seeing stubborn fat are exactly what CoolSculpting is designed to address. The medication does the systemic work; CoolSculpting handles the localized areas the medication can't reach. If your weight has been stable for a few months, you'd be a strong candidate. Want me to have the cosmetic team reach out about a consultation?"
+  </div>
+
+  <div class="framework">
+    Three things this script does well: <strong>(1)</strong> congratulates the progress without questioning it — the GLP-1 patient has often felt judged about taking the medication; <strong>(2)</strong> positions CoolSculpting as a complement to their journey, not a competitor; <strong>(3)</strong> qualifies on stable weight, which is the actual clinical requirement and feels professional rather than transactional. The "want me to have the cosmetic team reach out" framing is a softer ask than "would you like to book a consult" — it removes immediate decision pressure.
+  </div>
+
+  <h3>When the answer is no <span class="audience-tag provider">Provider</span></h3>
+
+  <p>Sometimes the patient asks about CoolSculpting and they're not a good candidate — significant skin laxity, BMI too high, weight not stable, contraindicated condition. The provider's honest assessment matters more than a booking.</p>
+
+  <div class="script">
+    "I appreciate you asking. To be honest, CoolSculpting probably isn't the right fit for your situation right now — [specific reason: you have some skin laxity that would be better addressed with Ultherapy / I'd want to see your weight stable for a few months first / etc.]. The good news is there are other things that would work well — let me have our cosmetic team look at the full picture. The goal here is the right procedure for you, not just any procedure."
+  </div>
+
+  <div class="framework">
+    Honest no's protect the practice's reputation more than any number of yeses. A patient who's told "actually, this isn't right for you" by a dermatologist remembers that — and tells friends. Misfit consults that turn into misfit treatments turn into bad reviews and refund requests. The "right procedure for you, not just any procedure" line is one of the strongest things a provider can say, and it costs the practice nothing.
+  </div>
+
+  <div class="callout tip">
+    <div class="callout-label">The compounding insight — closing thought on Part Four</div>
+    Marketing and sales serve different functions but share one principle: the patient can always tell. They can tell when a phone script is recited rather than meant. They can tell when an objection response is rehearsed defensiveness. They can tell when a provider's recommendation is a sales pitch in disguise. The frameworks in this section work because they assume the patient is paying attention. <strong>Don't memorize the scripts. Internalize the principles, and let the words come from you.</strong> That's the difference between a practice that grows on retention and a practice that has to keep buying new patients to stay flat.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <h4>Sources &amp; methodology</h4>
+  <p>Compiled from publicly available 2025–2026 sources including ASPS 2026 Trend Report, Allergan Aesthetics CoolMonth materials, ABC News / PR Newswire (Allergan press releases), Cleveland Clinic, Mayo Clinic Press, Healthline, WebMD, Medical News Today, ASPS PSRC research posters, McKinsey GLP-1 aesthetic data, and competitor websites (Tribeca MedSpa, Coolspa by Aethos, StudioMD, Cool Contouring NY, SKINNEY Medspa, Reflections Center, Better U Medical Spa, Adult &amp; Pediatric Dermatology, Flushing Medical Spa, Hello Hydration NJ, Ethos Spa, LUX Medical Spa, Metropolitan Dermatology). Pricing reflects publicly listed ranges as of April 2026 and should be re-verified before any campaign budget approval. Local-competitor list is illustrative and not exhaustive — recommend a final local-market audit before launch.</p>
+  <p style="margin-top:12px;"><strong>Prepared for:</strong> John, Marketing Leadership, Metro Dermatology &nbsp;&middot;&nbsp; <strong>Use case:</strong> Summer 2026 CoolSculpting promotion strategy &nbsp;&middot;&nbsp; <strong>Status:</strong> Research brief; not yet validated against MD internal data (LTV, current pricing, EHR patient counts)</p>
+</footer>
+
+</body>
+</html>
