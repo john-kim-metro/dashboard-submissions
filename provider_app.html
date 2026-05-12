@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Provider Coding Feedback System</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #F5F4EE;
+    color: #1F1E1C;
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .page { max-width: 980px; margin: 0 auto; }
+  .header { margin-bottom: 24px; }
+  .header h1 { font-size: 22px; font-weight: 500; margin: 0; }
+  .header p { font-size: 13px; color: #6B6A66; margin: 4px 0 0; }
+  .container {
+    background: white;
+    border-radius: 12px;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    padding: 24px;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+  }
+  .tab {
+    border: none;
+    background: transparent;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #6B6A66;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .tab.active {
+    background: #F5F4EE;
+    font-weight: 500;
+    color: #1F1E1C;
+  }
+  .view-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .view-title { font-size: 18px; font-weight: 500; margin: 0; }
+  .view-subtitle { font-size: 13px; color: #6B6A66; margin: 2px 0 0; }
+  .badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  .badge-success { background: #E1F5EE; color: #085041; }
+  .badge-danger { background: #FCEBEB; color: #791F1F; }
+  .badge-warning { background: #FAEEDA; color: #854F0B; }
+  .badge-info { background: #E6F1FB; color: #0C447C; }
+  .badge-neutral { background: #F1EFE8; color: #5F5E5A; }
+  .card {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .form-field { margin-bottom: 12px; }
+  .form-label {
+    font-size: 12px;
+    color: #6B6A66;
+    display: block;
+    margin-bottom: 4px;
+  }
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 0.5px solid rgba(0,0,0,0.18);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    background: white;
+    color: #1F1E1C;
+  }
+  textarea {
+    min-height: 70px;
+    resize: vertical;
+  }
+  textarea.url-field {
+    min-height: 50px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid #378ADD;
+    outline-offset: -1px;
+    border-color: transparent;
+  }
+  .alert {
+    background: #FAEEDA;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .alert-title { font-size: 12px; color: #633806; margin: 0; font-weight: 500; }
+  .alert-body { font-size: 12px; color: #854F0B; margin: 4px 0 0; }
+  .channels {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .actions { display: flex; gap: 8px; }
+  .btn {
+    border: 0.5px solid rgba(0,0,0,0.18);
+    background: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #1F1E1C;
+  }
+  .btn:hover { background: #F5F4EE; }
+  .btn-primary {
+    background: #1D9E75;
+    color: white;
+    border: none;
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: #0F6E56; }
+  .btn-secondary {
+    background: white;
+    color: #1F1E1C;
+  }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .footer-section {
+    border-top: 0.5px solid rgba(0,0,0,0.12);
+    padding-top: 12px;
+  }
+  .channels-label { font-size: 12px; color: #6B6A66; margin: 0 0 8px; }
+
+  /* Escalation rules */
+  .rules-card {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .rules-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .rules-subtitle {
+    font-size: 12px;
+    color: #6B6A66;
+    margin: 0 0 16px;
+  }
+  .tier-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1.5fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 0.5px solid rgba(0,0,0,0.08);
+    align-items: start;
+  }
+  .tier-row:first-of-type { border-top: none; padding-top: 0; }
+  .tier-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 56px;
+  }
+  .tier-1 { background: #E6F1FB; color: #0C447C; }
+  .tier-2 { background: #FAEEDA; color: #854F0B; }
+  .tier-3 { background: #FCEBEB; color: #791F1F; }
+  .tier-4 { background: #4A1B0C; color: #FAEEDA; }
+  .tier-trigger { font-size: 13px; color: #1F1E1C; }
+  .tier-trigger b { font-weight: 500; }
+  .tier-actions {
+    font-size: 12px;
+    color: #6B6A66;
+    line-height: 1.6;
+  }
+  .tier-actions strong { color: #1F1E1C; font-weight: 500; }
+
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat {
+    background: #F5F4EE;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .stat-label { font-size: 12px; color: #6B6A66; margin: 0; }
+  .stat-value { font-size: 22px; font-weight: 500; margin: 4px 0 0; }
+  .stat-value.danger { color: #A32D2D; }
+  .stat-value.success { color: #0F6E56; }
+
+  /* Issue items */
+  .section-title { font-size: 14px; font-weight: 500; margin: 0 0 8px; }
+  .issue-item {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 0 8px 8px 0;
+  }
+  .issue-item.tier3 { border-left: 3px solid #A32D2D; }
+  .issue-item.tier2 { border-left: 3px solid #BA7517; }
+  .issue-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .issue-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .meta-text { font-size: 12px; color: #6B6A66; }
+  .issue-title { font-size: 14px; font-weight: 500; margin: 0; }
+  .issue-desc { font-size: 13px; color: #6B6A66; margin: 4px 0 0; }
+  .url-link {
+    font-size: 11px;
+    color: #185FA5;
+    text-decoration: none;
+    word-break: break-all;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .url-link:hover { text-decoration: underline; }
+
+  /* Comment area */
+  .comment-area {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .comment-label {
+    font-size: 12px;
+    color: #6B6A66;
+    margin: 0 0 6px;
+  }
+  .comment-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 8px 10px;
+    border: 0.5px solid rgba(0,0,0,0.18);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+  }
+  .comment-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  /* Bar chart */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-label { font-size: 13px; margin: 0; flex: 0 0 200px; }
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: #F5F4EE;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; }
+  .bar-value {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0;
+    flex: 0 0 30px;
+    text-align: right;
+  }
+
+  /* Comparison chart (provider vs peers) */
+  .comparison-card {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 70px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 0;
+    border-top: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .compare-row:first-of-type { border-top: none; padding-top: 4px; }
+  .compare-label { font-size: 13px; }
+  .compare-bars {
+    position: relative;
+    height: 40px;
+  }
+  .compare-bar {
+    position: absolute;
+    left: 0;
+    height: 14px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .compare-bar.you { top: 0; background: #E24B4A; color: white; }
+  .compare-bar.you.good { background: #1D9E75; }
+  .compare-bar.peer { top: 22px; background: #B5D4F4; color: #0C447C; }
+  .compare-result {
+    font-size: 12px;
+    text-align: right;
+    font-weight: 500;
+  }
+  .compare-result.worse { color: #A32D2D; }
+  .compare-result.better { color: #0F6E56; }
+  .compare-result.flat { color: #6B6A66; }
+  .legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #6B6A66;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+
+  /* Trend chart (sparkline-like) */
+  .trend-card {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .trend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .trend-svg-wrap {
+    width: 100%;
+    height: 140px;
+  }
+
+  /* Heatmap */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px;
+    font-size: 12px;
+  }
+  .heatmap th {
+    text-align: left;
+    font-weight: 500;
+    color: #6B6A66;
+    padding-bottom: 6px;
+  }
+  .heatmap th.center { text-align: center; }
+  .heat {
+    text-align: center;
+    border-radius: 3px;
+    padding: 6px 4px;
+  }
+  .heat-0 { background: #F5F4EE; }
+  .heat-1 { background: #FAC775; color: #633806; }
+  .heat-2 { background: #EF9F27; color: #4A1B0C; }
+  .heat-3 { background: #E24B4A; color: white; }
+  .heat-total { text-align: center; font-weight: 500; }
+
+  /* Leaderboard table */
+  .leaderboard {
+    background: white;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    border-top: 0.5px solid rgba(0,0,0,0.12);
+  }
+  .lb-row.header {
+    background: #F5F4EE;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6B6A66;
+    padding: 10px 14px;
+    border-top: none;
+  }
+  .trend-up { color: #A32D2D; }
+  .trend-down { color: #639922; }
+  .trend-flat { color: #6B6A66; }
+
+  @media (max-width: 720px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .lb-row { font-size: 12px; }
+    .tier-row { grid-template-columns: 1fr; gap: 6px; }
+    .compare-row { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <h1>Metro Dermatology — Provider coding feedback system</h1>
+    <p>Prototype · RCM ↔ Provider communication with multi-channel escalation</p>
+  </div>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" id="tab-rcm" onclick="showTab('rcm')">RCM team — log issue</button>
+      <button class="tab" id="tab-provider" onclick="showTab('provider')">Provider dashboard</button>
+      <button class="tab" id="tab-admin" onclick="showTab('admin')">Leadership analytics</button>
+    </div>
+
+    <!-- ========== RCM VIEW ========== -->
+    <div id="view-rcm">
+      <div class="view-header">
+        <div>
+          <p class="view-title">Log a coding issue</p>
+          <p class="view-subtitle">RCM team intake form · auto-routes to provider</p>
+        </div>
+        <span class="badge badge-success">Logged in as M. Chen, RCM</span>
+      </div>
+
+      <div class="card">
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Provider</label>
+            <select>
+              <option>Dr. Hyun Soo Lee</option>
+              <option>Dr. Diana Sun</option>
+              <option>PA. Hannah Park</option>
+              <option>PA. David Shin</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Date of service</label>
+            <input type="date" value="2026-04-28" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">ModMed visit URL</label>
+          <textarea class="url-field" placeholder="Paste the ModMed EMA visit URL here">https://metrodermatology.modmedapp.com/ema/web/practice/staff/#/practice/staff/patient/29541043/visit/62039518/overview/view/visit</textarea>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Severity</label>
+            <select>
+              <option>High — denial risk</option>
+              <option>Medium — rework needed</option>
+              <option>Low — educational</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Error category</label>
+            <select>
+              <option>E/M level — under-coded (99213 → 99214)</option>
+              <option>Missing modifier 25</option>
+              <option>Incorrect ICD-10 specificity</option>
+              <option>Place of service mismatch</option>
+              <option>Time-based coding documentation</option>
+              <option>Biopsy/destruction code mismatch</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Notes & remediation steps</label>
+          <textarea>Documentation supports 99214 (moderate complexity, prescription drug management for biologic therapy). Recommend reviewing E/M leveling guide. This is the 4th occurrence in 60 days.</textarea>
+        </div>
+
+        <div class="alert">
+          <p class="alert-title">⚠ Repeat offense detected — auto-escalation triggered</p>
+          <p class="alert-body">Provider has 4 similar issues in past 60 days. This will route at Tier 3 (provider + department lead).</p>
+        </div>
+
+        <div class="footer-section">
+          <p class="channels-label">Notification channels</p>
+          <div class="channels">
+            <span class="badge badge-info">✓ Teams DM</span>
+            <span class="badge badge-info">✓ Email</span>
+            <span class="badge badge-info">✓ In-app banner</span>
+            <span class="badge badge-warning">✓ CC: Dept. lead</span>
+            <span class="badge badge-neutral">○ SMS</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Submit & notify</button>
+            <button class="btn">Save as draft</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Escalation rules reference -->
+      <div class="rules-card">
+        <p class="rules-title">Escalation rules</p>
+        <p class="rules-subtitle">Tier is auto-assigned based on repeat-offense count within a rolling 60-day window. RCM can override for high-severity single events.</p>
+
+        <div class="tier-row">
+          <div><span class="tier-label tier-1">Tier 1</span></div>
+          <div class="tier-trigger"><b>1st occurrence</b> of an error category, or any low-severity educational note</div>
+          <div class="tier-actions">
+            <strong>Channels:</strong> Teams DM + email · <strong>Educational link:</strong> attached<br>
+            <strong>Acknowledgment:</strong> requested within 7 days · <strong>Cc:</strong> none
+          </div>
+        </div>
+
+        <div class="tier-row">
+          <div><span class="tier-label tier-2">Tier 2</span></div>
+          <div class="tier-trigger"><b>2nd occurrence</b> of the same error category within 60 days</div>
+          <div class="tier-actions">
+            <strong>Channels:</strong> Teams DM + email + in-app banner<br>
+            <strong>Acknowledgment:</strong> required within 72 hours · <strong>Cc:</strong> none yet
+          </div>
+        </div>
+
+        <div class="tier-row">
+          <div><span class="tier-label tier-3">Tier 3</span></div>
+          <div class="tier-trigger"><b>3rd–4th occurrence</b> of the same error category, or 6+ total issues in 30 days</div>
+          <div class="tier-actions">
+            <strong>Channels:</strong> all of the above · <strong>Cc:</strong> department lead<br>
+            <strong>Acknowledgment:</strong> required within 48 hours · brief huddle scheduled
+          </div>
+        </div>
+
+        <div class="tier-row">
+          <div><span class="tier-label tier-4">Tier 4</span></div>
+          <div class="tier-trigger"><b>5+ occurrences</b> of the same error, or any High severity unresolved past Tier 3 window</div>
+          <div class="tier-actions">
+            <strong>Channels:</strong> all of the above + SMS · <strong>Cc:</strong> CMO + compliance<br>
+            <strong>Acknowledgment:</strong> required with digital signature before next claim auto-processes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PROVIDER VIEW ========== -->
+    <div id="view-provider" style="display: none;">
+      <div class="view-header">
+        <div>
+          <p class="view-title">My coding scorecard</p>
+          <p class="view-subtitle">Dr. Hyun Soo Lee · Metro Dermatology</p>
+        </div>
+        <span class="badge badge-danger">2 items need acknowledgment</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-label">Open issues</p>
+          <p class="stat-value">3</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">30-day trend</p>
+          <p class="stat-value danger">↑ 4</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Peer rank</p>
+          <p class="stat-value">3 of 4</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Revenue at risk</p>
+          <p class="stat-value">$3,240</p>
+        </div>
+      </div>
+
+      <p class="section-title">Action required</p>
+
+      <div class="issue-item tier3">
+        <div class="issue-row">
+          <div style="flex: 1;">
+            <div class="issue-meta">
+              <span class="badge badge-danger">Tier 3 — repeat</span>
+              <span class="meta-text">4th occurrence · DOS 2026-04-28</span>
+            </div>
+            <p class="issue-title">E/M under-coded: 99213 should be 99214</p>
+            <p class="issue-desc">Documentation supports moderate complexity (biologic therapy management). Review E/M leveling guide.</p>
+            <a class="url-link" href="https://metrodermatology.modmedapp.com/ema/web/practice/staff/#/practice/staff/patient/29541043/visit/62039518/overview/view/visit" target="_blank">↗ Open visit in ModMed</a>
+          </div>
+          <button class="btn btn-primary btn-sm">Acknowledge</button>
+        </div>
+        <div class="comment-area">
+          <p class="comment-label">Your response (optional — visible to RCM team)</p>
+          <textarea class="comment-textarea" placeholder="e.g., 'I'll review the leveling guide. Was unsure whether prescription management qualified — please clarify.'"></textarea>
+          <div class="comment-actions">
+            <button class="btn btn-sm btn-secondary">Save comment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-item tier2" style="margin-bottom: 20px;">
+        <div class="issue-row">
+          <div style="flex: 1;">
+            <div class="issue-meta">
+              <span class="badge badge-warning">Tier 2</span>
+              <span class="meta-text">2nd occurrence · DOS 2026-04-22</span>
+            </div>
+            <p class="issue-title">Missing modifier 25 on E/M with procedure</p>
+            <p class="issue-desc">Same-day biopsy requires modifier 25 on the E/M code to bill both services.</p>
+            <a class="url-link" href="https://metrodermatology.modmedapp.com/ema/web/practice/staff/#/practice/staff/patient/29541043/visit/62038211/overview/view/visit" target="_blank">↗ Open visit in ModMed</a>
+          </div>
+          <button class="btn btn-primary btn-sm">Acknowledge</button>
+        </div>
+        <div class="comment-area">
+          <p class="comment-label">Your response (optional — visible to RCM team)</p>
+          <textarea class="comment-textarea" placeholder="Add context, ask a question, or note remediation steps you've taken..."></textarea>
+          <div class="comment-actions">
+            <button class="btn btn-sm btn-secondary">Save comment</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="section-title">Your top recurring errors (90 days)</p>
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="bar-row">
+          <p class="bar-label">E/M under-coding</p>
+          <div class="bar-track"><div class="bar-fill" style="width: 80%; background: #E24B4A;"></div></div>
+          <p class="bar-value">8</p>
+        </div>
+        <div class="bar-row">
+          <p class="bar-label">Missing modifier 25</p>
+          <div class="bar-track"><div class="bar-fill" style="width: 50%; background: #EF9F27;"></div></div>
+          <p class="bar-value">5</p>
+        </div>
+        <div class="bar-row">
+          <p class="bar-label">ICD-10 specificity</p>
+          <div class="bar-track"><div class="bar-fill" style="width: 30%; background: #97C459;"></div></div>
+          <p class="bar-value">3</p>
+        </div>
+      </div>
+
+      <!-- Peer comparison -->
+      <p class="section-title">How you compare to peers (90 days)</p>
+      <div class="comparison-card">
+
+        <div class="compare-row">
+          <div class="compare-label">Total issues logged</div>
+          <div class="compare-bars">
+            <div class="compare-bar you" style="width: 95%;">You — 17</div>
+            <div class="compare-bar peer" style="width: 50%;">Practice avg — 9</div>
+          </div>
+          <div class="compare-result worse">+89%</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-label">E/M under-coding</div>
+          <div class="compare-bars">
+            <div class="compare-bar you" style="width: 100%;">You — 8</div>
+            <div class="compare-bar peer" style="width: 38%;">Practice avg — 3</div>
+          </div>
+          <div class="compare-result worse">+167%</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-label">Modifier 25 errors</div>
+          <div class="compare-bars">
+            <div class="compare-bar you" style="width: 70%;">You — 5</div>
+            <div class="compare-bar peer" style="width: 55%;">Practice avg — 4</div>
+          </div>
+          <div class="compare-result worse">+25%</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-label">Acknowledgment rate</div>
+          <div class="compare-bars">
+            <div class="compare-bar you good" style="width: 88%;">You — 88%</div>
+            <div class="compare-bar peer" style="width: 71%;">Practice avg — 71%</div>
+          </div>
+          <div class="compare-result better">+17 pts</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-label">Revenue at risk</div>
+          <div class="compare-bars">
+            <div class="compare-bar you" style="width: 90%;">You — $3,240</div>
+            <div class="compare-bar peer" style="width: 41%;">Practice avg — $1,480</div>
+          </div>
+          <div class="compare-result worse">+119%</div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #E24B4A;"></span>
+            <span>You — Dr. Lee</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #1D9E75;"></span>
+            <span>You (favorable)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #B5D4F4;"></span>
+            <span>Practice average (3 peers)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend over time -->
+      <p class="section-title" style="margin-top: 16px;">Trend vs. peers — last 6 months</p>
+      <div class="trend-card">
+        <div class="trend-header">
+          <p style="margin: 0; font-size: 13px; color: #6B6A66;">Issues per month</p>
+          <p style="margin: 0; font-size: 12px; color: #6B6A66;">Nov 2025 → Apr 2026</p>
+        </div>
+        <svg class="trend-svg-wrap" viewBox="0 0 600 140" preserveAspectRatio="none">
+          <!-- gridlines -->
+          <line x1="40" y1="20" x2="580" y2="20" stroke="#E5E4DD" stroke-width="0.5"/>
+          <line x1="40" y1="60" x2="580" y2="60" stroke="#E5E4DD" stroke-width="0.5"/>
+          <line x1="40" y1="100" x2="580" y2="100" stroke="#E5E4DD" stroke-width="0.5"/>
+
+          <!-- y-axis labels -->
+          <text x="30" y="24" text-anchor="end" font-size="10" fill="#9A9893">8</text>
+          <text x="30" y="64" text-anchor="end" font-size="10" fill="#9A9893">4</text>
+          <text x="30" y="104" text-anchor="end" font-size="10" fill="#9A9893">0</text>
+
+          <!-- Peer average line -->
+          <polyline fill="none" stroke="#B5D4F4" stroke-width="2"
+            points="80,80 180,75 280,82 380,78 480,76 560,82" />
+          <circle cx="80" cy="80" r="3" fill="#B5D4F4"/>
+          <circle cx="180" cy="75" r="3" fill="#B5D4F4"/>
+          <circle cx="280" cy="82" r="3" fill="#B5D4F4"/>
+          <circle cx="380" cy="78" r="3" fill="#B5D4F4"/>
+          <circle cx="480" cy="76" r="3" fill="#B5D4F4"/>
+          <circle cx="560" cy="82" r="3" fill="#B5D4F4"/>
+
+          <!-- Provider line -->
+          <polyline fill="none" stroke="#E24B4A" stroke-width="2.5"
+            points="80,70 180,65 280,55 380,42 480,30 560,22" />
+          <circle cx="80" cy="70" r="3.5" fill="#E24B4A"/>
+          <circle cx="180" cy="65" r="3.5" fill="#E24B4A"/>
+          <circle cx="280" cy="55" r="3.5" fill="#E24B4A"/>
+          <circle cx="380" cy="42" r="3.5" fill="#E24B4A"/>
+          <circle cx="480" cy="30" r="3.5" fill="#E24B4A"/>
+          <circle cx="560" cy="22" r="3.5" fill="#E24B4A"/>
+
+          <!-- x-axis labels -->
+          <text x="80" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Nov</text>
+          <text x="180" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Dec</text>
+          <text x="280" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Jan</text>
+          <text x="380" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Feb</text>
+          <text x="480" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Mar</text>
+          <text x="560" y="125" text-anchor="middle" font-size="10" fill="#6B6A66">Apr</text>
+        </svg>
+
+        <div class="legend">
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #E24B4A;"></span>
+            <span>You — Dr. Lee</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-swatch" style="background: #B5D4F4;"></span>
+            <span>Practice average</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ADMIN VIEW ========== -->
+    <div id="view-admin" style="display: none;">
+      <div class="view-header">
+        <div>
+          <p class="view-title">Coding quality dashboard</p>
+          <p class="view-subtitle">Metro Dermatology · Last 90 days</p>
+        </div>
+        <select style="width: auto;">
+          <option>Last 90 days</option>
+          <option>Last 30 days</option>
+          <option>YTD</option>
+        </select>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-label">Total issues</p>
+          <p class="stat-value">39</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Repeat offenders</p>
+          <p class="stat-value danger">2</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Ack rate</p>
+          <p class="stat-value">74%</p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Revenue impact</p>
+          <p class="stat-value">$11.8K</p>
+        </div>
+      </div>
+
+      <p class="section-title">Provider × error heat map</p>
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="heatmap-wrap">
+          <table class="heatmap">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th class="center">E/M</th>
+                <th class="center">Mod 25</th>
+                <th class="center">ICD-10</th>
+                <th class="center">POS</th>
+                <th class="center">Biopsy</th>
+                <th class="center">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dr. Hyun Soo Lee</td>
+                <td class="heat heat-3">8</td>
+                <td class="heat heat-2">5</td>
+                <td class="heat heat-1">3</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-0">0</td>
+                <td class="heat-total">17</td>
+              </tr>
+              <tr>
+                <td>Dr. Diana Sun</td>
+                <td class="heat heat-1">2</td>
+                <td class="heat heat-2">4</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-1">2</td>
+                <td class="heat-total">10</td>
+              </tr>
+              <tr>
+                <td>PA. Hannah Park</td>
+                <td class="heat heat-1">2</td>
+                <td class="heat heat-1">3</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-0">0</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat-total">7</td>
+              </tr>
+              <tr>
+                <td>PA. David Shin</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-1">2</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat heat-0">0</td>
+                <td class="heat heat-0">1</td>
+                <td class="heat-total">5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="section-title">Repeat offenders — needs intervention</p>
+      <div class="leaderboard">
+        <div class="lb-row header">
+          <div>Provider</div>
+          <div>Issues</div>
+          <div>Top error</div>
+          <div>Tier</div>
+          <div>Trend</div>
+        </div>
+        <div class="lb-row">
+          <div>Dr. Hyun Soo Lee</div>
+          <div>17</div>
+          <div>E/M coding</div>
+          <div><span class="badge badge-danger">Tier 3</span></div>
+          <div class="trend-up">↑ 24%</div>
+        </div>
+        <div class="lb-row">
+          <div>Dr. Diana Sun</div>
+          <div>10</div>
+          <div>Modifier 25</div>
+          <div><span class="badge badge-warning">Tier 2</span></div>
+          <div class="trend-up">↑ 12%</div>
+        </div>
+        <div class="lb-row">
+          <div>PA. Hannah Park</div>
+          <div>7</div>
+          <div>Modifier 25</div>
+          <div><span class="badge badge-info">Tier 1</span></div>
+          <div class="trend-down">↓ 8%</div>
+        </div>
+        <div class="lb-row">
+          <div>PA. David Shin</div>
+          <div>5</div>
+          <div>Modifier 25</div>
+          <div><span class="badge badge-info">Tier 1</span></div>
+          <div class="trend-flat">→ 0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  ['rcm', 'provider', 'admin'].forEach(n => {
+    document.getElementById('view-' + n).style.display = n === name ? 'block' : 'none';
+    document.getElementById('tab-' + n).classList.toggle('active', n === name);
+  });
+}
+</script>
+</body>
+</html>
