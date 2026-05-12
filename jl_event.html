@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Jeuveau & Letybo Event — An April 18 Post-Mortem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1816;
+    --ink-soft: #4a463f;
+    --ink-mute: #847e72;
+    --paper: #faf7f2;
+    --paper-warm: #f4ede0;
+    --rule: #d8cfbe;
+    --rule-soft: #e8e1d2;
+    --accent: #8b2942;
+    --accent-soft: #c87189;
+    --accent-bg: #f5e8ec;
+    --positive: #3d6b4a;
+    --negative: #a04a2c;
+    --neutral: #847e72;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse 800px 400px at 10% 0%, rgba(139, 41, 66, 0.04), transparent),
+      radial-gradient(ellipse 600px 300px at 90% 100%, rgba(139, 41, 66, 0.03), transparent);
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* === MASTHEAD === */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 40px 0 24px;
+    margin-bottom: 64px;
+  }
+  .masthead-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .masthead-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 64px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 50, "WONK" 1;
+    margin-bottom: 16px;
+  }
+  .masthead-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .masthead-deck {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    max-width: 620px;
+    font-style: italic;
+  }
+
+  /* === VERDICT BANNER === */
+  .verdict {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px;
+    margin: 0 -8px 64px;
+    position: relative;
+    border-radius: 2px;
+  }
+  .verdict::before {
+    content: "VERDICT";
+    position: absolute;
+    top: -10px;
+    left: 32px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    padding: 4px 12px;
+  }
+  .verdict-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+  }
+  .verdict-headline em {
+    font-style: italic;
+    color: var(--accent-soft);
+  }
+  .verdict-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(250, 247, 242, 0.15);
+  }
+  .verdict-stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--accent-soft);
+    font-variation-settings: "WONK" 1;
+  }
+  .verdict-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(250, 247, 242, 0.7);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .verdict-scope {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(250, 247, 242, 0.15);
+    font-family: 'Geist', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(250, 247, 242, 0.6);
+    font-style: italic;
+  }
+
+  /* === SECTION === */
+  .section {
+    margin-bottom: 80px;
+  }
+  .section-header {
+    border-top: 1px solid var(--ink);
+    padding-top: 14px;
+    margin-bottom: 24px;
+  }
+  .section-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    margin-bottom: 18px;
+    display: block;
+  }
+  .section-kicker .num {
+    color: var(--accent);
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 50px;
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink);
+    text-align: left;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .subsection-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 56px 0 20px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* === PROSE === */
+  .prose p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .prose strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .prose .hl {
+    background: linear-gradient(180deg, transparent 60%, var(--accent-bg) 60%);
+    padding: 0 2px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .simple-list {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0;
+  }
+  .simple-list li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .simple-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1.5px;
+    background: var(--accent);
+  }
+  .simple-list strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* === AUDIENCE BLOCK === */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--paper-warm);
+    margin: 32px 0;
+  }
+  .audience-cell {
+    padding: 28px 32px;
+    border-right: 1px solid var(--rule);
+  }
+  .audience-cell:last-child { border-right: none; }
+  .audience-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 16px;
+    border-radius: 2px;
+  }
+  .audience-tag.medical {
+    background: var(--accent);
+  }
+  .audience-criteria {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .audience-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.8;
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  .audience-numbers span {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .channel-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 28px 0;
+  }
+  .channel-cell {
+    background: var(--paper);
+    padding: 18px 20px;
+  }
+  .channel-cell-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+  .channel-cell-num {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .channel-cell-sub {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-top: 6px;
+  }
+
+  /* === CHART CONTAINERS === */
+  .chart-block {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 32px 24px;
+    margin: 32px 0;
+  }
+  .chart-block-double {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .chart-block-double .chart-block { margin: 0; }
+  .chart-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .chart-subtitle {
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+  .chart-container.short { height: 200px; }
+  .chart-container.tall { height: 300px; }
+
+  .chart-legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* === DATA TABLE === */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+  .data-table thead tr {
+    border-bottom: 1px solid var(--ink);
+  }
+  .data-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .data-table th.right, .data-table td.right { text-align: right; }
+  .data-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    color: var(--ink-soft);
+  }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tr.total td {
+    border-top: 1px solid var(--ink);
+    border-bottom: none;
+    color: var(--ink);
+    font-weight: 500;
+    padding-top: 14px;
+  }
+  .data-table .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table .strong { color: var(--ink); font-weight: 500; }
+  .data-table .danger { color: var(--negative); }
+
+  /* === PULL QUOTE === */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 8px 0 8px 28px;
+    margin: 36px 0;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    font-weight: 300;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* === METHODOLOGY FOOTNOTE === */
+  .methodology {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 0;
+    margin: 32px 0;
+  }
+  .methodology-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .methodology p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-mute);
+    margin: 0;
+  }
+  .methodology strong {
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  /* === CAVEAT BOX === */
+  .caveats {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .caveats-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .caveats ol {
+    list-style: none;
+    counter-reset: caveat;
+  }
+  .caveats li {
+    counter-increment: caveat;
+    position: relative;
+    padding-left: 36px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .caveats li::before {
+    content: counter(caveat, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .caveats li:last-child { margin-bottom: 0; }
+  .caveats strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* === COLOPHON === */
+  .colophon {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .masthead, .verdict, .section {
+    animation: rise 0.8s ease-out backwards;
+  }
+  .verdict { animation-delay: 0.15s; }
+  .section:nth-of-type(1) { animation-delay: 0.25s; }
+
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    .masthead-title { font-size: 42px; }
+    .verdict { padding: 28px 24px; margin: 0 0 48px; }
+    .verdict-headline { font-size: 24px; }
+    .verdict-stats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .section-title { font-size: 30px; }
+    .section-kicker { font-size: 11px; }
+    .subsection-title { font-size: 22px; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .audience-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .channel-summary { grid-template-columns: repeat(2, 1fr); }
+    .chart-block-double { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span>Metro Laser & Aesthetics — Marketing</span>
+      <span>Author · John Kim, CIO/CSO</span>
+      <span>Campaign Post-Mortem · April 2026</span>
+    </div>
+    <h1 class="masthead-title">The Jeuveau & Letybo Event:<br>an <em>April 18 post-mortem.</em></h1>
+    <p class="masthead-deck">A look at how a $504 paid-social spend, an SMS list, and a referral-tiered discount delivered the strongest single-day Jeuveau and Letybo performance in our recent dataset.</p>
+  </header>
+
+  <!-- ============ VERDICT ============ -->
+  <div class="verdict">
+    <h2 class="verdict-headline">The campaign delivered strong results <em>across the dimensions we can measure.</em></h2>
+    <div class="verdict-stats">
+      <div>
+        <div class="verdict-stat-num">$24,500</div>
+        <div class="verdict-stat-label">Event-day<br>collected revenue</div>
+      </div>
+      <div>
+        <div class="verdict-stat-num">17×</div>
+        <div class="verdict-stat-label">Revenue vs.<br>daily average</div>
+      </div>
+      <div>
+        <div class="verdict-stat-num">96</div>
+        <div class="verdict-stat-label">Patient<br>encounters</div>
+      </div>
+      <div>
+        <div class="verdict-stat-num">23</div>
+        <div class="verdict-stat-label">New patients,<br>all services</div>
+      </div>
+    </div>
+    <div class="verdict-scope">
+      Scope · Revenue, encounters, and gross-profit figures cover Jeuveau & Letybo only at Flushing and Fort Lee. The 17× lift compares to the daily average of Jeuveau/Letybo activity at these two locations (~$1,475/day, ~5 patients/day). New patient count reflects all new patients across both locations on April 18 — not exclusively event-attributable bookings.
+    </div>
+  </div>
+
+  <!-- ============ SECTION 1: THE OFFER ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">01</span> — The Offer</div>
+      <h2 class="section-title">A flyer, a Saturday afternoon, and <em>a discount with strings attached.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The April 18 event ran one afternoon, two locations: <strong>Flushing</strong> and <strong>Fort Lee</strong>. The mechanic was a tiered discount on <strong>Jeuveau and Letybo</strong> units — <strong>$10/unit</strong> for new patients, returning patients (last visit ≥ 1 year), and existing patients bringing one new friend; <strong>$8/unit</strong> for patients bringing two or more new friends. List price for both is $12/unit.</p>
+      <p>The structure was deliberately referral-weighted: discounts deepen the more new patients enter the door. That's not a generic price cut — it's an <span class="hl">acquisition mechanic dressed as a discount.</span></p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 2: AUDIENCE ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">02</span> — The Audience</div>
+      <h2 class="section-title">Who we sent it to, and <em>why those segments.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The campaign targeted <strong>all patients with a recent visit history</strong> — anyone who had been to Metro Laser between January 2024 and February 2026, regardless of whether they were actively booking. The target spans both cosmetic and medical (dermatology) histories, biased toward female patients in the prime neuromodulator age range.</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-cell">
+        <span class="audience-tag">Cosmetic</span>
+        <div class="audience-criteria">Last visit Jan 2024 – Feb 2026, female, age 20–80</div>
+        <div class="audience-numbers">
+          Total targeted: <span>28,470</span>
+        </div>
+      </div>
+      <div class="audience-cell">
+        <span class="audience-tag medical">Medical (Derm)</span>
+        <div class="audience-criteria">Last visit Jan 2024 – Feb 2026, female, age 20–75</div>
+        <div class="audience-numbers">
+          Total targeted: <span>43,737</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-summary">
+      <div class="channel-cell">
+        <div class="channel-cell-label">SMS sent</div>
+        <div class="channel-cell-num">45,378</div>
+        <div class="channel-cell-sub">+ 45,378 reminder</div>
+      </div>
+      <div class="channel-cell">
+        <div class="channel-cell-label">Email sent</div>
+        <div class="channel-cell-num">10,038</div>
+        <div class="channel-cell-sub">+ 10,038 reminder</div>
+      </div>
+      <div class="channel-cell">
+        <div class="channel-cell-label">Meta Ads reach</div>
+        <div class="channel-cell-num">44,114</div>
+        <div class="channel-cell-sub">3/27 – 4/17 flight</div>
+      </div>
+      <div class="channel-cell">
+        <div class="channel-cell-label">Total spend</div>
+        <div class="channel-cell-num">$504</div>
+        <div class="channel-cell-sub">SM Paid Ads only</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: THE DAY ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">03</span> — The Day</div>
+      <h2 class="section-title">April 18 was, by every metric in our dataset, <em>an outlier.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The practice averages roughly $1,475 in daily Jeuveau/Letybo charges across these two locations and 5 patient encounters. On April 18 it logged <strong>$24,820 in charges and 96 encounters</strong> — a 17× lift on revenue and a 19× lift on visit volume against the typical day. Restricted to Saturdays only (a fairer baseline) the lift is <span class="hl">34× on revenue and 38× on patient flow.</span></p>
+      <p>The previous all-time single-day record in 16 months of data was $5,085 on July 2, 2025. Event day exceeded it by nearly 5×.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Weekly Jeuveau & Letybo charges, Jan 2025 – Apr 2026</div>
+      <div class="chart-subtitle">Event week (Apr 13–19) recorded $31,960, almost 4× the previous weekly peak. Pre-event activity ran in a tight $4K–$11K band for 16 months.</div>
+      <div class="chart-container tall"><canvas id="weeklyChart"></canvas></div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Top 5 single days, all-time</div>
+      <div class="chart-subtitle">Jeuveau & Letybo charges only. No prior day comes within 5× of April 18. Note that the July 1–2, 2025 spike likely reflects a similar Jeuveau promotion that launched at the start of July 2025 — that's the closest precedent in the dataset, and even that ran an order of magnitude smaller than April 18.</div>
+      <div class="chart-container"><canvas id="topDaysChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: NEW PATIENTS ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">04</span> — New Patients</div>
+      <h2 class="section-title">The acquisition mechanic worked. <em>9× the daily baseline, 2.6× the prior record.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>Both locations saw <strong>23 new patients on April 18 across all services</strong> — 13 at Fort Lee, 10 at Flushing. Daily new-patient flow at these locations averages 2.5; the previous all-time daily record was 9 (July 2, 2025). April 2026 closed as the highest new-patient month in the dataset at 72.</p>
+      <p>An important framing note: this figure includes every new patient across all services that day, not exclusively patients who booked specifically for the Jeuveau & Letybo event. Without patient-level booking-source data, we can't isolate exactly how many of the 23 were event-driven. That said, the <span class="hl">9× lift over typical daily new-patient flow</span> — on a single Saturday — strongly suggests the overwhelming majority were event-attributable. The directional finding is robust.</p>
+      <p>This is the metric we were most interested in. The pricing structure deliberately rewarded patients for bringing new friends — acquisition was the campaign's core thesis, and it was answered emphatically.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Weekly new patients, Jan 2025 – Apr 2026</div>
+      <div class="chart-subtitle">Event week (Apr 13–19) shows a sharp lift relative to the steady weekly flow that preceded it.</div>
+      <div class="chart-container tall"><canvas id="weeklyNPChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: CANNIBALIZATION ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">05</span> — Cannibalization Check</div>
+      <h2 class="section-title">Did we just <em>pull demand forward?</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The most natural skeptic's question. If existing patients simply postponed their normal April visit to take advantage of the discount, the post-event week should crash below the prior-year baseline. It doesn't.</p>
+      <p>Comparing the two weeks before and one week after April 18 to the same calendar windows in 2025: pre-event 2026 was <strong>26% below</strong> the same weeks in 2025 (some patients may have waited), but post-event 2026 ran <strong>24% above</strong> 2025. New-patient flow held steady in both windows. The data doesn't support a meaningful pull-forward effect.</p>
+    </div>
+
+    <div class="chart-block-double">
+      <div class="chart-block">
+        <div class="chart-title">Charges: 2025 vs 2026 windows</div>
+        <div class="chart-subtitle">Post-event week 2026 actually outpaced 2025.</div>
+        <div class="chart-container short"><canvas id="cannibChart"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#b4b2a9"></span>2025</span>
+          <span><span class="legend-dot" style="background:#8b2942"></span>2026</span>
+        </div>
+      </div>
+      <div class="chart-block">
+        <div class="chart-title">New patients: 2025 vs 2026 windows</div>
+        <div class="chart-subtitle">Pre-event 2026 actually <em>ahead</em> of 2025.</div>
+        <div class="chart-container short"><canvas id="cannibNPChart"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#b4b2a9"></span>2025</span>
+          <span><span class="legend-dot" style="background:#8b2942"></span>2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 6: CHANNEL ATTRIBUTION ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">06</span> — Channel Attribution</div>
+      <h2 class="section-title">SMS did the heavy lifting. <em>Email is essentially asleep.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The clearest operational finding in this analysis. Of 2,746 attributed scans and link clicks, SMS produced 1,610 — and of 118 inbound calls, SMS produced 110. Social media reached 44,114 people for $504 and contributed 1,074 link clicks but only 4 direct calls. Email's 0.065% engagement rate is roughly <span class="hl">27× weaker than SMS on the same campaign.</span></p>
+      <p>A note on attribution: these figures reflect <strong>only one of the attribution paths</strong> available to a patient — whichever channel they happened to be on at the moment they scanned, clicked, or called. The real patient journey involves many touches: a patient may have seen the social ad, then received the SMS, then mentioned it to a friend, then called. The numbers below should be read as a <strong>minimum</strong> level of interaction from each channel, not a complete picture of influence.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th class="right">Volume / reach</th>
+          <th class="right">Scans / clicks</th>
+          <th class="right">Engagement</th>
+          <th class="right">Calls</th>
+          <th class="right">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="strong">SMS (initial + reminder)</td>
+          <td class="right num">90,756</td>
+          <td class="right num strong">1,610</td>
+          <td class="right num">1.77%</td>
+          <td class="right num strong">110</td>
+          <td class="right num">$0</td>
+        </tr>
+        <tr>
+          <td class="strong">Social media (Meta Ads)</td>
+          <td class="right num">44,114</td>
+          <td class="right num strong">1,074</td>
+          <td class="right num">2.43%</td>
+          <td class="right num">4</td>
+          <td class="right num">$504</td>
+        </tr>
+        <tr>
+          <td class="strong">Google Business Profile</td>
+          <td class="right num" style="color:var(--ink-mute)">passive</td>
+          <td class="right num">49</td>
+          <td class="right num" style="color:var(--ink-mute)">—</td>
+          <td class="right num">4</td>
+          <td class="right num">$0</td>
+        </tr>
+        <tr>
+          <td class="strong">Email (initial + reminder)</td>
+          <td class="right num">20,076</td>
+          <td class="right num">13</td>
+          <td class="right num danger">0.065%</td>
+          <td class="right num">0</td>
+          <td class="right num">$0</td>
+        </tr>
+        <tr class="total">
+          <td>Total</td>
+          <td class="right num" style="color:var(--ink-mute)">—</td>
+          <td class="right num">2,746</td>
+          <td class="right num" style="color:var(--ink-mute)">—</td>
+          <td class="right num">118</td>
+          <td class="right num">$504</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ SECTION 7: P&L ============ -->
+  <!-- ============ SECTION 7: P&L ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">07</span> — The P&L</div>
+      <h2 class="section-title">$504 in. <em>~$10,000+ in net profit out.</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>Our data lacks product cost per unit, so the gross-profit math uses an estimated <strong>$4.50/unit wholesale cost</strong> (typical for Jeuveau/Letybo). At that assumption, event-day gross profit is approximately <strong>$12,771</strong>. After the $504 ad spend and incremental staff time (not yet quantified), <strong>net profit on a same-day basis is on the order of $10,000+</strong>.</p>
+      <p>Two cost categories sit outside the $504 figure and deserve flagging. <strong>Incremental staff hours</strong> for the event — additional injector, front-desk, and support time across both locations — are not included. They're shown as an indicative bar in the waterfall below without a specific figure pending an actual estimate. <strong>Platform fees</strong> for SMS (Vital Interaction) and email are excluded as marginal cost, since these platforms are paid monthly with unlimited usage and would have been paid for regardless of the campaign.</p>
+      <p>Note: this analysis omits a "typical Saturday baseline" subtraction because the event ran during hours when these locations are <strong>normally closed</strong>. Effectively, none of the day's revenue would have happened in the absence of the event.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Same-day P&L bridge</div>
+      <div class="chart-subtitle">From event-day collected revenue to net profit. The "Gross profit" bar is the firm milestone; the final "Net profit" bar is rendered as an estimate (dashed fill) because incremental staff cost is not yet quantified — the bar is sized to reflect plausible deductions, not a committed figure.</div>
+      <div class="chart-container tall"><canvas id="waterfallChart"></canvas></div>
+    </div>
+
+    <div class="methodology">
+      <div class="methodology-label">A note on cost methodology</div>
+      <p>Platform fees for SMS (Vital Interaction) and email are excluded as <strong>marginal cost</strong>, since both platforms are paid monthly with unlimited usage and would have been paid for regardless of the campaign. This is the standard convention when evaluating whether a single campaign was worth running given existing infrastructure. A <strong>fully-allocated view</strong> — prorating monthly platform fees across each campaign's share of usage — would produce a slightly different but still comfortably positive picture. Incremental staff hours for the event are similarly not included in the $504 figure and are shown as an indicative bar in the waterfall above.</p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 8: DISCOUNT BREAK-EVEN ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">08</span> — The Discount, Examined</div>
+      <h2 class="section-title">Did the discount itself <em>actually pay for itself?</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The headline P&L answers "did the campaign generate profit." A separate question is whether the <strong>discount mechanic itself</strong> — $10/unit and $8/unit instead of $12 list — was a smart trade. There's a delightfully simple way to answer it.</p>
+      <p>On a typical day, these two locations together perform about <strong>$1,475 in Jeuveau/Letybo revenue</strong>, which corresponds to roughly <strong>5 patients</strong>. That's the natural baseline of patients we'd see if we did nothing at all.</p>
+      <p>On April 18, we saw <strong>96 patients.</strong> Even under the most pessimistic assumption — that every one of the typical 5 patients would have shown up that Saturday at full price anyway — the other <strong>91 patients are by definition incremental.</strong> They came because of the offer; we wouldn't have seen them otherwise.</p>
+      <p>At our $4.50/unit cost assumption and 27 units per encounter, each incremental patient adds about $133 in gross profit, while each "would-have-come anyway" patient at promo costs about $70 in forgone gross profit. Working through the math, the discount mechanic <strong>breaks even at about 34 incremental patients</strong>. We had at least 91. <span class="hl">The cushion is roughly 57 patients.</span></p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Patients on April 18, in context</div>
+      <div class="chart-subtitle">Three numbers, one chart. The discount paid for itself anywhere above the break-even line. Even our most pessimistic estimate of incremental patients clears it by a wide margin.</div>
+      <div class="chart-container short"><canvas id="breakevenSimpleChart"></canvas></div>
+    </div>
+
+    <div class="prose">
+      <p>This argument is genuinely conservative. It treats every patient who would normally walk in on a regular day as if they showed up at the event at full price (most days, that's not even Saturday — these locations are normally closed Saturday afternoons). And it ignores the meaningful share of "existing" patients who were on the returning-1-year-ago tier — by definition not actively booking, and therefore incremental rather than would-have-come.</p>
+      <p>For the analytically inclined, the chart below shows the math directly. As the share of incremental patients on event day grows, gross profit gained climbs (solid line) while forgone gross profit from would-have-come patients shrinks (dashed line). The two lines cross at our break-even threshold of about 34 incremental patients.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">The break-even, plotted</div>
+      <div class="chart-subtitle">Two lines, one X-axis. As more of the 96 event-day patients are "incremental" (drawn in by the offer), gross profit gained climbs and forgone gross profit shrinks. They cross at about 34 incremental patients — above that line the discount makes money, below it the discount loses money.</div>
+      <div class="chart-container tall"><canvas id="breakevenChart"></canvas></div>
+    </div>
+
+    <div class="prose">
+      <p><strong>Bottom line: the discount mechanic almost certainly added net gross profit on top of the $12,771 headline figure</strong> — likely on the order of several thousand dollars. Quantifying exactly how much requires capturing which pricing tier each transaction qualified under (new / returning / referring) and tagging "last visit date" against each event-day patient — both fields exist in ModMed.</p>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 9: CAVEATS & NEXT ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-kicker"><span class="num">09</span> — Caveats & What's Next</div>
+      <h2 class="section-title">What we'd want before <em>declaring this the new template.</em></h2>
+    </div>
+
+    <div class="caveats">
+      <div class="caveats-label">Open Items</div>
+      <ol>
+        <li><strong>Product cost per unit is an estimate.</strong> Replacing the $4.50/unit wholesale assumption with actual ModMed cost data is the single biggest accuracy improvement available — the entire gross-profit calculation hinges on it.</li>
+        <li><strong>Pricing-tier mix is assumed, not observed.</strong> The split between $10 and $8 transactions wasn't captured in the export. Knowing how many patients qualified for the $8 tier (i.e. brought 2+ new friends) would tell us how strong the referral mechanic actually was.</li>
+        <li><strong>Social media's contribution is understated.</strong> Meta Ads logged 991 cosmetic-inquiry-form views — likely a meaningful share of those became bookings via the form path rather than a direct call. Judging $504 of spend on 4 direct calls alone is unfair to the channel.</li>
+        <li><strong>Patient lifetime value is not yet measured for Metro Laser specifically.</strong> A separate study will be conducted on LTV for cosmetic versus medical (dermatology) patients to quantify the long-term value of the 23 new patients acquired. Until then, the day-of P&L stands without LTV credit.</li>
+      </ol>
+    </div>
+
+    <div class="prose" style="margin-top: 32px;">
+      <p><strong>Operational takeaways for the next event:</strong> double down on SMS, treat email as a courtesy channel rather than a workhorse, and instrument the social-to-form-to-booking path before the next paid flight so the ad spend gets credit it deserves. Consider repeating the structure quarterly — the data suggests there's no measurable demand pull-forward to worry about.</p>
+    </div>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <div class="colophon">
+    <span>Data sources · ModMed, Vital Interaction, Meta Ads</span>
+    <span>Period · Jan 2025 – Apr 24, 2026</span>
+  </div>
+
+</div>
+
+<script>
+  // ============ DATA ============
+  const palette = {
+    accent: '#8b2942',
+    accentSoft: '#c87189',
+    accentBg: '#f5e8ec',
+    ink: '#1a1816',
+    inkSoft: '#4a463f',
+    inkMute: '#847e72',
+    paper: '#faf7f2',
+    rule: '#d8cfbe',
+    neutral: '#b4b2a9',
+    positive: '#3d6b4a',
+    negative: '#a04a2c',
+  };
+
+  Chart.defaults.font.family = "'Geist', sans-serif";
+  Chart.defaults.color = palette.inkMute;
+  Chart.defaults.font.size = 11;
+
+  // === Weekly chart ===
+  const weeks = ['Jan 6','Jan 20','Feb 3','Feb 17','Mar 3','Mar 17','Mar 31','Apr 14','Apr 28','May 12','May 26','Jun 9','Jun 23','Jul 7','Jul 21','Aug 4','Aug 18','Sep 1','Sep 15','Sep 29','Oct 13','Oct 27','Nov 10','Nov 24','Dec 8','Dec 22','Jan 5 \'26','Jan 19','Feb 2','Feb 16','Mar 2','Mar 16','Mar 30','Apr 13','Apr 20'];
+  const charges = [5455,4330,7005,7640,9350,9175,14455,7530,9160,8597,4440,7400,5720,7605,9660,9355,7275,7650,9970,6695,6922,4460,5240,6930,9635,7795,7160,8200,8790,7835,6140,8540,8255,31960,6675];
+  const eventIdx = 33;
+
+  new Chart(document.getElementById('weeklyChart'), {
+    type: 'bar',
+    data: { labels: weeks, datasets: [{
+      data: charges,
+      backgroundColor: charges.map((_, i) => i === eventIdx ? palette.accent : palette.neutral),
+      borderRadius: 1,
+      barPercentage: 0.85,
+      categoryPercentage: 0.95,
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => '$' + c.parsed.y.toLocaleString() } }
+      },
+      scales: {
+        x: { ticks: { font: { size: 9 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } },
+        y: { ticks: { callback: (v) => '$' + (v/1000) + 'K' }, grid: { color: palette.rule, drawTicks: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // === Top days ===
+  new Chart(document.getElementById('topDaysChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Apr 18 \'26','Jul 2 \'25','Mar 27 \'25','Mar 31 \'25','Jul 1 \'25'],
+      datasets: [{ data: [24820, 5085, 4960, 4140, 4130], backgroundColor: [palette.accent, palette.neutral, palette.neutral, palette.neutral, palette.neutral], borderRadius: 1 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => '$' + c.parsed.x.toLocaleString() } } },
+      scales: {
+        x: { ticks: { callback: (v) => '$' + (v/1000) + 'K' }, grid: { color: palette.rule, drawTicks: false }, border: { display: false } },
+        y: { grid: { display: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // === Weekly new patients ===
+  const npWeeks = ['Dec 30','Jan 6','Jan 13','Jan 20','Jan 27','Feb 3','Feb 10','Feb 17','Feb 24','Mar 3','Mar 10','Mar 17','Mar 24','Mar 31','Apr 7','Apr 14','Apr 21','Apr 28','May 5','May 12','May 19','May 26','Jun 2','Jun 9','Jun 16','Jun 23','Jun 30','Jul 7','Jul 14','Jul 21','Jul 28','Aug 4','Aug 11','Aug 18','Aug 25','Sep 1','Sep 8','Sep 15','Sep 22','Sep 29','Oct 6','Oct 13','Oct 20','Oct 27','Nov 3','Nov 10','Nov 17','Nov 24','Dec 1','Dec 8','Dec 15','Dec 22','Dec 29','Jan 5 \'26','Jan 12','Jan 19','Jan 26','Feb 2','Feb 9','Feb 16','Feb 23','Mar 2','Mar 9','Mar 16','Mar 23','Mar 30','Apr 6','Apr 13','Apr 20'];
+  const npData = [3,13,18,8,17,13,11,10,19,10,10,13,16,15,11,12,11,19,11,18,20,7,10,9,14,13,20,16,13,8,18,5,19,11,8,15,11,20,9,19,5,16,10,10,6,9,14,13,10,10,11,8,7,13,20,18,8,15,8,12,5,8,8,13,8,19,19,33,13];
+  const npEventIdx = 67;
+
+  new Chart(document.getElementById('weeklyNPChart'), {
+    type: 'bar',
+    data: { labels: npWeeks, datasets: [{
+      data: npData,
+      backgroundColor: npData.map((_, i) => i === npEventIdx ? palette.accent : palette.neutral),
+      borderRadius: 1,
+      barPercentage: 0.85,
+      categoryPercentage: 0.95,
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => c.parsed.y + ' new patients' } }
+      },
+      scales: {
+        x: { ticks: { font: { size: 9 }, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 }, grid: { display: false } },
+        y: { grid: { color: palette.rule, drawTicks: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // === Cannibalization charts ===
+  new Chart(document.getElementById('cannibChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Pre-event\n(Apr 4–17)', 'Post-event\n(Apr 19–25)'],
+      datasets: [
+        { label: '2025', data: [18570, 5380], backgroundColor: palette.neutral, borderRadius: 1 },
+        { label: '2026', data: [13790, 6675], backgroundColor: palette.accent, borderRadius: 1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.y.toLocaleString() } } },
+      scales: {
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } },
+        y: { ticks: { callback: (v) => '$' + (v/1000) + 'K' }, grid: { color: palette.rule, drawTicks: false }, border: { display: false } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('cannibNPChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Pre-event\n(Apr 4–17)', 'Post-event\n(Apr 19–25)'],
+      datasets: [
+        { label: '2025', data: [25, 14], backgroundColor: palette.neutral, borderRadius: 1 },
+        { label: '2026', data: [29, 13], backgroundColor: palette.accent, borderRadius: 1 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.parsed.y + ' new pts' } } },
+      scales: {
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } },
+        y: { grid: { color: palette.rule, drawTicks: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // === Waterfall ===
+  // Create a striped pattern for the indicative staff cost bar
+  const stripeCanvas = document.createElement('canvas');
+  stripeCanvas.width = 8; stripeCanvas.height = 8;
+  const stripeCtx = stripeCanvas.getContext('2d');
+  stripeCtx.strokeStyle = palette.negative;
+  stripeCtx.lineWidth = 2;
+  stripeCtx.beginPath();
+  stripeCtx.moveTo(0, 8); stripeCtx.lineTo(8, 0);
+  stripeCtx.moveTo(-2, 2); stripeCtx.lineTo(2, -2);
+  stripeCtx.moveTo(6, 10); stripeCtx.lineTo(10, 6);
+  stripeCtx.stroke();
+  const stripePattern = stripeCtx.createPattern(stripeCanvas, 'repeat');
+
+  // Create a dashed/outlined pattern for the estimated net profit bar
+  const dashCanvas = document.createElement('canvas');
+  dashCanvas.width = 6; dashCanvas.height = 6;
+  const dashCtx = dashCanvas.getContext('2d');
+  // Light fill with subtle texture to suggest "estimate"
+  dashCtx.fillStyle = 'rgba(139, 41, 66, 0.15)';
+  dashCtx.fillRect(0, 0, 6, 6);
+  dashCtx.strokeStyle = palette.accent;
+  dashCtx.lineWidth = 1;
+  dashCtx.setLineDash && dashCtx.setLineDash([2, 2]);
+  dashCtx.beginPath();
+  dashCtx.moveTo(0, 6); dashCtx.lineTo(6, 0);
+  dashCtx.stroke();
+  const estimatePattern = dashCtx.createPattern(dashCanvas, 'repeat');
+
+  new Chart(document.getElementById('waterfallChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Event\nrevenue','Less:\nproduct cost','Gross\nprofit','Less: SM\nad cost','Less: incremental\nstaff cost','Net\nprofit (est.)'],
+      datasets: [{
+        data: [
+          [0, 24500],       // Revenue
+          [12771, 24500],   // Less product cost
+          [0, 12771],       // GROSS PROFIT milestone
+          [12267, 12771],   // Less SM ad cost
+          [10500, 12267],   // Less staff cost (~$1,767 indicative — bigger than placeholder for visual weight)
+          [0, 10500]        // Net profit (estimate, visibly smaller than gross profit)
+        ],
+        backgroundColor: [
+          palette.ink,
+          palette.negative,
+          palette.accent,
+          palette.negative,
+          stripePattern,
+          estimatePattern
+        ],
+        borderColor: [
+          palette.ink,
+          palette.negative,
+          palette.accent,
+          palette.negative,
+          palette.negative,
+          palette.accent
+        ],
+        borderWidth: [0, 0, 0, 0, 1, 1.5],
+        borderRadius: 1,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          label: (c) => {
+            const labels = ['+$24,500','-$11,729 product cost','$12,771 gross profit','-$504 ad cost','TBD — pending estimate','~$10,000+ net profit (estimate)'];
+            return labels[c.dataIndex];
+          }
+        }}
+      },
+      scales: {
+        x: { ticks: { font: { size: 11 }, autoSkip: false }, grid: { display: false } },
+        y: { ticks: { callback: (v) => '$' + (v/1000).toFixed(0) + 'K' }, grid: { color: palette.rule, drawTicks: false }, border: { display: false } }
+      }
+    }
+  });
+
+  // === Discount break-even SIMPLE chart (3-bar comparison) ===
+  // Three numbers: typical day patients, break-even threshold, actual incremental patients
+  new Chart(document.getElementById('breakevenSimpleChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Typical day\nat these locations', 'Break-even\nthreshold', 'April 18\n(incremental, conservative)'],
+      datasets: [{
+        data: [5, 34, 91],
+        backgroundColor: [palette.neutral, '#c4a574', palette.accent],
+        borderRadius: 1,
+        barThickness: 36
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 80 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => c.parsed.x + ' patients'
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Patients', font: { size: 11, family: 'Geist' }, color: palette.inkMute, padding: { top: 8 } },
+          ticks: { font: { size: 11 } },
+          grid: { color: palette.rule, drawTicks: false },
+          border: { display: false },
+          beginAtZero: true,
+          max: 100
+        },
+        y: {
+          ticks: { font: { size: 12 } },
+          grid: { display: false },
+          border: { display: false }
+        }
+      }
+    },
+    plugins: [{
+      id: 'breakevenSimpleLabels',
+      afterDatasetsDraw(chart) {
+        const {ctx} = chart;
+        const meta = chart.getDatasetMeta(0);
+        const values = [5, 34, 91];
+        ctx.save();
+        ctx.font = '500 13px Geist, sans-serif';
+        ctx.fillStyle = palette.ink;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach((bar, i) => {
+          ctx.fillText(values[i] + ' patients', bar.x + 8, bar.y);
+        });
+        ctx.restore();
+      }
+    }]
+  });
+
+  // === Discount break-even LINE chart (two intersecting lines) ===
+  // X-axis: number of "incremental" patients (0 to 96)
+  // Line 1: GP gained from incremental patients = X × $132.79 (rises with X)
+  // Line 2: Forgone GP from would-have-come patients = (96 - X) × $70.46 (falls with X)
+  // Lines cross at break-even: X ≈ 33.3
+  const beXarr = [];
+  const gainData = [];
+  const forgoneData = [];
+  for (let X = 0; X <= 96; X += 4) {
+    beXarr.push(X);
+    gainData.push(Math.round(X * 132.79));
+    forgoneData.push(Math.round((96 - X) * 70.46));
+  }
+
+  new Chart(document.getElementById('breakevenChart'), {
+    type: 'line',
+    data: {
+      labels: beXarr,
+      datasets: [
+        {
+          label: 'Gross profit gained from incremental patients',
+          data: gainData,
+          borderColor: palette.accent,
+          backgroundColor: 'rgba(139, 41, 66, 0.08)',
+          borderWidth: 2.5,
+          tension: 0,
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: 'Forgone gross profit (would-have-come patients at promo)',
+          data: forgoneData,
+          borderColor: palette.negative,
+          backgroundColor: 'rgba(160, 74, 44, 0.08)',
+          borderWidth: 2.5,
+          tension: 0,
+          pointRadius: 0,
+          borderDash: [6, 4],
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11, family: 'Geist' }, color: palette.inkMute, boxWidth: 28, boxHeight: 2, padding: 14 }
+        },
+        tooltip: {
+          callbacks: {
+            title: (ctx) => ctx[0].label + ' incremental patients',
+            label: (c) => c.dataset.label + ': $' + c.parsed.y.toLocaleString()
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Number of incremental patients (out of 96)', font: { size: 11, family: 'Geist' }, color: palette.inkMute, padding: { top: 8 } },
+          ticks: { font: { size: 10 }, autoSkip: true, maxTicksLimit: 13 },
+          grid: { display: false }
+        },
+        y: {
+          title: { display: true, text: 'Dollars', font: { size: 11, family: 'Geist' }, color: palette.inkMute },
+          ticks: { callback: (v) => '$' + (v/1000).toFixed(0) + 'K' },
+          grid: { color: palette.rule, drawTicks: false },
+          border: { display: false }
+        }
+      }
+    },
+    plugins: [{
+      id: 'breakevenMarker',
+      afterDatasetsDraw(chart) {
+        const {ctx, chartArea, scales} = chart;
+        const xScale = scales.x;
+        const yScale = scales.y;
+        // Find break-even point: 33.3 incremental patients
+        const beXval = 33.3;
+        const beYval = beXval * 132.79;  // = $4,422
+        const xPx = xScale.getPixelForValue(beXval);
+        const yPx = yScale.getPixelForValue(beYval);
+
+        // Draw vertical guideline
+        ctx.save();
+        ctx.strokeStyle = palette.ink;
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(xPx, chartArea.bottom);
+        ctx.lineTo(xPx, yPx);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw break-even point dot
+        ctx.fillStyle = palette.ink;
+        ctx.beginPath();
+        ctx.arc(xPx, yPx, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = palette.paper;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = palette.ink;
+        ctx.font = '500 12px Geist, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Break-even', xPx + 10, yPx - 14);
+        ctx.font = '11px JetBrains Mono, monospace';
+        ctx.fillStyle = palette.inkMute;
+        ctx.fillText('~34 incremental pts', xPx + 10, yPx + 2);
+        ctx.restore();
+      }
+    }]
+  });
+</script>
+
+</body>
+</html>

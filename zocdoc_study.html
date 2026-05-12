@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZocDoc 2025 — The Patient Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0E0E0E;
+  --paper:    #F6F3EE;
+  --cream:    #EDE9E1;
+  --teal:     #0B6B6D;
+  --teal-l:   #D6ECEC;
+  --teal-d:   #064748;
+  --amber:    #B86E0E;
+  --amber-l:  #FAF0DF;
+  --coral:    #C43E2B;
+  --coral-l:  #FAEAE7;
+  --green:    #1C6E3D;
+  --green-l:  #E2F0E9;
+  --muted:    #555;
+  --rule:     #D0CBC0;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;overflow-x:hidden;}
+
+/* ── ANIMATIONS ─────────────────────── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── MASTHEAD ───────────────────────── */
+.masthead{background:var(--ink);color:var(--paper);padding:80px 0 56px;position:relative;overflow:hidden;}
+.masthead::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px);}
+.masthead-inner{max-width:1100px;margin:0 auto;padding:0 48px;position:relative;}
+.issue-line{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#7EC8C9;margin-bottom:24px;opacity:0;animation:fadeUp .8s .15s ease forwards;}
+.masthead h1{font-family:var(--serif);font-size:clamp(44px,7vw,90px);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:20px;opacity:0;animation:fadeUp .9s .3s ease forwards;}
+.masthead h1 em{font-style:italic;color:#7EC8C9;}
+.masthead-sub{font-size:19px;font-weight:300;color:rgba(246,243,238,.7);max-width:100%;line-height:1.6;opacity:0;animation:fadeUp .9s .5s ease forwards;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── LAYOUT ─────────────────────────── */
+.container{max-width:1100px;margin:0 auto;padding:0 48px;}
+.section{padding:80px 0;}
+.section+.section{border-top:1.5px solid var(--rule);}
+
+/* ── CHAPTER LABELS ─────────────────── */
+.chapter{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.chapter-n{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.chapter-line{flex:0 0 40px;height:1px;background:var(--teal);}
+.section-title{font-family:var(--serif);font-size:clamp(30px,4vw,46px);font-weight:700;line-height:1.15;margin-bottom:12px;letter-spacing:-.01em;}
+.section-title em{font-style:italic;color:var(--teal);}
+.section-intro{font-size:17px;color:var(--muted);max-width:100%;line-height:1.7;margin-bottom:48px;}
+
+/* ── STAT CARDS ─────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;margin-bottom:56px;background:var(--rule);border:1px solid var(--rule);}
+.stat-card{background:var(--paper);padding:26px 22px;position:relative;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.stat-card.teal::before{background:var(--teal);}
+.stat-card.amber::before{background:var(--amber);}
+.stat-card.coral::before{background:var(--coral);}
+.stat-card.green::before{background:var(--green);}
+.stat-card.ink::before{background:var(--ink);}
+.stat-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.stat-value{font-family:var(--serif);font-size:40px;font-weight:900;line-height:1;margin-bottom:5px;letter-spacing:-.02em;}
+.stat-label{font-size:14px;color:var(--muted);line-height:1.4;}
+
+/* ── CALLOUT ────────────────────────── */
+.callout{padding:22px 26px;border-left:4px solid;border-radius:0 4px 4px 0;margin:28px 0;}
+.callout.teal{background:var(--teal-l);border-color:var(--teal);}
+.callout.amber{background:var(--amber-l);border-color:var(--amber);}
+.callout.coral{background:var(--coral-l);border-color:var(--coral);}
+.callout.green{background:var(--green-l);border-color:var(--green);}
+.callout-head{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px;font-weight:500;}
+.callout.teal  .callout-head{color:var(--teal-d);}
+.callout.amber .callout-head{color:var(--amber);}
+.callout.coral .callout-head{color:var(--coral);}
+.callout.green .callout-head{color:var(--green);}
+.callout-body{font-size:15px;line-height:1.65;color:var(--ink);}
+
+/* ── HBAR CHART ─────────────────────── */
+.hbar-chart{display:flex;flex-direction:column;gap:14px;}
+.hbar-row{display:flex;align-items:center;gap:14px;}
+.hbar-label{font-size:14px;color:var(--ink);width:180px;flex-shrink:0;}
+.hbar-track{flex:1;height:24px;background:var(--cream);border-radius:2px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+.hbar-val{font-family:var(--mono);font-size:13px;width:70px;text-align:right;color:var(--ink);flex-shrink:0;}
+.hbar-sub{font-size:13px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;}
+
+/* ── NEW vs EXISTING VISUAL ─────────── */
+.new-existing-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border:1px solid var(--rule);margin:36px 0;}
+.ne-card{background:var(--paper);padding:32px;}
+.ne-icon{font-size:40px;margin-bottom:12px;}
+.ne-pct{font-family:var(--serif);font-size:64px;font-weight:900;line-height:1;letter-spacing:-.02em;}
+.ne-card.new-card .ne-pct{color:var(--teal);}
+.ne-card.est-card .ne-pct{color:var(--muted);}
+.ne-label{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.ne-card.new-card .ne-label{color:var(--teal);}
+.ne-card.est-card .ne-label{color:var(--muted);}
+.ne-sub{font-size:15px;color:var(--muted);line-height:1.55;margin-top:8px;}
+
+/* Monthly new patient bars */
+.monthly-bars{display:flex;align-items:flex-end;gap:5px;height:120px;margin-top:28px;}
+.mb-col{display:flex;flex-direction:column;align-items:center;flex:1;}
+.mb-bar-wrap{width:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;}
+.mb-new{width:100%;background:var(--teal);border-radius:2px 2px 0 0;transition:height 1.2s cubic-bezier(.16,1,.3,1);height:0;}
+.mb-exist{width:100%;background:var(--cream);border-top:none;}
+.mb-lbl{font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:5px;text-align:center;letter-spacing:.04em;}
+.chart-legend{display:flex;gap:20px;margin-top:14px;font-size:13px;color:var(--muted);}
+.cl-item{display:flex;align-items:center;gap:7px;}
+.cl-dot{width:10px;height:10px;border-radius:2px;}
+
+/* ── SOURCE CARDS ───────────────────── */
+.source-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--rule);border:1px solid var(--rule);}
+.source-card{background:var(--paper);padding:28px;}
+.source-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+.source-name{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.2;}
+.source-badge{font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:3px 9px;border-radius:2px;flex-shrink:0;}
+.badge-free{background:var(--green-l);color:var(--green);}
+.badge-paid{background:var(--amber-l);color:var(--amber);}
+.badge-warn{background:var(--coral-l);color:var(--coral);}
+.source-ltv{font-family:var(--serif);font-size:38px;font-weight:900;color:var(--teal-d);margin-bottom:4px;}
+.source-ltv-label{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.source-metrics{display:flex;flex-direction:column;gap:8px;}
+.source-metric{display:flex;justify-content:space-between;font-size:14px;border-bottom:1px solid var(--rule);padding-bottom:7px;}
+.source-metric:last-child{border:none;padding:0;}
+.source-metric-lbl{color:var(--muted);}
+.source-metric-val{font-family:var(--mono);font-size:13px;font-weight:500;}
+
+/* ── INS GRID ───────────────────────── */
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.ins-card{background:var(--cream);border-radius:4px;padding:24px;border:1px solid var(--rule);}
+.ins-type{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.ins-ltv{font-family:var(--serif);font-size:36px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:5px;}
+.ins-sub{font-size:13px;color:var(--muted);margin-bottom:14px;}
+.ins-detail{display:flex;flex-direction:column;gap:7px;}
+.ins-row{display:flex;justify-content:space-between;font-size:14px;}
+.ins-row-lbl{color:var(--muted);}
+.ins-row-val{font-family:var(--mono);font-size:13px;}
+
+/* ── WINDOW GRID ────────────────────── */
+.window-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:24px 0;}
+.window-cell{border-radius:3px;padding:10px 4px;text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.05em;}
+.window-cell .month{font-size:10px;font-weight:500;margin-bottom:3px;}
+.window-cell .status{font-size:9px;opacity:.75;}
+.cell-valid{background:var(--teal-l);color:var(--teal-d);border:1px solid #8CC8C8;}
+.cell-partial{background:#FEF9EE;color:var(--amber);border:1px solid #E8C87A;}
+.cell-invalid{background:var(--cream);color:var(--muted);border:1px solid var(--rule);}
+.window-legend{display:flex;gap:20px;font-size:14px;color:var(--muted);flex-wrap:wrap;margin-bottom:16px;}
+.wl-item{display:flex;align-items:center;gap:7px;}
+.wl-dot{width:11px;height:11px;border-radius:2px;}
+
+/* ── COMPARE TABLE ──────────────────── */
+.compare-table{width:100%;border-collapse:collapse;}
+.compare-table th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;padding:10px 14px;border-bottom:2px solid var(--ink);}
+.compare-table th:first-child{text-align:left;}
+.compare-table td{padding:11px 14px;font-size:15px;text-align:right;border-bottom:1px solid var(--rule);}
+.compare-table td:first-child{text-align:left;color:var(--muted);}
+.compare-table tr:hover td{background:var(--cream);}
+.highlight-row td{font-weight:600;background:var(--teal-l)!important;}
+.highlight-row td:first-child{color:var(--teal-d);}
+.mono{font-family:var(--mono);font-size:14px;}
+.pos{color:var(--green);}
+.neg{color:var(--coral);}
+
+/* ── PULL QUOTE ─────────────────────── */
+.pull-quote{border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);padding:32px 0;margin:48px 0;}
+.pull-quote p{font-family:var(--serif);font-size:clamp(22px,3.5vw,36px);font-weight:700;line-height:1.25;letter-spacing:-.01em;max-width:100%;}
+.pull-quote p em{font-style:italic;color:var(--teal);}
+
+/* ── SPO VERDICT ────────────────────── */
+.verdict-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border:1px solid var(--rule);margin:28px 0;}
+.verdict-card{background:var(--paper);padding:28px;}
+.verdict-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.verdict-card.good .verdict-label{color:var(--green);}
+.verdict-card.bad  .verdict-label{color:var(--amber);}
+.verdict-amount{font-family:var(--serif);font-size:50px;font-weight:900;line-height:1;margin-bottom:5px;}
+.verdict-card.good .verdict-amount{color:var(--teal-d);}
+.verdict-card.bad  .verdict-amount{color:var(--amber);}
+.verdict-desc{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6;}
+
+/* ── RECS ───────────────────────────── */
+.recs{display:flex;flex-direction:column;gap:2px;background:var(--rule);border:1px solid var(--rule);}
+.rec{background:var(--paper);padding:22px 26px;display:flex;gap:22px;align-items:flex-start;}
+.rec-n{font-family:var(--serif);font-size:38px;font-weight:900;color:var(--rule);line-height:1;flex-shrink:0;width:42px;}
+.rec-tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-bottom:6px;}
+.tag-high{background:var(--coral-l);color:var(--coral);}
+.tag-medium{background:var(--amber-l);color:var(--amber);}
+.rec-head{font-weight:600;font-size:15px;margin-bottom:4px;}
+.rec-text{font-size:14px;color:var(--muted);line-height:1.55;}
+
+/* ── FOOTER ─────────────────────────── */
+.footer{background:var(--ink);color:rgba(246,243,238,.5);padding:40px 0;margin-top:80px;}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-brand{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--paper);}
+.footer-meta{font-family:var(--mono);font-size:12px;text-align:right;line-height:1.8;}
+
+/* ── RESPONSIVE ─────────────────────── */
+@media(max-width:768px){
+  .container{padding:0 20px;}
+  .masthead-inner{padding:0 20px;}
+  .source-grid,.ins-grid,.verdict-grid,.new-existing-wrap{grid-template-columns:1fr;}
+  .window-grid{grid-template-columns:repeat(6,1fr);}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- ── MASTHEAD ──────────────────────────────────────────────────────────── -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="issue-line">Metro Dermatology · ZocDoc Performance Report · 2025 Full Year</div>
+    <h1>Does ZocDoc<br>actually <em>work?</em></h1>
+    <p class="masthead-sub">An evidence-based look at 3,240 patients, $652K in collected revenue, and what the data reveals about the true value of each booking channel.</p>
+  </div>
+</header>
+
+<!-- ── CHAPTER 1: THE CHANNEL ─────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Chapter 01</span></div>
+      <h2 class="section-title">The channel delivered. <em>Clearly.</em></h2>
+      <p class="section-intro"><strong>Cohort: 3-month forward-looking window · January–December 2025</strong><br>Each unique patient is tracked for 3 months from their first ZocDoc booking date. All dollar figures represent actual cash collected, not billed charges.</p>
+    </div>
+
+    <div class="stat-grid reveal" style="grid-template-columns:repeat(5,1fr);">
+      <div class="stat-card teal">
+        <div class="stat-eyebrow">Total Collected · 2025</div>
+        <div class="stat-value">$652K</div>
+        <div class="stat-label">Actual payments from ZocDoc-referred patients</div>
+      </div>
+      <div class="stat-card ink">
+        <div class="stat-eyebrow">Net ROI · 2025</div>
+        <div class="stat-value">$590K</div>
+        <div class="stat-label">After all ZocDoc costs · 10.5× return on spend</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-eyebrow">Unique Patients</div>
+        <div class="stat-value">3,240</div>
+        <div class="stat-label">ZocDoc-referred patients · full year 2025</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-eyebrow">LTV / Unique Patient (3M)</div>
+        <div class="stat-value">$201</div>
+        <div class="stat-label">Avg collected per unique patient · incl. zero-activity</div>
+      </div>
+      <div class="stat-card coral">
+        <div class="stat-eyebrow">Avg Visits / Unique Patient</div>
+        <div class="stat-value">1.56</div>
+        <div class="stat-label">Completed visits per unique patient · 3M window</div>
+      </div>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>70% of ZocDoc patients completed at least one visit. <em>Of those who did, 52% returned for a second.</em></p>
+    </div>
+
+    <!-- Funnel -->
+    <div class="reveal" style="margin-bottom:48px;">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;">Patient Engagement Funnel — 3,240 patients · 3-month window · completed visits only</div>
+      <div class="hbar-chart" id="funnel-chart">
+        <div class="hbar-row">
+          <div class="hbar-label">Booked via ZocDoc</div>
+          <div class="hbar-track"><div class="hbar-fill" style="background:var(--ink);--w:100%"></div></div>
+          <div class="hbar-val">3,240</div><div class="hbar-sub">100%</div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-label">Completed ≥1 visit</div>
+          <div class="hbar-track"><div class="hbar-fill" style="background:var(--teal);--w:69.9%"></div></div>
+          <div class="hbar-val">2,264</div><div class="hbar-sub">69.9%</div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-label">Generated payment</div>
+          <div class="hbar-track"><div class="hbar-fill" style="background:var(--teal);--w:68.3%"></div></div>
+          <div class="hbar-val">2,214</div><div class="hbar-sub">68.3%</div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-label">Returned (2+ visits)</div>
+          <div class="hbar-track"><div class="hbar-fill" style="background:var(--green);--w:35.7%"></div></div>
+          <div class="hbar-val">1,157</div><div class="hbar-sub">52.2% of visitors</div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-label">High-value ($500+ / 3M)</div>
+          <div class="hbar-track"><div class="hbar-fill" style="background:var(--amber);--w:8.9%"></div></div>
+          <div class="hbar-val">288</div><div class="hbar-sub">40.4% of revenue</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout teal reveal">
+      <div class="callout-head">The 8.9% Rule</div>
+      <div class="callout-body">288 patients — just 8.9% of the cohort — generated <strong>$263K, or 40.4% of total annual revenue</strong>. They averaged 4.7 completed visits in 3 months. Understanding what brings these patients in is the single most valuable optimization available.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHAPTER 2: NEW PATIENTS ─────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Chapter 02</span></div>
+      <h2 class="section-title">ZocDoc's core job: <em>new patient acquisition.</em></h2>
+      <p class="section-intro">ZocDoc's primary value proposition is bringing in patients who have never visited Metro Dermatology before. The data confirms it is doing exactly that — consistently and at scale.</p>
+    </div>
+
+    <div class="new-existing-wrap reveal">
+      <div class="ne-card new-card">
+        <div class="ne-label">New Patients · 2025</div>
+        <div class="ne-pct">70.4%</div>
+      </div>
+      <div class="ne-card est-card">
+        <div class="ne-label">Existing Patients · 2025</div>
+        <div class="ne-pct" style="color:var(--muted);">29.6%</div>
+      </div>
+    </div>
+
+    <!-- Monthly new patient chart - new patients only -->
+    <div class="reveal" style="margin-top:40px;">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">New patient bookings per month — Apr–Dec 2025</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:16px;line-height:1.55;">Note: ZocDoc counts a booking as "new" when a patient sees a provider for the first time — an existing Metro Dermatology patient booking with a different provider counts as new in ZocDoc's classification.</div>
+      <div class="monthly-bars" id="monthly-bars" style="height:150px;align-items:flex-end;"></div>
+      <div class="chart-legend">
+        <div class="cl-item"><div class="cl-dot" style="background:var(--teal)"></div> New patient bookings</div>
+      </div>
+    </div>
+
+    <div class="callout green reveal" style="margin-top:36px;">
+      <div class="callout-head">New Patient Rate is Structurally Consistent</div>
+      <div class="callout-body">The new patient rate held between 67–73% every month across Apr–Dec 2025 — with no meaningful trend up or down. ZocDoc is reliably delivering net-new patients through the door, not cannibalizing existing ones.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHAPTER 3: BOOKING SOURCES ─────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Chapter 03</span></div>
+      <h2 class="section-title">Not all bookings are <em>created equal.</em></h2>
+      <p class="section-intro">ZocDoc routes patients through four channels. Two are free. Two cost money. The pattern is clear.</p>
+    </div>
+
+    <div class="source-grid reveal">
+      <div class="source-card">
+        <div class="source-head">
+          <div class="source-name">Google &amp; Others</div>
+          <span class="source-badge badge-free">FREE</span>
+        </div>
+        <div class="source-ltv">$223</div>
+        <div class="source-ltv-label">3M LTV per patient · zero acquisition cost</div>
+        <div class="source-metrics">
+          <div class="source-metric"><span class="source-metric-lbl">Patients</span><span class="source-metric-val">1,015 (31.3%)</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Visit rate</span><span class="source-metric-val" style="color:var(--green)">75.9%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Zero-activity</span><span class="source-metric-val">24.1%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Col / visit</span><span class="source-metric-val">$147</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Collection rate</span><span class="source-metric-val" style="color:var(--green)">48.2%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">ROI per patient</span><span class="source-metric-val" style="color:var(--green)">$223</span></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-head">
+          <div class="source-name">Your Website</div>
+          <span class="source-badge badge-free">FREE</span>
+        </div>
+        <div class="source-ltv">$216</div>
+        <div class="source-ltv-label">3M LTV per patient · zero acquisition cost</div>
+        <div class="source-metrics">
+          <div class="source-metric"><span class="source-metric-lbl">Patients</span><span class="source-metric-val">680 (21.0%)</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Visit rate</span><span class="source-metric-val" style="color:var(--green)">75.9%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Zero-activity</span><span class="source-metric-val">24.1%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Col / visit</span><span class="source-metric-val">$137</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Collection rate</span><span class="source-metric-val">44.0%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">ROI per patient</span><span class="source-metric-val" style="color:var(--green)">$216</span></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-head">
+          <div class="source-name">ZocDoc Marketplace</div>
+          <span class="source-badge badge-paid">$44 / patient</span>
+        </div>
+        <div class="source-ltv">$183</div>
+        <div class="source-ltv-label">3M LTV per patient · $44 acquisition cost</div>
+        <div class="source-metrics">
+          <div class="source-metric"><span class="source-metric-lbl">Patients</span><span class="source-metric-val">1,403 (43.3%)</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Visit rate</span><span class="source-metric-val">63.8%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Zero-activity</span><span class="source-metric-val">36.1%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Col / visit</span><span class="source-metric-val">$137</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Collection rate</span><span class="source-metric-val">43.4%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">ROI per patient</span><span class="source-metric-val">$139 (3.2×)</span></div>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-head">
+          <div class="source-name">SPO Booking</div>
+          <span class="source-badge badge-warn">$65 / patient</span>
+        </div>
+        <div class="source-ltv" style="color:var(--amber);">$155</div>
+        <div class="source-ltv-label">3M LTV per patient · $65 acquisition cost ($44 + $21 premium)</div>
+        <div class="source-metrics">
+          <div class="source-metric"><span class="source-metric-lbl">Patients</span><span class="source-metric-val">142 (4.4%)</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Visit rate</span><span class="source-metric-val" style="color:var(--coral)">58.5%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Zero-activity</span><span class="source-metric-val" style="color:var(--coral)">41.5%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Col / visit</span><span class="source-metric-val">$141</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">Collection rate</span><span class="source-metric-val">44.2%</span></div>
+          <div class="source-metric"><span class="source-metric-lbl">ROI per patient</span><span class="source-metric-val" style="color:var(--amber)">$90 (1.4×)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout amber reveal">
+      <div class="callout-head">Free channels = 52.3% of all patients · highest quality on every metric</div>
+      <div class="callout-body">Google/Others and Your Website together sent 1,695 patients at zero cost. They converted at 75.9% (vs 63.8% for Marketplace), had 12pp lower zero-activity, and generated the highest per-patient LTV. Every investment in SEO, Google Business Profile, and ZocDoc link optimization on the website directly amplifies this advantage.</div>
+    </div>
+
+    <!-- SPO analysis -->
+    <div class="reveal" style="margin-top:48px;">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">SPO Booking vs Marketplace — the $21 premium question</div>
+      <div class="verdict-grid">
+        <div class="verdict-card good">
+          <div class="verdict-label">Marketplace · $44 / patient</div>
+          <div class="verdict-amount">$139</div>
+          <div style="font-size:14px;color:var(--muted);">Net ROI per patient · 3.2× return</div>
+          <div class="verdict-desc">63.8% visit rate · 2.09 avg completed visits · strong acquisition channel</div>
+        </div>
+        <div class="verdict-card bad">
+          <div class="verdict-label">SPO Booking · $65 / patient</div>
+          <div class="verdict-amount">$90</div>
+          <div style="font-size:14px;color:var(--amber);">Net ROI per patient · 1.4× return</div>
+          <div class="verdict-desc">58.5% visit rate · 1.88 avg completed visits · lower quality at 48% higher cost</div>
+        </div>
+      </div>
+
+      <div class="callout amber reveal">
+        <div class="callout-head">SPO still generates positive ROI — but investigate before deciding</div>
+        <div class="callout-body">SPO Booking is not losing money at $90 net ROI per patient. However, it delivers <strong>35% lower ROI than standard Marketplace at 48% higher cost</strong>, with lower visit rates and higher no-show rates. Before pausing, three questions should be answered: (1) Does SPO generate meaningful incremental volume that wouldn't otherwise come through Marketplace? (2) Are there specific providers or locations where SPO performs better? (3) Is the lower quality driven by a specific insurance or patient mix? The data available does not isolate these factors — they warrant investigation before a final call.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHAPTER 4: INSURANCE ───────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Chapter 04</span></div>
+      <h2 class="section-title">Who pays more? <em>Self-pay patients.</em></h2>
+      <p class="section-intro">Insurance type is the strongest predictor of collected revenue per visit. The highest-value segment has no insurance at all.</p>
+    </div>
+
+    <div class="ins-grid reveal">
+      <div class="ins-card" style="border-top:3px solid var(--teal);">
+        <div class="ins-type">Self Pay · 14.3%</div>
+        <div class="ins-ltv">$234</div>
+        <div class="ins-sub">3M LTV — highest of all insurance types</div>
+        <div class="ins-detail">
+          <div class="ins-row"><span class="ins-row-lbl">Visit rate</span><span class="ins-row-val">72.7%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Col / visit</span><span class="ins-row-val" style="color:var(--teal);font-weight:600;">$163</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Collection rate</span><span class="ins-row-val" style="color:var(--teal);font-weight:600;">55.7%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Avg visits / patient</span><span class="ins-row-val">1.98</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Zero-activity</span><span class="ins-row-val">27.3%</span></div>
+        </div>
+      </div>
+      <div class="ins-card" style="border-top:3px solid var(--amber);">
+        <div class="ins-type">Commercial · 53.3%</div>
+        <div class="ins-ltv">$211</div>
+        <div class="ins-sub">3M LTV</div>
+        <div class="ins-detail">
+          <div class="ins-row"><span class="ins-row-lbl">Visit rate</span><span class="ins-row-val">74.1%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Col / visit</span><span class="ins-row-val">$141</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Collection rate</span><span class="ins-row-val">44.8%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Avg visits / patient</span><span class="ins-row-val">2.02</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Zero-activity</span><span class="ins-row-val">25.9%</span></div>
+        </div>
+      </div>
+      <div class="ins-card" style="border-top:3px solid var(--coral);">
+        <div class="ins-type">Government · 32.4%</div>
+        <div class="ins-ltv">$172</div>
+        <div class="ins-sub">3M LTV — lowest conversion rate</div>
+        <div class="ins-detail">
+          <div class="ins-row"><span class="ins-row-lbl">Visit rate</span><span class="ins-row-val" style="color:var(--coral);">61.8%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Col / visit</span><span class="ins-row-val">$129</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Collection rate</span><span class="ins-row-val">41.0%</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Avg visits / patient</span><span class="ins-row-val" style="color:var(--green);">2.16</span></div>
+          <div class="ins-row"><span class="ins-row-lbl">Zero-activity</span><span class="ins-row-val" style="color:var(--coral);">38.2%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout amber reveal">
+      <div class="callout-head">⚠ Self Pay — Interpret with Caution</div>
+      <div class="callout-body">Many patients classified as "Self Pay" in ZocDoc are not uninsured — they simply did not provide insurance information at the time of booking. The metrics for this group likely reflect a mix of true self-pay and patients whose insurance was captured later in the EHR. Cross-reference with ModMed collections data before drawing conclusions about this segment's true value.</div>
+    </div>
+    <div class="callout teal reveal">
+      <div class="callout-head">Government Patients — The Conversion Problem</div>
+      <div class="callout-body">38.2% of Medicaid/Medicare patients never complete a visit — the highest zero-activity rate of any group. But once they attend, they visit frequently (2.16 visits in 3M) and their LTV/paying patient is $282 — nearly identical to Commercial. The problem is pre-visit friction, not patient value. Better reminder flows and eligibility verification for this segment would directly improve channel ROI.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CHAPTER 5: THE 12-MONTH QUESTION ──────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Chapter 05</span></div>
+      <h2 class="section-title">Why we can't use <em>12-month data</em> yet — and what we know anyway.</h2>
+      <p class="section-intro">The 12-month cohort is the gold standard for true LTV. As of April 2026, most of 2025 hasn't had 12 months to mature — but Q1 2025 has, and what it shows changes the picture.</p>
+    </div>
+
+    <div class="reveal">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">12-Month observation window validity — as of April 2026</div>
+      <div class="window-legend">
+        <div class="wl-item"><div class="wl-dot" style="background:var(--teal-l);border:1px solid #8CC8C8;"></div> <span style="font-size:14px;">Valid — 12+ months elapsed</span></div>
+        <div class="wl-item"><div class="wl-dot" style="background:#FEF9EE;border:1px solid #E8C87A;"></div> <span style="font-size:14px;">Borderline</span></div>
+        <div class="wl-item"><div class="wl-dot" style="background:var(--cream);border:1px solid var(--rule);"></div> <span style="font-size:14px;">Incomplete — figures understated</span></div>
+      </div>
+      <div class="window-grid">
+        <div class="window-cell cell-valid"><div class="month">JAN</div><div class="status">15M ✓</div></div>
+        <div class="window-cell cell-valid"><div class="month">FEB</div><div class="status">14M ✓</div></div>
+        <div class="window-cell cell-valid"><div class="month">MAR</div><div class="status">13M ✓</div></div>
+        <div class="window-cell cell-partial"><div class="month">APR</div><div class="status">12M ~</div></div>
+        <div class="window-cell cell-invalid"><div class="month">MAY</div><div class="status">11M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">JUN</div><div class="status">10M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">JUL</div><div class="status">9M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">AUG</div><div class="status">8M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">SEP</div><div class="status">7M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">OCT</div><div class="status">6M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">NOV</div><div class="status">5M ✗</div></div>
+        <div class="window-cell cell-invalid"><div class="month">DEC</div><div class="status">4M ✗</div></div>
+      </div>
+      <p style="font-size:14px;color:var(--muted);margin-top:8px;">Any 12-month comparison using Q2–Q4 cohorts will show artificially low LTV uplift — not because those patients are worse, but because their window hasn't closed. The Q4 cohort has had only 4–6 months to accumulate.</p>
+    </div>
+
+    <!-- Q1 2025 12M comparison table -->
+    <div style="margin-top:48px;" class="reveal">
+      <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">Q1 2025 — The only valid 12-month comparison · 481 patients · Jan–Mar 2025 cohort</div>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>3-Month cohort</th>
+            <th>12-Month cohort</th>
+            <th>Uplift</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>LTV / all patients</td>
+            <td class="mono">$234</td>
+            <td class="mono">$368</td>
+            <td class="mono pos">+$134 (+57%)</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>LTV / paying patients</td>
+            <td class="mono">$340</td>
+            <td class="mono">$535</td>
+            <td class="mono pos">+$195 (+57%)</td>
+          </tr>
+          <tr>
+            <td>Total payments collected</td>
+            <td class="mono">$112,529</td>
+            <td class="mono">~$177,000</td>
+            <td class="mono pos">+~$64K (+57%)</td>
+          </tr>
+          <tr>
+            <td>Visits / unique patient</td>
+            <td class="mono">1.56</td>
+            <td class="mono">2.64</td>
+            <td class="mono pos">+1.08 visits (+69%)</td>
+          </tr>
+          <tr>
+            <td>Collected / visit</td>
+            <td class="mono">$150</td>
+            <td class="mono">~$136</td>
+            <td class="mono neg">−$14 (follow-up visits bill lower)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull-quote reveal">
+      <p>A Q1 2025 ZocDoc patient generated <em>57% more revenue in 12 months</em> than their first 3 months suggested. The 3-month LTV is real — but it's a floor, not a ceiling.</p>
+    </div>
+
+    <div class="callout teal reveal">
+      <div class="callout-head">The Planning Multiplier</div>
+      <div class="callout-body">
+        <strong>Use 3-month cohort for all current operational decisions</strong> — it's valid for all 3,240 patients across all of 2025.<br><br>
+        <strong>Apply a 1.57× multiplier for annual planning:</strong> a 3M LTV of $200 implies a true 12M LTV of approximately <strong>$314</strong>. Use this when modeling Branded Directory ROI and long-term channel value.<br><br>
+        <strong>Do not compare Q2–Q4 12-month figures</strong> — those windows are incomplete. The declining uplift pattern visible in the Power BI 12M report (Q1 +57%, Q4 +13%) is entirely a timing artifact, not a real trend.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CHAPTER: RECOMMENDATIONS ────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="reveal">
+      <div class="chapter"><div class="chapter-line"></div><span class="chapter-n">Final Chapter</span></div>
+      <h2 class="section-title">What to <em>do next.</em></h2>
+      <p class="section-intro">Six actions, in priority order.</p>
+    </div>
+
+    <div class="recs reveal">
+      <div class="rec">
+        <div class="rec-n">1</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-high">High priority</div>
+          <div class="rec-head">Conduct Branded Directory trial study and make decision</div>
+          <div class="rec-text">The trial ends May 2026. Collect April and May booking data and run the channel-separated break-even (Marketplace vs BD independently) before committing to $67,500/year. The exit risk — losing ~283 previously-free bookings/month permanently — likely exceeds the flat fee, but two months of data are needed to confirm volume is structural rather than seasonal. Also evaluate whether alternative online booking platforms such as Klara, NexHealth, or Podium could serve a similar function at a different cost structure.</div>
+        </div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">2</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-high">High priority</div>
+          <div class="rec-head">Establish a sustainable periodic data pipeline</div>
+          <div class="rec-text">The current analysis relied on manual data exports from ZocDoc and ModMed. A repeatable monthly process — scheduled exports, consistent file formats, and a defined update workflow into Power BI — is needed to maintain this analysis over time without re-building it from scratch each cycle. Define the cadence, ownership, and format before the next data refresh.</div>
+        </div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">3</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-high">High priority</div>
+          <div class="rec-head">Implement ZocDoc Tier 2/3 link optimization sitewide</div>
+          <div class="rec-text">Free channel patients convert at 75.9% vs 63.8% for Marketplace. Website-referred patients (GuestCheckout) converted at 63% in the BD dashboard — 4.4× the overall average. Location-specific and provider-specific ZocDoc links directly amplify the highest-quality patient source. All URLs are documented in ClickUp.</div>
+        </div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">4</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-high">High priority</div>
+          <div class="rec-head">Investigate SPO Booking before pausing</div>
+          <div class="rec-text">SPO still generates positive ROI ($90/patient). Before reducing spend, determine: Does SPO bring incremental volume that wouldn't come through standard Marketplace? Are there specific providers or locations where SPO performs better? Is the lower visit rate driven by a specific patient mix?</div>
+        </div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">5</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-medium">Medium priority</div>
+          <div class="rec-head">Reduce Government patient pre-visit friction</div>
+          <div class="rec-text">38.2% of Medicaid/Medicare patients never complete a visit. Once they attend, their LTV/paying is nearly identical to Commercial ($282 vs $291). Targeted confirmation reminders and eligibility verification for this segment could materially lift conversion without changing acquisition cost.</div>
+        </div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">6</div>
+        <div class="rec-body">
+          <div class="rec-tag tag-medium">Medium priority</div>
+          <div class="rec-head">Segment high-value patients by provider and location</div>
+          <div class="rec-text">288 patients generated 40% of revenue at an avg of 4.7 visits in 3 months. Fort Lee (32% of BD bookings) and Ra La Huh / Sophy Yu (highest confirmation rates) are natural starting points. Understanding what drives these patients is the highest-value remaining analysis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Metro Dermatology</div>
+      <div style="font-size:13px;color:rgba(246,243,238,.4);margin-top:4px;">ZocDoc Performance Analysis · 2025 Full Year</div>
+    </div>
+    <div class="footer-meta">
+      3,240 unique patients · Jan–Dec 2025<br>
+      3-month cohort · completed visits only<br>
+      Prepared April 2026 · All figures USD actual collected
+    </div>
+  </div>
+</footer>
+
+<script>
+// Monthly new vs existing data
+const monthlyData = [
+  {lbl:'Apr',new:61,exist:26},
+  {lbl:'May',new:155,exist:59},
+  {lbl:'Jun',new:175,exist:73},
+  {lbl:'Jul',new:270,exist:136},
+  {lbl:'Aug',new:253,exist:111},
+  {lbl:'Sep',new:323,exist:137},
+  {lbl:'Oct',new:362,exist:153},
+  {lbl:'Nov',new:330,exist:124},
+  {lbl:'Dec',new:412,exist:167},
+];
+const maxNew = Math.max(...monthlyData.map(d=>d.new));
+const chartH = 130;
+const wrap = document.getElementById('monthly-bars');
+monthlyData.forEach(d=>{
+  const col = document.createElement('div');
+  col.className = 'mb-col';
+  const barH = Math.round((d.new/maxNew)*chartH);
+  col.innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:${chartH}px;width:100%;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--teal);margin-bottom:3px;">${d.new}</div>
+      <div class="mb-new" style="width:100%;height:0;" data-h="${barH}"></div>
+    </div>
+    <div class="mb-lbl">${d.lbl}</div>
+  `;
+  wrap.appendChild(col);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // Bars
+      e.target.querySelectorAll('.hbar-fill').forEach(b=>{
+        b.style.width = b.style.getPropertyValue('--w')||b.style.width;
+      });
+      // New patient monthly bars
+      e.target.querySelectorAll('.mb-new').forEach(b=>{
+        const h = b.dataset.h;
+        setTimeout(()=>{ b.style.height=h+'px'; },50);
+      });
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+reveals.forEach(el=>observer.observe(el));
+
+// Bar charts on scroll
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.hbar-fill').forEach(b=>{
+        b.style.width = b.style.getPropertyValue('--w')||b.style.width;
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+document.querySelectorAll('.hbar-chart').forEach(el=>barObs.observe(el));
+
+// Monthly bar observer - new patients only
+const mbObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.mb-new').forEach(b=>{
+        const h = b.dataset.h;
+        setTimeout(()=>{ b.style.height=h+'px'; },80);
+      });
+      mbObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+const mbEl = document.getElementById('monthly-bars');
+if(mbEl) mbObs.observe(mbEl);
+</script>
+</body>
+</html>
