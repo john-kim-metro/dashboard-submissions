@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metro Dermatology — Productivity Dashboard · March 2026</title>
+<title>Metro Dermatology — Productivity Dashboard · April 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -68,17 +68,17 @@
   <div class="db-header">
     <div class="db-header-left">
       <h1>Metro Dermatology &mdash; Productivity Dashboard</h1>
-      <p>Reporting period: March 2026 &nbsp;|&nbsp; All 6 locations &nbsp;|&nbsp; VPH = Completed Visits / Scheduled Hours</p>
+      <p>Reporting period: April 2026 &nbsp;|&nbsp; All 6 locations &nbsp;|&nbsp; VPH = Visits / Scheduled Hours</p>
     </div>
-    <div class="db-header-right"><strong>Prepared April 12, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
+    <div class="db-header-right"><strong>Prepared May 11, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
   </div>
 
   <div class="kpi-row">
-    <div class="kpi"><div class="kpi-label">System VPH &mdash; Mar 2026</div><div class="kpi-value">5.22</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+11.1%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+5.5%</div></div></div>
-    <div class="kpi"><div class="kpi-label">Scheduled hours</div><div class="kpi-value">2,002</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+11.6%</div><div class="kpi-delta nt"><span class="lbl">Feb</span>1,794</div></div></div>
+    <div class="kpi"><div class="kpi-label">System VPH &mdash; Apr 2026</div><div class="kpi-value">5.39</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+3.3%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+3.3%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Scheduled hours</div><div class="kpi-value">1,925</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;3.9%</div><div class="kpi-delta nt"><span class="lbl">Mar</span>2,002</div></div></div>
     <div class="kpi"><div class="kpi-label">Active providers</div><div class="kpi-value">17</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">Peak</span>19 (Jun '25)</div><div class="kpi-delta nt"><span class="lbl">Start</span>16 (May '24)</div></div></div>
-    <div class="kpi"><div class="kpi-label">Top VPH &mdash; Lee H.S.</div><div class="kpi-value">7.35</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">3mo avg</span>7.07</div><div class="kpi-delta up"><span class="lbl">YoY</span>+25%</div></div></div>
-    <div class="kpi"><div class="kpi-label">Fastest ramp &mdash; FO Ortiz</div><div class="kpi-value">6.22</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">Start</span>3.22 (May '25)</div><div class="kpi-delta up"><span class="lbl">To avg</span>3 months</div></div></div>
+    <div class="kpi"><div class="kpi-label">Top VPH &mdash; Lee H.S.</div><div class="kpi-value">6.72</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">3mo avg</span>6.95</div><div class="kpi-delta up"><span class="lbl">YoY</span>+3%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Fastest ramp &mdash; FO Ortiz</div><div class="kpi-value">6.95</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">Start</span>3.22 (May '25)</div><div class="kpi-delta up"><span class="lbl">To avg</span>3 months</div></div></div>
   </div>
 
   <!-- Chart 1 -->
@@ -98,16 +98,16 @@
   </div>
 
   <!-- Chart 2 -->
-  <div class="sec-label">2 &mdash; Provider productivity matrix (Jan&ndash;Mar 2026 average)</div>
+  <div class="sec-label">2 &mdash; Provider productivity matrix (Feb&ndash;Apr 2026 average)</div>
   <div class="full card">
     <div class="card-title">VPH vs no-show rate &middot; bubble size = avg monthly completed visits &middot; initials = firstname + lastname</div>
     <div class="card-sub">X axis 1.5&ndash;8.0. Bubble color matches insight categories below: blue = ideal, green = at/near benchmark, red = high NS, amber = below benchmark VPH. Hover for detail.</div>
     <div style="position:relative;height:440px"><canvas id="bubble"></canvas></div>
     <div class="note">DS and SH each appear twice (Diana Sun / David Shin; Stephanie Hu / Samantha Hussain). Kim, Carey excluded (&lt;100 visits). Initials = firstname + lastname initial.</div>
     <div class="insight-row">
-      <div class="ins"><span class="ins-tag tag-b">Ideal quadrant</span><div class="ins-head">HL, SH (Hu), DS (Sun) &mdash; high VPH + low NS</div><div class="ins-body">Lee (7.07, 7.6% NS), Hu (6.01, 10.1%), Sun (5.86, 11.0%). Highest throughput with best adherence. Benchmark for scheduling density.</div></div>
-      <div class="ins"><span class="ins-tag tag-r">Leaky panel</span><div class="ins-head">FO, AM &mdash; high VPH but high NS</div><div class="ins-body">Ortiz (6.08, 31.0% NS) and Mamanova (6.54, 28.0%) lose nearly 1 in 3 booked appointments. Panel or lead-time review warranted.</div></div>
-      <div class="ins"><span class="ins-tag tag-a">Below benchmark</span><div class="ins-head">GG, PS &mdash; low VPH after 9+ months</div><div class="ins-body">Garcia (2.52) and Sit (3.23) well below the 5.22 system average on 136&ndash;144 scheduled hours/month. Combined ~640 visit/month gap.</div></div>
+      <div class="ins"><span class="ins-tag tag-b">Ideal quadrant</span><div class="ins-head">HL, SH (Hu), DS (Sun) &mdash; high VPH + low NS</div><div class="ins-body">Lee (6.95, 7.4% NS), Hu (6.07, 9.2%), Sun (5.91, 10.8%). Highest throughput with best adherence. Benchmark for scheduling density.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Leaky panel</span><div class="ins-head">FO, AM, CK, CH &mdash; high NS regardless of VPH</div><div class="ins-body">Ortiz (6.39, 30.6% NS), Mamanova (6.59, 27.7%), Kwak (4.49, 24.7%), Huang (4.43, 24.0%) all lose roughly 1 in 4 booked appointments. Panel or lead-time review warranted.</div></div>
+      <div class="ins"><span class="ins-tag tag-a">Below benchmark</span><div class="ins-head">GG &mdash; low VPH after 11 months</div><div class="ins-body">Garcia (2.73) remains well below the 5.39 system VPH after nearly a year. Sit (3.76) made meaningful gains in March-April but high NS (26.4%) keeps her in the leaky panel.</div></div>
     </div>
   </div>
 
@@ -140,8 +140,8 @@
         <tbody>
           <tr>
             <td><strong>FO &mdash; Ortiz</strong></td><td>May '25</td>
-            <td class="c"><strong>6.22</strong></td>
-            <td class="c"><span style="color:#0C447C;font-weight:600">+0.22/mo</span> <span style="font-size:10px;color:#888">R²=0.50</span></td>
+            <td class="c"><strong>6.95</strong></td>
+            <td class="c"><span style="color:#0C447C;font-weight:600">+0.23/mo</span> <span style="font-size:10px;color:#888">R²=0.58</span></td>
             <td class="c"><span class="pill pill-g">Month 1</span></td>
             <td class="c"><span class="pill pill-g">Month 2</span></td>
             <td class="c"><span class="pill pill-g">Month 3</span></td>
@@ -150,30 +150,30 @@
           </tr>
           <tr>
             <td><strong>CH &mdash; Huang</strong></td><td>Mar '25</td>
-            <td class="c"><strong>4.46</strong></td>
-            <td class="c"><span style="color:#D85A30;font-weight:600">+0.24/mo</span> <span style="font-size:10px;color:#888">R²=0.95</span></td>
+            <td class="c"><strong>4.70</strong></td>
+            <td class="c"><span style="color:#D85A30;font-weight:600">+0.24/mo</span> <span style="font-size:10px;color:#888">R²=0.96</span></td>
             <td class="c"><span class="pill pill-g">Month 5</span></td>
             <td class="c"><span class="pill pill-g">Month 9</span></td>
-            <td class="c"><span class="pill pill-a">Not yet <em style="font-size:9px;color:#aaa">(mo 13)</em></span></td>
+            <td class="c"><span class="pill pill-a">Month 14 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
             <td class="c"><span class="pill pill-a">Not yet</span></td>
-            <td class="c"><span class="pill pill-a">Watch</span></td>
+            <td class="c"><span class="pill pill-g">Approaching</span></td>
           </tr>
           <tr>
             <td><strong>PS &mdash; Sit</strong></td><td>Jun '25</td>
-            <td class="c"><strong>3.70</strong></td>
-            <td class="c"><span style="color:#7F77DD;font-weight:600">+0.12/mo</span> <span style="font-size:10px;color:#888">R²=0.52</span></td>
+            <td class="c"><strong>4.51</strong></td>
+            <td class="c"><span style="color:#7F77DD;font-weight:600">+0.17/mo</span> <span style="font-size:10px;color:#888">R²=0.63</span></td>
             <td class="c"><span class="pill pill-g">Month 2</span></td>
             <td class="c"><span class="pill pill-a">Month 10 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
-            <td class="c"><span class="pill pill-r">Not yet <em style="font-size:9px;color:#aaa">(mo 10)</em></span></td>
-            <td class="c"><span class="pill pill-r">Not yet</span></td>
-            <td class="c"><span class="pill pill-a">Watch</span></td>
+            <td class="c"><span class="pill pill-a">Month 11 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
+            <td class="c"><span class="pill pill-a">Not yet</span></td>
+            <td class="c"><span class="pill pill-g">Approaching</span></td>
           </tr>
           <tr>
             <td><strong>GG &mdash; Garcia</strong></td><td>Jun '25</td>
-            <td class="c"><strong>2.71</strong></td>
-            <td class="c"><span style="color:#888780;font-weight:600">+0.04/mo</span> <span style="font-size:10px;color:#888">R²=0.40</span></td>
-            <td class="c"><span class="pill pill-a">Month 3 <em style="font-size:9px;color:#aaa">(barely)</em></span></td>
-            <td class="c"><span class="pill pill-r">Not yet <em style="font-size:9px;color:#aaa">(mo 10)</em></span></td>
+            <td class="c"><strong>2.99</strong></td>
+            <td class="c"><span style="color:#888780;font-weight:600">+0.06/mo</span> <span style="font-size:10px;color:#888">R²=0.55</span></td>
+            <td class="c"><span class="pill pill-g">Month 3</span></td>
+            <td class="c"><span class="pill pill-r">Not yet <em style="font-size:9px;color:#aaa">(mo 11)</em></span></td>
             <td class="c"><span class="pill pill-r">Not yet</span></td>
             <td class="c"><span class="pill pill-r">Not yet</span></td>
             <td class="c"><span class="pill pill-r">Intervention</span></td>
@@ -199,24 +199,24 @@
 
     <div class="insight-row" style="margin-top:14px">
       <div class="ins"><span class="ins-tag tag-p">Fastest ramp</span><div class="ins-head">FO (Ortiz) &mdash; at benchmark in 3 months</div><div class="ins-body">Likely joined with established referrals. +0.22 VPH/mo trend, though R²=0.50 reflects volatility around an already-high baseline. Aspirational ceiling, not the organic standard setter.</div></div>
-      <div class="ins"><span class="ins-tag tag-g">Most consistent</span><div class="ins-head">CH (Huang) &mdash; +0.24/mo, R²=0.95</div><div class="ins-body">Strongest and most linear ramp in the cohort. Near-perfect fit means growth is driven by consistent volume increases, not scheduling variability. On pace for Month 12 target by mid-2026.</div></div>
-      <div class="ins"><span class="ins-tag tag-r">Intervention needed</span><div class="ins-head">GG (Garcia) &mdash; +0.04/mo, nearly flat</div><div class="ins-body">R²=0.40 with a near-zero slope confirms GG is structurally stalled, not temporarily depressed. At this rate, GG will not reach the Month 6 target (3.5 VPH) within the 18-month window.</div></div>
+      <div class="ins"><span class="ins-tag tag-g">Most consistent</span><div class="ins-head">CH (Huang) &mdash; +0.24/mo, R²=0.96</div><div class="ins-body">Strongest and most linear ramp in the cohort. April broke through the 4.5 Month 12 target (at Month 14, late but reached). Near-perfect fit means growth is driven by consistent volume increases. On pace for full benchmark (5.1) by mid-2026.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Intervention needed</span><div class="ins-head">GG (Garcia) &mdash; +0.06/mo, slow progress</div><div class="ins-body">Modest slope improvement (0.04→0.06/mo) and April uptick to 2.99 suggests some movement, but Garcia remains below the 3.5 Month 6 target after 11 months. At current rate, will not reach 4.5 Month 12 target until late 2026.</div></div>
     </div>
   </div>
 
-  <div class="db-footer">Data sources: Appointments CSV (Jan 2023&ndash;Mar 2026) &middot; Visits &amp; Hours CSV (May 2024&ndash;Mar 2026). VPH = Completed / Scheduled Hours. Provider matrix = Jan&ndash;Mar 2026 3-month average. NS% = NS / (NS + Completed). Apr 2024 excluded from all VPH (partial data). Regression = OLS linear fit over each provider's active months. Production average = 18-month mean system VPH. Ramp standard adopted April 2026. Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
+  <div class="db-footer">Data source: Appointment Custom report (ModMed EMA) productivity_051126.csv (May 2024&ndash;Apr 2026). VPH = Visits / Scheduled Hours. Provider matrix = Feb&ndash;Apr 2026 3-month average. NS% = NS / (NS + Completed). May 2026 excluded (partial month). Regression = OLS linear fit over each provider's active months. Production average = 24-month mean system VPH. Ramp standard adopted April 2026. Hours definition: new file source reports patient-facing scheduled hours (lower than prior file). Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
 </div>
 
 <script>
 // sysLabels index: May'24=0 ... Mar'26=22. Jan'25=idx 8.
 // Chart 3 x-axis starts Jan'25 (sysLabels[8..22]), 15 points total.
-const sysLabels=["May '24","Jun '24","Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26"];
-const chart3Labels=sysLabels.slice(8); // Jan'25 ... Mar'26, 15 labels
+const sysLabels=["May '24","Jun '24","Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26"];
+const chart3Labels=sysLabels.slice(8); // Jan'25 ... Apr'26, 16 labels
 
-const sysVPH=[5.18,5.60,5.15,5.16,5.06,4.90,5.24,5.14,4.57,4.86,4.95,5.22,5.23,4.86,5.14,5.32,4.82,4.96,5.12,5.17,4.87,4.70,5.22];
-const sysHrs=[1935,1686,1983,2018,1868,2117,1745,1727,2162,1790,1985,1754,1994,2125,2134,1984,2104,2155,1695,1854,1952,1794,2002];
-const activeProvs=[16,16,16,17,17,17,17,17,18,17,16,16,17,19,18,18,18,18,18,18,17,17,17];
-const PROD_AVG = 5.10; // 18-month mean system VPH
+const sysVPH=[5.20,5.59,5.14,5.15,5.05,4.89,5.23,5.12,4.56,4.85,4.94,5.22,5.23,4.85,5.13,5.31,4.81,4.95,5.11,5.16,4.87,4.70,5.22,5.39];
+const sysHrs=[1494,1689,1988,2022,1872,2120,1749,1732,2165,1794,1990,1755,1997,2129,2138,1988,2108,2159,1698,1859,1954,1794,2002,1925];
+const activeProvs=[16,16,16,17,17,17,17,17,18,17,16,16,17,19,18,18,18,18,18,18,17,17,17,17];
+const PROD_AVG = 5.07; // 24-month mean system VPH (May 2024 - Apr 2026, new file)
 
 // Significant per-provider hour events on Chart 1 (full range)
 // Each: {idx, dir:'up'|'down', label}
@@ -227,55 +227,57 @@ const sysHrEvents=[
   {idx:8, dir:'up',  label:'Huh\nLee\nPark H.'},
   {idx:9, dir:'down',label:'Chen\nKim S.'},
   {idx:18,dir:'down',label:'Park C.\nHuang\nPark H.'},
+  {idx:23,dir:'down',label:'Mamanova\nLi'},
 ];
 
 const monthProviders={
-  "May '24":["Samantha H. — 167h","Charles K. — 162h","David S. — 160h","Sujin K. — 149h","Angelina M. — 147h","Sophy Y. — 144h","Curtis C. — 144h","Chohee P. — 144h","Stacy L. — 138h","Yu K. — 128h","Hyeyoon P. — 120h","Hyun L. — 112h","Stephanie H. — 68h","Carey K. — 64h","Diana S. — 54h","Ra H. — 34h"],
-  "Jun '24":["Curtis C. — 152h","Hyeyoon P. — 140h","Samantha H. — 139h","Sujin K. — 136h","Chohee P. — 132h","David S. — 128h","Stacy L. — 113h","Sophy Y. — 112h","Angelina M. — 110h","Hyun L. — 109h","Ra H. — 104h","Charles K. — 89h","Yu K. — 86h","Stephanie H. — 64h","Carey K. — 56h","Diana S. — 16h"],
-  "Jul '24":["Curtis C. — 160h","Charles K. — 155h","Samantha H. — 154h","Hyeyoon P. — 148h","Angelina M. — 148h","Sophy Y. — 144h","Sujin K. — 138h","Stacy L. — 136h","Yu K. — 131h","Chohee P. — 128h","Ra H. — 126h","David S. — 120h","Hyun L. — 109h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 58h"],
-  "Aug '24":["Samantha H. — 155h","Angelina M. — 148h","Curtis C. — 148h","Sophy Y. — 144h","Hyeyoon P. — 144h","David S. — 140h","Chohee P. — 140h","Charles K. — 139h","Sujin K. — 136h","Ra H. — 116h","Yesenia J. — 115h","Yu K. — 112h","Hyun L. — 108h","Stacy L. — 98h","Carey K. — 64h","Diana S. — 56h","Stephanie H. — 56h"],
-  "Sep '24":["Charles K. — 147h","Samantha H. — 144h","Sujin K. — 140h","Ra H. — 137h","Sophy Y. — 136h","Hyeyoon P. — 136h","Angelina M. — 132h","Chohee P. — 124h","Curtis C. — 112h","Yu K. — 112h","Stacy L. — 106h","Yesenia J. — 104h","Hyun L. — 81h","David S. — 76h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 53h"],
-  "Oct '24":["Sujin K. — 164h","Charles K. — 163h","Yesenia J. — 160h","Hyeyoon P. — 160h","David S. — 152h","Sophy Y. — 152h","Stacy L. — 142h","Ra H. — 136h","Chohee P. — 136h","Curtis C. — 120h","Angelina M. — 114h","Yu K. — 109h","Samantha H. — 103h","Hyun L. — 97h","Stephanie H. — 76h","Carey K. — 72h","Diana S. — 60h"],
-  "Nov '24":["Charles K. — 135h","Curtis C. — 132h","David S. — 124h","Angelina M. — 122h","Stacy L. — 121h","Chohee P. — 119h","Hyeyoon P. — 116h","Yesenia J. — 110h","Ra H. — 108h","Sophy Y. — 104h","Yu K. — 103h","Sujin K. — 102h","Samantha H. — 89h","Hyun L. — 82h","Carey K. — 68h","Stephanie H. — 56h","Diana S. — 53h"],
-  "Dec '24":["Samantha H. — 154h","Ra H. — 134h","Yu K. — 131h","Yesenia J. — 129h","Curtis C. — 124h","Chohee P. — 124h","Angelina M. — 108h","Hyeyoon P. — 104h","Hyun L. — 99h","Sujin K. — 97h","Stacy L. — 95h","Charles K. — 93h","Sophy Y. — 92h","David S. — 88h","Carey K. — 60h","Stephanie H. — 56h","Diana S. — 39h"],
-  "Jan '25":["Sujin K. — 156h","Curtis C. — 152h","Ra H. — 148h","Charles K. — 147h","Hyeyoon P. — 144h","Yu K. — 141h","Sophy Y. — 136h","Angelina M. — 132h","Chohee P. — 132h","Stacy L. — 128h","Oresta B. — 124h","Hyun L. — 121h","Samantha H. — 118h","Yesenia J. — 102h","David S. — 84h","Carey K. — 72h","Stephanie H. — 72h","Diana S. — 53h"],
-  "Feb '25":["Charles K. — 147h","Samantha H. — 144h","Ra H. — 136h","Hyeyoon P. — 136h","David S. — 136h","Stacy L. — 135h","Angelina M. — 126h","Yesenia J. — 124h","Chohee P. — 120h","Hyun L. — 117h","Yu K. — 112h","Sophy Y. — 96h","Carey K. — 64h","Diana S. — 60h","Sujin K. — 53h","Stephanie H. — 44h","Curtis C. — 40h"],
-  "Mar '25":["Hyeyoon P. — 148h","Sophy Y. — 148h","Yesenia J. — 148h","Chohee P. — 145h","Samantha H. — 144h","Stacy L. — 144h","Charles K. — 143h","Angelina M. — 141h","Yu K. — 138h","Ra H. — 136h","David S. — 132h","Hyun L. — 117h","Cindy H. — 108h","Stephanie H. — 68h","Carey K. — 64h","Diana S. — 60h"],
-  "Apr '25":["Samantha H. — 153h","Sophy Y. — 152h","Charles K. — 150h","Chohee P. — 144h","Hyun L. — 129h","Ra H. — 128h","Angelina M. — 126h","David S. — 124h","Yesenia J. — 120h","Hyeyoon P. — 120h","Cindy H. — 104h","Carey K. — 71h","Stacy L. — 70h","Stephanie H. — 68h","Diana S. — 60h","Yu K. — 35h"],
-  "May '25":["Samantha H. — 160h","Charles K. — 158h","Stacy L. — 146h","Sophy Y. — 140h","Hyeyoon P. — 140h","Angelina M. — 136h","Cindy H. — 136h","Chohee P. — 136h","Yu K. — 133h","David S. — 120h","Ra H. — 116h","Yesenia J. — 100h","Hyun L. — 100h","Fabian O. — 80h","Carey K. — 72h","Stephanie H. — 68h","Diana S. — 53h"],
-  "Jun '25":["Chohee P. — 148h","Stacy L. — 140h","Angelina M. — 136h","Fabian O. — 136h","Cindy H. — 136h","David S. — 136h","Yesenia J. — 128h","Yu K. — 124h","Charles K. — 120h","Sophy Y. — 120h","Samantha H. — 119h","Hyeyoon P. — 116h","Pui S. — 116h","Ra H. — 112h","Giselle G. — 112h","Hyun L. — 81h","Stephanie H. — 68h","Carey K. — 56h","Diana S. — 21h"],
-  "Jul '25":["Angelina M. — 161h","Samantha H. — 154h","Giselle G. — 148h","Cindy H. — 148h","Pui S. — 144h","David S. — 144h","Sophy Y. — 144h","Yu K. — 140h","Stacy L. — 134h","Ra H. — 132h","Charles K. — 128h","Hyun L. — 114h","Fabian O. — 112h","Chohee P. — 112h","Hyeyoon P. — 112h","Diana S. — 71h","Carey K. — 21h","Stephanie H. — 16h"],
-  "Aug '25":["Pui S. — 148h","Fabian O. — 148h","Samantha H. — 148h","Charles K. — 146h","Yu K. — 144h","Cindy H. — 136h","David S. — 132h","Angelina M. — 127h","Hyeyoon P. — 120h","Giselle G. — 116h","Chohee P. — 112h","Ra H. — 108h","Hyun L. — 100h","Sophy Y. — 92h","Stacy L. — 76h","Diana S. — 64h","Carey K. — 35h","Stephanie H. — 32h"],
-  "Sep '25":["Charles K. — 154h","Cindy H. — 148h","Ra H. — 144h","Sophy Y. — 144h","Hyeyoon P. — 144h","Samantha H. — 144h","Stacy L. — 136h","David S. — 136h","Giselle G. — 136h","Chohee P. — 131h","Pui S. — 120h","Angelina M. — 118h","Fabian O. — 116h","Yu K. — 99h","Hyun L. — 78h","Stephanie H. — 68h","Diana S. — 60h","Carey K. — 28h"],
-  "Oct '25":["David S. — 159h","Charles K. — 158h","Hyeyoon P. — 152h","Fabian O. — 152h","Sophy Y. — 151h","Ra H. — 151h","Chohee P. — 149h","Cindy H. — 144h","Giselle G. — 136h","Angelina M. — 123h","Samantha H. — 116h","Stacy L. — 112h","Yu K. — 108h","Pui S. — 88h","Hyun L. — 82h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 35h"],
-  "Nov '25":["Charles K. — 134h","Pui S. — 128h","Sophy Y. — 128h","Fabian O. — 127h","Giselle G. — 116h","Ra H. — 111h","Stacy L. — 109h","Hyeyoon P. — 108h","Angelina M. — 105h","Samantha H. — 96h","Cindy H. — 91h","David S. — 88h","Chohee P. — 82h","Hyun L. — 69h","Yu K. — 65h","Stephanie H. — 56h","Diana S. — 53h","Carey K. — 28h"],
-  "Dec '25":["Fabian O. — 140h","David S. — 136h","Pui S. — 136h","Ra H. — 130h","Charles K. — 127h","Angelina M. — 126h","Chohee P. — 126h","Stacy L. — 126h","Hyeyoon P. — 124h","Hyun L. — 112h","Yu K. — 98h","Samantha H. — 96h","Sophy Y. — 92h","Giselle G. — 84h","Cindy H. — 83h","Stephanie H. — 56h","Diana S. — 46h","Carey K. — 17h"],
-  "Jan '26":["Cindy H. — 148h","Samantha H. — 148h","Pui S. — 148h","Ra H. — 144h","Fabian O. — 140h","Charles K. — 138h","Sophy Y. — 132h","Chohee P. — 130h","Stacy L. — 128h","Hyeyoon P. — 128h","Giselle G. — 124h","Angelina M. — 118h","David S. — 100h","Hyun L. — 90h","Stephanie H. — 60h","Diana S. — 53h","Yu K. — 24h"],
-  "Feb '26":["Charles K. — 138h","Giselle G. — 136h","Cindy H. — 136h","Pui S. — 136h","Ra H. — 128h","Chohee P. — 127h","Fabian O. — 124h","Stacy L. — 121h","Samantha H. — 120h","David S. — 120h","Hyeyoon P. — 120h","Angelina M. — 102h","Sophy Y. — 96h","Hyun L. — 90h","Diana S. — 53h","Stephanie H. — 44h","Carey K. — 3h"],
-  "Mar '26":["Sophy Y. — 152h","Fabian O. — 148h","Pui S. — 144h","David S. — 144h","Cindy H. — 144h","Ra H. — 140h","Angelina M. — 136h","Samantha H. — 136h","Giselle G. — 136h","Stacy L. — 128h","Hyeyoon P. — 128h","Chohee P. — 124h","Charles K. — 120h","Hyun L. — 80h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 3h"]
+  "May '24":["Samantha H. — 132h","David S. — 128h","Charles K. — 123h","Angelina M. — 113h","Chohee P. — 112h","Sujin K. — 111h","Curtis C. — 108h","Sophy Y. — 108h","Stacy L. — 104h","Yu K. — 99h","Hyun L. — 86h","Hyeyoon P. — 84h","Carey K. — 56h","Stephanie H. — 52h","Diana S. — 42h","Ra H. — 34h"],
+  "Jun '24":["Curtis C. — 152h","Hyeyoon P. — 140h","Samantha H. — 139h","Sujin K. — 136h","Chohee P. — 132h","David S. — 128h","Stacy L. — 113h","Sophy Y. — 112h","Angelina M. — 109h","Hyun L. — 109h","Ra H. — 104h","Charles K. — 89h","Yu K. — 88h","Stephanie H. — 64h","Carey K. — 56h","Diana S. — 16h"],
+  "Jul '24":["Curtis C. — 160h","Charles K. — 154h","Samantha H. — 154h","Hyeyoon P. — 148h","Angelina M. — 148h","Sophy Y. — 144h","Sujin K. — 138h","Stacy L. — 136h","Yu K. — 136h","Chohee P. — 128h","Ra H. — 126h","David S. — 120h","Hyun L. — 109h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 58h"],
+  "Aug '24":["Samantha H. — 155h","Angelina M. — 148h","Curtis C. — 147h","Sophy Y. — 144h","Hyeyoon P. — 144h","David S. — 140h","Chohee P. — 140h","Charles K. — 139h","Sujin K. — 136h","Yu K. — 116h","Ra H. — 116h","Yesenia J. — 115h","Hyun L. — 107h","Stacy L. — 98h","Carey K. — 64h","Diana S. — 56h","Stephanie H. — 56h"],
+  "Sep '24":["Charles K. — 146h","Samantha H. — 144h","Sujin K. — 139h","Ra H. — 137h","Sophy Y. — 136h","Hyeyoon P. — 136h","Angelina M. — 132h","Chohee P. — 124h","Yu K. — 116h","Curtis C. — 112h","Stacy L. — 106h","Yesenia J. — 104h","Hyun L. — 81h","David S. — 76h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 53h"],
+  "Oct '24":["Sujin K. — 164h","Charles K. — 162h","Yesenia J. — 160h","Hyeyoon P. — 160h","David S. — 152h","Sophy Y. — 152h","Stacy L. — 142h","Ra H. — 136h","Chohee P. — 136h","Curtis C. — 120h","Angelina M. — 114h","Yu K. — 112h","Samantha H. — 103h","Hyun L. — 97h","Stephanie H. — 76h","Carey K. — 72h","Diana S. — 60h"],
+  "Nov '24":["Charles K. — 135h","Curtis C. — 132h","David S. — 124h","Angelina M. — 122h","Stacy L. — 121h","Chohee P. — 119h","Hyeyoon P. — 116h","Yesenia J. — 110h","Ra H. — 108h","Yu K. — 107h","Sophy Y. — 104h","Sujin K. — 102h","Samantha H. — 89h","Hyun L. — 82h","Carey K. — 68h","Stephanie H. — 56h","Diana S. — 53h"],
+  "Dec '24":["Samantha H. — 154h","Yu K. — 136h","Ra H. — 134h","Yesenia J. — 129h","Curtis C. — 124h","Chohee P. — 124h","Angelina M. — 108h","Hyeyoon P. — 104h","Hyun L. — 99h","Sujin K. — 97h","Stacy L. — 95h","Charles K. — 93h","Sophy Y. — 92h","David S. — 88h","Carey K. — 60h","Stephanie H. — 56h","Diana S. — 39h"],
+  "Jan '25":["Sujin K. — 156h","Curtis C. — 152h","Ra H. — 147h","Charles K. — 146h","Hyeyoon P. — 144h","Yu K. — 144h","Sophy Y. — 136h","Angelina M. — 132h","Chohee P. — 132h","Stacy L. — 128h","Oresta B. — 124h","Hyun L. — 121h","Samantha H. — 118h","Yesenia J. — 102h","David S. — 84h","Carey K. — 72h","Stephanie H. — 72h","Diana S. — 53h"],
+  "Feb '25":["Charles K. — 146h","Samantha H. — 144h","Ra H. — 136h","Hyeyoon P. — 136h","David S. — 136h","Stacy L. — 135h","Angelina M. — 126h","Yesenia J. — 124h","Chohee P. — 120h","Hyun L. — 117h","Yu K. — 116h","Sophy Y. — 95h","Carey K. — 64h","Diana S. — 60h","Sujin K. — 53h","Stephanie H. — 44h","Curtis C. — 40h"],
+  "Mar '25":["Hyeyoon P. — 148h","Sophy Y. — 148h","Yesenia J. — 148h","Chohee P. — 145h","Samantha H. — 144h","Stacy L. — 144h","Charles K. — 143h","Yu K. — 143h","Angelina M. — 141h","Ra H. — 136h","David S. — 132h","Hyun L. — 117h","Cindy H. — 108h","Stephanie H. — 68h","Carey K. — 64h","Diana S. — 60h"],
+  "Apr '25":["Samantha H. — 152h","Sophy Y. — 152h","Charles K. — 150h","Chohee P. — 144h","Hyun L. — 129h","Ra H. — 128h","Angelina M. — 126h","David S. — 124h","Yesenia J. — 120h","Hyeyoon P. — 120h","Cindy H. — 104h","Carey K. — 71h","Stacy L. — 70h","Stephanie H. — 68h","Diana S. — 60h","Yu K. — 36h"],
+  "May '25":["Samantha H. — 160h","Charles K. — 158h","Stacy L. — 146h","Sophy Y. — 140h","Hyeyoon P. — 140h","Angelina M. — 136h","Yu K. — 136h","Cindy H. — 136h","Chohee P. — 136h","David S. — 120h","Ra H. — 116h","Yesenia J. — 100h","Hyun L. — 99h","Fabian O. — 80h","Carey K. — 72h","Stephanie H. — 68h","Diana S. — 53h"],
+  "Jun '25":["Chohee P. — 148h","Stacy L. — 140h","Angelina M. — 136h","Fabian O. — 136h","Cindy H. — 136h","David S. — 136h","Yesenia J. — 128h","Yu K. — 128h","Charles K. — 120h","Sophy Y. — 120h","Samantha H. — 118h","Hyeyoon P. — 116h","Pui S. — 116h","Ra H. — 112h","Giselle G. — 112h","Hyun L. — 81h","Stephanie H. — 68h","Carey K. — 56h","Diana S. — 21h"],
+  "Jul '25":["Angelina M. — 161h","Samantha H. — 154h","Giselle G. — 148h","Cindy H. — 148h","Sophy Y. — 144h","David S. — 144h","Pui S. — 144h","Yu K. — 144h","Stacy L. — 134h","Ra H. — 132h","Charles K. — 127h","Hyun L. — 113h","Fabian O. — 112h","Chohee P. — 112h","Hyeyoon P. — 112h","Diana S. — 71h","Carey K. — 21h","Stephanie H. — 16h"],
+  "Aug '25":["Yu K. — 148h","Fabian O. — 148h","Samantha H. — 148h","Pui S. — 148h","Charles K. — 146h","Cindy H. — 136h","David S. — 132h","Angelina M. — 127h","Hyeyoon P. — 120h","Giselle G. — 116h","Chohee P. — 112h","Ra H. — 108h","Hyun L. — 100h","Sophy Y. — 92h","Stacy L. — 76h","Diana S. — 64h","Carey K. — 35h","Stephanie H. — 32h"],
+  "Sep '25":["Charles K. — 154h","Cindy H. — 148h","Ra H. — 144h","Sophy Y. — 144h","Hyeyoon P. — 144h","Samantha H. — 144h","David S. — 136h","Giselle G. — 136h","Stacy L. — 136h","Chohee P. — 131h","Pui S. — 120h","Angelina M. — 117h","Fabian O. — 116h","Yu K. — 103h","Hyun L. — 77h","Stephanie H. — 68h","Diana S. — 60h","Carey K. — 28h"],
+  "Oct '25":["David S. — 159h","Charles K. — 157h","Hyeyoon P. — 152h","Fabian O. — 152h","Ra H. — 151h","Sophy Y. — 151h","Chohee P. — 148h","Cindy H. — 144h","Giselle G. — 136h","Angelina M. — 123h","Samantha H. — 116h","Yu K. — 112h","Stacy L. — 112h","Pui S. — 88h","Hyun L. — 81h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 35h"],
+  "Nov '25":["Charles K. — 134h","Pui S. — 128h","Sophy Y. — 128h","Fabian O. — 127h","Giselle G. — 116h","Ra H. — 111h","Stacy L. — 109h","Hyeyoon P. — 108h","Angelina M. — 105h","Samantha H. — 96h","Cindy H. — 91h","David S. — 88h","Chohee P. — 82h","Hyun L. — 69h","Yu K. — 68h","Stephanie H. — 56h","Diana S. — 53h","Carey K. — 28h"],
+  "Dec '25":["Fabian O. — 140h","David S. — 136h","Pui S. — 136h","Ra H. — 129h","Charles K. — 127h","Angelina M. — 126h","Stacy L. — 126h","Chohee P. — 125h","Hyeyoon P. — 124h","Hyun L. — 111h","Yu K. — 103h","Samantha H. — 96h","Sophy Y. — 92h","Giselle G. — 84h","Cindy H. — 83h","Stephanie H. — 56h","Diana S. — 46h","Carey K. — 17h"],
+  "Jan '26":["Cindy H. — 148h","Samantha H. — 148h","Pui S. — 148h","Ra H. — 144h","Fabian O. — 140h","Charles K. — 138h","Sophy Y. — 132h","Chohee P. — 129h","Stacy L. — 128h","Hyeyoon P. — 128h","Giselle G. — 124h","Angelina M. — 118h","David S. — 100h","Hyun L. — 89h","Stephanie H. — 60h","Diana S. — 53h","Yu K. — 25h"],
+  "Feb '26":["Charles K. — 138h","Giselle G. — 136h","Cindy H. — 136h","Pui S. — 136h","Ra H. — 128h","Chohee P. — 127h","Fabian O. — 124h","Stacy L. — 121h","Samantha H. — 120h","Hyeyoon P. — 120h","David S. — 119h","Angelina M. — 102h","Sophy Y. — 96h","Hyun L. — 89h","Diana S. — 53h","Stephanie H. — 44h","Carey K. — 3h"],
+  "Mar '26":["Sophy Y. — 152h","Fabian O. — 148h","Pui S. — 144h","David S. — 144h","Cindy H. — 144h","Ra H. — 140h","Angelina M. — 136h","Samantha H. — 136h","Giselle G. — 136h","Stacy L. — 128h","Hyeyoon P. — 128h","Chohee P. — 124h","Charles K. — 119h","Hyun L. — 80h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 3h"],
+  "Apr '26":["Pui S. — 156h","Charles K. — 154h","Sophy Y. — 152h","Cindy H. — 152h","David S. — 151h","Chohee P. — 144h","Giselle G. — 136h","Samantha H. — 132h","Ra H. — 128h","Hyeyoon P. — 120h","Fabian O. — 116h","Hyun L. — 105h","Stacy L. — 94h","Stephanie H. — 72h","Diana S. — 67h","Angelina M. — 43h","Carey K. — 3h"]
 };
 
 // 2025 cohort — full 23-month arrays, chart 3 will slice from idx 8
 const cohortFull={
-  FO:{color:'#0C447C',label:'FO — Ortiz', slope:0.223,r2:0.50,firstIdx:12,
-    data:[null,null,null,null,null,null,null,null,null,null,null,null,3.22,3.71,5.90,5.98,5.84,6.04,6.27,5.81,5.93,6.06,6.22],
+  FO:{color:'#0C447C',label:'FO — Ortiz', slope:0.226,r2:0.58,firstIdx:12,
+    data:[null,null,null,null,null,null,null,null,null,null,null,null,3.22,3.71,5.90,5.98,5.84,6.04,6.28,5.84,5.93,6.06,6.22,6.95],
     // events relative to full sysLabels idx
     events:[{idx:13,dir:'up',note:'FO: hrs +70%'},{idx:15,dir:'up',note:'FO: hrs +32%'},{idx:17,dir:'up',note:'FO: hrs +31%'}]},
-  CH:{color:'#D85A30',label:'CH — Huang',slope:0.239,r2:0.95,firstIdx:10,
-    data:[null,null,null,null,null,null,null,null,null,null,1.13,1.64,2.08,2.48,2.63,2.83,2.97,3.12,3.56,3.25,3.75,4.10,4.46],
+  CH:{color:'#D85A30',label:'CH — Huang',slope:0.242,r2:0.96,firstIdx:10,
+    data:[null,null,null,null,null,null,null,null,null,null,1.13,1.64,2.08,2.48,2.63,2.83,2.97,3.12,3.56,3.25,3.75,4.10,4.46,4.70],
     events:[{idx:12,dir:'up',note:'CH: hrs +31%'},{idx:18,dir:'down',note:'CH: hrs −37%'},{idx:20,dir:'up',note:'CH: hrs +78%'}]},
-  PS:{color:'#7F77DD',label:'PS — Sit',   slope:0.121,r2:0.52,firstIdx:13,
-    data:[null,null,null,null,null,null,null,null,null,null,null,null,null,1.65,2.90,2.92,2.58,2.75,3.06,2.70,3.00,2.97,3.70],
+  PS:{color:'#7F77DD',label:'PS — Sit',   slope:0.168,r2:0.63,firstIdx:13,
+    data:[null,null,null,null,null,null,null,null,null,null,null,null,null,1.65,2.90,2.92,2.58,2.75,3.06,2.70,3.00,2.97,3.71,4.51],
     events:[{idx:18,dir:'up',note:'PS: hrs +46%'}]},
-  GG:{color:'#888780',label:'GG — Garcia',slope:0.043,r2:0.40,firstIdx:13,
-    data:[null,null,null,null,null,null,null,null,null,null,null,null,null,2.02,2.28,2.52,2.13,2.32,2.48,2.19,2.36,2.47,2.71],
+  GG:{color:'#888780',label:'GG — Garcia',slope:0.061,r2:0.55,firstIdx:13,
+    data:[null,null,null,null,null,null,null,null,null,null,null,null,null,2.02,2.28,2.52,2.13,2.32,2.48,2.19,2.36,2.47,2.71,2.99],
     events:[{idx:14,dir:'up',note:'GG: hrs +32%'},{idx:20,dir:'up',note:'GG: hrs +48%'}]},
 };
 const cohortKeys=['FO','CH','PS','GG'];
 
 // Slice to Jan'25 onwards (idx 8..22)
 const C3_OFFSET=8; // Jan'25 is index 8 in full array
-const c3Data=k=>cohortFull[k].data.slice(C3_OFFSET); // 15 values
+const c3Data=k=>cohortFull[k].data.slice(C3_OFFSET); // 16 values
 
 // Build regression line for chart 3 x-axis (0..14, relative to Jan'25)
 // Provider's first active point relative to Jan'25
@@ -308,22 +310,22 @@ function buildRegLine(k){
 // Red   (#dc2626) = Leaky panel: high NS regardless of VPH
 // Amber (#b45309) = Below benchmark VPH
 const provs=[
-  {name:'Lee, Hyun Soo',    init:'HL',vph:7.07,ns:7.6, vol:612,color:'#1e3a8a'}, // ideal
-  {name:'Mamanova, Angelina',init:'AM',vph:6.54,ns:28.0,vol:777,color:'#dc2626'}, // leaky
-  {name:'Ortiz, Fabian',    init:'FO',vph:6.08,ns:31.0,vol:834,color:'#dc2626'}, // leaky
-  {name:'Hu, Stephanie',    init:'SH',vph:6.01,ns:10.1,vol:353,color:'#1e3a8a'}, // ideal
-  {name:'Park, Hyeyoon',    init:'HP',vph:5.87,ns:18.1,vol:736,color:'#0d7a55'}, // benchmark+
-  {name:'Sun, Diana',       init:'DS',vph:5.86,ns:11.0,vol:338,color:'#1e3a8a'}, // ideal
-  {name:'Shin, David',      init:'DS',vph:5.68,ns:19.8,vol:688,color:'#0d7a55'}, // benchmark+
-  {name:'Hussain, Samantha',init:'SH',vph:5.14,ns:18.2,vol:693,color:'#0d7a55'}, // benchmark+
-  {name:'Li, Stacy',        init:'SL',vph:4.99,ns:15.6,vol:628,color:'#0d7a55'}, // near benchmark
-  {name:'Park, Chohee',     init:'CP',vph:4.92,ns:12.3,vol:625,color:'#0d7a55'}, // near benchmark
-  {name:'Huh, Ra La',       init:'RH',vph:4.58,ns:11.5,vol:630,color:'#0d7a55'}, // near benchmark
-  {name:'Yu, Sophy',        init:'SY',vph:4.49,ns:14.0,vol:569,color:'#0d7a55'}, // near benchmark
-  {name:'Kwak, Charles',    init:'CK',vph:4.22,ns:23.6,vol:557,color:'#dc2626'}, // leaky
-  {name:'Huang, Cindy',     init:'CH',vph:4.10,ns:24.3,vol:585,color:'#dc2626'}, // leaky
-  {name:'Sit, Pui Yi',      init:'PS',vph:3.23,ns:25.6,vol:460,color:'#b45309'}, // below benchmark
-  {name:'Garcia, Giselle',  init:'GG',vph:2.52,ns:18.6,vol:333,color:'#b45309'}, // below benchmark
+  {name:'Lee, Hyun Soo',    init:'HL',vph:6.95,ns:7.4, vol:637,color:'#1e3a8a'}, // ideal
+  {name:'Mamanova, Angelina',init:'AM',vph:6.59,ns:27.7,vol:617,color:'#dc2626'}, // leaky
+  {name:'Ortiz, Fabian',    init:'FO',vph:6.39,ns:30.6,vol:826,color:'#dc2626'}, // leaky
+  {name:'Park, Hyeyoon',    init:'HP',vph:6.24,ns:17.9,vol:765,color:'#0d7a55'}, // benchmark+
+  {name:'Hu, Stephanie',    init:'SH',vph:6.07,ns:9.2, vol:381,color:'#1e3a8a'}, // ideal
+  {name:'Sun, Diana',       init:'DS',vph:5.91,ns:10.8,vol:368,color:'#1e3a8a'}, // ideal
+  {name:'Shin, David',      init:'DS',vph:5.79,ns:20.5,vol:801,color:'#0d7a55'}, // benchmark+
+  {name:'Hussain, Samantha',init:'SH',vph:5.57,ns:19.2,vol:721,color:'#0d7a55'}, // benchmark+
+  {name:'Li, Stacy',        init:'SL',vph:5.03,ns:17.0,vol:575,color:'#0d7a55'}, // near benchmark
+  {name:'Park, Chohee',     init:'CP',vph:4.90,ns:12.3,vol:646,color:'#0d7a55'}, // near benchmark
+  {name:'Yu, Sophy',        init:'SY',vph:4.66,ns:14.8,vol:621,color:'#0d7a55'}, // near benchmark
+  {name:'Huh, Ra La',       init:'RH',vph:4.64,ns:12.5,vol:613,color:'#0d7a55'}, // near benchmark
+  {name:'Kwak, Charles',    init:'CK',vph:4.49,ns:24.7,vol:617,color:'#dc2626'}, // leaky
+  {name:'Huang, Cindy',     init:'CH',vph:4.43,ns:24.0,vol:638,color:'#dc2626'}, // leaky
+  {name:'Sit, Pui Yi',      init:'PS',vph:3.76,ns:26.4,vol:547,color:'#dc2626'}, // leaky
+  {name:'Garcia, Giselle',  init:'GG',vph:2.73,ns:19.8,vol:371,color:'#b45309'}, // below benchmark
 ];
 
 // ── Chart 1: System productivity ─────────────────────────────────────────────
@@ -428,7 +430,7 @@ new Chart(document.getElementById('bubble'),{
       return[p.name,`VPH: ${p.vph.toFixed(2)}`,`NS: ${p.ns.toFixed(1)}%`,`Avg visits/mo: ${p.vol}`];
     }}}},
     scales:{
-      x:{min:1.5,max:8.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'Visits per hour (3-mo avg Jan–Mar 2026)',font:{size:10},color:'#888'}},
+      x:{min:1.5,max:8.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'Visits per hour (3-mo avg Feb–Apr 2026)',font:{size:10},color:'#888'}},
       y:{min:0,max:38,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:10},color:'#888'}}
     }
   }
