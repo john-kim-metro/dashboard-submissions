@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — April 2026 Medical Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #1A3A5C;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#1A3A5C;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#1A3A5C}
+  h2{font-size:22px;font-weight:600;color:#1A3A5C;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#1A3A5C;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#1A3A5C;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#1A3A5C;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}
+  .callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}
+  .callout-bad strong{color:#7f1d1d}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Office of the CIO/CSO — April 2026 Medical Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> John Kim</span>
+    <span>&middot;</span>
+    <span><strong>Reporting period:</strong> April 2026</span>
+    <span>&middot;</span>
+    <span><strong>Prepared:</strong> May 11, 2026</span>
+    <span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Medical Volume &amp; No-Show Dashboard</div>
+</div>
+
+<!-- LEDE -->
+<div class="lede">
+April was the month <strong>YoY growth came back.</strong> System volume reached 12,586 completed visits, essentially flat versus March but <strong>+7.3% versus April 2025</strong> — the strongest year-over-year reading in six months. New Patient volume hit 1,994 (<strong>+21.8% YoY</strong>), the highest single-month figure in the dataset. But the picture has two distinct sides: most of the network is growing, while two Bronx locations are diverging in opposite directions, and the system's no-show rate has crept up to a level not seen since 2023.
+</div>
+
+<!-- STORY 1: NEW PATIENT SURGE -->
+<h2><span class="num">1</span>New patients are the engine of April's growth</h2>
+
+<p>The headline number — 1,994 new patient visits, up 21.8% year-over-year — masks a more interesting story underneath. The growth is not uniform across new-patient channels. It is concentrated in four specific feeders, each with a different operational signature.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>New patient channel</th><th class="r">Apr '25</th><th class="r">Apr '26</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">Story</th></tr></thead>
+<tbody>
+<tr><td><strong>Direct New Patient</strong></td><td class="r">1,327</td><td class="r">1,406</td><td class="r"><span class="pill pill-g">+9.3%</span></td><td class="r"><span class="pill pill-g">+6.0%</span></td><td class="r" style="text-align:left;font-size:11px;color:#666">Stable baseline channel</td></tr>
+<tr><td><strong>Walk In NEW PT</strong></td><td class="r">233</td><td class="r">263</td><td class="r"><span class="pill pill-g">+32.2%</span></td><td class="r"><span class="pill pill-g">+12.9%</span></td><td class="r" style="text-align:left;font-size:11px;color:#666">Strong organic pickup</td></tr>
+<tr><td><strong>ZocDoc New</strong></td><td class="r">76</td><td class="r">259</td><td class="r"><span class="pill pill-r">&minus;10.1%</span></td><td class="r"><span class="pill pill-g">+240.8%</span></td><td class="r" style="text-align:left;font-size:11px;color:#666">Structural channel shift</td></tr>
+<tr><td><strong>Telehealth NEW</strong></td><td class="r">0</td><td class="r">66</td><td class="r"><span class="pill pill-g">+15.8%</span></td><td class="r"><span class="pill pill-b">New</span></td><td class="r" style="text-align:left;font-size:11px;color:#666">Sustained after March launch</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>ZocDoc has become a material referral channel.</strong> A year ago, ZocDoc was contributing 76 new patients per month; today it contributes 259. That is 183 additional new patients per month attributable to the platform — roughly a quarter of the total YoY new-patient growth comes from this one source. The slight MoM dip (−10%) likely reflects March's strong pull-through rather than a slowdown. <strong>The step-change is directly attributable to the introduction of ZocDoc's Branded Directory in March 2026</strong>, which materially improved booking conversion on the platform — turning the same upstream traffic into substantially more completed appointments.</p>
+
+<p><strong>Telehealth NEW has stabilized as a real channel.</strong> Following March's introduction of 57 visits (an inflection from essentially zero), April held steady at 66 — confirming this is not a one-month anomaly but a sustained new patient acquisition mode. <strong>This channel is also enabled by the ZocDoc Branded Directory rollout</strong>, which improved conversion on telehealth booking pathways at the same time. The two channels are not independent — they share a common upstream driver.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Telehealth NEW — monthly trajectory</div>
+<div class="chart-sub">From zero to a sustained channel in six months. April confirms March was not a one-off.</div>
+<div style="position:relative;height:200px"><canvas id="cTele"></canvas></div>
+</div>
+
+<div class="callout callout-good">
+<strong>What this means:</strong> The new patient pipeline is healthier and more diversified than it was a year ago. ZocDoc and Telehealth NEW combined now account for 325 visits per month — roughly the volume of an entire mid-sized site. If these channels continue at this pace, full-year 2026 new-patient volume could exceed 2025 by 15–20%.
+</div>
+
+<!-- STORY 2: BRONX DIVERGENCE -->
+<h2><span class="num">2</span>The Bronx is a story of two locations heading in opposite directions</h2>
+
+<p>The most striking pattern in April is not at the system level — it is at the Bronx. Two locations that on paper serve similar populations and sit minutes apart are now on completely divergent trajectories.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Bronx Concourse vs Bronx Fordham — completed visits since Jan 2024</div>
+<div class="chart-sub">Concourse is in structural decline. Fordham, which opened in 2024, is closing the gap fast.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#dc2626"></span>Bronx Concourse</span>
+  <span><span class="swl" style="background:#0d7a55"></span>Bronx Fordham</span>
+</div>
+<div style="position:relative;height:240px"><canvas id="cBronx"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">Apr '24</th><th class="r">Apr '25</th><th class="r">Apr '26</th><th class="r">1-yr Δ</th><th class="r">2-yr Δ</th><th class="r">NS '24</th><th class="r">NS '25</th><th class="r">NS '26</th></tr></thead>
+<tbody>
+<tr><td><strong>Bronx Concourse</strong></td><td class="r">2,835</td><td class="r">2,492</td><td class="r">2,207</td><td class="r"><span class="pill pill-r">&minus;11.4%</span></td><td class="r"><span class="pill pill-r">&minus;22.2%</span></td><td class="r">24.8%</td><td class="r">25.8%</td><td class="r"><span class="pill pill-r">24.5%</span></td></tr>
+<tr><td><strong>Bronx Fordham</strong></td><td class="r">1,437</td><td class="r">1,375</td><td class="r">1,810</td><td class="r"><span class="pill pill-g">+31.6%</span></td><td class="r"><span class="pill pill-g">+26.0%</span></td><td class="r">22.1%</td><td class="r">24.2%</td><td class="r"><span class="pill pill-r">30.8%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Bronx Concourse</strong> has lost 628 monthly visits since April 2024 — roughly 22% of its baseline, with a further 11.4% drop in just the last year. The decline is not seasonal; it shows up consistently across 2025 and into 2026. The location's no-show rate has held in the 24–28% range for two solid years with no improvement.</p>
+
+<p><strong>Bronx Fordham</strong> has grown 26% over two years and 31.6% in the last year alone. Its trajectory has been upward almost every month since it opened. Concourse is still the larger of the two sites at 2,207 visits per month vs Fordham's 1,810, but the gap has narrowed from 1,400 monthly visits in 2024 to under 400 today. At current trajectories, Fordham will surpass Concourse within the next several months. That growth has come with a cost: the no-show rate jumped from 22% to 30.8% — a <strong>+6.6 percentage-point YoY deterioration</strong>, the worst at any location in the network.</p>
+
+<div class="callout callout-bad">
+<strong>The Fordham no-show pattern deserves scrutiny.</strong> A rapidly growing location with a deteriorating no-show rate often signals overbooking, oversubscribed providers, or a panel that is being filled faster than scheduling discipline can support. Concourse's stagnation may partly be the result — patients may have shifted from Concourse to Fordham, but the new bookings at Fordham are not being honored at the same rate as the visits lost at Concourse.
+</div>
+
+<!-- STORY 3: PROCEDURES STILL DECLINING -->
+<h2><span class="num">3</span>Procedures continue to decline, and the decline is structural</h2>
+
+<p>While most categories are growing, Procedures fell another 16.0% year-over-year in April — the seventh consecutive month of YoY decline. This is no longer a noisy data point; it is a clear structural trend.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Procedures — monthly volume (Jan 2024 – Apr 2026)</div>
+<div class="chart-sub">Procedures peaked in mid-2024 around 2,500/mo. April 2026 came in at 2,104.</div>
+<div style="position:relative;height:200px"><canvas id="cProc"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Procedure type</th><th class="r">Apr '25</th><th class="r">Apr '26</th><th class="r">YoY</th></tr></thead>
+<tbody>
+<tr><td>AS SAAS</td><td class="r">1,288</td><td class="r">1,039</td><td class="r"><span class="pill pill-r">&minus;19.3%</span></td></tr>
+<tr><td>Photochemotherapy 96910</td><td class="r">514</td><td class="r">505</td><td class="r"><span class="pill pill-r">&minus;1.8%</span></td></tr>
+<tr><td>Excimer Laser</td><td class="r">597</td><td class="r">448</td><td class="r"><span class="pill pill-r">&minus;25.0%</span></td></tr>
+<tr><td>Photo NBUVB 96900</td><td class="r">71</td><td class="r">94</td><td class="r"><span class="pill pill-g">+32.4%</span></td></tr>
+<tr><td>Hand Foot Unit</td><td class="r">35</td><td class="r">18</td><td class="r"><span class="pill pill-r">&minus;48.6%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The decline is concentrated in three procedure types: <strong>AS SAAS (−19.3%), Excimer Laser (−25.0%), and Hand Foot Unit (−48.6%)</strong>. Phototherapy 96910 held essentially flat, and NBUVB 96900 actually grew. <strong>The laser procedure decline (Excimer Laser, Hand Foot Unit) reflects payer rule changes that ceased reimbursement for certain diagnoses</strong> — the practice has appropriately reduced ordering for cases that would no longer be covered. The corresponding +32.4% lift in 96900 NBUVB reflects substitution: where payer rules support 96900 instead, that modality is being chosen. This part of the procedure decline is therefore a controlled response to payer policy, not a demand problem.</p>
+
+<h3>SAAS is the part that needs explanation</h3>
+<p>Unlike the laser procedures, SAAS does not have a known payer-rule trigger explaining its 19.3% YoY drop. The decline is also not uniform across the network — it is heavily concentrated at two locations:</p>
+
+<div class="chart-wrap">
+<div class="chart-title">AS SAAS by location — April 2025 vs April 2026</div>
+<div class="chart-sub">Bronx Fordham and Flushing Northern account for the majority of the decline. Elmhurst and Glen Oaks actually grew.</div>
+<div style="position:relative;height:220px"><canvas id="cSaas"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">Apr '25</th><th class="r">Apr '26</th><th class="r">Delta</th><th class="r">YoY</th></tr></thead>
+<tbody>
+<tr><td>Bronx Fordham</td><td class="r">251</td><td class="r">134</td><td class="r">&minus;117</td><td class="r"><span class="pill pill-r">&minus;46.6%</span></td></tr>
+<tr><td>Flushing Northern</td><td class="r">283</td><td class="r">201</td><td class="r">&minus;82</td><td class="r"><span class="pill pill-r">&minus;29.0%</span></td></tr>
+<tr><td>Bronx Concourse</td><td class="r">371</td><td class="r">303</td><td class="r">&minus;68</td><td class="r"><span class="pill pill-r">&minus;18.3%</span></td></tr>
+<tr><td>Fort Lee</td><td class="r">139</td><td class="r">127</td><td class="r">&minus;12</td><td class="r"><span class="pill pill-a">&minus;8.6%</span></td></tr>
+<tr><td>Elmhurst</td><td class="r">153</td><td class="r">161</td><td class="r">+8</td><td class="r"><span class="pill pill-g">+5.2%</span></td></tr>
+<tr><td>Glen Oaks</td><td class="r">91</td><td class="r">113</td><td class="r">+22</td><td class="r"><span class="pill pill-g">+24.2%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>The Bronx Fordham SAAS pattern is the most striking.</strong> Fordham's total visit volume grew 31.6% YoY, but its SAAS ordering dropped 46.6%. The site is seeing dramatically more patients while ordering dramatically fewer SAAS treatments. Flushing Northern shows a similar pattern at a smaller scale. Elmhurst and Glen Oaks — where SAAS volume grew — are not seeing the same dynamic.</p>
+
+<div class="callout callout-bad">
+<strong>This is almost certainly a provider-level ordering pattern shift.</strong> SAAS is recorded in EMA under "Non-Provider, Treatment" so the ordering provider is not visible in the appointment data — but the location concentration narrows the investigation to a small set of providers. Review which providers at Fordham and Flushing Northern reduced their SAAS ordering most over the past 12 months. The two likely explanations: (1) provider preference has shifted toward alternative treatment modalities, or (2) new providers at growing locations have different baseline ordering patterns than the providers they joined. Either way, the gap represents material foregone MA-administered revenue.</p>
+</div>
+
+<!-- STORY 4: NO-SHOW DRIFT -->
+<h2><span class="num">4</span>The system no-show rate has drifted to a multi-year high</h2>
+
+<p>April's system no-show rate was 18.6% — down 0.2 points from March, but up 2.3 points from April 2025. This is the seventh consecutive month above 18%, and the system has not seen sustained levels this high since 2023.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">System no-show rate — monthly trend (Jan 2024 – Apr 2026)</div>
+<div class="chart-sub">A clear upward drift since Q3 2025. The improvement run from late 2024 to mid-2025 has fully reversed.</div>
+<div style="position:relative;height:200px"><canvas id="cNS"></canvas></div>
+</div>
+
+<p>The drift is not uniform across locations. Five of six locations saw YoY no-show increases in April:</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">Apr '25 NS</th><th class="r">Apr '26 NS</th><th class="r">YoY Δ</th></tr></thead>
+<tbody>
+<tr><td><strong>Glen Oaks</strong></td><td class="r">7.1%</td><td class="r">14.4%</td><td class="r"><span class="pill pill-r">+7.3pp</span></td></tr>
+<tr><td><strong>Bronx Fordham</strong></td><td class="r">24.2%</td><td class="r">30.8%</td><td class="r"><span class="pill pill-r">+6.6pp</span></td></tr>
+<tr><td>Elmhurst</td><td class="r">15.1%</td><td class="r">18.9%</td><td class="r"><span class="pill pill-r">+3.8pp</span></td></tr>
+<tr><td>Flushing Northern</td><td class="r">10.1%</td><td class="r">11.3%</td><td class="r"><span class="pill pill-a">+1.2pp</span></td></tr>
+<tr><td>Fort Lee</td><td class="r">9.6%</td><td class="r">10.7%</td><td class="r"><span class="pill pill-a">+1.1pp</span></td></tr>
+<tr><td>Bronx Concourse</td><td class="r">25.8%</td><td class="r">24.5%</td><td class="r"><span class="pill pill-g">&minus;1.3pp</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Glen Oaks is the standout concern</strong>: a 7.3-point jump in 12 months, doubling the no-show rate from 7.1% to 14.4%. Glen Oaks opened in September 2024 and has shown strong volume growth — like Fordham, this looks like growing pains where booking discipline is not keeping pace with panel growth.</p>
+
+<!-- RECOMMENDATIONS -->
+<div class="recs">
+<h3>Areas to inspect</h3>
+<ol>
+<li><strong>Audit Bronx Fordham scheduling.</strong> The combination of strong volume growth and a 6.6-point no-show deterioration suggests overbooking or panel expansion without booking-discipline reinforcement. Review provider schedules, appointment lead times, and reminder cadence specifically at this site.</li>
+<li><strong>Investigate Bronx Concourse decline causes.</strong> A 22% two-year volume drop with no improvement in no-show rate suggests either panel attrition, provider departures, or geographic shift to Fordham. Run a patient-level analysis to confirm whether Concourse patients are reappearing at Fordham, leaving the system, or just not being booked.</li>
+<li><strong>Investigate SAAS ordering patterns at Bronx Fordham and Flushing Northern.</strong> The Excimer Laser and Hand Foot Unit declines reflect payer rule changes and are appropriate. SAAS is different — its 46.6% YoY drop at Fordham (while overall visits grew 31.6%) and 29.0% drop at Flushing Northern suggests a provider-level ordering pattern shift. Pull ordering-provider detail from EMA at these two sites, compare against Elmhurst and Glen Oaks where SAAS grew, and identify which providers changed their ordering behavior over the past 12 months.</li>
+<li><strong>Address Glen Oaks no-show before it normalizes.</strong> A new location with rising volume and rising no-show rate is at the point where reinforcing booking discipline now will save significantly more effort than fixing it after the rate stabilizes higher.</li>
+<li><strong>Monitor Telehealth NEW closely.</strong> Two consecutive months above 50 visits confirms this is a real channel, not a launch spike. If it continues at this pace, it should be tracked as its own KPI in the next reporting cycle.</li>
+</ol>
+</div>
+
+<div class="end">Office of the CIO/CSO · Metro Dermatology · Confidential</div>
+
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Chart 1: Telehealth NEW trajectory
+new Chart(document.getElementById('cTele'),{
+  type:'bar',
+  data:{labels:["Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26"],datasets:[{
+    label:'Telehealth NEW',data:[0,0,1,7,3,2,57,66],
+    backgroundColor:['#cbd5e1','#cbd5e1','#cbd5e1','#cbd5e1','#cbd5e1','#cbd5e1','#1A3A5C','#1A3A5C']
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} visits`}}},
+    scales:{
+      x:{ticks:{font:{size:12}}},
+      y:{grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}
+    }
+  }
+});
+
+// Chart 2: Bronx Concourse vs Fordham
+const bronxLabels=[];
+for(let m=1;m<=12;m++) bronxLabels.push(MO[m-1]+" '24");
+for(let m=1;m<=12;m++) bronxLabels.push(MO[m-1]+" '25");
+for(let m=1;m<=4;m++) bronxLabels.push(MO[m-1]+" '26");
+
+const concourse2024=[2640,2403,2766,2835,2860,2772,2745,2718,2516,2666,2400,2266];
+// Pull from data: 25 + 26 already shown
+const concourse=[...concourse2024,2751,2550,2800,2492,2895,2770,2764,2683,2601,2829,2183,2344,2327,2118,2664,2207];
+const fordham=[962,1098,1190,1437,1693,1682,1906,1942,1762,1880,1707,1716,1790,1411,1465,1375,1721,1847,1775,1929,1794,1899,1556,1541,1550,1416,1632,1810];
+
+new Chart(document.getElementById('cBronx'),{
+  type:'line',
+  data:{labels:bronxLabels,datasets:[
+    {label:'Bronx Concourse',data:concourse,borderColor:'#dc2626',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2,tension:.3},
+    {label:'Bronx Fordham',data:fordham,borderColor:'#0d7a55',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2,tension:.3},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`}}},
+    scales:{
+      x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?bronxLabels[i]:''}},
+      y:{min:800,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v.toLocaleString()},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}
+    }
+  }
+});
+
+// Chart 3: Procedures monthly
+const procLabels=[];
+for(let m=1;m<=12;m++) procLabels.push(MO[m-1]+" '24");
+for(let m=1;m<=12;m++) procLabels.push(MO[m-1]+" '25");
+for(let m=1;m<=4;m++) procLabels.push(MO[m-1]+" '26");
+const procData=[2115,2135,2308,2368,2470,2442,2483,2641,2504,2614,2507,2406,2387,2234,2573,2505,2544,2570,2444,2488,2462,2526,2349,2137,2004,1811,2012,2104];
+
+new Chart(document.getElementById('cProc'),{
+  type:'line',
+  data:{labels:procLabels,datasets:[{
+    label:'Procedures',data:procData,borderColor:'#0d7a55',backgroundColor:'rgba(13,122,85,0.08)',fill:true,
+    borderWidth:2,pointRadius:1.8,tension:.3
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toLocaleString()} visits`}}},
+    scales:{
+      x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?procLabels[i]:''}},
+      y:{min:1500,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v.toLocaleString()},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}
+    }
+  }
+});
+
+// Chart 4: System NS rate
+const nsLabels=procLabels;
+const nsData=[18.5,16.7,17.1,16.9,16.7,17.9,18.9,16.8,17.0,16.0,16.9,17.7,16.5,15.7,15.6,16.3,17.0,17.5,16.6,16.4,18.4,18.4,19.0,17.8,17.9,18.6,18.8,18.6];
+
+new Chart(document.getElementById('cNS'),{
+  type:'line',
+  data:{labels:nsLabels,datasets:[{
+    label:'System NS',data:nsData,borderColor:'#b91c1c',backgroundColor:'rgba(185,28,28,0.06)',fill:true,
+    borderWidth:2,pointRadius:1.8,tension:.3
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toFixed(1)}%`}}},
+    scales:{
+      x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?nsLabels[i]:''}},
+      y:{min:14,max:21,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:12},color:'#888'}}
+    }
+  }
+});
+
+// Chart 5: SAAS by location Apr25 vs Apr26
+new Chart(document.getElementById('cSaas'),{
+  type:'bar',
+  data:{labels:['Bronx Fordham','Flushing Northern','Bronx Concourse','Fort Lee','Elmhurst','Glen Oaks'],
+    datasets:[
+      {label:'Apr 2025',data:[251,283,371,139,153,91],backgroundColor:'#cbd5e1'},
+      {label:'Apr 2026',data:[134,201,303,127,161,113],backgroundColor:'#0d7a55'},
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'top',labels:{font:{size:11},boxWidth:14}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}`}}},
+    scales:{
+      x:{ticks:{font:{size:11}}},
+      y:{grid:{color:'#f0f0f0'},ticks:{font:{size:11}},title:{display:true,text:'SAAS visits',font:{size:12},color:'#888'}}
+    }
+  }
+});
+</script>
+</body>
+</html>
