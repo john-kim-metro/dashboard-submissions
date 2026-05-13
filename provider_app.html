@@ -499,26 +499,17 @@
           <textarea class="url-field" placeholder="Paste the ModMed EMA visit URL here">https://metrodermatology.modmedapp.com/ema/web/practice/staff/#/practice/staff/patient/29541043/visit/62039518/overview/view/visit</textarea>
         </div>
 
-        <div class="form-grid">
-          <div>
-            <label class="form-label">Severity</label>
-            <select>
-              <option>High — denial risk</option>
-              <option>Medium — rework needed</option>
-              <option>Low — educational</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">Error category</label>
-            <select>
-              <option>E/M level — under-coded (99213 → 99214)</option>
-              <option>Missing modifier 25</option>
-              <option>Incorrect ICD-10 specificity</option>
-              <option>Place of service mismatch</option>
-              <option>Time-based coding documentation</option>
-              <option>Biopsy/destruction code mismatch</option>
-            </select>
-          </div>
+        <div class="form-field">
+          <label class="form-label">Error category</label>
+          <select>
+            <option>E/M level — under-coded (99213 → 99214)</option>
+            <option>Missing modifier 25</option>
+            <option>Incorrect ICD-10 specificity</option>
+            <option>Place of service mismatch</option>
+            <option>Time-based coding documentation</option>
+            <option>Biopsy/destruction code mismatch</option>
+            <option>Over 100 pending notes that are 5 days or older</option>
+          </select>
         </div>
 
         <div class="form-field">
@@ -542,7 +533,6 @@
           </div>
           <div class="actions">
             <button class="btn btn-primary">Submit & notify</button>
-            <button class="btn">Save as draft</button>
           </div>
         </div>
       </div>
@@ -550,11 +540,11 @@
       <!-- Escalation rules reference -->
       <div class="rules-card">
         <p class="rules-title">Escalation rules</p>
-        <p class="rules-subtitle">Tier is auto-assigned based on repeat-offense count within a rolling 60-day window. RCM can override for high-severity single events.</p>
+        <p class="rules-subtitle">Tier is auto-assigned based on the error category and repeat-offense count within a rolling 60-day window.</p>
 
         <div class="tier-row">
           <div><span class="tier-label tier-1">Tier 1</span></div>
-          <div class="tier-trigger"><b>1st occurrence</b> of an error category, or any low-severity educational note</div>
+          <div class="tier-trigger"><b>1st occurrence</b> of an error category</div>
           <div class="tier-actions">
             <strong>Channels:</strong> Teams DM + email · <strong>Educational link:</strong> attached<br>
             <strong>Acknowledgment:</strong> requested within 7 days · <strong>Cc:</strong> none
@@ -581,7 +571,7 @@
 
         <div class="tier-row">
           <div><span class="tier-label tier-4">Tier 4</span></div>
-          <div class="tier-trigger"><b>5+ occurrences</b> of the same error, or any High severity unresolved past Tier 3 window</div>
+          <div class="tier-trigger"><b>5+ occurrences</b> of the same error category within 60 days</div>
           <div class="tier-actions">
             <strong>Channels:</strong> all of the above + SMS · <strong>Cc:</strong> CMO + compliance<br>
             <strong>Acknowledgment:</strong> required with digital signature before next claim auto-processes
