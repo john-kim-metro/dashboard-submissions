@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — 2026 Q1 Quarterly Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --ink:       #18181B;
+  --ink-soft:  #3F3F46;
+  --mid:       #71717A;
+  --muted:     #A1A1AA;
+  --hairline:  #E4E4E7;
+  --surface:   #FFFFFF;
+  --bg:        #F7F6F3;
+  --bg-warm:   #FDFCFA;
+
+  --gold:      #B5894A;
+  --gold-lt:   #F9F3EA;
+  --gold-dk:   #7A5A2E;
+  --gold-mid:  #D4A96A;
+
+  --teal:      #2D7A6B;
+  --teal-lt:   #EAF5F3;
+  --teal-dk:   #1A5045;
+
+  --navy:      #1E3A5F;
+  --navy-lt:   #EBF0F7;
+  --navy-mid:  #2E5C9A;
+
+  --rose:      #C0483A;
+  --rose-lt:   #FAEAE8;
+
+  --r-lg: 16px;
+  --r-md: 10px;
+  --r-sm:  6px;
+  --r-xs:  4px;
+
+  --sh-xs: 0 1px 3px rgba(0,0,0,0.06);
+  --sh-sm: 0 2px 8px rgba(0,0,0,0.07);
+  --sh-md: 0 6px 24px rgba(0,0,0,0.09);
+  --sh-lg: 0 16px 48px rgba(0,0,0,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════
+   COVER
+═══════════════════════════════════════ */
+.cover {
+  min-height: 420px;
+  background: linear-gradient(135deg, #14141A 0%, #1E2535 60%, #1A2A1A 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 0;
+}
+
+.cover-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cover-orb-1 {
+  width: 600px; height: 600px;
+  top: -200px; right: -100px;
+  background: radial-gradient(circle, rgba(181,137,74,0.22) 0%, transparent 65%);
+}
+.cover-orb-2 {
+  width: 400px; height: 400px;
+  bottom: -150px; left: 10%;
+  background: radial-gradient(circle, rgba(45,122,107,0.18) 0%, transparent 65%);
+}
+.cover-orb-3 {
+  width: 250px; height: 250px;
+  top: 20%; left: 55%;
+  background: radial-gradient(circle, rgba(181,137,74,0.10) 0%, transparent 70%);
+}
+.cover-noise {
+  position: absolute; inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.cover-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 72px 72px 60px;
+}
+
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(181,137,74,0.15);
+  border: 1px solid rgba(181,137,74,0.3);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-mid);
+  margin-bottom: 28px;
+}
+.cover-badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold-mid);
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.0;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.cover-title em {
+  font-style: italic;
+  color: var(--gold-mid);
+}
+
+.cover-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 52px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.cover-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.12) 0%, transparent 80%);
+  margin-bottom: 28px;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+.cover-meta-item {}
+.cover-meta-item label {
+  display: block;
+  font-size: 9.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 5px;
+}
+.cover-meta-item span {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ═══════════════════════════════════════
+   PAGE LAYOUT
+═══════════════════════════════════════ */
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 52px 96px;
+}
+
+/* ═══════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════ */
+.sec {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 60px 0 22px;
+}
+.sec-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gold);
+  min-width: 20px;
+}
+.sec-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+
+/* ═══════════════════════════════════════
+   PORTFOLIO METRICS
+═══════════════════════════════════════ */
+.glance-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.glance-card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 24px 22px 20px;
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.glance-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-md);
+}
+.glance-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-mid) 100%);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.glance-card.blue::before { background: linear-gradient(90deg, var(--navy) 0%, var(--navy-mid) 100%); }
+.glance-card.teal::before { background: linear-gradient(90deg, var(--teal-dk) 0%, var(--teal) 100%); }
+
+.glance-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.glance-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.glance-val.blue { color: var(--navy-mid); }
+.glance-val.teal { color: var(--teal); }
+.glance-val.gold { color: var(--gold-dk); }
+.glance-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ═══════════════════════════════════════
+   CALLOUT BANNERS
+═══════════════════════════════════════ */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: var(--r-md);
+  margin-bottom: 10px;
+  border: 1px solid;
+}
+.banner-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.banner-content p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.banner-content strong { font-weight: 600; }
+
+.banner.teal { background: var(--teal-lt); border-color: rgba(45,122,107,0.2); }
+.banner.teal .banner-icon { background: rgba(45,122,107,0.15); color: var(--teal); }
+.banner.teal .banner-content p { color: var(--teal-dk); }
+
+.banner.navy { background: var(--navy-lt); border-color: rgba(30,58,95,0.15); }
+.banner.navy .banner-icon { background: rgba(30,58,95,0.12); color: var(--navy); }
+.banner.navy .banner-content p { color: var(--navy); }
+
+/* ═══════════════════════════════════════
+   CHARTS
+═══════════════════════════════════════ */
+.chart-wrap {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 28px 28px 20px;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 12px;
+}
+.chart-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+.chart-subtitle { font-size: 11px; color: var(--muted); }
+.chart-legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.chart-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--mid);
+}
+.ldot {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+canvas { max-height: 230px; }
+
+/* ═══════════════════════════════════════
+   BREAKDOWN TABLES
+═══════════════════════════════════════ */
+.breakdown-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.breakdown-box {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-xs);
+}
+.breakdown-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: #fff;
+}
+.breakdown-head-icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+}
+.breakdown-head-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 13px;
+}
+.breakdown-row:last-child {
+  border-bottom: none;
+  background: var(--gold-lt);
+  font-weight: 600;
+}
+.breakdown-row .num { font-weight: 600; color: var(--navy-mid); }
+.breakdown-row:last-child .num { color: var(--gold-dk); }
+
+/* ═══════════════════════════════════════
+   EMAIL SUMMARY
+═══════════════════════════════════════ */
+.email-bar {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  margin-bottom: 8px;
+}
+.email-bar-head {
+  background: linear-gradient(90deg, var(--ink) 0%, var(--ink-soft) 100%);
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.email-bar-cells {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+}
+.email-cell {
+  background: var(--surface);
+  padding: 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.email-cell-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.email-cell-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1;
+}
+.email-cell-val.gold { color: var(--gold-dk); }
+
+/* ═══════════════════════════════════════
+   PROMO CARDS
+═══════════════════════════════════════ */
+.promo-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: var(--sh-md);
+  animation: riseIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.promo-card:nth-child(2) { animation-delay: 0.07s; }
+.promo-card:nth-child(3) { animation-delay: 0.14s; }
+
+/* Coloured top accent per promo */
+.promo-card.vday  { border-top: 4px solid #C06080; }
+.promo-card.anniv { border-top: 4px solid var(--gold); }
+.promo-card.jl    { border-top: 4px solid var(--teal); }
+
+.promo-hdr {
+  padding: 24px 28px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--hairline);
+}
+.promo-hdr-left {}
+.promo-hdr-left h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.promo-hdr-left p { font-size: 12px; color: var(--mid); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--teal-lt);
+  color: var(--teal);
+  border: 1px solid rgba(45,122,107,0.2);
+}
+.badge::before { content: '✓'; font-size: 10px; }
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.stat-cell {
+  background: var(--bg-warm);
+  padding: 14px 16px;
+  transition: background 0.15s;
+  min-width: 0;
+}
+.stat-cell:hover { background: var(--gold-lt); }
+.stat-lbl {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat-val {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-val.hi { color: var(--navy-mid); }
+.stat-val.go { color: var(--teal); }
+.stat-val.blank { color: var(--hairline); font-weight: 400; }
+
+/* PROMO BODY */
+.promo-body { padding: 24px 28px; }
+
+/* META FLIGHT */
+.flight {
+  margin-bottom: 20px;
+}
+.flight-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.flight-label::before {
+  content: '';
+  display: block;
+  width: 16px; height: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+.flight-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+}
+.flight-stat {
+  background: var(--bg);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  transition: box-shadow 0.15s;
+}
+.flight-stat:hover { box-shadow: var(--sh-sm); }
+.flight-stat-lbl { font-size: 9.5px; color: var(--muted); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.flight-stat-val { font-size: 15px; font-weight: 600; color: var(--ink); }
+.flight-stat-val.hi { color: var(--navy-mid); }
+.flight-stat-val.go { color: var(--teal); }
+
+/* REVENUE STRIP */
+.rev-strip {
+  background: var(--bg);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+  margin-top: 20px;
+}
+.rev-strip-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rev-strip-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+.rev-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 10px;
+}
+.rev-item {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  box-shadow: var(--sh-xs);
+}
+.rev-lbl { font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+.rev-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+  line-height: 1;
+}
+.rev-chg { font-size: 11px; font-weight: 600; color: var(--teal); }
+.rev-chg.new { color: var(--gold-dk); }
+.rev-note { font-size: 10.5px; color: var(--muted); font-style: italic; margin-top: 12px; line-height: 1.5; }
+
+/* INSIGHT BOX */
+.insight {
+  background: linear-gradient(135deg, #FDF8F0 0%, #FFFEFA 100%);
+  border: 1px solid rgba(181,137,74,0.3);
+  border-radius: var(--r-md);
+  padding: 20px 22px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.insight::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(181,137,74,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.insight-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.insight-icon {
+  width: 24px; height: 24px;
+  background: rgba(181,137,74,0.15);
+  border-radius: var(--r-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.insight-body {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.insight-body strong { color: var(--ink); font-weight: 600; }
+.insight-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 8px;
+}
+.insight-metric {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(181,137,74,0.2);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  backdrop-filter: blur(4px);
+}
+.insight-metric-lbl { font-size: 10px; color: var(--mid); margin-bottom: 4px; }
+.insight-metric-val { font-size: 17px; font-weight: 700; color: var(--ink); }
+.insight-metric-val.go { color: var(--teal); }
+
+/* ═══════════════════════════════════════
+   KEY OBSERVATIONS
+═══════════════════════════════════════ */
+.obs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.obs-card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 20px 18px;
+  box-shadow: var(--sh-xs);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.obs-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-md);
+}
+.obs-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.obs-card:hover::after { opacity: 1; }
+.obs-lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.obs-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+.obs-sub { font-size: 11px; color: var(--mid); line-height: 1.4; }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.report-footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+.report-footer strong { color: var(--mid); font-weight: 600; }
+
+.fn { font-size: 10.5px; color: var(--muted); font-style: italic; margin-top: 8px; line-height: 1.5; }
+
+@media print {
+  body { background: #fff; }
+  .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; min-height: auto; }
+  .promo-card { break-inside: avoid; box-shadow: none; }
+  .glance-card { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ COVER ══════ -->
+<div class="cover">
+  <div class="cover-orb cover-orb-1"></div>
+  <div class="cover-orb cover-orb-2"></div>
+  <div class="cover-orb cover-orb-3"></div>
+  <div class="cover-noise"></div>
+  <div class="cover-inner">
+    <div class="cover-badge"><span class="cover-badge-dot"></span>Metro Dermatology · Marketing & Branding</div>
+    <h1 class="cover-title">2026 Q1 Promotions<br><em>Quarterly Report</em></h1>
+    <p class="cover-sub">A comprehensive review of campaign performance, lead generation, and treatment revenue for the first quarter of 2026.</p>
+    <div class="cover-divider"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><label>Reporting Period</label><span>January 1 – May 10, 2026</span></div>
+      <div class="cover-meta-item"><label>Promotions</label><span>3 — All Completed</span></div>
+      <div class="cover-meta-item"><label>Prepared by</label><span>Grace Chan</span></div>
+      <div class="cover-meta-item"><label>Report Date</label><span>May 2026</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ══════ 01 PORTFOLIO AT A GLANCE ══════ -->
+  <div class="sec"><span class="sec-num">01</span><span class="sec-label">Portfolio at a Glance</span><span class="sec-line"></span></div>
+
+  <div class="glance-grid">
+    <div class="glance-card blue">
+      <div class="glance-label">Total Scans Generated</div>
+      <div class="glance-val blue">5,264</div>
+    </div>
+    <div class="glance-card blue">
+      <div class="glance-label">Total Calls Generated</div>
+      <div class="glance-val blue">264</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-label">Total SMS Sent</div>
+      <div class="glance-val">125,587</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-label">Total Email Volume</div>
+      <div class="glance-val">55,769</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-label">Email Scans</div>
+      <div class="glance-val">109</div>
+      <div class="glance-sub">Valentine's 71 · Anniv. 25 · J&L 13</div>
+    </div>
+    <div class="glance-card teal">
+      <div class="glance-label">Total Meta Ad Spend</div>
+      <div class="glance-val gold">$1,057.36</div>
+      <div class="glance-sub">J&L $504 · Anniversary $553.36</div>
+    </div>
+  </div>
+
+  <div class="banner teal">
+    <div class="banner-icon">↑</div>
+    <div class="banner-content"><p><strong>5,264 total scans</strong> and <strong>264 calls</strong> generated across all 3 completed promotions. J&L Event drove the highest scan volume — <strong>2,663 scans</strong> including 991 SM scans and 1,610 SMS scans at a 3.5% scan rate.</p></div>
+  </div>
+  <div class="banner navy">
+    <div class="banner-icon">◈</div>
+    <div class="banner-content"><p>Anniversary Meta Ad 2nd flight outperformed the 1st by <strong>+795% in link clicks</strong> (698 vs 78) at $0.44 CPC — reaching <strong>33,159 people for $303.73</strong>.</p></div>
+  </div>
+
+  <!-- ══════ 02 SCANS ══════ -->
+  <div class="sec"><span class="sec-num">02</span><span class="sec-label">Scans by Channel — All Promotions</span><span class="sec-line"></span></div>
+  <div class="chart-wrap">
+    <div class="chart-head">
+      <div>
+        <div class="chart-title">Total Scans by Channel per Promotion</div>
+        <div class="chart-subtitle">SMS · Email · GMB · Social Media</div>
+      </div>
+      <div class="chart-legend">
+        <span><span class="ldot" style="background:#2E5C9A"></span>SMS</span>
+        <span><span class="ldot" style="background:#2D7A6B"></span>Email</span>
+        <span><span class="ldot" style="background:#B5894A"></span>GMB</span>
+        <span><span class="ldot" style="background:#7A5A2E"></span>SM</span>
+      </div>
+    </div>
+    <canvas id="scansChart"></canvas>
+  </div>
+
+  <!-- ══════ 03 CALLS ══════ -->
+  <div class="sec"><span class="sec-num">03</span><span class="sec-label">Calls by Channel — All Promotions</span><span class="sec-line"></span></div>
+  <div class="chart-wrap">
+    <div class="chart-head">
+      <div>
+        <div class="chart-title">Total Calls by Channel per Promotion</div>
+        <div class="chart-subtitle">SMS · Email · GMB · Social Media</div>
+      </div>
+      <div class="chart-legend">
+        <span><span class="ldot" style="background:#2E5C9A"></span>SMS</span>
+        <span><span class="ldot" style="background:#2D7A6B"></span>Email</span>
+        <span><span class="ldot" style="background:#B5894A"></span>GMB</span>
+        <span><span class="ldot" style="background:#7A5A2E"></span>SM</span>
+      </div>
+    </div>
+    <canvas id="callsChart"></canvas>
+  </div>
+
+  <!-- ══════ 04 BREAKDOWN ══════ -->
+  <div class="sec"><span class="sec-num">04</span><span class="sec-label">Scans & Calls Breakdown</span><span class="sec-line"></span></div>
+  <div class="breakdown-pair">
+    <div class="breakdown-box">
+      <div class="breakdown-head"><span class="breakdown-head-icon">⊞</span><span class="breakdown-head-label">Total Scans by Promotion</span></div>
+      <div class="breakdown-row"><span>Valentine's Day</span><span class="num">707</span></div>
+      <div class="breakdown-row"><span>J&L Event</span><span class="num">2,663</span></div>
+      <div class="breakdown-row"><span>30th Anniversary</span><span class="num">1,894</span></div>
+      <div class="breakdown-row"><span>Total</span><span class="num">5,264</span></div>
+    </div>
+    <div class="breakdown-box">
+      <div class="breakdown-head"><span class="breakdown-head-icon">☎</span><span class="breakdown-head-label">Total Calls by Promotion</span></div>
+      <div class="breakdown-row"><span>Valentine's Day</span><span class="num">53</span></div>
+      <div class="breakdown-row"><span>J&L Event</span><span class="num">118</span></div>
+      <div class="breakdown-row"><span>30th Anniversary</span><span class="num">93</span></div>
+      <div class="breakdown-row"><span>Total</span><span class="num">264</span></div>
+    </div>
+  </div>
+  <p class="fn">* Scans = SMS + Email + GMB + SM. Calls = SMS + Email + GMB + SM. Valentine's Day has no SM data recorded.</p>
+
+  <!-- ══════ 05 EMAIL ══════ -->
+  <div class="sec"><span class="sec-num">05</span><span class="sec-label">Email — All 3 Promotions Combined</span><span class="sec-line"></span></div>
+  <div class="email-bar">
+    <div class="email-bar-head">Email Performance Summary</div>
+    <div class="email-bar-cells">
+      <div class="email-cell"><div class="email-cell-label">Total Volume</div><div class="email-cell-val gold">55,769</div></div>
+      <div class="email-cell"><div class="email-cell-label">Total Scans</div><div class="email-cell-val gold">109</div></div>
+      <div class="email-cell"><div class="email-cell-label">Total Calls</div><div class="email-cell-val gold">6</div></div>
+    </div>
+  </div>
+
+  <!-- ══════ 06 PROMOTION CARDS ══════ -->
+  <div class="sec"><span class="sec-num">06</span><span class="sec-label">Promotion Detail Cards</span><span class="sec-line"></span></div>
+
+  <!-- VALENTINE'S DAY -->
+  <div class="promo-card vday">
+    <div class="promo-hdr">
+      <div class="promo-hdr-left">
+        <h3>Valentine's Day Promotion</h3>
+        <p>Jan 19 – Feb 14, 2026 &nbsp;·&nbsp; Restylane & RHA Fillers</p>
+      </div>
+      <span class="badge">Completed</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-cell"><div class="stat-lbl">SMS Sent</div><div class="stat-val hi">34,851</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Reminder</div><div class="stat-val">32,442</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Volume</div><div class="stat-val">20,000</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Scans</div><div class="stat-val">623</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Calls</div><div class="stat-val">47</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Scans</div><div class="stat-val">71</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Calls</div><div class="stat-val">5</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Scans</div><div class="stat-val">13</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Calls</div><div class="stat-val">1</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Scans</div><div class="stat-val hi">707</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Calls</div><div class="stat-val">53</div></div>
+    </div>
+    <div class="promo-body">
+      <div class="rev-strip">
+        <div class="rev-strip-title">Treatment Revenue — Jan–Apr Year-over-Year</div>
+        <div class="rev-items">
+          <div class="rev-item">
+            <div class="rev-lbl">Restylane (all SKUs)</div>
+            <div class="rev-val">$19,593</div>
+            <div class="rev-chg">↑ +8.4% vs 2025 ($18,070)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 30TH ANNIVERSARY -->
+  <div class="promo-card anniv">
+    <div class="promo-hdr">
+      <div class="promo-hdr-left">
+        <h3>30th Anniversary Promotion</h3>
+        <p>Mar 2 – May 10, 2026 &nbsp;·&nbsp; Gift Card + Ultherapy PRIME</p>
+      </div>
+      <span class="badge">Completed</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-cell"><div class="stat-lbl">SMS Sent</div><div class="stat-val hi">34,836</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Reminder</div><div class="stat-val hi">34,836</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Volume</div><div class="stat-val hi">25,731</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Scans</div><div class="stat-val hi">1,038</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Calls</div><div class="stat-val">66</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Scans</div><div class="stat-val">25</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Calls</div><div class="stat-val">1</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SM Scans</div><div class="stat-val">753</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SM Calls</div><div class="stat-val">13</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Scans</div><div class="stat-val">78</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Calls</div><div class="stat-val">13</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Scans</div><div class="stat-val hi">1,894</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Calls</div><div class="stat-val">93</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Meta Ad Spend</div><div class="stat-val">$553.36</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Cost / Scan</div><div class="stat-val go">$0.96<span style="font-size:9px;color:var(--muted);font-weight:400"> /LP</span></div></div>
+    </div>
+    <div class="promo-body">
+      <div class="flight">
+        <div class="flight-label">Meta Ad · 1st Flight &nbsp;·&nbsp; 2/27–3/31 &nbsp;·&nbsp; Ultherapy PRIME Focus &nbsp;·&nbsp; $249.63</div>
+        <div class="flight-stats">
+          <div class="flight-stat"><div class="flight-stat-lbl">Views</div><div class="flight-stat-val">9,621</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Reach</div><div class="flight-stat-val">5,953</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Link Clicks</div><div class="flight-stat-val">78</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Engagements</div><div class="flight-stat-val">1,814</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Video Plays</div><div class="flight-stat-val">1,719</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">CPC</div><div class="flight-stat-val">$3.20</div></div>
+        </div>
+      </div>
+      <div class="flight">
+        <div class="flight-label">Meta Ad · 2nd Flight &nbsp;·&nbsp; 4/23–5/8 &nbsp;·&nbsp; Mother's Day Gift Card &nbsp;·&nbsp; $303.73</div>
+        <div class="flight-stats">
+          <div class="flight-stat"><div class="flight-stat-lbl">Views</div><div class="flight-stat-val hi">39,862</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Reach</div><div class="flight-stat-val hi">33,159</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Link Clicks</div><div class="flight-stat-val hi">698</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">LP Views</div><div class="flight-stat-val">539</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Engagements</div><div class="flight-stat-val">714</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">CPC</div><div class="flight-stat-val go">$0.44</div></div>
+        </div>
+      </div>
+      <div class="rev-strip">
+        <div class="rev-strip-title">Treatment Revenue — Year-over-Year</div>
+        <div class="rev-items">
+          <div class="rev-item">
+            <div class="rev-lbl">Gift Card (Apr–May 2025 vs Mar–May 2026)</div>
+            <div class="rev-val">$396,900</div>
+            <div class="rev-chg">↑ +45.0% vs 2025 ($273,796)</div>
+          </div>
+          <div class="rev-item">
+            <div class="rev-lbl">Ultherapy Prime — Fort Lee</div>
+            <div class="rev-val">10 patients</div>
+            <div class="rev-chg new">★ New in 2026 · Fort Lee</div>
+          </div>
+          <div class="rev-item">
+            <div class="rev-lbl">Ultherapy Prime — Flushing</div>
+            <div class="rev-val">19 patients</div>
+            <div class="rev-chg new">★ New in 2026 · Flushing</div>
+          </div>
+        </div>
+        <p class="rev-note">* Gift card revenue comparison: Apr–May 2025 vs Mar–May 2026. Growth driven by Fort Lee (+47%) and Flushing (+25%) and the introduction of shareable gift cards. Ultherapy Prime is new in 2026 — 10 patients at Fort Lee and 19 at Flushing. 2026 Ultherapy figures include both standard Ultherapy and Ultherapy Prime.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-title"><span class="insight-icon">💡</span>Gift Card Insight — Shareable Gift Cards</div>
+        <div class="insight-body">In 2026, Metro Dermatology gift cards became <strong>shareable</strong> — patients can purchase them as gifts for others, not just for personal use. This drove a <strong>+45.0% revenue increase (+$123,104)</strong> by encouraging higher purchase amounts and expanding the buyer pool. The Mother's Day focus of the 2nd Meta Ad flight directly leveraged this, prompting gifters to purchase on behalf of loved ones.</div>
+        <div class="insight-metrics">
+          <div class="insight-metric"><div class="insight-metric-lbl">Gift Card Revenue 2025 (Apr–May)</div><div class="insight-metric-val">$273,796</div></div>
+          <div class="insight-metric"><div class="insight-metric-lbl">Gift Card Revenue 2026 (Mar–May)</div><div class="insight-metric-val">$396,900</div></div>
+          <div class="insight-metric"><div class="insight-metric-lbl">Revenue Increase</div><div class="insight-metric-val go">+$123,104</div></div>
+          <div class="insight-metric"><div class="insight-metric-lbl">YoY Growth</div><div class="insight-metric-val go">+45.0%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- J&L EVENT -->
+  <div class="promo-card jl">
+    <div class="promo-hdr">
+      <div class="promo-hdr-left">
+        <h3>Jeuveau & Letybo Special Event</h3>
+        <p>Apr 18, 2026 &nbsp;·&nbsp; One-day event (2–5 PM) &nbsp;·&nbsp; Flushing & Fort Lee</p>
+      </div>
+      <span class="badge">Completed</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-cell"><div class="stat-lbl">SMS Sent</div><div class="stat-val hi">45,378</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Reminder</div><div class="stat-val hi">45,378</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Volume</div><div class="stat-val">10,038</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Scans</div><div class="stat-val hi">1,610</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SMS Calls</div><div class="stat-val">110</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Email Scans</div><div class="stat-val">13</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SM Scans</div><div class="stat-val hi">991</div></div>
+      <div class="stat-cell"><div class="stat-lbl">SM Calls</div><div class="stat-val">4</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Scans</div><div class="stat-val">49</div></div>
+      <div class="stat-cell"><div class="stat-lbl">GMB Calls</div><div class="stat-val">4</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Scans</div><div class="stat-val hi">2,663</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Total Calls</div><div class="stat-val">118</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Meta Ad Spend</div><div class="stat-val">$504</div></div>
+      <div class="stat-cell"><div class="stat-lbl">Cost / Scan</div><div class="stat-val go">$0.51<span style="font-size:9px;color:var(--muted);font-weight:400"> /LP</span></div></div>
+    </div>
+    <div class="promo-body">
+      <div class="flight">
+        <div class="flight-label">Meta Ad &nbsp;·&nbsp; 3/27 – 4/17</div>
+        <div class="flight-stats">
+          <div class="flight-stat"><div class="flight-stat-lbl">Views</div><div class="flight-stat-val hi">68,808</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Reach</div><div class="flight-stat-val">44,114</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Link Clicks</div><div class="flight-stat-val">1,074</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">LP Views</div><div class="flight-stat-val hi">991</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Engagements</div><div class="flight-stat-val">1,125</div></div>
+          <div class="flight-stat"><div class="flight-stat-lbl">Reactions</div><div class="flight-stat-val">40</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 07 COSMETIC INQUIRY FORM ══════ -->
+  <div class="sec"><span class="sec-num">07</span><span class="sec-label">Cosmetic Inquiry Form — January to April 2026</span><span class="sec-line"></span></div>
+
+  <div class="banner teal" style="margin-bottom:20px;">
+    <div class="banner-icon">📋</div>
+    <div class="banner-content"><p>The cosmetic inquiry form captured an additional layer of leads beyond SMS, email, and GMB — reflecting patients who engaged directly through the website. With <strong>244 submissions</strong> and a <strong>27.0% completion rate</strong>, this channel represents high-intent prospects actively seeking cosmetic services.</p></div>
+  </div>
+
+  <div class="email-bar" style="margin-bottom:12px;">
+    <div class="email-bar-head">Cosmetic Inquiry Form Performance · Jan – Apr 2026</div>
+    <div class="email-bar-cells" style="grid-template-columns: repeat(5,1fr);">
+      <div class="email-cell">
+        <div class="email-cell-label">Views</div>
+        <div class="email-cell-val" style="color:var(--ink);">2,474</div>
+      </div>
+      <div class="email-cell">
+        <div class="email-cell-label">Starts</div>
+        <div class="email-cell-val" style="color:var(--ink);">905</div>
+      </div>
+      <div class="email-cell">
+        <div class="email-cell-label">Submissions</div>
+        <div class="email-cell-val gold">244</div>
+      </div>
+      <div class="email-cell">
+        <div class="email-cell-label">Completion Rate</div>
+        <div class="email-cell-val gold">27.0%</div>
+      </div>
+      <div class="email-cell">
+        <div class="email-cell-label">Time to Complete</div>
+        <div class="email-cell-val" style="color:var(--ink);">02:10</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="breakdown-pair" style="grid-template-columns:1fr 1fr 1fr; margin-bottom:8px;">
+    <div class="breakdown-box">
+      <div class="breakdown-head"><span class="breakdown-head-label">Views → Starts</span></div>
+      <div class="breakdown-row"><span>Views</span><span class="num">2,474</span></div>
+      <div class="breakdown-row"><span>Starts</span><span class="num">905</span></div>
+      <div class="breakdown-row"><span>Start Rate</span><span class="num">36.6%</span></div>
+    </div>
+    <div class="breakdown-box">
+      <div class="breakdown-head"><span class="breakdown-head-label">Starts → Submissions</span></div>
+      <div class="breakdown-row"><span>Starts</span><span class="num">905</span></div>
+      <div class="breakdown-row"><span>Submissions</span><span class="num">244</span></div>
+      <div class="breakdown-row"><span>Submit Rate</span><span class="num">27.0%</span></div>
+    </div>
+    <div class="breakdown-box">
+      <div class="breakdown-head"><span class="breakdown-head-label">Overall Funnel</span></div>
+      <div class="breakdown-row"><span>Total Views</span><span class="num">2,474</span></div>
+      <div class="breakdown-row"><span>Submissions</span><span class="num">244</span></div>
+      <div class="breakdown-row"><span>Overall Rate</span><span class="num">9.9%</span></div>
+    </div>
+  </div>
+  <p class="fn">* Form data covers January – April 2026. Submissions represent direct high-intent cosmetic inquiries from the website, separate from SMS, email, and GMB lead channels.</p>
+
+  <!-- ══════ 08 SERVICES OF INTEREST ══════ -->
+  <div class="sec"><span class="sec-num">08</span><span class="sec-label">Services of Interest — Cosmetic Inquiry Form</span><span class="sec-line"></span></div>
+
+  <div class="banner navy" style="margin-bottom:20px;">
+    <div class="banner-icon">📊</div>
+    <div class="banner-content"><p>248 out of 267 people answered this question. <strong>Laser Treatments</strong> ranked #1 with 116 responses — nearly double the next category. Neuromodulators and Acne & Acne Scarring tied closely at 56 and 55 respectively.</p></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-head">
+      <div>
+        <div class="chart-title">Services of Interest</div>
+        <div class="chart-subtitle">248 out of 267 respondents answered · Jan – Apr 2026</div>
+      </div>
+    </div>
+    <canvas id="servicesChart" style="max-height:340px;"></canvas>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-sm);margin-top:12px;">
+    <div style="background:linear-gradient(90deg,var(--ink) 0%,var(--ink-soft) 100%);color:#fff;padding:12px 24px;font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;">Services Breakdown</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hairline);">
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Laser Treatments</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--navy-mid);line-height:1;">116</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Pigmentation, Acne Scars, Rejuvenation</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Skin Rejuvenation / Facials</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--navy-mid);line-height:1;">71</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">HydraFacial®, PRP, Peels</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Neuromodulators</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--navy-mid);line-height:1;">56</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Botox®, Dysport®, Jeuveau®</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Acne & Acne Scarring</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--navy-mid);line-height:1;">55</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Acne treatments & scar revision</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Skin Tightening</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--ink);line-height:1;">30</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Thermage®, Ultherapy®, RF</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Fillers</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--ink);line-height:1;">28</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Lips, Cheeks, Chin, Jawline, Under Eyes</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Other</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--ink);line-height:1;">25</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Various other cosmetic services</div>
+      </div>
+      <div style="background:var(--surface);padding:16px 18px;">
+        <div style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">Body Contouring</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;color:var(--ink);line-height:1;">12</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;">Body sculpting & contouring</div>
+      </div>
+    </div>
+  </div>
+  <p class="fn" style="margin-top:8px;">* Respondents could select multiple services. Total responses (393) exceed respondents (248) due to multi-select.</p>
+
+  <!-- ══════ 09 KEY OBSERVATIONS ══════ -->
+  <div class="sec"><span class="sec-num">09</span><span class="sec-label">Key Observations</span><span class="sec-line"></span></div>
+  <div class="obs-grid">
+    <div class="obs-card">
+      <div class="obs-lbl">Most Scans Generated</div>
+      <div class="obs-val">J&L Event · 2,663</div>
+      <div class="obs-sub">991 SM + 1,610 SMS scans</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">Highest SMS Scan Rate</div>
+      <div class="obs-val">J&L Event · 3.5%</div>
+      <div class="obs-sub">1,610 scans on 45,378 sent</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">Most Calls Generated</div>
+      <div class="obs-val">J&L Event · 118 calls</div>
+      <div class="obs-sub">SMS 110 · GMB 4 · SM 4</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">Best Meta Ad CPC</div>
+      <div class="obs-val">Anniversary 2nd Flight · $0.44</div>
+      <div class="obs-sub">698 clicks · 33,159 reach · $303.73</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">Gift Card Revenue Win</div>
+      <div class="obs-val">+45.0% YoY · +$123,104</div>
+      <div class="obs-sub">Shareable cards drove higher spend</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">New Treatment Debut</div>
+      <div class="obs-val">Ultherapy Prime · 29 patients</div>
+      <div class="obs-sub">Fort Lee 10 · Flushing 19 · New in 2026</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">Cosmetic Inquiry Form</div>
+      <div class="obs-val">244 Submissions · 27.0%</div>
+      <div class="obs-sub">244 of 905 starts · 2,474 total views</div>
+    </div>
+    <div class="obs-card">
+      <div class="obs-lbl">High-Intent Website Leads</div>
+      <div class="obs-val">905 form starts</div>
+      <div class="obs-sub">36.6% of viewers began the inquiry form</div>
+    </div>
+  </div>
+
+  <div class="report-footer">
+    <span><strong>Metro Dermatology</strong> · Prepared by Grace Chan · Confidential</span>
+    <span>2026 Q1 Promotions Report · May 2026</span>
+  </div>
+
+</div>
+
+<script>
+const labels = ["Valentine's Day", "J&L Event", "30th Anniversary"];
+const stackOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: {
+      grid: { display: false },
+      stacked: true,
+      ticks: { font: { size: 12, family: "Inter, sans-serif" }, color: "#71717A" },
+      border: { display: false }
+    },
+    y: {
+      grid: { color: "rgba(0,0,0,0.04)" },
+      stacked: true,
+      ticks: { font: { size: 11, family: "Inter, sans-serif" }, color: "#A1A1AA" },
+      border: { display: false }
+    }
+  }
+};
+
+new Chart(document.getElementById("scansChart"), {
+  type: "bar",
+  data: { labels: labels, datasets: [
+    { label: "SMS scans",   data: [623, 1610, 1038], backgroundColor: "#2E5C9A", borderRadius: 0, stack: "a" },
+    { label: "Email scans", data: [71,  13,   25],   backgroundColor: "#2D7A6B", borderRadius: 0, stack: "a" },
+    { label: "GMB scans",   data: [13,  49,   78],   backgroundColor: "#B5894A", borderRadius: 0, stack: "a" },
+    { label: "SM scans",    data: [0,   991,  753],  backgroundColor: "#7A5A2E", borderRadius: 4, stack: "a" }
+  ]},
+  options: stackOpts
+});
+
+new Chart(document.getElementById("callsChart"), {
+  type: "bar",
+  data: { labels: labels, datasets: [
+    { label: "SMS calls",   data: [47, 110, 66], backgroundColor: "#2E5C9A", borderRadius: 0, stack: "a" },
+    { label: "Email calls", data: [5,  0,   1],  backgroundColor: "#2D7A6B", borderRadius: 0, stack: "a" },
+    { label: "GMB calls",   data: [1,  4,   13], backgroundColor: "#B5894A", borderRadius: 0, stack: "a" },
+    { label: "SM calls",    data: [0,  4,   13], backgroundColor: "#7A5A2E", borderRadius: 4, stack: "a" }
+  ]},
+  options: stackOpts
+});
+
+new Chart(document.getElementById("servicesChart"), {
+  type: "bar",
+  data: {
+    labels: [
+      "Laser Treatments",
+      "Skin Rejuvenation / Facials",
+      "Neuromodulators",
+      "Acne & Acne Scarring",
+      "Skin Tightening",
+      "Fillers",
+      "Other",
+      "Body Contouring"
+    ],
+    datasets: [{
+      data: [116, 71, 56, 55, 30, 28, 25, 12],
+      backgroundColor: [
+        "#2E5C9A", "#3B7A6B", "#2E5C9A", "#3B7A6B",
+        "#B5894A", "#B5894A", "#A1A1AA", "#A1A1AA"
+      ],
+      borderRadius: 4,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: "y",
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: function(ctx) { return " " + ctx.raw + " responses"; } } }
+    },
+    scales: {
+      x: {
+        grid: { color: "rgba(0,0,0,0.04)" },
+        ticks: { font: { size: 11, family: "Inter, sans-serif" }, color: "#A1A1AA" },
+        border: { display: false }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font: { size: 12, family: "Inter, sans-serif" }, color: "#3F3F46" },
+        border: { display: false }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
