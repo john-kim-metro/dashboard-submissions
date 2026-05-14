@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Managed Services: A Ticket-Level Review</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #f0ece6;
+    --ink-soft: #ccc7bf;
+    --ink-muted: #a09890;
+    --paper: #1e1c1a;
+    --paper-warm: #252220;
+    --paper-deep: #2e2b28;
+    --accent: #e06e38;
+    --accent-light: rgba(224,110,56,0.15);
+    --amber: #d4a040;
+    --amber-light: rgba(212,160,64,0.15);
+    --green: #5aaa72;
+    --green-light: rgba(90,170,114,0.15);
+    --blue: #5a92c8;
+    --blue-light: rgba(90,146,200,0.15);
+    --rule: rgba(240,236,230,0.09);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 60vh;
+    background: #141210;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 56px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(217,98,42,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 90%, rgba(217,98,42,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .cover-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .cover-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .cover-label::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .cover-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 7vw, 88px);
+    line-height: 1.0;
+    font-weight: 400;
+    max-width: 700px;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: rgba(247,244,239,0.55);
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 60px;
+    border-top: 1px solid rgba(240,236,230,0.15);
+    padding-top: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cover-meta-item { text-align: center; }
+  .cover-meta-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,236,230,0.5);
+    margin-bottom: 4px;
+  }
+  .cover-meta-value {
+    font-size: 15px;
+    color: rgba(240,236,230,0.88);
+  }
+
+  /* LAYOUT */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 60px;
+  }
+
+  @media (max-width: 768px) {
+    .cover { padding: 48px 32px; }
+    .page { padding: 48px 24px; }
+  }
+
+  /* SECTION HEADERS */
+  .chapter-marker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 56px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .chapter-number {
+    font-family: var(--serif);
+    font-size: 72px;
+    line-height: 1;
+    color: var(--ink-muted);
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+
+  .chapter-info {}
+  .chapter-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .chapter-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* SECTION DIVIDERS */
+  .section-spacer { height: 40px; }
+  .minor-spacer { height: 24px; }
+
+  .section-label {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .lead-text {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 100%;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .body-text {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* STAT ROW */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .stat-cell {
+    background: var(--paper);
+    padding: 28px 24px;
+  }
+
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 44px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .stat-number.accent { color: var(--accent); }
+  .stat-number.amber { color: var(--amber); }
+
+  .stat-label {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  .stat-sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* CHART CARDS */
+  .chart-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-deep);
+    border-radius: 4px;
+    padding: 28px;
+  }
+
+  .chart-title {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 20px;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .chart-wrap {
+    position: relative;
+    height: 220px;
+  }
+
+  /* FINDING BLOCKS */
+  .finding {
+    border-left: 3px solid var(--paper-deep);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    background: var(--paper-warm);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .finding.concern {
+    border-left-color: var(--accent);
+    background: rgba(217,98,42,0.08);
+  }
+
+  .finding.observation {
+    border-left-color: var(--amber);
+    background: rgba(196,144,48,0.08);
+  }
+
+  .finding.positive {
+    border-left-color: var(--green);
+    background: rgba(74,153,98,0.08);
+  }
+
+  .finding-tag {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .finding.concern .finding-tag { color: var(--accent); }
+  .finding.observation .finding-tag { color: var(--amber); }
+  .finding.positive .finding-tag { color: var(--green); }
+
+  .finding-title {
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .finding-body {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+
+  /* TECHNICIAN NOTE */
+  .tech-note {
+    background: #141210;
+    color: var(--ink);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .tech-note::before {
+    content: '"';
+    font-family: var(--serif);
+    font-size: 80px;
+    line-height: 0.6;
+    color: rgba(232,228,222,0.06);
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+
+  .tech-note-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .tech-note-text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(240,236,230,0.9);
+    font-style: italic;
+    position: relative;
+  }
+
+  .tech-note-meta {
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(240,236,230,0.5);
+    display: flex;
+    gap: 16px;
+  }
+
+  .tech-note-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* NOTE GRID - two per row */
+  .note-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media (max-width: 768px) { .note-grid { grid-template-columns: 1fr; } }
+
+  .note-card {
+    background: #141210;
+    color: var(--ink);
+    border-radius: 4px;
+    padding: 18px 20px;
+  }
+
+  .note-card-tag {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .note-card-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(240,236,230,0.88);
+    font-style: italic;
+  }
+
+  .note-card-meta {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(240,236,230,0.48);
+  }
+
+  /* REPEAT TABLE */
+  .repeat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .repeat-table th {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-warm);
+  }
+
+  .repeat-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+
+  .repeat-table tr:last-child td { border-bottom: none; }
+
+  .repeat-table tr:hover td { background: var(--paper-warm); }
+
+  .machine-name {
+    font-family: monospace;
+    font-size: 12px;
+    background: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .badge.red { background: rgba(196,66,26,0.12); color: var(--accent); }
+  .badge.amber { background: rgba(184,114,20,0.12); color: var(--amber); }
+  .badge.green { background: rgba(45,106,63,0.12); color: var(--green); }
+
+  /* BAR COMPONENT */
+  .bar-list { margin: 16px 0; }
+  .bar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .bar-item-label { min-width: 180px; flex-shrink: 0; font-size: 14px; }
+  .bar-item-track { flex: 1; height: 8px; background: var(--paper-deep); border-radius: 4px; overflow: hidden; }
+  .bar-item-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+  .bar-item-count { min-width: 32px; text-align: right; font-size: 14px; color: var(--ink-muted); }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 48px;
+    margin-top: 64px;
+  }
+
+  .summary-box-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 24px;
+    max-width: 600px;
+    letter-spacing: -0.01em;
+  }
+
+  .summary-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 768px) { .summary-items { grid-template-columns: 1fr; } }
+
+  .summary-item {
+    border-top: 1px solid rgba(247,244,239,0.12);
+    padding-top: 16px;
+  }
+
+  .summary-item-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.4);
+    margin-bottom: 8px;
+  }
+
+  .summary-item-text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(247,244,239,0.75);
+  }
+
+  /* HORIZONTAL RULE */
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 64px 0;
+  }
+
+  /* PAGE BREAK INDICATOR */
+  .chapter-break {
+    background: #141210;
+    color: var(--ink);
+    padding: 64px 80px;
+    margin: 0;
+  }
+
+  .chapter-break-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .chapter-break-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 560px;
+  }
+
+  .chapter-break-num {
+    font-family: var(--serif);
+    font-size: 120px;
+    line-height: 0.85;
+    color: rgba(160,152,144,0.35);
+    letter-spacing: -0.05em;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* DONUT LEGEND */
+  .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .donut-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .donut-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .donut-and-legend {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* CALL-OUT */
+  .callout {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1.3;
+    color: var(--ink);
+    border-left: 4px solid var(--accent);
+    padding-left: 24px;
+    margin: 40px 0;
+    font-weight: 400;
+    font-style: italic;
+    max-width: 640px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Metro Dermatology · IT Managed Services</div>
+  <h1 class="cover-title">Managed Services: <em>A Ticket-Level Review</em></h1>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Reporting Period</div>
+      <div class="cover-meta-value">October 2025 — April 2026</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Total Tickets Analyzed</div>
+      <div class="cover-meta-value">1,539 closed tickets</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Author</div>
+      <div class="cover-meta-value">John Kim, CIO/CSO</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Date</div>
+      <div class="cover-meta-value">May 14, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="page fade-in">
+  <div class="section-label">Overview</div>
+  <p class="lead-text">This document takes the raw ticket data and examines the nature of the work being performed — what types of issues are occurring, how technicians are responding, and whether those responses are resolving problems at their root.</p>
+  <p class="body-text">The intent is not to dismiss the value of ongoing support, but to have a clear-eyed conversation about where technical hours are being invested, and whether the current pattern of engagement is moving the environment toward stability or sustaining a steady-state of recurring intervention.</p>
+  <p class="body-text">Rather than reviewing ticket volume alone, this document goes deeper into the raw data to assess the quality of each resolution — examining whether issues were genuinely closed at the root or simply cleared to reappear in the next cycle.</p>
+  <p class="body-text">The analysis covers 1,539 closed tickets and 827 logged technician hours spanning seven months across six locations. Tickets are separated into two categories: server-side infrastructure work and user endpoint issues.</p>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-number">1,539</div>
+      <div class="stat-label">Total tickets closed</div>
+      <div class="stat-sub">Oct 2025 – Apr 2026</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">827</div>
+      <div class="stat-label">Total technician hours logged</div>
+      <div class="stat-sub">Avg 0.54 hrs per ticket</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number accent">5</div>
+      <div class="stat-label">Named technicians</div>
+      <div class="stat-sub">Colin, Marcos, nico, Mike, Mark</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number amber">47</div>
+      <div class="stat-label">Machines with 4+ repeat failures</div>
+      <div class="stat-sub">Never resolved at root cause</div>
+    </div>
+  </div>
+
+  <div class="section-spacer"></div>
+</div>
+
+<!-- CHAPTER 1 BREAK -->
+<div class="chapter-break">
+  <div class="chapter-break-inner">
+    <div>
+      <div class="cover-label" style="margin-bottom:20px;">Chapter One</div>
+      <div class="chapter-break-title">Server Infrastructure — The Case of ADDS-119NY-DC05</div>
+    </div>
+    <div class="chapter-break-num">01</div>
+  </div>
+</div>
+
+<!-- CHAPTER 1 CONTENT -->
+<div class="page fade-in">
+  <div class="section-spacer"></div>
+
+  <p class="lead-text">One server generated 150 tickets over seven months — all driven by a single repeating performance metric. Understanding what was done, and what was not done, tells a broader story about infrastructure management.</p>
+
+  <p class="body-text">ADDS-119NY-DC05 produced the highest ticket volume of any machine in the estate. Of those 150 tickets, 148 were for the same alert: Disk Transfers/sec exceeding a threshold. This happened on average more than 20 times per month for seven consecutive months, with the same small set of causes identified repeatedly.</p>
+
+  <div class="callout">150 tickets. One server. One alert type. No infrastructure change recommended.</div>
+
+  <div class="two-col" style="margin-bottom:32px;">
+    <div class="chart-card">
+      <div class="chart-title">Monthly ticket volume — ADDS-119NY-DC05</div>
+      <div class="chart-wrap">
+        <canvas id="serverMonthChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">What action was taken — 148 disk performance tickets</div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="serverActionChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Technician notes — server side</div>
+
+  <div class="note-grid">
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Antivirus Scheduling</div>
+      <div class="note-card-text">"Found high disk I/O from antivirus scan running mid-day. Rescheduled the scan to off-hours."</div>
+      <div class="note-card-meta">Marcos · 0.12 hrs · Ticket #2332815</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Closed · No Action Taken</div>
+      <div class="note-card-text">"By the time I checked, disk activity had already returned to baseline. Marked transient and closed."</div>
+      <div class="note-card-meta">Colin · 0.62 hrs · Ticket #2332265</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Backup Overlap</div>
+      <div class="note-card-text">"Looked at PerfMon, disk queue length was elevated due to a backup job overlapping with file replication. Adjusted timing."</div>
+      <div class="note-card-meta">Colin · 0.57 hrs · Ticket #2308607</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Noted · Memory Pressure</div>
+      <div class="note-card-text">"Server was paging due to memory pressure. Added monitoring on memory and disk activity normalized after the workload finished."</div>
+      <div class="note-card-meta">Mike · 0.59 hrs · Ticket #2331163</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Print Spooler</div>
+      <div class="note-card-text">"High disk activity traced back to a stuck print spooler. Restarted the service and I/O dropped."</div>
+      <div class="note-card-meta">Mark · 0.11 hrs · Ticket #2335223</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Closed · Expected Behavior</div>
+      <div class="note-card-text">"Reviewed the alert, traced it to a scheduled task running Robocopy. Confirmed expected behavior."</div>
+      <div class="note-card-meta">Marcos · 0.53 hrs · Ticket #2333331</div>
+    </div>
+  </div>
+
+  <div class="minor-spacer"></div>
+
+  <div class="section-label">Key observations</div>
+
+  <div class="finding concern">
+    <div class="finding-tag">Pattern of Concern</div>
+    <div class="finding-title">The antivirus scan was "rescheduled" 15 separate times</div>
+    <div class="finding-body">The same remediation — moving the antivirus scan to off-hours — was applied on November 10, November 17, November 21, December 15, December 18, December 25, January 12 (twice), and continuing through April. Either the configuration change was not being saved persistently, or it was reverting. This is a one-time fix that became a monthly billing event.</div>
+  </div>
+
+  <div class="finding concern">
+    <div class="finding-tag">Pattern of Concern</div>
+    <div class="finding-title">56% of tickets were closed without a meaningful fix</div>
+    <div class="finding-body">83 of 148 disk performance tickets were resolved with notes indicating the alert cleared on its own, was expected behavior, or had already resolved before the technician checked. These tickets represent monitoring activity, not remediation. The alert threshold for this server was never adjusted despite identifying recurring causes.</div>
+  </div>
+
+  <div class="finding observation">
+    <div class="finding-tag">Infrastructure Observation</div>
+    <div class="finding-title">Memory pressure was identified and never addressed</div>
+    <div class="finding-body">Twelve tickets note that the server was "paging due to memory pressure" and that disk activity normalized after the workload finished. Server paging to disk is a hardware signal — the machine does not have sufficient RAM for its concurrent workloads. Each of those 12 tickets closed without a hardware assessment or workload redistribution recommendation.</div>
+  </div>
+
+  <div class="finding positive">
+    <div class="finding-tag">What Is Working</div>
+    <div class="finding-title">Legitimate corrective actions were taken on 44% of tickets</div>
+    <div class="finding-body">65 tickets involved real interventions: backup job timing adjustments, print spooler restarts, chatty service suppression, and storage agent resets. These are valid managed services activities. The concern is not that the work is being done — it is that the underlying conditions driving the alerts are not being eliminated.</div>
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <div class="section-label">The broader server picture — all servers × all issue types</div>
+
+  <p class="body-text">The heatmap below covers all 10 servers across the estate. Cell color intensity reflects ticket volume — darker means more tickets. Two dominant patterns emerge across nearly every server: Disk Transfers/sec alerts and CPU/Processor spikes, suggesting these are estate-wide conditions rather than isolated machine problems.</p>
+
+  <div style="overflow-x:auto;margin-bottom:12px;">
+    <canvas id="serverHeatmap" style="min-width:700px;"></canvas>
+  </div>
+  <div id="heatmapLegend" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-muted);margin-bottom:8px;justify-content:flex-end;">
+    <span>Fewer tickets</span>
+    <div id="legendGradient" style="width:120px;height:12px;border-radius:3px;background:linear-gradient(to right,#2e2b28,#d9622a);border:1px solid rgba(232,228,222,0.1);"></div>
+    <span>More tickets</span>
+  </div>
+
+  <p class="body-text" style="margin-top:8px;">ADDS-119NY-DC05 and MET-GO-DC01 stand out clearly in the Disk Transfers/sec column. MET-BX-DC02, MET-FRTL-DC02, and MET-FLSH-DC02 show concentrated CPU/Processor activity. No server shows a clean bill of health across all categories, which supports a conversation about estate-wide infrastructure assessment rather than individual machine reviews.</p>
+
+</div>
+
+<!-- CHAPTER 2 BREAK -->
+<div class="chapter-break">
+  <div class="chapter-break-inner">
+    <div>
+      <div class="cover-label" style="margin-bottom:20px;">Chapter Two</div>
+      <div class="chapter-break-title">User Endpoints — Recurring Failures Across the Fleet</div>
+    </div>
+    <div class="chapter-break-num">02</div>
+  </div>
+</div>
+
+<!-- CHAPTER 2 CONTENT -->
+<div class="page fade-in">
+  <div class="section-spacer"></div>
+
+  <p class="lead-text">743 tickets were generated by user workstations and laptops across all six locations. Two issue types — Windows Update failures and Group Policy errors — account for 93% of all endpoint tickets.</p>
+
+  <p class="body-text">Unlike server alerts, endpoint issues are often directly felt by staff. A machine that cannot apply patches is a security liability. A machine that cannot read Group Policy may lose access to printers, mapped drives, or security configurations. The volume and recurrence of these issues warrants a closer look at whether the current response strategy is building toward a stable fleet or managing a persistent backlog.</p>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <div class="stat-number">743</div>
+      <div class="stat-label">Total endpoint tickets</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number accent">445</div>
+      <div class="stat-label">Windows Update failures</div>
+      <div class="stat-sub">60% of endpoint tickets</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number amber">244</div>
+      <div class="stat-label">Group Policy errors</div>
+      <div class="stat-sub">33% of endpoint tickets</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number accent">47</div>
+      <div class="stat-label">Machines with 4+ WU failures</div>
+      <div class="stat-sub">Never resolved at root</div>
+    </div>
+  </div>
+
+  <!-- WU SECTION -->
+  <div class="section-label">Windows Update Failures — 445 tickets over 7 months</div>
+
+  <p class="body-text">Windows Update failures are not a normal steady-state condition for a managed environment. A failure rate of 64 per month across approximately 190 endpoints means that at any given time, a meaningful portion of the fleet is behind on patches. The table below shows the machines with the highest recurrence — most spanning four or more different calendar months.</p>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-title">WU Failures by month</div>
+      <div class="chart-wrap">
+        <canvas id="wuMonthChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">How technicians resolved WU failures</div>
+      <div class="chart-wrap">
+        <canvas id="wuSolChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Chronically failing machines — Windows Update</div>
+
+  <table class="repeat-table">
+    <thead>
+      <tr>
+        <th>Machine</th>
+        <th>Total Failures</th>
+        <th>Months Affected</th>
+        <th>Resolution Pattern</th>
+        <th>Root Cause Closed?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="machine-name">METROLAPTOP30</span></td>
+        <td>9 tickets</td>
+        <td>Oct · Nov · Dec · Jan</td>
+        <td>4 different technicians, 4 different approaches</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">NJNS03</span></td>
+        <td>8 tickets</td>
+        <td>Spans 5 months</td>
+        <td>SFC/DISM + manual KB downloads repeated</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">BXCOSNS01</span></td>
+        <td>7 tickets</td>
+        <td>Spans 4 months</td>
+        <td>Forced detection repeatedly applied</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">METRODERMLAPTOP</span></td>
+        <td>7 tickets</td>
+        <td>Spans 5 months</td>
+        <td>Mix of DataStore fix, SoftwareDistrib. reset, disk cleanup</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">NJFD04</span></td>
+        <td>7 tickets</td>
+        <td>Spans 5 months</td>
+        <td>Multiple approaches, no persistent fix</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">NYEX09</span></td>
+        <td>7 tickets</td>
+        <td>Spans multiple months</td>
+        <td>DataStore fix, WU reset, force-push — rotating</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">NYPROVIDER</span></td>
+        <td>7 tickets</td>
+        <td>Spans multiple months</td>
+        <td>DataStore fix repeated (2x), simple retry (2x)</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">NJOP01</span></td>
+        <td>7 tickets</td>
+        <td>Spans 5 months</td>
+        <td>SoftwareDistrib. reset (2x) plus varied approaches</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">GO-NS06</span></td>
+        <td>6 tickets</td>
+        <td>Spans multiple months</td>
+        <td>DataStore fix (2x), SFC/DISM repeated</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+      <tr>
+        <td><span class="machine-name">ELMBILLING1</span></td>
+        <td>6 tickets</td>
+        <td>Spans multiple months</td>
+        <td>Force-pushed via RMM 3 times, no diagnosis</td>
+        <td><span class="badge red">No</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label">Technician notes — Windows Update responses</div>
+
+  <div class="note-grid">
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · SoftwareDistribution Reset</div>
+      <div class="note-card-text">"Stopped wuauserv and bits, renamed SoftwareDistribution and catroot2, restarted services. Update went through."</div>
+      <div class="note-card-meta">Marcos · 0.51 hrs · Ticket #2336060</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Corrupt DataStore.edb</div>
+      <div class="note-card-text">"Looked at the error code, traced it to a corrupt DataStore.edb. Replaced it and updates resumed."</div>
+      <div class="note-card-meta">Colin · 0.82 hrs · Ticket #2335589</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Disk Was Full</div>
+      <div class="note-card-text">"Disk was full — cleared temp files and old update cache, freed enough space, updates installed successfully."</div>
+      <div class="note-card-meta">Colin · 0.88 hrs · Ticket #2336448</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Closed · Simple Retry</div>
+      <div class="note-card-text">"Retried the update from the local console — went through on the second attempt. No further action needed."</div>
+      <div class="note-card-meta">Colin · 0.97 hrs · Ticket #2336277</div>
+    </div>
+  </div>
+
+  <div class="finding observation">
+    <div class="finding-tag">Notable Pattern</div>
+    <div class="finding-title">WU failures improved steadily then reversed sharply in March</div>
+    <div class="finding-body">Failures declined from 109 in October to a low of 29 in February — a meaningful improvement. In March, the count rebounded to 72. A spike of this magnitude typically corresponds to a major Patch Tuesday release where a deployed package fails across multiple endpoints simultaneously. No ticket documentation addresses this rebound at a fleet level or explains what caused it.</div>
+  </div>
+
+  <div class="finding concern">
+    <div class="finding-tag">Root Cause Gap</div>
+    <div class="finding-title">Machines with corrupted DataStore.edb keep having it corrupted</div>
+    <div class="finding-body">DataStore.edb corruption is not random — it is typically caused by improper shutdown, low disk space, or hardware issues. Multiple machines had this file replaced across repeated tickets without any follow-up on why it keeps corrupting. Treating the symptom without understanding the cause means the machine will fail again.</div>
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <!-- GP SECTION -->
+  <div class="section-label">Group Policy Errors — 244 tickets over 7 months</div>
+
+  <p class="body-text">Group Policy failures on endpoints are almost never caused by the endpoint itself. When a workstation cannot receive or apply Group Policy, it is typically because something upstream — DNS resolution, domain controller replication, secure channel trust, or Sysvol file availability — has broken. The resolution breakdown below reflects this: the majority of real fixes involved DNS configuration, domain rejoining, or secure channel repairs.</p>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-title">How Group Policy errors were resolved</div>
+      <div class="chart-wrap">
+        <canvas id="gpSolChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+      <div class="chart-title">What GP errors actually signal</div>
+      <div style="display:flex;flex-direction:column;gap:14px;padding-top:8px;">
+        <div style="border-left:3px solid var(--accent);padding-left:14px;">
+          <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">35 tickets — DNS infrastructure</div>
+          <div style="font-size:12px;color:var(--ink-soft);">GP fails because DNS cannot resolve the domain controller. This is an infrastructure issue, not an endpoint issue.</div>
+        </div>
+        <div style="border-left:3px solid var(--accent);padding-left:14px;">
+          <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">26 tickets — Domain rejoin required</div>
+          <div style="font-size:12px;color:var(--ink-soft);">The machine completely lost trust with the domain. 5 machines required this more than once in the same 7-month period.</div>
+        </div>
+        <div style="border-left:3px solid var(--amber);padding-left:14px;">
+          <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">24 tickets — Secure channel repair</div>
+          <div style="font-size:12px;color:var(--ink-soft);">Machine password between workstation and DC fell out of sync — a recurring sign of AD health instability.</div>
+        </div>
+        <div style="border-left:3px solid var(--amber);padding-left:14px;">
+          <div style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;">17 tickets — Sysvol replication</div>
+          <div style="font-size:12px;color:var(--ink-soft);">Domain controllers not replicating policy files — a DC infrastructure problem cascading to all endpoints at a location.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Technician notes — Group Policy responses</div>
+
+  <div class="note-grid">
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · DNS Fix</div>
+      <div class="note-card-text">"Checked DNS resolution to the domain controller — was failing. Fixed DNS settings, GPO authentication succeeded."</div>
+      <div class="note-card-meta">Mike · 0.39 hrs · Ticket #2327657</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Domain Rejoin</div>
+      <div class="note-card-text">"Found the workstation had lost trust with the domain. Rejoined to the domain and GPO applied cleanly."</div>
+      <div class="note-card-meta">Colin · 0.62 hrs · Ticket #2332264</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Resolved · Secure Channel</div>
+      <div class="note-card-text">"Found a stale secure channel — ran Test-ComputerSecureChannel -Repair. Resolved."</div>
+      <div class="note-card-meta">Colin · 0.46 hrs · Ticket #2306514</div>
+    </div>
+    <div class="note-card">
+      <div class="note-card-tag">Closed · Temporary Fix</div>
+      <div class="note-card-text">"Ran gpupdate /force on the affected machine, no errors this time. Authentication looks good now."</div>
+      <div class="note-card-meta">Mark · 0.18 hrs · Ticket #2336347</div>
+    </div>
+  </div>
+
+  <div class="finding concern">
+    <div class="finding-tag">Infrastructure Signal</div>
+    <div class="finding-title">Machines being rejoined to the domain more than once</div>
+    <div class="finding-body">Five machines — BXPROVIDER, NYCOSOFF02, NYHLWY06, BXCOSNS01 — required domain rejoining twice within the seven-month period. A domain rejoin is a significant corrective action that should be rare. Its recurrence on the same machines indicates an undiagnosed underlying issue: either network instability, machine account problems in Active Directory, or a domain controller that is not reliably maintaining trust relationships.</div>
+  </div>
+
+  <div class="finding observation">
+    <div class="finding-tag">Infrastructure Signal</div>
+    <div class="finding-title">DNS is causing Group Policy failures across multiple locations</div>
+    <div class="finding-body">35 Group Policy tickets traced back to DNS resolution failures — meaning workstations could not find a domain controller to authenticate against. DNS instability of this scale points to a configuration or infrastructure issue that should trigger a DNS audit. Individual per-ticket DNS fixes are not equivalent to resolving the underlying DNS architecture question.</div>
+  </div>
+
+</div>
+
+<!-- CHAPTER 3 BREAK -->
+<div class="chapter-break">
+  <div class="chapter-break-inner">
+    <div>
+      <div class="cover-label" style="margin-bottom:20px;">Chapter Three</div>
+      <div class="chapter-break-title">The Value Proposition — Where It Holds, and Where It Needs to Grow</div>
+    </div>
+    <div class="chapter-break-num">03</div>
+  </div>
+</div>
+
+<!-- CHAPTER 3 CONTENT -->
+<div class="page fade-in">
+  <div class="section-spacer"></div>
+
+  <p class="lead-text">The data does not suggest that managed services are delivering no value. It suggests the value being delivered is reactive, and that the environment would benefit from a shift toward infrastructure-level resolution.</p>
+
+  <div class="minor-spacer"></div>
+
+  <div class="finding positive">
+    <div class="finding-tag">Value Confirmed</div>
+    <div class="finding-title">Real technical work is being performed and documented</div>
+    <div class="finding-body">Named technicians are logging specific actions, referencing diagnostic tools (PerfMon, Resource Monitor, gpresult, wuauclt), and documenting outcomes. The ticket notes show genuine investigation. This is substantively different from a purely automated alert-and-close operation.</div>
+  </div>
+
+  <div class="finding observation">
+    <div class="finding-tag">Area for Development</div>
+    <div class="finding-title">Root cause resolution should become a measurable outcome</div>
+    <div class="finding-body">47 machines accumulated four or more Windows Update failures over the period without a documented root cause resolution. ADDS-119NY-DC05 generated 150 alerts from one metric without a threshold adjustment or hardware recommendation. The shift being requested is from per-ticket response to outcome accountability — tracking whether recurring issues decrease over time as a result of the work being done.</div>
+  </div>
+
+  <div class="finding concern">
+    <div class="finding-tag">Clarification Needed</div>
+    <div class="finding-title">Ticket volume discrepancy between report and raw data</div>
+    <div class="finding-body">The summary report shared in April 2026 cited 838 proactive tickets. The raw ticket data contains 1,539 closed tickets across the same period — nearly double. Understanding how these numbers reconcile, and what categories of work were excluded from the summary report, would help ensure both parties are working from the same picture of the environment.</div>
+  </div>
+
+  <div class="section-spacer"></div>
+
+  <div class="section-label">Bottom Line</div>
+
+  <p class="lead-text">Where the managed services contract stands today — and what comes next.</p>
+
+  <p class="body-text">Metro Dermatology maintains an internal IT team as well as a dedicated technician sourced through the same vendor — both of whom handle daily end-user troubleshooting. As a result, the MSP's scope has effectively narrowed to proactive monitoring and remediation, and serving as an escalation point when internal resources require additional support. That is the lens through which the value of this contract should be evaluated.</p>
+
+  <p class="body-text">It is worth acknowledging that not every ticket in this dataset represents a concern. Of the 169 machines that generated tickets over the seven-month period, 35 had issues that were resolved once and never returned — a result that reflects the kind of clean, effective remediation this contract is meant to deliver. That work is recognized and appreciated.</p>
+
+  <p class="body-text">However, those 35 machines account for only 100 tickets — 6.5% of the total volume. The remaining 84% of tickets belong to patterns that repeated on the same machines, often with the same fixes applied. Across the two largest alert categories — Disk Transfers/Sec and CPU/Processor — the repeat rate was 100%. Windows Update issues recurred on 91% of affected machines. Receiving alerts and responding to them is a legitimate part of proactive monitoring — the concern is not that alerts are firing, but that the same alerts, on the same machines, keep firing month after month with the same temporary fixes applied. A proactive posture should produce a declining pattern over time as root causes are identified and eliminated. The data reviewed here does not consistently show that trend.</p>
+
+  <p class="body-text">This review is limited in scope to the managed services contract only. Other engagements with the vendor — including network and security — are independent and remain valued. The question being evaluated is whether the managed services contract, as currently delivered, justifies its cost relative to an alternative: bringing on a dedicated internal IT Operations Manager. Such a role could provide the same proactive monitoring and remediation coverage through an RMM platform, while also taking on infrastructure projects, root cause investigations, and fleet-level improvements that fall outside the boundaries of the current contract — at a comparable annual spend or less.</p>
+
+  <div class="section-spacer"></div>
+  <div style="text-align:center;font-size:12px;color:var(--ink-muted);padding-bottom:40px;letter-spacing:0.08em;">
+    METRO DERMATOLOGY · MANAGED SERVICES REVIEW · OCT 2025 – APR 2026 · JOHN KIM, CIO/CSO
+  </div>
+
+</div>
+
+<script>
+  // Chart defaults
+  Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
+  Chart.defaults.font.size = 13;
+  Chart.defaults.color = '#a09890';
+
+  const gridColor = 'rgba(232,228,222,0.07)';
+
+  // SERVER MONTH CHART
+  new Chart(document.getElementById('serverMonthChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+      datasets: [{
+        data: [20,21,25,28,21,19,16],
+        backgroundColor: '#c4421a',
+        borderRadius: 2,
+        label: 'Tickets'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#a09890' } },
+        y: { grid: { color: gridColor }, ticks: { color: '#a09890' }, beginAtZero: true }
+      }
+    }
+  });
+
+  // SERVER ACTION HORIZONTAL BAR
+  new Chart(document.getElementById('serverActionChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Expected/No Action','AV Rescheduled','Backup Timing Adjusted','Memory Monitored','Print Spooler Restart','Chatty Service Quieted','Storage Agent Reset','Other'],
+      datasets: [{
+        data: [83,15,14,12,11,8,5,2],
+        backgroundColor: ['#e06e38','#5a92c8','#d4a040','#9a9490','#5aaa72','#5a92c8','#6a6560','#5a5552'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: '#a09890' } },
+        y: { grid: { display: false }, ticks: { color: '#a09890', font: { size: 11 } } }
+      }
+    }
+  });
+
+  // WU MONTH CHART
+  new Chart(document.getElementById('wuMonthChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+      datasets: [{
+        data: [109,82,59,51,29,72,43],
+        backgroundColor: ['#4a5568','#4a5568','#4a5568','#4a5568','#4a9962','#d9622a','#4a5568'],
+        borderRadius: 2,
+        label: 'WU Failures'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        annotation: {}
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#a09890' } },
+        y: { grid: { color: gridColor }, ticks: { color: '#a09890' }, beginAtZero: true }
+      }
+    }
+  });
+
+  // WU SOLUTION HORIZONTAL BAR
+  new Chart(document.getElementById('wuSolChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Other/Unknown','Reset SoftwareDistrib.','Force-pushed via RMM','SFC/DISM Repair','Simple Retry','Disk Cleanup','Reset WU Components','Manual KB Download','Fixed DataStore.edb','Forced Detection'],
+      datasets: [{
+        data: [141,60,33,31,30,29,29,28,28,24],
+        backgroundColor: ['#4a5568','#4a82b8','#c49030','#4a82b8','#d9622a','#c49030','#4a82b8','#4a82b8','#4a82b8','#5a6070'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: '#a09890' } },
+        y: { grid: { display: false }, ticks: { color: '#a09890', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // GP SOLUTION CHART
+  new Chart(document.getElementById('gpSolChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Other/Unknown','DNS Issue Fixed','Domain Rejoin','Secure Channel','Sysvol Replication','Netlogon Service','gpupdate /force only'],
+      datasets: [{
+        data: [117,35,26,24,17,11,10],
+        backgroundColor: ['#5a6070','#e06e38','#e06e38','#d4a040','#d4a040','#7a8090','#9a9490'],
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: '#a09890' } },
+        y: { grid: { display: false }, ticks: { color: '#a09890', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // SERVER HEATMAP
+  (function() {
+    const machines = [
+      'ADDS-119NY-DC05','MET-GO-DC01','MET-ELM-DC01','MET-BX-DC01',
+      'MET-BX-DC02','MET-FRTL-DC02','MET-FLSH-DC02','MET-ELM-DC02',
+      'MET-FLSH-DC01','MET-FRTL-DC01'
+    ];
+    const categories = ['Disk Transfers/Sec','CPU/Processor','Windows Update Failed','Event Log Error','Other'];
+    const rawMatrix = {
+      'ADDS-119NY-DC05':  [148,  0, 1, 1,  0],
+      'MET-GO-DC01':      [108,  0, 2, 1,  1],
+      'MET-ELM-DC01':     [ 71, 31, 1, 0,  7],
+      'MET-BX-DC01':      [ 65, 17, 1, 2,  6],
+      'MET-BX-DC02':      [ 19, 58, 1, 0,  6],
+      'MET-FRTL-DC02':    [  5, 61, 1, 1,  8],
+      'MET-FLSH-DC02':    [ 17, 48, 1, 1,  5],
+      'MET-ELM-DC02':     [ 16, 27, 1, 0,  0],
+      'MET-FLSH-DC01':    [ 25,  2, 0, 2, 10],
+      'MET-FRTL-DC01':    [ 12,  0, 1, 0,  5],
+    };
+
+    const maxVal = 148;
+    const cellW = 110;
+    const cellH = 36;
+    const labelW = 160;
+    const headerH = 90;
+    const padding = 12;
+
+    const nRows = machines.length;
+    const nCols = categories.length;
+    const canvasW = labelW + nCols * cellW + padding * 2;
+    const canvasH = headerH + nRows * cellH + padding;
+
+    const canvas = document.getElementById('serverHeatmap');
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+    const ctx = canvas.getContext('2d');
+
+    // background
+    ctx.fillStyle = '#252220';
+    ctx.fillRect(0, 0, canvasW, canvasH);
+
+    function heatColor(val) {
+      if (val === 0) return '#2e2b28';
+      const t = Math.pow(val / maxVal, 0.55);
+      // dark neutral -> amber -> accent red
+      if (t < 0.5) {
+        const s = t * 2;
+        const r = Math.round(46 + (196 - 46) * s);
+        const g = Math.round(43 + (144 - 43) * s);
+        const b = Math.round(40 + (48 - 40) * s);
+        return `rgb(${r},${g},${b})`;
+      } else {
+        const s = (t - 0.5) * 2;
+        const r = Math.round(196 + (217 - 196) * s);
+        const g = Math.round(144 + (98 - 144) * s);
+        const b = Math.round(48 + (42 - 48) * s);
+        return `rgb(${r},${g},${b})`;
+      }
+    }
+
+    function textColorFor(val) {
+      const t = Math.pow(val / maxVal, 0.55);
+      return t > 0.3 ? 'rgba(240,236,230,0.95)' : '#9a9490';
+    }
+
+    // Draw column headers (rotated)
+    ctx.save();
+    ctx.font = '600 11px "DM Sans", system-ui, sans-serif';
+    ctx.fillStyle = '#a09890';
+    ctx.textAlign = 'left';
+    for (let c = 0; c < nCols; c++) {
+      const x = labelW + padding + c * cellW + cellW / 2;
+      const y = headerH - 8;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(-Math.PI / 4);
+      ctx.fillText(categories[c], 0, 0);
+      ctx.restore();
+    }
+    ctx.restore();
+
+    // Draw rows
+    for (let r = 0; r < nRows; r++) {
+      const machine = machines[r];
+      const y = headerH + r * cellH;
+
+      // Row label
+      ctx.font = '13px "DM Sans", monospace, system-ui';
+      ctx.fillStyle = '#ccc7bf';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(machine, labelW - 10, y + cellH / 2);
+
+      // Cells
+      for (let c = 0; c < nCols; c++) {
+        const val = rawMatrix[machine][c];
+        const x = labelW + padding + c * cellW;
+
+        // cell bg
+        ctx.fillStyle = heatColor(val);
+        ctx.beginPath();
+        ctx.roundRect(x + 2, y + 2, cellW - 4, cellH - 4, 3);
+        ctx.fill();
+
+        // cell value
+        if (val > 0) {
+          ctx.font = `${val >= 100 ? '600 14px' : '500 13px'} "DM Sans", system-ui`;
+          ctx.fillStyle = textColorFor(val);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val, x + cellW / 2, y + cellH / 2);
+        }
+      }
+
+      // row total
+      const total = rawMatrix[machine].reduce((a, b) => a + b, 0);
+      ctx.font = '500 12px "DM Sans", system-ui';
+      ctx.fillStyle = '#a09890';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${total}`, labelW + padding + nCols * cellW + 8, y + cellH / 2);
+    }
+
+    // Column totals row
+    const totY = headerH + nRows * cellH;
+    ctx.font = '500 11px "DM Sans", system-ui';
+    ctx.fillStyle = '#a09890';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Total →', labelW - 10, totY + cellH / 2);
+    for (let c = 0; c < nCols; c++) {
+      const colTotal = machines.reduce((sum, m) => sum + rawMatrix[m][c], 0);
+      const x = labelW + padding + c * cellW;
+      ctx.fillStyle = '#ccc7bf';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '600 12px "DM Sans", system-ui';
+      ctx.fillText(colTotal, x + cellW / 2, totY + cellH / 2);
+    }
+  })();
+
+  // INTERSECTION OBSERVER FOR FADE-IN
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
