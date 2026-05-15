@@ -1,0 +1,3051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Receptionist Financial Analysis v2 — Scenarios A & B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0c;
+    --paper: #f4ede0;
+    --paper-light: #faf6ec;
+    --rule: #1a1a18;
+    --accent: #c8401f;
+    --accent-deep: #8a2a13;
+    --moss: #4a5d3a;
+    --moss-deep: #2f3f25;
+    --gold: #b8862a;
+    --muted: #6b6357;
+    --hairline: rgba(13,13,12,0.12);
+    --hairline-strong: rgba(13,13,12,0.28);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(184,134,42,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(200,64,31,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HEADER */
+  header {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 50px;
+  }
+
+  .meta-row .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 8px;
+    transform: translateY(-1px);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(44px, 6.5vw, 88px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+
+  h1 .italic {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--muted);
+    max-width: 760px;
+  }
+
+  /* TOC */
+  .toc {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .toc a {
+    color: var(--muted);
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .toc a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    max-width: 920px;
+  }
+
+  h2 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+
+  .data-source-note {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    line-height: 1.55;
+    color: var(--muted);
+    display: inline-block;
+    border-left: 2px solid var(--gold);
+    padding-left: 12px;
+    margin-top: 4px;
+  }
+
+  .data-source-note em {
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /* REFERENCE BLOCK (historical data) */
+  .reference-block {
+    margin: 40px 0;
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    padding: 28px 32px;
+    position: relative;
+  }
+
+  .reference-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--moss);
+  }
+
+  .ref-header {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .ref-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .ref-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    margin-bottom: 20px;
+  }
+
+  .ref-cell {
+    padding-left: 14px;
+    border-left: 1px solid var(--hairline-strong);
+  }
+
+  .ref-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .ref-val {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .ref-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .ref-footnote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .ref-footnote strong {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  @media (max-width: 700px) {
+    .ref-grid { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+  }
+
+  @media (max-width: 460px) {
+    .ref-grid { grid-template-columns: 1fr; }
+  }
+
+  .inline-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    font-weight: 500;
+  }
+
+  .inline-link:hover {
+    color: var(--accent-deep);
+    border-color: var(--accent-deep);
+  }
+
+  p { margin-bottom: 18px; max-width: 760px; }
+
+  /* CALLS-PER-HOUR HERO */
+  .cph-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 40px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .cph-hero > div {
+    padding: 48px 36px;
+  }
+
+  .cph-hero .left {
+    border-right: 1px solid var(--hairline-strong);
+  }
+
+  .cph-hero .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .cph-hero .formula {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .cph-hero .formula span {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .cph-hero .equals {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    margin: 0 8px;
+  }
+
+  .cph-hero .big {
+    font-family: 'Fraunces', serif;
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .cph-hero .unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .cph-hero .right .big {
+    color: var(--accent);
+  }
+
+  /* KPI BAR — cost per call */
+  .kpi-intro {
+    margin-top: 56px;
+    margin-bottom: 20px;
+    padding-top: 32px;
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .kpi-intro-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .kpi-intro-title {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  .kpi-intro-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* FORMULA BLOCK */
+  .formula-block {
+    margin: 20px 0 0;
+    padding: 28px 32px;
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    border-bottom: none;
+  }
+
+  .formula-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .formula-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex-shrink: 0;
+    min-width: 110px;
+  }
+
+  .formula-math {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    line-height: 1.4;
+  }
+
+  .fm-term {
+    font-weight: 500;
+  }
+
+  .fm-eq {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .fm-or {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 4px;
+  }
+
+  .fm-frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .fm-num, .fm-denom {
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+
+  .fm-bar {
+    width: 100%;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .fm-frac-inline {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .fm-note {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .formula-examples {
+    margin: 18px 0;
+    padding: 16px 18px;
+    background: var(--paper);
+    border-left: 3px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fx-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .fx-tag {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+
+  .fx-row.hva .fx-tag { color: var(--gold); }
+  .fx-row.onsite .fx-tag { color: var(--accent); }
+
+  .fx-eq {
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .fx-result {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .formula-ai {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 700px) {
+    .formula-block { padding: 22px 20px; }
+    .formula-row { gap: 8px; flex-direction: column; align-items: flex-start; }
+    .formula-math { font-size: 15px; }
+    .fx-row { font-size: 12px; }
+  }
+
+  .kpi-bar {
+    margin: 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper-light);
+  }
+
+  .kpi-bar-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .kpi-cell {
+    padding: 36px 28px;
+    border-right: 1px solid var(--hairline-strong);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .kpi-cell:last-child { border-right: none; }
+
+  .kpi-cell .who {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .kpi-cell .who::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .kpi-cell.hva .who::before { background: var(--gold); }
+  .kpi-cell.ai .who::before { background: var(--ink); }
+  .kpi-cell.onsite .who::before { background: var(--accent); }
+
+  .kpi-cell .price {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .kpi-cell .price .currency {
+    font-size: 28px;
+    color: var(--muted);
+    font-weight: 400;
+    vertical-align: top;
+    margin-right: 2px;
+  }
+
+  .kpi-cell .footnote {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-family: 'Inter Tight', sans-serif;
+    font-style: italic;
+  }
+
+  .kpi-cell.cheapest::after {
+    content: 'CHEAPEST';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--moss);
+    color: var(--paper);
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  .kpi-cell.priciest::after {
+    content: 'PRICIEST';
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+
+  @media (max-width: 600px) {
+    .kpi-bar-inner { grid-template-columns: 1fr; }
+    .kpi-cell { border-right: none; border-bottom: 1px solid var(--hairline-strong); }
+    .kpi-cell:last-child { border-bottom: none; }
+    .kpi-intro-title { font-size: 24px; }
+  }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    margin: 32px 0;
+  }
+
+  .stat {
+    padding: 28px 22px;
+    border-right: 1px solid var(--hairline-strong);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value .small {
+    font-size: 20px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* PARAM CALLOUT (in-body) */
+  .param-callout {
+    margin: 32px 0;
+    border: 1px solid var(--ink);
+    background: var(--paper-light);
+    padding: 32px 36px;
+    position: relative;
+  }
+
+  .param-callout-body {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .param-callout-icon {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--ink);
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .param-callout-icon span {
+    width: 24px;
+    height: 1.5px;
+    background: var(--ink);
+    display: block;
+    position: relative;
+  }
+
+  .param-callout-icon span::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    top: -3.5px;
+  }
+
+  .param-callout-icon span:nth-child(1)::after { left: 14px; }
+  .param-callout-icon span:nth-child(2)::after { left: 4px; background: var(--gold); }
+
+  .param-callout-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .param-callout-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .param-callout-cta {
+    margin-left: auto;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 14px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .param-callout-cta:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .param-callout-cta .arrow {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--gold);
+  }
+
+  @media (max-width: 700px) {
+    .param-callout-body { flex-direction: column; align-items: flex-start; }
+    .param-callout-cta { margin-left: 0; width: 100%; justify-content: center; }
+  }
+
+  /* CONTROLS — FLOATING DOCK */
+  .controls-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 20px;
+    border: 1px solid var(--gold);
+    cursor: pointer;
+    z-index: 100;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(13,13,12,0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .controls-fab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(13,13,12,0.35);
+  }
+
+  .controls-fab .icon {
+    width: 14px; height: 14px;
+    display: inline-block;
+    position: relative;
+  }
+
+  .controls-fab .icon::before,
+  .controls-fab .icon::after {
+    content: '';
+    position: absolute;
+    background: var(--gold);
+  }
+
+  .controls-fab .icon::before {
+    width: 14px; height: 2px;
+    top: 3px; left: 0;
+  }
+
+  .controls-fab .icon::after {
+    width: 14px; height: 2px;
+    top: 9px; left: 0;
+  }
+
+  .controls-fab.is-open { display: none; }
+
+  .controls-dock {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 420px;
+    max-width: calc(100vw - 48px);
+    max-height: calc(100vh - 48px);
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--gold);
+    z-index: 100;
+    box-shadow: 0 20px 60px rgba(13,13,12,0.4);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: dockIn 0.22s ease-out;
+  }
+
+  .controls-dock.is-open { display: flex; }
+
+  @keyframes dockIn {
+    from { opacity: 0; transform: scale(0.92) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .dock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(244,237,224,0.15);
+  }
+
+  .dock-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .dock-close {
+    background: transparent;
+    border: 1px solid rgba(244,237,224,0.3);
+    color: var(--paper);
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1;
+    transition: all 0.15s;
+  }
+
+  .dock-close:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .dock-body {
+    padding: 22px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .dock-body .control-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 20px;
+  }
+
+  .dock-body .control-value {
+    font-size: 22px;
+  }
+
+  .dock-footer {
+    padding: 12px 22px;
+    border-top: 1px solid rgba(244,237,224,0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244,237,224,0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dock-reset {
+    background: transparent;
+    border: 1px solid rgba(244,237,224,0.25);
+    color: var(--paper);
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .dock-reset:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  @media (max-width: 600px) {
+    .controls-dock {
+      width: calc(100vw - 24px);
+      right: 12px;
+      bottom: 12px;
+    }
+    .controls-fab {
+      right: 12px;
+      bottom: 12px;
+    }
+    .dock-body .control-grid { grid-template-columns: 1fr; }
+  }
+
+  /* CONTROLS (inline section retained but hidden in favor of dock) */
+  .controls {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .controls::before {
+    content: 'PARAMETERS';
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .controls-header {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--paper);
+    margin-bottom: 28px;
+    opacity: 0.7;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 32px;
+  }
+
+  .control { display: flex; flex-direction: column; }
+
+  .control-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.65;
+    margin-bottom: 10px;
+  }
+
+  .control-value-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .control-value {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--paper);
+    line-height: 1;
+  }
+
+  .control-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .control input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: rgba(244,237,224,0.2);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--ink);
+  }
+
+  .control input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--ink);
+  }
+
+  /* REDUCTION DISPLAY (in body) */
+  .reduction-display {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 36px;
+    margin: 40px 0 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .reduction-display::before {
+    content: 'CURRENT PLAN';
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  .rd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    flex: 1;
+  }
+
+  .rd-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rd-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(244,237,224,0.6);
+    margin-bottom: 10px;
+  }
+
+  .rd-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .rd-value {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--paper);
+  }
+
+  .rd-value .rd-unit {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(244,237,224,0.5);
+    font-style: italic;
+    margin-left: 4px;
+  }
+
+  .rd-cost {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .rd-cta {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--gold);
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .rd-cta:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .rd-cta .arrow {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+  }
+
+  .rc-hint {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+
+  /* Dock section divider */
+  .dock-section-divider {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(244,237,224,0.12);
+  }
+
+  .control-full {
+    grid-column: 1 / -1;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(244,237,224,0.08);
+  }
+
+  .control-full .control-value {
+    font-size: 32px;
+  }
+
+  .dock-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+
+  @media (max-width: 700px) {
+    .reduction-display { flex-direction: column; align-items: stretch; }
+    .rd-cta { width: 100%; justify-content: center; }
+  }
+
+  /* COVERAGE CHECK */
+  .coverage {
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    padding: 32px 36px;
+    margin: 32px 0;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .coverage.under-staffed {
+    border-color: var(--accent);
+    background: rgba(200,64,31,0.04);
+  }
+
+  .coverage.balanced {
+    border-color: var(--moss);
+    background: rgba(74,93,58,0.04);
+  }
+
+  .cov-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .coverage.under-staffed .cov-tag { color: var(--accent); }
+  .coverage.balanced .cov-tag { color: var(--moss); }
+
+  .cov-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .cov-cell {
+    padding-left: 14px;
+    border-left: 2px solid var(--hairline-strong);
+  }
+
+  #covGapCell {
+    border-left-color: var(--accent);
+  }
+
+  .coverage.balanced #covGapCell {
+    border-left-color: var(--moss);
+  }
+
+  .cov-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .cov-val {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .cov-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .cov-message {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  /* RESULT CARD */
+  .result-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px;
+    margin: 32px 0;
+    position: relative;
+  }
+
+  .result-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+
+  .result-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(244,237,224,0.12);
+  }
+
+  .result-row .rl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(244,237,224,0.65);
+  }
+
+  .result-row .rv {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .result-row .rv.positive { color: var(--moss); }
+  .result-row .rv.negative { color: var(--accent); }
+
+  .result-row.total {
+    border-bottom: none;
+    padding-top: 18px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(244,237,224,0.3);
+  }
+
+  .result-row.total .rl {
+    color: var(--paper);
+    font-weight: 700;
+  }
+
+  .result-row.total .rv {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .result-row.total .rv.bad {
+    color: var(--accent);
+  }
+
+  /* WHO GETS CUT */
+  .who-cut {
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    padding: 28px 32px;
+    margin: 16px 0 32px;
+  }
+
+  .who-cut-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--hairline);
+    flex-wrap: wrap;
+  }
+
+  .who-cut-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .who-cut-summary {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .who-cut-summary span:not([id]) {
+    color: var(--ink);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  #whoCutTotal, #whoCutTotalCost {
+    color: var(--ink);
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .who-cut-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .who-cut-col-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--ink);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .wcc-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin-left: 6px;
+  }
+
+  .who-cut-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 12px;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--hairline);
+  }
+
+  .who-cut-item:last-child { border-bottom: none; }
+
+  .who-cut-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .who-cut-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .who-cut-meta .wcm-hrs {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .who-cut-meta .wcm-cost {
+    color: var(--ink);
+    font-weight: 600;
+    display: inline-block;
+    margin-left: 4px;
+  }
+
+  .who-cut-empty {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 12px 0;
+  }
+
+  @media (max-width: 900px) {
+    .rc-grid { grid-template-columns: 1fr; gap: 28px; }
+    .cov-grid { grid-template-columns: 1fr; gap: 16px; }
+    .who-cut-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* CHART */
+  .chart-wrap {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+  }
+
+  .chart-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .chart-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  /* RED SHADE EXPLAINER */
+  .redshade-explainer {
+    margin: 32px 0;
+    padding: 28px 32px;
+    background: rgba(200,64,31,0.04);
+    border-left: 3px solid var(--accent);
+  }
+
+  .rs-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .rs-body p {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: none;
+  }
+
+  .rs-body strong { font-weight: 700; }
+
+  .rs-formula {
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    padding: 18px 22px;
+    margin: 18px 0;
+  }
+
+  .rs-line {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 6px 0;
+    flex-wrap: wrap;
+  }
+
+  .rs-line + .rs-line {
+    border-top: 1px dashed var(--hairline);
+    padding-top: 12px;
+    margin-top: 6px;
+  }
+
+  .rs-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-width: 170px;
+    flex-shrink: 0;
+  }
+
+  .rs-math {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .rs-math em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .rs-example {
+    font-style: italic;
+    color: var(--muted) !important;
+    font-size: 14px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .rs-example strong {
+    color: var(--ink);
+    font-style: normal;
+  }
+
+  @media (max-width: 700px) {
+    .rs-line { flex-direction: column; gap: 4px; }
+    .rs-step { min-width: 0; }
+  }
+
+  /* HEADLINES */
+  .savings-headline {
+    background: var(--accent);
+    color: var(--paper);
+    padding: 48px 40px;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .savings-headline::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--accent-deep), transparent 70%);
+    opacity: 0.6;
+  }
+
+  .savings-headline.moss { background: var(--moss); }
+  .savings-headline.moss::before {
+    background: radial-gradient(circle, var(--moss-deep), transparent 70%);
+  }
+
+  .savings-headline .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: rgba(244,237,224,0.7);
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .savings-headline .big-number {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(56px, 9vw, 112px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .savings-headline .desc {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    max-width: 640px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  /* MISSED CALL CARDS */
+  .missed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+  }
+
+  .m-card {
+    border: 1px solid var(--hairline-strong);
+    padding: 24px;
+    background: var(--paper-light);
+  }
+
+  .m-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .m-card .val {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .m-card .val.moss { color: var(--moss); }
+  .m-card .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* NOTES */
+  .notes {
+    background: var(--paper-light);
+    border-left: 3px solid var(--gold);
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .notes h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: var(--accent-deep);
+  }
+
+  .notes ul { list-style: none; padding: 0; }
+
+  .notes li {
+    font-size: 14px;
+    line-height: 1.55;
+    padding: 6px 0 6px 22px;
+    position: relative;
+    color: var(--ink);
+  }
+
+  .notes li::before {
+    content: '§';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+    font-family: 'Fraunces', serif;
+  }
+
+  /* TOTAL VALUE BOX */
+  .total-value {
+    background: var(--moss);
+    color: var(--paper);
+    padding: 56px 48px;
+    margin: 48px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .total-value::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent, rgba(0,0,0,0.2));
+  }
+
+  .total-value > * { position: relative; }
+
+  .total-value .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: rgba(244,237,224,0.7);
+    margin-bottom: 18px;
+  }
+
+  .total-value .big {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(72px, 12vw, 144px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+
+  .total-value .breakdown {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(244,237,224,0.85);
+    line-height: 1.5;
+  }
+
+  .total-value .breakdown strong { color: var(--gold); font-style: normal; font-weight: 700; }
+
+  /* DATA TABLE */
+  .table-wrap {
+    margin: 32px 0;
+    overflow-x: auto;
+    border: 1px solid var(--hairline-strong);
+    background: var(--paper-light);
+  }
+
+  table.detail {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 880px;
+  }
+
+  table.detail th,
+  table.detail td {
+    text-align: left;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  table.detail thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink);
+    font-weight: 500;
+    background: rgba(13,13,12,0.03);
+    position: sticky;
+    top: 0;
+  }
+
+  table.detail td.num {
+    font-family: 'JetBrains Mono', monospace;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  table.detail th.num { text-align: right; }
+
+  table.detail td.name {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  table.detail tbody tr:hover td {
+    background: rgba(184,134,42,0.06);
+  }
+
+  table.detail tfoot td {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 15px;
+    border-top: 2px solid var(--ink);
+    border-bottom: none;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: rgba(13,13,12,0.04);
+  }
+
+  table.detail tfoot td.num {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .pill.onsite { background: rgba(200,64,31,0.12); color: var(--accent-deep); }
+  .pill.hva { background: rgba(184,134,42,0.18); color: #6b5018; }
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-row .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 6px;
+  }
+
+  .filter-btn {
+    background: var(--paper-light);
+    border: 1px solid var(--hairline-strong);
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover { background: var(--paper); border-color: var(--ink); }
+
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  footer {
+    padding: 60px 0 140px;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  footer .rule {
+    width: 60px; height: 1px;
+    background: var(--ink);
+    margin: 0 auto 24px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--hairline-strong); }
+    .control-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .cph-hero { grid-template-columns: 1fr; }
+    .cph-hero .left { border-right: none; border-bottom: 1px solid var(--hairline-strong); }
+    .scenarios { grid-template-columns: 1fr; }
+    .missed-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--hairline-strong); }
+    .stat:last-child { border-bottom: none; }
+    .control-grid { grid-template-columns: 1fr; }
+    header { padding: 50px 0 40px; }
+    section { padding: 50px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="meta-row">
+      <span>Financial Study v2 <span class="dot"></span> Confidential</span>
+      <span id="datestamp"></span>
+    </div>
+    <h1>The cost of <span class="italic">hello,</span><br>and what AI changes.</h1>
+    <p class="subtitle">EliseAI claims it can reduce 50% of call volume handling. This model lets you choose how many HVAs and onsite PSAs to let go, checks coverage feasibility, and shows the real financial picture — with every assumption adjustable.</p>
+    <div class="toc">
+      <a href="#params">01 Parameters</a>
+      <a href="#cph">02 Calls per hour</a>
+      <a href="#scenarios">03 Staff reductions</a>
+      <a href="#missed">04 Missed-call revenue</a>
+      <a href="#total">05 Total value</a>
+      <a href="#detail">06 Source data</a>
+    </div>
+  </header>
+
+  <!-- SECTION 1: PARAMETERS (explainer — actual controls in floating dock) -->
+  <section id="params">
+    <div class="section-label">01 / Assumptions</div>
+    <h2>Every number is <em>adjustable.</em></h2>
+    <p class="lede">The parameters panel floats in the bottom-right corner of the page — tap it any time to stress-test the model. Changes recalculate every figure on the page in real time, including the productivity benchmark below.</p>
+
+    <div class="param-callout">
+      <div class="param-callout-body">
+        <div class="param-callout-icon">
+          <span></span><span></span>
+        </div>
+        <div>
+          <div class="param-callout-title">10 adjustable parameters</div>
+          <div class="param-callout-sub">Onsite & HVA rates · Office-hour calls · EliseAI price · AI capture · <strong>HVA cuts</strong> · <strong>Onsite cuts</strong> · Missed-call rate · Visit conversion · Revenue per visit</div>
+        </div>
+        <button class="param-callout-cta" id="openDockFromBody">
+          Open Parameters
+          <span class="arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: CALLS PER HOUR -->
+  <section id="cph">
+    <div class="section-label">02 / The Productivity Anchor</div>
+    <h2>Everything starts with <em>calls per operator-hour.</em></h2>
+    <p class="lede">The current PSA team handles <strong><span id="cphCallsLede">216,000</span> office-hour calls per year</strong> (main number only) across <strong>~20,800 operator-hours</strong>. That productivity rate is what determines how many hours AI actually frees up.<br><br><span class="data-source-note">Call volume is driven by the <em>Office-hour calls / month</em> parameter — adjust it in the panel and every number below updates. Operator hours are self-reported by each PSA in the Roles &amp; Responsibilities sheet — see <a href="#detail" class="inline-link">Section 06</a> for the per-person breakdown.</span></p>
+
+    <div class="cph-hero">
+      <div class="left">
+        <div class="tag">The Calculation</div>
+        <div class="formula">
+          <span id="cphCalls">216,000</span> calls per year<br>
+          <span class="equals">÷</span> <span id="cphHours">20,777</span> operator-hours per year
+        </div>
+        <div class="big" id="cphValue">10.40</div>
+        <div class="unit">CALLS / OPERATOR-HOUR</div>
+      </div>
+      <div class="right">
+        <div class="tag">Translates to</div>
+        <div class="formula" style="margin-bottom:34px;">
+          Average handling time<br>per call, including wrap-up
+        </div>
+        <div class="big"><span id="cphMin">5.8</span><span style="font-size:40px;color:var(--muted);font-weight:400;"> min</span></div>
+        <div class="unit">WITHIN INDUSTRY BENCHMARK (4–7 MIN)</div>
+      </div>
+    </div>
+
+    <p>This is the lever. If AI removes <span id="cphCapPct">50</span>% of <em>call volume</em>, it frees ~<span id="cphCapPct2">50</span>% of operator-hours — about <strong id="freedHrs">10,388 hours/year</strong>, or <strong id="freedFte">5.0 FTE equivalent</strong>. Where those hours come from is the question.</p>
+
+    <div class="reference-block">
+      <div class="ref-header">
+        <div class="ref-tag">REFERENCE · 2025 ACTUAL</div>
+        <div class="ref-title">Last year's call data, for context</div>
+      </div>
+      <div class="ref-grid">
+        <div class="ref-cell">
+          <div class="ref-label">Avg inbound / month</div>
+          <div class="ref-val">17,276</div>
+          <div class="ref-sub">incl. missed &amp; voicemail</div>
+        </div>
+        <div class="ref-cell">
+          <div class="ref-label">Total inbound 2025</div>
+          <div class="ref-val">207,317</div>
+          <div class="ref-sub">main number, office hrs</div>
+        </div>
+        <div class="ref-cell">
+          <div class="ref-label">Actual missed rate</div>
+          <div class="ref-val">2.96%</div>
+          <div class="ref-sub">6,146 missed + VM</div>
+        </div>
+        <div class="ref-cell">
+          <div class="ref-label">Monthly range</div>
+          <div class="ref-val">14.9k–19.5k</div>
+          <div class="ref-sub">Feb low, July peak</div>
+        </div>
+      </div>
+      <div class="ref-footnote">
+        The model defaults to <strong>18,000 calls/month</strong> and <strong>4% missed</strong> as conservative round numbers slightly above 2025 actuals — leaving room for 2026 growth. May 2025 was an 8.1% missed-rate outlier worth investigating separately.
+      </div>
+    </div>
+
+    <div class="kpi-intro">
+      <div class="kpi-intro-label">— What that productivity rate translates to per call —</div>
+      <h3 class="kpi-intro-title">Cost per call, by <em>who answers it.</em></h3>
+    </div>
+
+    <div class="formula-block">
+      <div class="formula-row">
+        <div class="formula-label">For humans</div>
+        <div class="formula-math">
+          <span class="fm-term">Cost per call</span>
+          <span class="fm-eq">=</span>
+          <span class="fm-frac">
+            <span class="fm-num">Hourly rate</span>
+            <span class="fm-bar"></span>
+            <span class="fm-denom">Calls per operator-hour</span>
+          </span>
+          <span class="fm-or">or, equivalently</span>
+          <span class="fm-term">Hourly rate × <span class="fm-frac-inline">Min per call ÷ 60</span></span>
+        </div>
+      </div>
+
+      <div class="formula-examples">
+        <div class="fx-row hva">
+          <span class="fx-tag">HVA</span>
+          <span class="fx-eq">$<span id="fxHvaRate">9.50</span>/hr ÷ <span id="fxCallsPerHr1">10.40</span> calls/hr</span>
+          <span class="fx-result">= $<span id="fxHvaResult">0.91</span> / call</span>
+        </div>
+        <div class="fx-row onsite">
+          <span class="fx-tag">Onsite PSA</span>
+          <span class="fx-eq">$<span id="fxOnsiteRate">24.00</span>/hr ÷ <span id="fxCallsPerHr2">10.40</span> calls/hr</span>
+          <span class="fx-result">= $<span id="fxOnsiteResult">2.31</span> / call</span>
+        </div>
+      </div>
+
+      <div class="formula-row formula-ai">
+        <div class="formula-label">For EliseAI</div>
+        <div class="formula-math">
+          <span class="fm-term">Cost per call = <strong>vendor's per-resolved-call price</strong></span>
+          <span class="fm-note">(direct pricing — no derivation; charged only when AI resolves the call without human handoff)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-bar">
+      <div class="kpi-bar-inner">
+        <div class="kpi-cell hva cheapest">
+          <div class="who">HVA (Philippines)</div>
+          <div class="price"><span class="currency">$</span><span id="kpiHvaCall">0.91</span></div>
+          <div class="footnote" id="kpiHvaFoot">@ $9.50/hr × 5.8 min/call</div>
+        </div>
+        <div class="kpi-cell ai">
+          <div class="who">EliseAI · per resolved</div>
+          <div class="price"><span class="currency">$</span><span id="kpiAiCall">1.15</span></div>
+          <div class="footnote">Vendor pricing, only if call resolves</div>
+        </div>
+        <div class="kpi-cell onsite priciest">
+          <div class="who">Onsite PSA</div>
+          <div class="price"><span class="currency">$</span><span id="kpiOnsiteCall">2.31</span></div>
+          <div class="footnote" id="kpiOnsiteFoot">@ $24/hr × 5.8 min/call</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: STAFF REDUCTION PLAN -->
+  <section id="scenarios">
+    <div class="section-label">03 / Your Staff Reduction Plan</div>
+    <h2>People come in <em>whole units.</em></h2>
+    <p class="lede">AI frees fractional FTEs, but you let go of whole people. Choose how many HVAs and onsite PSAs to let go — the model shows actual labor savings, checks coverage feasibility, and flags stranded capacity.</p>
+
+    <div class="reduction-display">
+      <div class="rd-grid">
+        <div class="rd-block hva">
+          <div class="rd-label">HVAs to let go</div>
+          <div class="rd-row">
+            <div class="rd-value"><span id="hvaCutV">0</span> <span class="rd-unit">of 4</span></div>
+            <div class="rd-cost">↓ −$<span id="hvaCutCost">0</span>/yr</div>
+          </div>
+        </div>
+        <div class="rd-block onsite">
+          <div class="rd-label">Onsite PSAs to let go</div>
+          <div class="rd-row">
+            <div class="rd-value"><span id="onsiteCutV">0</span> <span class="rd-unit">of 25</span></div>
+            <div class="rd-cost">↓ −$<span id="onsiteCutCost">0</span>/yr</div>
+          </div>
+        </div>
+      </div>
+      <button class="rd-cta" id="openDockFromSection3">
+        Adjust in Parameters
+        <span class="arrow">→</span>
+      </button>
+    </div>
+    <div class="rc-hint">Tip: Staff are ordered by operator allocation, so cuts apply to highest-operator-share employees first — the people whose work AI most directly replaces.</div>
+
+    <!-- WHO GETS LET GO -->
+    <div class="who-cut" id="whoCutBlock">
+      <div class="who-cut-header">
+        <span class="who-cut-eyebrow">PEOPLE LET GO AT CURRENT SETTINGS</span>
+        <span class="who-cut-summary"><span id="whoCutTotal">0</span> people · <span id="whoCutTotalCost">$0</span>/yr saved</span>
+      </div>
+      <div class="who-cut-grid">
+        <div class="who-cut-col">
+          <div class="who-cut-col-title">
+            HVAs <span class="wcc-count">(<span id="whoCutHvaCount">0</span> of 4)</span>
+          </div>
+          <div id="whoCutHvaList"></div>
+        </div>
+        <div class="who-cut-col">
+          <div class="who-cut-col-title">
+            Onsite PSAs <span class="wcc-count">(<span id="whoCutOnsiteCount">0</span> of 25)</span>
+          </div>
+          <div id="whoCutOnsiteList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COVERAGE CHECK -->
+    <div class="coverage" id="coverageBlock">
+      <div class="cov-tag" id="covTag">COVERAGE CHECK</div>
+      <div class="cov-grid">
+        <div class="cov-cell">
+          <div class="cov-label">Hours AI frees</div>
+          <div class="cov-val" id="covFreed">10,388</div>
+          <div class="cov-sub">at <span id="covCapPct">50</span>% capture</div>
+        </div>
+        <div class="cov-cell">
+          <div class="cov-label">Hours removed by cuts</div>
+          <div class="cov-val" id="covRemoved">0</div>
+          <div class="cov-sub" id="covRemovedSub">0 HVA + 0 onsite operator hours</div>
+        </div>
+        <div class="cov-cell" id="covGapCell">
+          <div class="cov-label">Stranded capacity</div>
+          <div class="cov-val" id="covGap">10,388</div>
+          <div class="cov-sub" id="covGapSub">freed hours not absorbed by cuts</div>
+        </div>
+      </div>
+      <div class="cov-message" id="covMessage">
+        Cuts cover <strong>0%</strong> of freed hours — significant stranded capacity. Consider increasing cuts or accepting that AI investment is partly funding excess capacity.
+      </div>
+    </div>
+
+    <!-- FINANCIAL RESULT -->
+    <div class="result-card">
+      <div class="result-tag">FINANCIAL RESULT</div>
+      <div class="result-grid">
+        <div class="result-row labor"><span class="rl">Labor savings (whole-person)</span><span class="rv positive">+$<span id="laborSav">0</span></span></div>
+        <div class="result-row ai"><span class="rl">EliseAI subscription</span><span class="rv negative">−$<span id="aiCostSection3">131,100</span></span></div>
+        <div class="result-row total"><span class="rl">NET ANNUAL SAVINGS</span><span class="rv" id="netResult">−$131,100</span></div>
+      </div>
+    </div>
+
+    <!-- STEP FUNCTION CHART -->
+    <div class="chart-wrap">
+      <div class="chart-title">The step function — savings jump only when whole people are cut</div>
+      <div class="chart-sub">Each step is a person let go. Flat regions = stranded capacity. Red shading = under-staffed.</div>
+      <svg id="stepChart" viewBox="0 0 1100 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
+    </div>
+
+    <div class="redshade-explainer">
+      <div class="rs-tag">UNDERSTANDING THE RED SHADED AREA</div>
+      <div class="rs-body">
+        <p>The red zone marks where <strong>cumulative operator-hours removed by cuts</strong> exceeds <strong>operator-hours freed by AI</strong>. Past that boundary, the practice can't deliver the call volume with remaining staff.</p>
+        <div class="rs-formula">
+          <div class="rs-line">
+            <span class="rs-step">For each person cut, in order:</span>
+            <span class="rs-math">cumulative hours removed += person's <em>operator</em> hours/year</span>
+          </div>
+          <div class="rs-line">
+            <span class="rs-step">The threshold:</span>
+            <span class="rs-math">red shading begins where <strong>cumulative hours removed &gt; freed hours</strong></span>
+          </div>
+        </div>
+        <p class="rs-example">
+          <strong>Example at current settings:</strong> AI frees <span id="rsFreed">10,388</span> hours/yr. Each path crosses into the red zone at a different point because HVAs and onsite PSAs contribute different operator-hour amounts when cut. Two paths are shown so you can see how the order of cuts affects when you hit the wall.
+        </p>
+      </div>
+    </div>
+
+    <div class="notes">
+      <h4>How this model works</h4>
+      <ul>
+        <li><strong>Whole-person savings.</strong> Each cut saves the departing person's full annual wages (total hours × hourly rate × 52). Their full role goes away, not just the operator portion.</li>
+        <li><strong>Cut order.</strong> Highest operator-allocation employees first — the people whose work AI most directly replaces. See <a href="#detail" class="inline-link">Section 06</a> for the per-person breakdown that drives the cut order.</li>
+        <li><strong>Stranded capacity.</strong> When AI frees more hours than your cuts remove, the unused freed time becomes idle slack with no savings credit. This is honest accounting — you only save what you actually stop spending.</li>
+        <li><strong>Non-operator work.</strong> Letting go of someone with 50% operator allocation also eliminates their 50% non-operator work (front desk, supplies, etc.). The model assumes this gets absorbed by remaining team — review feasibility per location.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 4: MISSED CALL REVENUE -->
+  <section id="missed">
+    <div class="section-label">04 / The Revenue Upside</div>
+    <h2>Missed calls are <em>the silent revenue leak.</em></h2>
+    <p class="lede">At 3–5% missed-call rate during office hours, the practice loses ~760–950 inbound calls per month that EliseAI could potentially capture. Most are existing patients trying to book appointments. Off-hours calls are excluded from this analysis to keep the math conservative.</p>
+
+    <div class="missed-grid">
+      <div class="m-card">
+        <div class="label">Total missed calls / year</div>
+        <div class="val" id="missedCalls">9,120</div>
+        <div class="sub" id="missedSub">at 4% of 228,000 office calls</div>
+      </div>
+      <div class="m-card">
+        <div class="label">Visits recovered with AI</div>
+        <div class="val moss" id="recoveredVisits">3,648</div>
+        <div class="sub" id="recoveredSub">40% of recovered calls convert</div>
+      </div>
+      <div class="m-card">
+        <div class="label">Recovered revenue / year</div>
+        <div class="val moss" id="recoveredRev">$437,760</div>
+        <div class="sub" id="recoveredRevSub">3,648 × $120 per visit</div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <h4>Conservative assumptions explained</h4>
+      <ul>
+        <li><strong>Office-hours missed (3–5%).</strong> Your stated current performance. Industry average for medical practices is 20–38%, so the team is already strong here — meaning office-hours recovery upside is smaller than typical case studies suggest.</li>
+        <li><strong>Off-hours excluded.</strong> Calls coming in after office hours are not modeled. EliseAI's 24/7 availability could theoretically capture those too, but without phone log data on after-hours volume and intent, including them would inflate the projection. This is an upside not counted here.</li>
+        <li><strong>Conversion rate (10% default).</strong> Of calls captured by AI that would otherwise be missed, what % result in an actual booked-and-attended visit. The default is intentionally conservative: most missed calls already get returned by the team (callback workflow), so the truly "lost" calls are smaller than the raw missed rate suggests. Of those, some won't convert at all, and of those that book, ~10–20% no-show. Slide to 0% to model the case where AI captures no incremental revenue (callback team is fully effective).</li>
+        <li><strong>Revenue per visit ($120).</strong> Your stated average. Note this is per-visit, not lifetime — so the model is conservative versus practices that measure patient lifetime value.</li>
+        <li><strong>Why this number is fuzzy.</strong> Without data on new-patient call %, lifetime value, or conversion rates, the revenue figure has wider error bars than the labor numbers. Treat as an upper-bound indicator, not a forecast.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 5: TOTAL VALUE -->
+  <section id="total">
+    <div class="section-label">05 / The Combined Picture</div>
+    <h2>Total annual value: <em>labor + revenue.</em></h2>
+    <p class="lede">When you add recovered-revenue upside to the net labor savings at your current reduction settings, you get the full annual financial picture.</p>
+
+    <div class="total-value" id="totalValueBox">
+      <div class="tag" id="totalTag">TOTAL ANNUAL VALUE — AT CURRENT SETTINGS</div>
+      <div class="big">$<span id="totalCombined">306,660</span></div>
+      <div class="breakdown" id="totalBreakdown">
+        <strong>$<span id="totalLabor">-131,100</span></strong> net labor &nbsp;+&nbsp; <strong>$<span id="totalRev">437,760</span></strong> recovered revenue
+      </div>
+    </div>
+
+    <div class="notes">
+      <h4>Caveats before signing anything</h4>
+      <ul>
+        <li><strong>Revenue upside is theoretical.</strong> Recovered revenue assumes AI actually captures the missed calls AND those calls convert at the assumed rate. Validate with a 90-day pilot before counting on it.</li>
+        <li><strong>Labor savings require staff action.</strong> If you don't actually let go of the people the slider says, savings = $0 and AI cost is purely additive. Pilot before promising headcount reductions.</li>
+        <li><strong>Implementation cost not modeled.</strong> Typical AI-receptionist integrations require 4–8 weeks of setup, parallel-run with humans, and ongoing tuning. Budget $20–40K Year 1 for implementation, training, and oversight.</li>
+        <li><strong>EliseAI vendor risk.</strong> Pricing is per-resolved-call which aligns incentives but exposes the practice to vendor price increases. Negotiate price-lock or cap clauses.</li>
+        <li><strong>Per-call economics.</strong> At ~11 calls/hour, a human operator costs $2.19/call (onsite) or $0.87/call (HVA). EliseAI at $1.15/call is cheaper than onsite, more expensive than HVA — which is why the staff mix decision drives the outcome.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 6: SOURCE DATA -->
+  <section id="detail">
+    <div class="section-label">06 / Source Data</div>
+    <h2>Operator allocation, <em>person by person.</em></h2>
+    <p class="lede">Every figure in this model rolls up from the table below. Hours and operator percentages are taken directly from the PSA Roles &amp; Responsibilities sheet. Costs reflect current hourly rates from the parameters panel — change the rates and these update too.</p>
+
+    <div class="filter-row">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All (29)</button>
+      <button class="filter-btn" data-filter="onsite">Onsite (25)</button>
+      <button class="filter-btn" data-filter="hva">HVA (4)</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="detail">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th class="num">Total Hrs/Wk</th>
+            <th class="num">Op. %</th>
+            <th class="num">Op. Hrs/Wk</th>
+            <th class="num">Rate</th>
+            <th class="num">Weekly Cost</th>
+            <th class="num">Annual Cost</th>
+          </tr>
+        </thead>
+        <tbody id="empTbody"></tbody>
+        <tfoot id="empTfoot"></tfoot>
+      </table>
+    </div>
+
+    <div class="notes">
+      <h4>Notes on the source data</h4>
+      <ul>
+        <li><strong>Operator-only.</strong> Only the "Operator" portion of each PSA's responsibilities is included. Front-desk duties, supplies, training, and supervisor work are excluded.</li>
+        <li><strong>Charisse Zarsuelo (HVA Leader).</strong> Only her pure "Operator" allocation (25%) is counted. Her 50% "Training in-office and virtual (operator)" was excluded per your instruction.</li>
+        <li><strong>Yeonsil Joo (HVA Supervisor).</strong> Excluded — none of her listed responsibilities are tagged Operator.</li>
+        <li><strong>HVA = Philippines.</strong> Identified by primary Location field marked "HVA" or "HVA leader". All HVAs charged at the HVA rate from parameters.</li>
+        <li><strong>Direct wages only.</strong> No benefits, payroll tax, PTO, or overhead loading. Fully-loaded onsite cost is typically 20–30% higher.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="rule"></div>
+    Prepared for internal review<br>
+    Model is illustrative — validate AI resolution rate with vendor pilot before commitment
+  </footer>
+
+</div>
+
+<!-- FLOATING PARAMETERS DOCK -->
+<button class="controls-fab" id="controlsFab" aria-label="Open parameters">
+  <span class="icon"></span>
+  <span>Parameters</span>
+</button>
+
+<div class="controls-dock" id="controlsDock" role="dialog" aria-label="Adjustable parameters">
+  <div class="dock-header">
+    <div class="dock-title">Parameters</div>
+    <button class="dock-close" id="dockClose" aria-label="Close parameters">×</button>
+  </div>
+  <div class="dock-body">
+    <div class="control-grid">
+      <div class="control control-full">
+        <div class="control-label">Average Inbound Calls per Month</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="callsV">18,000</span></span>
+          <span class="control-unit">main number, office hrs</span>
+        </div>
+        <input type="range" id="calls" min="10000" max="30000" step="500" value="18000">
+      </div>
+      <div class="control">
+        <div class="control-label">Onsite PSA Rate</div>
+        <div class="control-value-row">
+          <span class="control-value">$<span id="rateOnsiteV">24.00</span></span>
+          <span class="control-unit">/ hr</span>
+        </div>
+        <input type="range" id="rateOnsite" min="15" max="35" step="0.5" value="24">
+      </div>
+      <div class="control">
+        <div class="control-label">HVA Rate (Philippines)</div>
+        <div class="control-value-row">
+          <span class="control-value">$<span id="rateHvaV">9.50</span></span>
+          <span class="control-unit">/ hr</span>
+        </div>
+        <input type="range" id="rateHva" min="5" max="18" step="0.25" value="9.5">
+      </div>
+      <div class="control">
+        <div class="control-label">EliseAI Per Resolved Call</div>
+        <div class="control-value-row">
+          <span class="control-value">$<span id="elisePriceV">1.15</span></span>
+          <span class="control-unit">/ call</span>
+        </div>
+        <input type="range" id="elisePrice" min="0.50" max="2.50" step="0.05" value="1.15">
+      </div>
+      <div class="control">
+        <div class="control-label">AI Capture (office hrs)</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="captureV">50</span>%</span>
+          <span class="control-unit">of office calls</span>
+        </div>
+        <input type="range" id="capture" min="0" max="80" step="1" value="50">
+      </div>
+      <div class="control dock-section-divider"><div class="dock-section-label">Staff Reduction Plan</div></div>
+      <div class="control">
+        <div class="control-label">HVAs to let go</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="hvaCutDockV">0</span></span>
+          <span class="control-unit">of 4</span>
+        </div>
+        <input type="range" id="hvaCut" min="0" max="4" step="1" value="0">
+      </div>
+      <div class="control">
+        <div class="control-label">Onsite PSAs to let go</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="onsiteCutDockV">0</span></span>
+          <span class="control-unit">of 25</span>
+        </div>
+        <input type="range" id="onsiteCut" min="0" max="25" step="1" value="0">
+      </div>
+      <div class="control dock-section-divider"><div class="dock-section-label">Revenue Recovery</div></div>
+      <div class="control">
+        <div class="control-label">Missed-call rate (office hrs)</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="missedV">4</span>%</span>
+          <span class="control-unit">of office calls</span>
+        </div>
+        <input type="range" id="missedRate" min="3" max="5" step="0.1" value="4">
+      </div>
+      <div class="control">
+        <div class="control-label">Visit conversion</div>
+        <div class="control-value-row">
+          <span class="control-value"><span id="convV">10</span>%</span>
+          <span class="control-unit">of recovered → visit</span>
+        </div>
+        <input type="range" id="conv" min="0" max="70" step="1" value="10">
+      </div>
+      <div class="control">
+        <div class="control-label">Revenue per visit</div>
+        <div class="control-value-row">
+          <span class="control-value">$<span id="revVisitV">120</span></span>
+          <span class="control-unit">avg / visit</span>
+        </div>
+        <input type="range" id="revVisit" min="80" max="200" step="5" value="120">
+      </div>
+    </div>
+  </div>
+  <div class="dock-footer">
+    <span>Live · recalculates every figure</span>
+    <button class="dock-reset" id="dockReset">Reset to Defaults</button>
+  </div>
+</div>
+
+<script>
+// Source data
+const ONSITE_HRS = 308.15;
+const HVA_HRS = 91.40;
+const TOTAL_HRS = ONSITE_HRS + HVA_HRS;
+const WEEKS = 52;
+const FTE_HRS = 40 * 52; // 2080
+
+const EMPLOYEES = [
+  {name:"Raquel Rosario",location:"Remote",isHVA:false,totalHours:37.0,operatorPct:100.0,operatorHours:37.0},
+  {name:"Eileen Cepeda",location:"Concourse",isHVA:false,totalHours:38.0,operatorPct:70.0,operatorHours:26.6},
+  {name:"Hannah Lee",location:"Fort Lee",isHVA:false,totalHours:38.0,operatorPct:70.0,operatorHours:26.6},
+  {name:"Melissa Rosado",location:"Concourse",isHVA:false,totalHours:37.0,operatorPct:60.0,operatorHours:22.2},
+  {name:"Katherine Padilla",location:"Elmhurst",isHVA:false,totalHours:40.0,operatorPct:50.0,operatorHours:20.0},
+  {name:"Geisi Hernandez",location:"Elmhurst",isHVA:false,totalHours:30.0,operatorPct:65.0,operatorHours:19.5},
+  {name:"Leslie Carrillo",location:"Flushing",isHVA:false,totalHours:37.0,operatorPct:50.0,operatorHours:18.5},
+  {name:"Diana Benicio",location:"Flushing",isHVA:false,totalHours:38.0,operatorPct:45.0,operatorHours:17.1},
+  {name:"Maribel Ramirez",location:"Elmhurst",isHVA:false,totalHours:41.0,operatorPct:40.0,operatorHours:16.4},
+  {name:"Seog Me Park",location:"Flushing",isHVA:false,totalHours:38.0,operatorPct:35.0,operatorHours:13.3},
+  {name:"Stefhany Auqui",location:"Elmhurst",isHVA:false,totalHours:35.0,operatorPct:35.0,operatorHours:12.25},
+  {name:"Jenny Kim",location:"Glen Oaks",isHVA:false,totalHours:40.0,operatorPct:30.0,operatorHours:12.0},
+  {name:"Krystal Torres",location:"Fordham",isHVA:false,totalHours:40.0,operatorPct:30.0,operatorHours:12.0},
+  {name:"Woojin Hong",location:"Fort Lee",isHVA:false,totalHours:38.0,operatorPct:30.0,operatorHours:11.4},
+  {name:"Zenaida Cruz",location:"Fordham",isHVA:false,totalHours:42.0,operatorPct:15.0,operatorHours:6.3},
+  {name:"Sarah Hammouda",location:"Glen Oaks",isHVA:false,totalHours:30.0,operatorPct:20.0,operatorHours:6.0},
+  {name:"Jessica Ministro",location:"Fort Lee",isHVA:false,totalHours:38.0,operatorPct:15.0,operatorHours:5.7},
+  {name:"Joanne Cabrera",location:"Concourse",isHVA:false,totalHours:42.0,operatorPct:10.0,operatorHours:4.2},
+  {name:"Jazmine Hernandez",location:"Flushing",isHVA:false,totalHours:38.0,operatorPct:10.0,operatorHours:3.8},
+  {name:"Romance Molina",location:"Concourse",isHVA:false,totalHours:37.0,operatorPct:10.0,operatorHours:3.7},
+  {name:"Elba Perez",location:"Fordham",isHVA:false,totalHours:35.0,operatorPct:10.0,operatorHours:3.5},
+  {name:"Jennifer Rojas",location:"Flushing",isHVA:false,totalHours:34.0,operatorPct:10.0,operatorHours:3.4},
+  {name:"Naysia Salgado",location:"Fordham",isHVA:false,totalHours:28.0,operatorPct:10.0,operatorHours:2.8},
+  {name:"Cindy Restrepo",location:"Elmhurst",isHVA:false,totalHours:40.0,operatorPct:5.0,operatorHours:2.0},
+  {name:"Arianny Castro",location:"Fort Lee",isHVA:false,totalHours:38.0,operatorPct:5.0,operatorHours:1.9},
+  {name:"Sitti Shuangga",location:"HVA",isHVA:true,totalHours:42.0,operatorPct:100.0,operatorHours:42.0},
+  {name:"Ma Christina Quibod",location:"HVA",isHVA:true,totalHours:40.0,operatorPct:70.0,operatorHours:28.0},
+  {name:"Apple Magayaga",location:"HVA",isHVA:true,totalHours:38.0,operatorPct:30.0,operatorHours:11.4},
+  {name:"Charisse Zarsuelo",location:"HVA leader",isHVA:true,totalHours:40.0,operatorPct:25.0,operatorHours:10.0}
+];
+
+let currentFilter = 'all';
+
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const fmt1 = n => n.toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1});
+const fmt2 = n => n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function getInputs() {
+  return {
+    rateOnsite: parseFloat(document.getElementById('rateOnsite').value),
+    rateHva: parseFloat(document.getElementById('rateHva').value),
+    callsMonthly: parseFloat(document.getElementById('calls').value),
+    elisePrice: parseFloat(document.getElementById('elisePrice').value),
+    capture: parseFloat(document.getElementById('capture').value) / 100,
+    hvaCut: parseInt(document.getElementById('hvaCut').value, 10),
+    onsiteCut: parseInt(document.getElementById('onsiteCut').value, 10),
+    missed: parseFloat(document.getElementById('missedRate').value) / 100,
+    conv: parseFloat(document.getElementById('conv').value) / 100,
+    revVisit: parseFloat(document.getElementById('revVisit').value)
+  };
+}
+
+function compute(i) {
+  const officeCallsAnnual = i.callsMonthly * 12;
+
+  const totalOpHrsAnnual = TOTAL_HRS * WEEKS;
+  const onsiteHrsAnnual = ONSITE_HRS * WEEKS;
+  const hvaHrsAnnual = HVA_HRS * WEEKS;
+
+  const callsPerOpHr = officeCallsAnnual / totalOpHrsAnnual;
+  const minsPerCall = 60 / callsPerOpHr;
+
+  const aiCalls = officeCallsAnnual * i.capture;
+  const aiCost = aiCalls * i.elisePrice;
+
+  const freedHrs = totalOpHrsAnnual * i.capture;
+
+  // Build sorted lists of who gets cut — largest operator hours first
+  const hvasSorted = EMPLOYEES.filter(e => e.isHVA).slice().sort((a, b) => b.operatorHours - a.operatorHours);
+  const onsitesSorted = EMPLOYEES.filter(e => !e.isHVA).slice().sort((a, b) => b.operatorHours - a.operatorHours);
+
+  const hvasCut = hvasSorted.slice(0, i.hvaCut);
+  const onsitesCut = onsitesSorted.slice(0, i.onsiteCut);
+
+  // Labor savings = full annual wages of cut people
+  const hvaLaborSav = hvasCut.reduce((s, e) => s + e.totalHours * i.rateHva * WEEKS, 0);
+  const onsiteLaborSav = onsitesCut.reduce((s, e) => s + e.totalHours * i.rateOnsite * WEEKS, 0);
+  const totalLaborSav = hvaLaborSav + onsiteLaborSav;
+
+  // Operator hours actually removed from the system by these cuts
+  const hvaOpHrsRemoved = hvasCut.reduce((s, e) => s + e.operatorHours * WEEKS, 0);
+  const onsiteOpHrsRemoved = onsitesCut.reduce((s, e) => s + e.operatorHours * WEEKS, 0);
+  const totalOpHrsRemoved = hvaOpHrsRemoved + onsiteOpHrsRemoved;
+
+  // Coverage analysis
+  // If removed > freed: under-staffed (negative coverage gap)
+  // If removed < freed: stranded capacity (positive freed - removed)
+  const coverageGap = freedHrs - totalOpHrsRemoved; // positive = stranded; negative = under-staffed
+  const underStaffed = coverageGap < 0;
+
+  // Net financial result
+  const netSavings = totalLaborSav - aiCost;
+
+  // Missed-call recovery (office-hours only)
+  const missedCalls = officeCallsAnnual * i.missed;
+  const recoveredVisits = missedCalls * i.conv;
+  const recoveredRev = recoveredVisits * i.revVisit;
+
+  // Per-call cost benchmarks
+  const onsiteCallCost = i.rateOnsite / callsPerOpHr;
+  const hvaCallCost = i.rateHva / callsPerOpHr;
+
+  return {
+    officeCallsAnnual,
+    totalOpHrsAnnual, onsiteHrsAnnual, hvaHrsAnnual,
+    callsPerOpHr, minsPerCall,
+    freedHrs,
+    aiCalls, aiCost,
+    hvasCut, onsitesCut,
+    hvaLaborSav, onsiteLaborSav, totalLaborSav,
+    hvaOpHrsRemoved, onsiteOpHrsRemoved, totalOpHrsRemoved,
+    coverageGap, underStaffed,
+    netSavings,
+    missedCalls, recoveredVisits, recoveredRev,
+    onsiteCallCost, hvaCallCost,
+    hvasSorted, onsitesSorted
+  };
+}
+
+function update() {
+  const i = getInputs();
+  const r = compute(i);
+
+  // Helper for defensive DOM updates
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+
+  // Control labels
+  setText('rateOnsiteV', i.rateOnsite.toFixed(2));
+  setText('rateHvaV', i.rateHva.toFixed(2));
+  setText('callsV', fmt(i.callsMonthly));
+  setText('elisePriceV', i.elisePrice.toFixed(2));
+  setText('captureV', Math.round(i.capture * 100));
+  setText('missedV', (i.missed * 100).toFixed(1));
+  setText('convV', Math.round(i.conv * 100));
+  setText('revVisitV', i.revVisit);
+
+  // KPI Bar
+  setText('kpiHvaCall', r.hvaCallCost.toFixed(2));
+  setText('kpiAiCall', i.elisePrice.toFixed(2));
+  setText('kpiOnsiteCall', r.onsiteCallCost.toFixed(2));
+
+  // Section 2 (calls per hour) — all dynamic from parameters
+  setText('cphCallsLede', fmt(r.officeCallsAnnual));
+  setText('cphCalls', fmt(r.officeCallsAnnual));
+  setText('cphHours', fmt(r.totalOpHrsAnnual));
+  setText('cphValue', r.callsPerOpHr.toFixed(2));
+  setText('cphMin', r.minsPerCall.toFixed(1));
+  setText('cphCapPct', Math.round(i.capture * 100));
+  setText('cphCapPct2', Math.round(i.capture * 100));
+  setHtml('freedHrs', `${fmt(r.freedHrs)} hours/year`);
+  setText('rsFreed', fmt(r.freedHrs));
+  setHtml('freedFte', `${(r.freedHrs/FTE_HRS).toFixed(1)} FTE equivalent`);
+  setText('kpiHvaFoot', `@ $${i.rateHva.toFixed(2)}/hr × ${r.minsPerCall.toFixed(1)} min/call`);
+  setText('kpiOnsiteFoot', `@ $${i.rateOnsite.toFixed(2)}/hr × ${r.minsPerCall.toFixed(1)} min/call`);
+
+  // Formula examples — live numbers plugged in
+  setText('fxHvaRate', i.rateHva.toFixed(2));
+  setText('fxOnsiteRate', i.rateOnsite.toFixed(2));
+  setText('fxCallsPerHr1', r.callsPerOpHr.toFixed(2));
+  setText('fxCallsPerHr2', r.callsPerOpHr.toFixed(2));
+  setText('fxHvaResult', r.hvaCallCost.toFixed(2));
+  setText('fxOnsiteResult', r.onsiteCallCost.toFixed(2));
+
+  // Section 3 — staff reductions (both display labels in body and in dock)
+  setText('hvaCutV', i.hvaCut);
+  setText('onsiteCutV', i.onsiteCut);
+  setText('hvaCutDockV', i.hvaCut);
+  setText('onsiteCutDockV', i.onsiteCut);
+  setText('hvaCutCost', fmt(r.hvaLaborSav));
+  setText('onsiteCutCost', fmt(r.onsiteLaborSav));
+
+  // Who gets let go — populate name lists
+  setText('whoCutTotal', r.hvasCut.length + r.onsitesCut.length);
+  setText('whoCutTotalCost', '$' + fmt(r.totalLaborSav));
+  setText('whoCutHvaCount', r.hvasCut.length);
+  setText('whoCutOnsiteCount', r.onsitesCut.length);
+
+  const renderCutList = (listId, people, rate) => {
+    const el = document.getElementById(listId);
+    if (!el) return;
+    if (people.length === 0) {
+      el.innerHTML = '<div class="who-cut-empty">No cuts at current setting</div>';
+      return;
+    }
+    el.innerHTML = people.map(e => {
+      const opHrsYr = e.operatorHours * WEEKS;
+      const annualCost = e.totalHours * rate * WEEKS;
+      return `<div class="who-cut-item">
+        <div class="who-cut-name">${e.name}</div>
+        <div class="who-cut-meta">
+          <span class="wcm-hrs">${fmt(opHrsYr)} op-hrs/yr</span>
+          <span class="wcm-cost">$${fmt(annualCost)}</span>
+        </div>
+      </div>`;
+    }).join('');
+  };
+
+  renderCutList('whoCutHvaList', r.hvasCut, i.rateHva);
+  renderCutList('whoCutOnsiteList', r.onsitesCut, i.rateOnsite);
+
+  // Coverage section
+  setText('covFreed', fmt(r.freedHrs));
+  setText('covCapPct', Math.round(i.capture * 100));
+  setText('covRemoved', fmt(r.totalOpHrsRemoved));
+  setText('covRemovedSub', `${fmt(r.hvaOpHrsRemoved)} HVA + ${fmt(r.onsiteOpHrsRemoved)} onsite operator hours`);
+
+  const coverageBlock = document.getElementById('coverageBlock');
+  const gapCell = document.getElementById('covGapCell');
+  const covMessage = document.getElementById('covMessage');
+
+  if (coverageBlock) coverageBlock.classList.remove('under-staffed', 'balanced');
+
+  const gapLabelEl = gapCell ? gapCell.querySelector('.cov-label') : null;
+
+  if (r.underStaffed) {
+    if (coverageBlock) coverageBlock.classList.add('under-staffed');
+    setText('covGap', '−' + fmt(Math.abs(r.coverageGap)));
+    if (gapLabelEl) gapLabelEl.textContent = 'Coverage shortfall';
+    setText('covGapSub', 'staff cuts exceed AI capacity gain');
+    if (covMessage) covMessage.innerHTML = `<strong>Under-staffed by ${fmt(Math.abs(r.coverageGap))} hours/year.</strong> Cuts remove more operator capacity than AI replaces. Either reduce cuts, increase AI capture %, or accept service degradation.`;
+  } else if (r.totalOpHrsRemoved >= r.freedHrs * 0.9 && r.totalOpHrsRemoved > 0) {
+    if (coverageBlock) coverageBlock.classList.add('balanced');
+    setText('covGap', fmt(r.coverageGap));
+    if (gapLabelEl) gapLabelEl.textContent = 'Stranded capacity';
+    setText('covGapSub', 'freed hours not absorbed by cuts');
+    const pct = r.freedHrs > 0 ? Math.round((r.totalOpHrsRemoved / r.freedHrs) * 100) : 0;
+    if (covMessage) covMessage.innerHTML = `<strong>Well-balanced.</strong> Cuts absorb ${pct}% of AI-freed hours — minimal stranded capacity. This is the optimal staffing configuration for the current AI capture rate.`;
+  } else {
+    setText('covGap', fmt(r.coverageGap));
+    if (gapLabelEl) gapLabelEl.textContent = 'Stranded capacity';
+    setText('covGapSub', 'freed hours not absorbed by cuts');
+    const pct = r.freedHrs > 0 ? Math.round((r.totalOpHrsRemoved / r.freedHrs) * 100) : 0;
+    if (covMessage) {
+      if (r.totalOpHrsRemoved === 0) {
+        covMessage.innerHTML = `<strong>No cuts made yet.</strong> AI frees ${fmt(r.freedHrs)} hours but no staff have been reduced — entire AI cost is additive. Open the Parameters panel to adjust the staff reduction sliders.`;
+      } else {
+        covMessage.innerHTML = `Cuts cover <strong>${pct}%</strong> of freed hours — significant stranded capacity. Consider increasing cuts, or accept that part of the AI investment is funding excess capacity.`;
+      }
+    }
+  }
+
+  // Financial result
+  setText('laborSav', fmt(r.totalLaborSav));
+  setText('aiCostSection3', fmt(r.aiCost));
+  const netResultEl = document.getElementById('netResult');
+  if (netResultEl) {
+    if (r.netSavings >= 0) {
+      netResultEl.textContent = '+$' + fmt(r.netSavings);
+      netResultEl.classList.remove('bad');
+    } else {
+      netResultEl.textContent = '−$' + fmt(Math.abs(r.netSavings));
+      netResultEl.classList.add('bad');
+    }
+  }
+
+  // Section 4 — Missed calls
+  setText('missedCalls', fmt(r.missedCalls));
+  setText('missedSub', `at ${(i.missed*100).toFixed(1)}% of ${fmt(r.officeCallsAnnual)} office calls`);
+  setText('recoveredVisits', fmt(r.recoveredVisits));
+  setText('recoveredSub', `${Math.round(i.conv*100)}% of recovered calls convert`);
+  setText('recoveredRev', '$' + fmt(r.recoveredRev));
+  setText('recoveredRevSub', `${fmt(r.recoveredVisits)} × $${i.revVisit} per visit`);
+
+  // Section 5 — Total combined
+  const combined = r.netSavings + r.recoveredRev;
+  const totalCombinedEl = document.getElementById('totalCombined');
+  const totalBox = document.getElementById('totalValueBox');
+  const totalBreakdownEl = document.getElementById('totalBreakdown');
+  if (totalCombinedEl) {
+    totalCombinedEl.textContent = combined < 0 ? '−' + fmt(Math.abs(combined)) : fmt(combined);
+  }
+  if (totalBox) {
+    totalBox.style.background = combined < 0 ? 'var(--accent)' : 'var(--moss)';
+  }
+  if (totalBreakdownEl) {
+    const laborTxt = r.netSavings >= 0 ? '+$' + fmt(r.netSavings) : '−$' + fmt(Math.abs(r.netSavings));
+    totalBreakdownEl.innerHTML =
+      `<strong>${laborTxt}</strong> net labor &nbsp;+&nbsp; <strong>$${fmt(r.recoveredRev)}</strong> recovered revenue`;
+  }
+
+  renderStepChart(i, r);
+  renderTable(i);
+}
+
+function renderStepChart(inputs, r) {
+  const svg = document.getElementById('stepChart');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = 1100, H = 460;
+  const left = 100, right = 60, top = 50, bottom = 110;
+  const innerW = W - left - right;
+  const innerH = H - top - bottom;
+
+  const hvas = r.hvasSorted;
+  const onsites = r.onsitesSorted;
+  const totalPeople = hvas.length + onsites.length;
+  const freedHrs = r.freedHrs;
+  const aiCost = r.aiCost;
+
+  // Path 1: HVAs-first. Cut HVAs in order, then onsite in order.
+  // Path 2: Onsite-first. Cut onsite in order, then HVAs in order.
+  function buildPath(order) {
+    // order = "hva" or "onsite"
+    const firstList = order === 'hva' ? hvas : onsites;
+    const secondList = order === 'hva' ? onsites : hvas;
+    const seq = [...firstList, ...secondList];
+
+    const pts = [{ x: 0, y: -aiCost, removed: 0, label: 'AI cost only' }];
+    let cumSav = 0;
+    let cumRemoved = 0;
+    seq.forEach((e, idx) => {
+      const rate = e.isHVA ? inputs.rateHva : inputs.rateOnsite;
+      const sav = e.totalHours * rate * WEEKS;
+      const opHrs = e.operatorHours * WEEKS;
+      cumSav += sav;
+      cumRemoved += opHrs;
+      const net = cumSav - aiCost;
+      pts.push({ x: idx + 1, y: net, removed: cumRemoved, name: e.name, isHVA: e.isHVA });
+    });
+    return pts;
+  }
+
+  const pathHvaFirst = buildPath('hva');
+  const pathOnsiteFirst = buildPath('onsite');
+
+  // Y range
+  const allY = [...pathHvaFirst, ...pathOnsiteFirst].map(p => p.y);
+  let yMax = Math.max(...allY);
+  let yMin = Math.min(...allY);
+  const padY = (yMax - yMin) * 0.1;
+  yMax += padY;
+  yMin -= padY;
+  if (yMin > 0) yMin = -padY;
+  const yRange = yMax - yMin;
+
+  const xScale = x => left + (x / totalPeople) * innerW;
+  const yScale = y => top + ((yMax - y) / yRange) * innerH;
+
+  // Background — under-staffed zone (where cumulative op-hrs removed > freed)
+  // We need a band on x-axis where any path would be under-staffed
+  // Since each path has different removal trajectory, compute separately
+  // Simpler: for each path, fill region after under-staffing kicks in
+  function findUnderStaffPoint(pts) {
+    for (let i = 1; i < pts.length; i++) {
+      if (pts[i].removed > freedHrs) return i;
+    }
+    return null;
+  }
+
+  // Y grid
+  const yStep = niceStep(yRange / 6);
+  const yStart = Math.ceil(yMin / yStep) * yStep;
+  for (let v = yStart; v <= yMax; v += yStep) {
+    const y = yScale(v);
+    const isZero = Math.abs(v) < 1;
+    svg.innerHTML += `<line x1="${left}" y1="${y}" x2="${left+innerW}" y2="${y}" stroke="rgba(13,13,12,${isZero ? 0.5 : 0.06})" stroke-width="${isZero ? 1.5 : 1}"/>`;
+    const sign = v < 0 ? '−' : '';
+    svg.innerHTML += `<text x="${left-10}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono" font-size="10" fill="${isZero ? '#0d0d0c' : '#6b6357'}" font-weight="${isZero ? 600 : 400}">${sign}$${fmt(Math.abs(v)/1000)}k</text>`;
+  }
+
+  // X axis labels — every 2 people
+  for (let x = 0; x <= totalPeople; x += 2) {
+    const px = xScale(x);
+    svg.innerHTML += `<text x="${px}" y="${top+innerH+18}" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6357">${x}</text>`;
+    svg.innerHTML += `<line x1="${px}" y1="${top+innerH}" x2="${px}" y2="${top+innerH+4}" stroke="#0d0d0c"/>`;
+  }
+  svg.innerHTML += `<text x="${left+innerW/2}" y="${H-60}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#0d0d0c" letter-spacing="0.18em">CUMULATIVE PEOPLE LET GO →</text>`;
+
+  // Build SVG step paths
+  function stepPathString(pts) {
+    let d = '';
+    pts.forEach((p, idx) => {
+      const x = xScale(p.x);
+      const y = yScale(p.y);
+      if (idx === 0) {
+        d += `M${x.toFixed(1)},${y.toFixed(1)} `;
+      } else {
+        // Horizontal then vertical (step look)
+        const prevY = yScale(pts[idx-1].y);
+        d += `L${x.toFixed(1)},${prevY.toFixed(1)} L${x.toFixed(1)},${y.toFixed(1)} `;
+      }
+    });
+    return d;
+  }
+
+  // Render the two paths
+  const dHva = stepPathString(pathHvaFirst);
+  const dOnsite = stepPathString(pathOnsiteFirst);
+
+  // Under-staff shading for each path
+  const hvaUnderIdx = findUnderStaffPoint(pathHvaFirst);
+  const onsiteUnderIdx = findUnderStaffPoint(pathOnsiteFirst);
+  if (hvaUnderIdx !== null) {
+    const ux = xScale(pathHvaFirst[hvaUnderIdx].x);
+    svg.innerHTML += `<rect x="${ux}" y="${top}" width="${left+innerW-ux}" height="${innerH}" fill="rgba(200,64,31,0.05)"/>`;
+    svg.innerHTML += `<text x="${ux + 4}" y="${top + 14}" font-family="JetBrains Mono" font-size="9" fill="#c8401f" letter-spacing="0.1em">UNDER-STAFFED ZONE</text>`;
+  }
+
+  // Draw paths
+  svg.innerHTML += `<path d="${dHva}" fill="none" stroke="#b8862a" stroke-width="2.5" stroke-linejoin="miter"/>`;
+  svg.innerHTML += `<path d="${dOnsite}" fill="none" stroke="#c8401f" stroke-width="2.5" stroke-linejoin="miter"/>`;
+
+  // Dots on each step point
+  pathHvaFirst.forEach(p => {
+    svg.innerHTML += `<circle cx="${xScale(p.x)}" cy="${yScale(p.y)}" r="3" fill="#b8862a"/>`;
+  });
+  pathOnsiteFirst.forEach(p => {
+    svg.innerHTML += `<circle cx="${xScale(p.x)}" cy="${yScale(p.y)}" r="3" fill="#c8401f"/>`;
+  });
+
+  // CURRENT POSITION MARKER — based on user's current cuts
+  // We need to figure out where the user's choice falls. Since the user picks HVAs and onsites separately,
+  // their net is r.netSavings. They've cut (hvaCut + onsiteCut) people total.
+  const totalCut = inputs.hvaCut + inputs.onsiteCut;
+  const curX = xScale(totalCut);
+  const curY = yScale(r.netSavings);
+  svg.innerHTML += `<line x1="${curX}" y1="${top}" x2="${curX}" y2="${top+innerH}" stroke="#0d0d0c" stroke-width="1.5" stroke-dasharray="3,4" opacity="0.5"/>`;
+  svg.innerHTML += `<circle cx="${curX}" cy="${curY}" r="9" fill="#0d0d0c" stroke="#f4ede0" stroke-width="3"/>`;
+  svg.innerHTML += `<circle cx="${curX}" cy="${curY}" r="4" fill="#b8862a"/>`;
+
+  // Current position label
+  const labelW = 160;
+  const labelX = Math.min(left + innerW - labelW, Math.max(left, curX - labelW/2));
+  svg.innerHTML += `<rect x="${labelX}" y="${curY - 50}" width="${labelW}" height="36" fill="#0d0d0c"/>`;
+  const netTxt = r.netSavings >= 0 ? `+$${fmt(r.netSavings)}` : `−$${fmt(Math.abs(r.netSavings))}`;
+  svg.innerHTML += `<text x="${labelX + labelW/2}" y="${curY - 33}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(244,237,224,0.65)" letter-spacing="0.12em">YOUR PLAN · ${totalCut} CUT</text>`;
+  svg.innerHTML += `<text x="${labelX + labelW/2}" y="${curY - 18}" text-anchor="middle" font-family="Fraunces" font-size="15" fill="${r.netSavings >= 0 ? '#b8862a' : '#c8401f'}" font-weight="700">${netTxt}</text>`;
+
+  // Legend
+  const lx = left + 12;
+  let ly = top + 16;
+  svg.innerHTML += `<rect x="${lx-8}" y="${ly-12}" width="280" height="60" fill="rgba(250,246,236,0.92)" stroke="#0d0d0c" stroke-width="0.5"/>`;
+  svg.innerHTML += `<line x1="${lx}" y1="${ly}" x2="${lx+22}" y2="${ly}" stroke="#b8862a" stroke-width="2.5"/>`;
+  svg.innerHTML += `<text x="${lx+28}" y="${ly+4}" font-family="Fraunces" font-size="13" fill="#0d0d0c">Path: HVAs first, then onsite</text>`;
+  ly += 20;
+  svg.innerHTML += `<line x1="${lx}" y1="${ly}" x2="${lx+22}" y2="${ly}" stroke="#c8401f" stroke-width="2.5"/>`;
+  svg.innerHTML += `<text x="${lx+28}" y="${ly+4}" font-family="Fraunces" font-size="13" fill="#0d0d0c">Path: Onsite first, then HVAs</text>`;
+}
+
+function niceStep(val) {
+  const candidates = [5000, 10000, 20000, 25000, 50000, 100000, 200000, 250000, 500000];
+  for (const c of candidates) {
+    if (val <= c) return c;
+  }
+  return 1000000;
+}
+
+function renderTable(inputs) {
+  const tbody = document.getElementById('empTbody');
+  const tfoot = document.getElementById('empTfoot');
+  if (!tbody || !tfoot) return;
+
+  const filtered = EMPLOYEES.filter(e => {
+    if (currentFilter === 'all') return true;
+    if (currentFilter === 'onsite') return !e.isHVA;
+    if (currentFilter === 'hva') return e.isHVA;
+    return true;
+  });
+
+  tbody.innerHTML = '';
+  let totHrsWk = 0, totOpHrs = 0, totWeekly = 0, totAnnual = 0;
+
+  filtered.forEach(e => {
+    const rate = e.isHVA ? inputs.rateHva : inputs.rateOnsite;
+    const weekly = e.operatorHours * rate;
+    const annual = weekly * WEEKS;
+    totHrsWk += e.totalHours;
+    totOpHrs += e.operatorHours;
+    totWeekly += weekly;
+    totAnnual += annual;
+
+    tbody.innerHTML += `
+      <tr>
+        <td class="name">${e.name}</td>
+        <td>${e.location}</td>
+        <td><span class="pill ${e.isHVA ? 'hva' : 'onsite'}">${e.isHVA ? 'HVA' : 'Onsite'}</span></td>
+        <td class="num">${e.totalHours.toFixed(1)}</td>
+        <td class="num">${e.operatorPct.toFixed(0)}%</td>
+        <td class="num">${e.operatorHours.toFixed(2)}</td>
+        <td class="num">$${rate.toFixed(2)}</td>
+        <td class="num">$${fmt2(weekly)}</td>
+        <td class="num">$${fmt(annual)}</td>
+      </tr>
+    `;
+  });
+
+  tfoot.innerHTML = `
+    <tr>
+      <td colspan="3">TOTAL (${filtered.length} ${filtered.length === 1 ? 'person' : 'people'})</td>
+      <td class="num">${totHrsWk.toFixed(1)}</td>
+      <td class="num">—</td>
+      <td class="num">${totOpHrs.toFixed(2)}</td>
+      <td class="num">—</td>
+      <td class="num">$${fmt2(totWeekly)}</td>
+      <td class="num">$${fmt(totAnnual)}</td>
+    </tr>
+  `;
+}
+
+document.getElementById('datestamp').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+['rateOnsite','rateHva','calls','elisePrice','capture','hvaCut','onsiteCut','missedRate','conv','revVisit'].forEach(id => {
+  document.getElementById(id).addEventListener('input', update);
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderTable(getInputs());
+  });
+});
+
+// Floating dock open/close
+const fab = document.getElementById('controlsFab');
+const dock = document.getElementById('controlsDock');
+const dockClose = document.getElementById('dockClose');
+const openDockFromBody = document.getElementById('openDockFromBody');
+const openDockFromSection3 = document.getElementById('openDockFromSection3');
+
+function openDock() {
+  fab.classList.add('is-open');
+  dock.classList.add('is-open');
+}
+function closeDock() {
+  fab.classList.remove('is-open');
+  dock.classList.remove('is-open');
+}
+
+fab.addEventListener('click', openDock);
+dockClose.addEventListener('click', closeDock);
+if (openDockFromBody) openDockFromBody.addEventListener('click', openDock);
+if (openDockFromSection3) openDockFromSection3.addEventListener('click', openDock);
+
+// ESC to close
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && dock.classList.contains('is-open')) closeDock();
+});
+
+// Reset to defaults
+const DEFAULTS = {
+  rateOnsite: 24, rateHva: 9.5, calls: 18000, elisePrice: 1.15,
+  capture: 50, hvaCut: 0, onsiteCut: 0, missedRate: 4, conv: 10, revVisit: 120
+};
+document.getElementById('dockReset').addEventListener('click', () => {
+  Object.entries(DEFAULTS).forEach(([id, val]) => {
+    document.getElementById(id).value = val;
+  });
+  update();
+});
+
+update();
+</script>
+</body>
+</html>
