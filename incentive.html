@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incentive Final Statement — Hannah Park — Q1 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink: #1a1a1a;
+    --ink-muted: #555;
+    --ink-faint: #888;
+    --rule: #d6d3c8;
+    --rule-soft: #ebe8df;
+    --brand: #1A3A5C;
+    --brand-soft: #eaf0f7;
+    --accent: #b08654;
+    --good: #2f6b3a;
+    --good-soft: #e8f1e4;
+    --bg: #f7f5ef;
+    --surface: #ffffff;
+
+    --font-sans: "Inter Tight", "Söhne", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    padding: 24px 0;
+  }
+
+  .page {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--surface);
+    padding: 40px 48px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border-radius: 4px;
+  }
+
+  /* ===== HEADER STRIP ===== */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 24px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--brand);
+    margin-bottom: 24px;
+    align-items: center;
+  }
+
+  .logo-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--brand);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--brand);
+    line-height: 1.2;
+  }
+
+  .logo-text small {
+    display: block;
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .title-block {
+    text-align: center;
+  }
+
+  .title-block .doctype {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+
+  .title-block h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--brand);
+    line-height: 1.1;
+  }
+
+  .title-block .period {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .stmt-meta {
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: right;
+    font-family: var(--font-mono);
+    color: var(--ink-muted);
+  }
+
+  .stmt-meta .label {
+    color: var(--ink-faint);
+    margin-right: 6px;
+  }
+
+  .stmt-meta strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== PROVIDER + SUMMARY BAND ===== */
+  .top-band {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .provider-card {
+    background: var(--brand-soft);
+    border-left: 3px solid var(--brand);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+
+  .provider-card .name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .provider-card .type {
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .provider-card .type strong {
+    background: var(--brand);
+    color: white;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+    margin-left: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 14px 18px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.2fr;
+    gap: 12px;
+    align-items: end;
+  }
+
+  .summary-grid > div {
+    border-right: 1px solid var(--rule-soft);
+    padding-right: 12px;
+  }
+
+  .summary-grid > div:last-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .summary-grid .item-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .summary-grid .item-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    font-feature-settings: "lnum", "tnum";
+    letter-spacing: -0.01em;
+  }
+
+  .summary-grid .total {
+    background: var(--brand);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 5px;
+    border-right: none;
+    margin-left: 4px;
+  }
+
+  .summary-grid .total .item-label {
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2px;
+  }
+
+  .summary-grid .total .item-value {
+    color: white;
+    font-size: 22px;
+  }
+
+  /* ===== BLOCK STRUCTURE ===== */
+  .block {
+    margin-bottom: 22px;
+  }
+
+  .block-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brand);
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--brand);
+    margin-bottom: 10px;
+  }
+
+  /* ===== TABLES ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+    font-feature-settings: "lnum", "tnum";
+  }
+
+  table thead th {
+    background: var(--brand-soft);
+    color: var(--brand);
+    text-align: left;
+    padding: 7px 10px;
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1.5px solid var(--brand);
+    vertical-align: bottom;
+  }
+
+  table thead th.r {
+    text-align: right;
+  }
+
+  table tbody td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  table tbody td.r {
+    text-align: right;
+  }
+
+  table tbody td.bold {
+    font-weight: 600;
+  }
+
+  table tfoot td {
+    background: #faf9f4;
+    padding: 8px 10px;
+    border-top: 1.5px solid var(--brand);
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  table tfoot td.r { text-align: right; }
+
+  .desc-col {
+    color: var(--ink-muted);
+    font-size: 10.5px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* Breakdown table — wider first col */
+  .breakdown td:first-child {
+    font-weight: 500;
+    width: 22%;
+  }
+  .breakdown td:nth-child(2) {
+    width: 18%;
+  }
+
+  /* Monthly matrix */
+  .monthly th {
+    text-align: center;
+  }
+  .monthly th.first {
+    text-align: left;
+  }
+  .monthly td {
+    text-align: center;
+  }
+  .monthly td.first {
+    text-align: left;
+    font-weight: 500;
+  }
+  .monthly td.qtotal {
+    background: #faf9f4;
+    font-weight: 600;
+  }
+  .monthly tr:last-child td {
+    border-top: 1.5px solid var(--brand);
+    background: #faf9f4;
+    font-weight: 600;
+  }
+
+  /* RVU detail tables — small grid */
+  .rvu-table {
+    font-size: 10.5px;
+  }
+
+  .rvu-table th {
+    padding: 6px 7px;
+    font-size: 9px;
+    line-height: 1.25;
+  }
+
+  .rvu-table td {
+    padding: 5px 7px;
+  }
+
+  .rvu-grouphdr th {
+    background: var(--brand) !important;
+    color: white;
+    text-align: center;
+    font-size: 9.5px;
+    padding: 5px 8px;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--brand);
+  }
+
+  .rvu-grouphdr th.alt {
+    background: #2c517a !important;
+  }
+  .rvu-grouphdr th.alt2 {
+    background: var(--accent) !important;
+  }
+
+  .rvu-table tfoot td {
+    font-size: 11px;
+  }
+
+  .rvu-future td {
+    color: var(--ink-faint);
+    background: #fbfaf6;
+  }
+
+  /* Retro payment list */
+  .retro-strip {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 11px;
+    align-items: baseline;
+  }
+
+  .retro-strip:last-child { border-bottom: none; }
+
+  .retro-strip .pdate {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .retro-strip .plabel {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .retro-strip .pamount {
+    text-align: right;
+    font-weight: 600;
+    font-feature-settings: "lnum", "tnum";
+  }
+
+  .retro-total {
+    background: var(--brand-soft);
+    padding: 9px 14px;
+    margin-top: 4px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: var(--brand);
+    font-size: 12.5px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1.5px solid var(--brand);
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 24px;
+    font-size: 10.5px;
+    line-height: 1.55;
+  }
+
+  .footer h4 {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+
+  .footer ul {
+    list-style: none;
+    color: var(--ink-muted);
+  }
+
+  .footer ul li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .footer ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--brand);
+  }
+
+  .footer .contact a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer .stamp {
+    margin-top: 8px;
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+  }
+
+  .legend-note {
+    font-size: 10px;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  /* Print rules */
+  @page {
+    size: letter;
+    margin: 0.4in;
+  }
+
+  @media print {
+    body {
+      background: white;
+      padding: 0;
+    }
+    .page {
+      max-width: 100%;
+      padding: 0;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .block {
+      break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER STRIP -->
+  <header class="header">
+    <div class="logo-block">
+      <div class="logo-mark">MD</div>
+      <div class="logo-text">
+        Metro Dermatology
+        <small>Provider Compensation</small>
+      </div>
+    </div>
+    <div class="title-block">
+      <div class="doctype">Incentive Final Statement</div>
+      <h1>Q1 2026 Summary</h1>
+      <div class="period">Statement period: Jan 1 – Mar 31, 2026</div>
+    </div>
+    <div class="stmt-meta">
+      <div><span class="label">Statement date</span><strong>Apr 23, 2026</strong></div>
+      <div><span class="label">Collections through</span><strong>Apr 12, 2026</strong></div>
+    </div>
+  </header>
+
+  <!-- PROVIDER + SUMMARY -->
+  <div class="top-band">
+    <div class="provider-card">
+      <div class="section-eyebrow">Provider</div>
+      <div class="name">Hannah Park</div>
+      <div class="type">Provider type:<strong>NP</strong></div>
+    </div>
+    <div class="summary-card">
+      <div class="section-eyebrow">Incentive summary</div>
+      <div class="summary-grid">
+        <div>
+          <div class="item-label">RVU Medical</div>
+          <div class="item-value">$8,928.40</div>
+        </div>
+        <div>
+          <div class="item-label">Cosmetic</div>
+          <div class="item-value">$13,290.92</div>
+        </div>
+        <div>
+          <div class="item-label">Product</div>
+          <div class="item-value">$116.80</div>
+        </div>
+        <div class="total">
+          <div class="item-label">Total earned</div>
+          <div class="item-value">$22,336.12</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INCENTIVE BREAKDOWN -->
+  <section class="block">
+    <h3 class="block-title">Incentive breakdown</h3>
+    <table class="breakdown">
+      <thead>
+        <tr>
+          <th>Earning category</th>
+          <th class="r">Q1 2026 total</th>
+          <th>How it's calculated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RVU Medical Bonus</td>
+          <td class="r bold">$8,928.40</td>
+          <td class="desc-col">Eligible wRVU × Rate × Physician Fee Schedule Conversion Factor (CMS)</td>
+        </tr>
+        <tr>
+          <td>Cosmetic Bonus</td>
+          <td class="r bold">$13,290.92</td>
+          <td class="desc-col">Self-performed: 20% of (Net Revenue − Direct Expense). Not self-performed: 7% of (Net Revenue − Direct Expense)</td>
+        </tr>
+        <tr>
+          <td>Product Bonus</td>
+          <td class="r bold">$116.80</td>
+          <td class="desc-col">% of net product sales attributed to provider</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total incentive earned</td>
+          <td class="r">$22,336.12</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- COSMETIC & PRODUCT BY MONTH -->
+  <section class="block">
+    <h3 class="block-title">Cosmetic &amp; product sales — collections &amp; bonuses by month</h3>
+    <table class="monthly">
+      <thead>
+        <tr>
+          <th class="first">Description</th>
+          <th>Jan 2026</th>
+          <th>Feb 2026</th>
+          <th>Mar 2026</th>
+          <th>Q1 2026 total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="first">Cosmetic collection</td>
+          <td>$27,957</td>
+          <td>$32,023</td>
+          <td>$28,988</td>
+          <td class="qtotal">$88,968</td>
+        </tr>
+        <tr>
+          <td class="first">Cosmetic bonus</td>
+          <td>$4,301.67</td>
+          <td>$4,773.61</td>
+          <td>$4,431.78</td>
+          <td class="qtotal">$13,507.06</td>
+        </tr>
+        <tr>
+          <td class="first">Product bonus</td>
+          <td>$71.70</td>
+          <td>$23.80</td>
+          <td>$21.30</td>
+          <td class="qtotal">$116.80</td>
+        </tr>
+        <tr>
+          <td class="first">Total incentive (P)</td>
+          <td>$4,373.37</td>
+          <td>$4,797.41</td>
+          <td>$4,453.08</td>
+          <td>$13,623.86</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- RVU DETAILS 2026 -->
+  <section class="block">
+    <h3 class="block-title">RVU details — 2026</h3>
+    <table class="rvu-table">
+      <thead>
+        <tr class="rvu-grouphdr">
+          <th colspan="3">Period</th>
+          <th colspan="4">Tier 1</th>
+          <th colspan="4" class="alt">Tier 2 **</th>
+          <th colspan="2" class="alt2">Earned compensation</th>
+        </tr>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th class="r">Factor *</th>
+          <th class="r">RVU threshold</th>
+          <th class="r">Earned cRVU</th>
+          <th class="r">Tier 1 earned</th>
+          <th class="r">cRVU</th>
+          <th class="r">Excess above threshold</th>
+          <th class="r">Tier 2 %</th>
+          <th class="r">Tier 2 earned</th>
+          <th class="r">Earned incentives</th>
+          <th class="r">Total earned comp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Jan 1</td><td>Jan 31</td><td class="r">33.57</td><td class="r">1,200</td><td class="r">1,457.25</td><td class="r">$15,306.78</td><td class="r">1,457.25</td><td class="r">257.25</td><td class="r">55%</td><td class="r">$4,749.38</td><td class="r">$[Amount]</td><td class="r bold">$3,389.49</td></tr>
+        <tr><td>Feb 1</td><td>Feb 28</td><td class="r">33.57</td><td class="r">1,200</td><td class="r">1,298.78</td><td class="r">$15,306.78</td><td class="r">1,298.78</td><td class="r">98.78</td><td class="r">55%</td><td class="r">$1,823.69</td><td class="r">$[Amount]</td><td class="r bold">$463.80</td></tr>
+        <tr><td>Mar 1</td><td>Mar 31</td><td class="r">33.57</td><td class="r">1,200</td><td class="r">1,329.49</td><td class="r">$15,306.78</td><td class="r">1,329.49</td><td class="r">129.49</td><td class="r">55%</td><td class="r">$2,390.66</td><td class="r">$[Amount]</td><td class="r bold">$1,030.77</td></tr>
+        <tr class="rvu-future"><td>Apr 1</td><td>Apr 30</td><td class="r">33.57</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">55%</td><td class="r">—</td><td class="r">—</td><td class="r">—</td></tr>
+        <tr class="rvu-future"><td>May 1</td><td>May 31</td><td class="r">33.57</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">55%</td><td class="r">—</td><td class="r">—</td><td class="r">—</td></tr>
+        <tr class="rvu-future"><td>Jun 1</td><td>Jun 30</td><td class="r">33.57</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">—</td><td class="r">55%</td><td class="r">—</td><td class="r">—</td><td class="r">—</td></tr>
+        <tr class="rvu-future"><td colspan="12" style="text-align:center; color: var(--ink-faint); font-style: italic;">Jul – Dec 2026 future months not yet earned</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Total YTD</td>
+          <td class="r">3,600</td>
+          <td class="r">4,085.52</td>
+          <td class="r">$45,920.34</td>
+          <td class="r">4,085.52</td>
+          <td class="r">485.52</td>
+          <td class="r">—</td>
+          <td class="r">$8,963.73</td>
+          <td class="r">$[Amount]</td>
+          <td class="r">$4,884.06</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="legend-note">* Conversion factor &nbsp; ** Tier 2 applies only to excess cRVU above threshold</div>
+  </section>
+
+  <!-- RVU DETAILS 2025 + RETROS -->
+  <section class="block">
+    <h3 class="block-title">RVU details — 2025 (full year)</h3>
+    <table class="rvu-table">
+      <thead>
+        <tr class="rvu-grouphdr">
+          <th colspan="3">Period</th>
+          <th colspan="4">Tier 1</th>
+          <th colspan="4" class="alt">Tier 2 **</th>
+          <th colspan="2" class="alt2">Earned compensation</th>
+        </tr>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th class="r">Factor *</th>
+          <th class="r">RVU threshold</th>
+          <th class="r">Earned cRVU</th>
+          <th class="r">Tier 1 earned</th>
+          <th class="r">cRVU</th>
+          <th class="r">Excess above threshold</th>
+          <th class="r">Tier 2 %</th>
+          <th class="r">Tier 2 earned</th>
+          <th class="r">Earned incentives</th>
+          <th class="r">Total earned comp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Jan</td><td>Jan</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,656.59</td><td class="r">$14,750</td><td class="r">1,656.59</td><td class="r">456.59</td><td class="r">55%</td><td class="r">$8,123.00</td><td class="r">$[Amount]</td><td class="r bold">$6,206.34</td></tr>
+        <tr><td>Feb</td><td>Feb</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,694.96</td><td class="r">$14,750</td><td class="r">1,694.96</td><td class="r">494.96</td><td class="r">55%</td><td class="r">$8,805.62</td><td class="r">$[Amount]</td><td class="r bold">$6,888.96</td></tr>
+        <tr><td>Mar</td><td>Mar</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,957.50</td><td class="r">$14,750</td><td class="r">1,957.50</td><td class="r">757.50</td><td class="r">55%</td><td class="r">$13,476.36</td><td class="r">$[Amount]</td><td class="r bold">$11,559.70</td></tr>
+        <tr><td>Apr</td><td>Apr</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,668.70</td><td class="r">$14,750</td><td class="r">1,668.70</td><td class="r">468.70</td><td class="r">55%</td><td class="r">$8,338.44</td><td class="r">$[Amount]</td><td class="r bold">$6,421.78</td></tr>
+        <tr><td>May</td><td>May</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">2,030.66</td><td class="r">$14,750</td><td class="r">2,030.66</td><td class="r">830.66</td><td class="r">55%</td><td class="r">$14,777.92</td><td class="r">—</td><td class="r bold">$12,861.26</td></tr>
+        <tr><td>Jun</td><td>Jun</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,774.91</td><td class="r">$14,750</td><td class="r">1,774.91</td><td class="r">574.91</td><td class="r">55%</td><td class="r">$10,227.98</td><td class="r">—</td><td class="r bold">$8,311.32</td></tr>
+        <tr><td>Jul</td><td>Jul</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,594.85</td><td class="r">$14,750</td><td class="r">1,594.85</td><td class="r">394.85</td><td class="r">55%</td><td class="r">$7,024.61</td><td class="r">—</td><td class="r bold">$5,107.95</td></tr>
+        <tr><td>Aug</td><td>Aug</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,653.65</td><td class="r">$14,750</td><td class="r">1,653.65</td><td class="r">453.65</td><td class="r">55%</td><td class="r">$8,070.69</td><td class="r">—</td><td class="r bold">$6,154.03</td></tr>
+        <tr><td>Sep</td><td>Sep</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,726.04</td><td class="r">$14,750</td><td class="r">1,726.04</td><td class="r">526.04</td><td class="r">55%</td><td class="r">$9,358.55</td><td class="r">$[Amount]</td><td class="r bold">$7,441.89</td></tr>
+        <tr><td>Oct</td><td>Oct</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,846.37</td><td class="r">$14,750</td><td class="r">1,846.37</td><td class="r">646.37</td><td class="r">55%</td><td class="r">$11,499.29</td><td class="r">$[Amount]</td><td class="r bold">$9,582.63</td></tr>
+        <tr><td>Nov</td><td>Nov</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,321.64</td><td class="r">$14,750</td><td class="r">1,321.64</td><td class="r">121.64</td><td class="r">55%</td><td class="r">$2,164.05</td><td class="r">$[Amount]</td><td class="r bold">$247.38</td></tr>
+        <tr><td>Dec</td><td>Dec</td><td class="r">32.35</td><td class="r">1,200</td><td class="r">1,519.46</td><td class="r">$14,750</td><td class="r">1,519.46</td><td class="r">319.46</td><td class="r">55%</td><td class="r">$5,683.38</td><td class="r">$[Amount]</td><td class="r bold">$3,766.71</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Total 2025</td>
+          <td class="r">14,400</td>
+          <td class="r">20,445.33</td>
+          <td class="r">$177,000</td>
+          <td class="r">20,445.33</td>
+          <td class="r">6,045.33</td>
+          <td class="r">—</td>
+          <td class="r">$107,549.89</td>
+          <td class="r">$[Amount]</td>
+          <td class="r">$84,549.95</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div style="margin-top: 14px;">
+      <div class="section-eyebrow" style="color: var(--brand);">2025 retro payments distributed</div>
+      <div class="retro-strip"><span class="pdate">Apr 25, 2025</span><span class="plabel">Q1 2025 payout</span><span class="pamount">$25,460.47</span></div>
+      <div class="retro-strip"><span class="pdate">Jul 18, 2025</span><span class="plabel">Q2 2025 payout</span><span class="pamount">$26,524.67</span></div>
+      <div class="retro-strip"><span class="pdate">Oct 24, 2025</span><span class="plabel">Q3 2025 payout</span><span class="pamount">$21,819.19</span></div>
+      <div class="retro-strip"><span class="pdate">Jan 30, 2026</span><span class="plabel">Q4 2025 payout</span><span class="pamount">$15,669.87</span></div>
+      <div class="retro-total"><span>Total 2025 distributed</span><span>$89,474.20</span></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>
+      <h4>Notes</h4>
+      <ul>
+        <li>Incentive amounts are calculated based on collections received as of Apr 12, 2026.</li>
+        <li>Numbers may differ from real-time reports due to ongoing collection updates.</li>
+        <li>Final payment is subject to reconciliation and approval.</li>
+      </ul>
+    </div>
+    <div class="contact">
+      <h4>Questions?</h4>
+      <div>Please contact the Finance Department.</div>
+      <div style="margin-top: 4px;"><a href="mailto:christine.kim@metrodermatology.com">christine.kim@metrodermatology.com</a></div>
+      <div class="stamp">Statement ID: HP-2026Q1-001<br>Generated: Apr 23, 2026</div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
