@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality &amp; Process Improvement — A Working Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1612;
+    --paper: #f5f1e8;
+    --paper-deep: #ede6d3;
+    --rule: #2a221a;
+    --accent: #2d5a52;
+    --accent-soft: #4a8278;
+    --muted: #6b6256;
+    --gold: #a8842b;
+    --teal: #2d5a52;
+    --plum: #6b2d4f;
+    --navy: #1e3a5f;
+    --rust: #b8451f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(45,90,82,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(184,69,31,0.04) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 48px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ─── MASTHEAD ─────────────────────────── */
+  .masthead {
+    border-top: 4px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 28px 0 22px;
+    margin-bottom: 8px;
+  }
+
+  .masthead-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .masthead h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    font-variation-settings: 'SOFT' 30, 'WONK' 1;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .masthead-sub {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .masthead-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    color: var(--ink);
+    max-width: 620px;
+    line-height: 1.4;
+  }
+
+  .masthead-edition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ─── HOW TO USE ─────────────────────────── */
+  .how-to-use {
+    margin: 36px 0 48px;
+    padding: 24px 28px;
+    background: var(--paper-deep);
+    border-left: 3px solid var(--accent);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .how-to-use-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: stretch;
+    padding: 4px 0;
+  }
+
+  .how-to-use p {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .how-to-use p + p { margin-top: 10px; }
+
+  /* ─── SECTION HEADERS ─────────────────────── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin: 64px 0 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .section-header:first-of-type { margin-top: 24px; }
+
+  .section-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--accent);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    flex: 1;
+    font-variation-settings: 'SOFT' 30';
+  }
+
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* ─── CONCEPT CARDS ───────────────────────── */
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .concept {
+    padding: 28px 28px 24px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.25s;
+  }
+
+  .concept:hover { background: rgba(45,90,82,0.03); }
+
+  .concept-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .concept-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .concept-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .tag-methodology { color: var(--accent); }
+  .tag-diagnostic  { color: var(--rust); }
+  .tag-analytical  { color: var(--navy); }
+  .tag-preventive  { color: var(--plum); }
+  .tag-cultural    { color: var(--gold); }
+
+  .concept-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    margin: 6px 0 14px;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  .concept-formula em {
+    color: var(--accent-soft);
+    font-style: normal;
+  }
+
+  .concept-block {
+    margin-bottom: 14px;
+  }
+
+  .concept-block:last-child { margin-bottom: 0; }
+
+  .concept-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .concept-block-label::before {
+    content: '';
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .concept-block p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .concept-example {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--paper-deep);
+    border-radius: 2px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .concept-example::before {
+    content: 'EX';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: var(--paper);
+    padding: 0 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .concept-example strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ─── DECISION FLOWCHART ───────────────── */
+  .flowchart-section {
+    margin-top: 80px;
+    padding: 40px 36px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flowchart-section::before {
+    content: 'WHEN TO REACH FOR WHAT';
+    position: absolute;
+    top: 14px;
+    right: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent-soft);
+    opacity: 0.7;
+  }
+
+  .flowchart-section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    font-variation-settings: 'SOFT' 30';
+  }
+
+  .flowchart-section h2 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-soft);
+  }
+
+  .flowchart-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(245,241,232,0.7);
+    margin-bottom: 32px;
+    max-width: 640px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+
+  .flow-card {
+    padding: 18px 20px;
+    background: rgba(245,241,232,0.06);
+    border-left: 2px solid var(--accent-soft);
+    border-radius: 2px;
+  }
+
+  .flow-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--accent-soft);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .flow-tool {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--paper);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .flow-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(245,241,232,0.75);
+  }
+
+  /* ─── FOOTER ─────────────────────────────── */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .footer-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+
+  /* ─── RESPONSIVE ───────────────────────── */
+  @media (max-width: 768px) {
+    .container { padding: 40px 24px 60px; }
+    .concepts-grid { grid-template-columns: 1fr; }
+    .how-to-use { grid-template-columns: 1fr; }
+    .how-to-use-label { writing-mode: horizontal-tb; transform: none; }
+    .section-header { flex-wrap: wrap; gap: 12px; }
+    .section-number { font-size: 42px; }
+    .section-title { font-size: 24px; }
+  }
+
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .concept { break-inside: avoid; }
+    .flowchart-section { background: white; color: black; border: 1px solid black; }
+    .flowchart-section h2, .flow-tool, .flow-desc { color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══════ MASTHEAD ═══════ -->
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span>The Operating Manual</span>
+      <span>Vol. I · No. 02</span>
+      <span>For Working Reference</span>
+    </div>
+    <h1>Quality, <em>by design.</em></h1>
+    <div class="masthead-sub">
+      <p class="masthead-tagline">A pocket reference of process improvement concepts — how to reduce defects, eliminate rework, and stop solving the same problem twice.</p>
+      <div class="masthead-edition">
+        Applied To<br>
+        Revenue Cycle &middot; Patient Flow<br>
+        Clinical Ops &middot; Admin Workflows
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════ HOW TO USE ═══════ -->
+  <aside class="how-to-use">
+    <div class="how-to-use-label">How to use</div>
+    <div>
+      <p>Most problems that look like capacity problems are actually quality problems. A team drowning in AR follow-up rarely needs more bodies — it needs fewer denials reaching them in the first place. Every prevented defect is permanent capacity gained.</p>
+      <p>The concepts below are tools for finding causes, not symptoms. They reward patience: the diagnosis usually takes longer than the fix. Use them when you keep solving the same problem and it keeps coming back.</p>
+    </div>
+  </aside>
+
+  <!-- ═══════ SECTION 1: METHODOLOGIES ═══════ -->
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div class="section-title">Improvement methodologies</div>
+    <div class="section-count">Three concepts &middot; Structured frameworks</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- DMAIC / Six Sigma -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Six Sigma &amp; DMAIC</h3>
+        <span class="concept-tag tag-methodology">Methodology</span>
+      </div>
+      <div class="concept-formula"><em>D</em>efine &middot; <em>M</em>easure &middot; <em>A</em>nalyze &middot; <em>I</em>mprove &middot; <em>C</em>ontrol</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A disciplined five-phase approach to reducing defects and variation. Core insight: most variation is caused by the system, not the people. Targets 3.4 defects per million opportunities (the "six sigma" level).</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Recurring, measurable defects with significant cost. Best when you have data and a clear definition of "defect." Overkill for small, obvious problems — use for systemic ones.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Denial rate stuck at 9% costing six figures annually. Define what counts as a denial, measure by reason code, analyze root causes, improve top drivers, control via dashboards. Typical project: 3–6 months, 30–50% reduction.
+      </div>
+    </article>
+
+    <!-- Lean / TPS -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Lean &amp; the 8 Wastes</h3>
+        <span class="concept-tag tag-methodology">Methodology</span>
+      </div>
+      <div class="concept-formula"><em>DOWNTIME</em>: Defects, Overproduction, Waiting, Non-utilized talent, Transport, Inventory, Motion, Extra-processing</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>Toyota Production System adapted for any work. Define value from the customer's view; everything else is waste to eliminate. Most service operations are 60–90% waste by elapsed time.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Workflow redesigns. Whenever lead time is long but actual work time is short. Especially powerful when paired with value stream mapping.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> A claim's lifecycle: 30 days to payment, but only ~45 minutes of actual work. The other 29 days, 23 hours is waiting (W), rework on denials (D), and handoffs (T). Attack the wait, not the work.
+      </div>
+    </article>
+
+    <!-- PDCA -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">PDCA / Deming Cycle</h3>
+        <span class="concept-tag tag-methodology">Methodology</span>
+      </div>
+      <div class="concept-formula"><em>P</em>lan &rarr; <em>D</em>o &rarr; <em>C</em>heck &rarr; <em>A</em>ct &rarr; (repeat)</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>The original continuous improvement loop. Smaller and lighter than DMAIC — designed for rapid iteration on small changes. Hypothesis → experiment → learn → standardize or discard.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Day-to-day improvements that don't warrant a formal project. Building a culture of experimentation. When the cost of trying is low and you'll learn more from doing than analyzing.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Patient flow.</strong> Hypothesis: rooming nurses before provider arrival cuts visit time by 4 minutes. Plan: try with one provider for 2 weeks. Do, check timing data, act on what you learned. One PDCA = one week.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 2: DIAGNOSTIC ═══════ -->
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div class="section-title">Diagnostic tools</div>
+    <div class="section-count">Four concepts &middot; Find the cause</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- 5 Whys -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">The 5 Whys</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Ask "<em>why?</em>" until you hit a system cause, not a person</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>The simplest root cause technique. Keep asking why until you reach something structural (process, system, training) rather than personal (someone made a mistake). Five is approximate — usually 3–7.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Any time the obvious answer feels too simple. Especially when your first instinct is "we need to remind the team to be more careful" — that's almost never the real answer.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Why denied? Missing modifier. Why missing? Coder didn't see op note. Why? Op note wasn't signed. Why? Provider waits till end of week. Why? No prompt in EHR. → Fix the EHR prompt, not the coder.
+      </div>
+    </article>
+
+    <!-- Fishbone / Ishikawa -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Fishbone / Ishikawa</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">6Ms: <em>Method &middot; Machine &middot; Material &middot; Measurement &middot; Manpower &middot; Mother Nature</em></div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A structured brainstorm that forces you to consider all categories of cause, not just the convenient one. Visualizes contributing factors as branches off a central problem.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Complex problems with multiple plausible causes. Group root cause sessions where you want everyone to contribute, not just the loudest voice. Pairs naturally with 5 Whys for each branch.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Patient flow.</strong> "Why are visits running long?" — could be Method (workflow), Machine (EHR slow), Material (charts incomplete), Measurement (clock starts wrong), Manpower (training), or Environment (room layout). Map all six before fixing one.
+      </div>
+    </article>
+
+    <!-- Pareto Analysis -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Pareto Analysis (80/20)</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">80% of problems come from 20% of causes</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A ranked frequency analysis to identify the "vital few" causes that dominate any problem. Almost universally true in operations data: a small number of categories account for the bulk of the volume.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before any improvement project. Deciding what to fix first. Resisting the urge to address every issue equally. Especially powerful when your problem feels "everywhere" — it isn't.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Denials feel chaotic. Pareto by reason code reveals 7 of 80 codes drive 82% of denials. Two are eligibility, two are coding, one is auth. Five focused fixes &gt; 80 scattered ones.
+      </div>
+    </article>
+
+    <!-- Value Stream Mapping -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Value Stream Mapping</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Value-add time &divide; Total lead time = <em>Process Cycle Efficiency</em></div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A detailed map of every step in a process with value-add vs. non-value-add time labeled. Reveals how little of total elapsed time is actual work. Often the single most clarifying exercise in operations.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before automating anything. Before replicating a process at a new location. Whenever lead time and effort feel mismatched. Once per process every 2–3 years minimum.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Charge to cash: 45 min value-add &divide; 30 days lead time = 0.1% efficiency. Most "improvements" target the 45 min. The 30 days is where the gold is.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 3: ANALYTICAL ═══════ -->
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div class="section-title">Analytical lenses</div>
+    <div class="section-count">Three concepts &middot; Make sense of data</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- SPC / Control Charts -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Statistical Process Control</h3>
+        <span class="concept-tag tag-analytical">Analytical</span>
+      </div>
+      <div class="concept-formula">Mean &plusmn; 3σ = <em>control limits</em>. Within = noise. Outside = signal.</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A chart that distinguishes normal variation from meaningful change. Saves you from over-reacting to a bad week and under-reacting to a real trend. The discipline of "is this signal or noise?"</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Any metric you watch over time. Especially denials, no-shows, posting accuracy, days in AR. Replaces "the number went up, panic" with statistical reasoning.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Denial rate jumps from 4.2% to 5.1%. Is that real? SPC says: if it's within the normal band, no — same process, different week. If outside, something changed. Investigate accordingly.
+      </div>
+    </article>
+
+    <!-- Common vs Special Cause -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Common vs. Special Cause</h3>
+        <span class="concept-tag tag-analytical">Analytical</span>
+      </div>
+      <div class="concept-formula">Common = <em>system</em>. Special = <em>event</em>.</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>Deming's distinction. Common causes are baked into the system (94% of problems). Special causes are one-off events (6%). Fixing them requires different approaches — and confusing them creates chaos.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before "tampering" with a process that's having a bad day. When a single error triggers calls for systemic change (often wrong). When a chronic problem gets blamed on an individual (also often wrong).</p>
+      </div>
+      <div class="concept-example">
+        <strong>Patient flow.</strong> One disastrous Tuesday = special cause (a no-show provider). Persistent 30-min waits every Tuesday = common cause (Tuesday is overbooked). Different fixes entirely.
+      </div>
+    </article>
+
+    <!-- Cost of Quality -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Cost of Quality</h3>
+        <span class="concept-tag tag-analytical">Analytical</span>
+      </div>
+      <div class="concept-formula"><em>Prevention + Appraisal + Internal failure + External failure</em></div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A framework that quantifies what poor quality actually costs. Includes obvious costs (rework) and hidden ones (lost revenue, customer attrition). Prevention costs are typically 1/10th of failure costs — but get cut first.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Justifying investment in prevention. Building a business case for improvement projects. Showing finance why the "expensive" quality program is the cheap option.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Cost to resolve a denial: ~$25. Cost to prevent it (better front-end edits, training): ~$3. Multiplied across 8,000 denials/year: $200K vs. $24K. Quality is the cheap option.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 4: PREVENTIVE ═══════ -->
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div class="section-title">Preventive design</div>
+    <div class="section-count">Three concepts &middot; Engineer errors out</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Poka-Yoke -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Poka-Yoke (Mistake-Proofing)</h3>
+        <span class="concept-tag tag-preventive">Preventive</span>
+      </div>
+      <div class="concept-formula">Make the right way the <em>only</em> way</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>Designing processes so errors are physically or logically impossible. Better than training, better than checklists. The classic example: a USB-C cable that can't be plugged in upside down. The system enforces correctness.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Errors that recur despite training. High-stakes steps where human error is costly. Any place a checklist is currently the "fix" — checklists are usually a sign poka-yoke would be better.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> EHR template that won't let a claim drop without required modifiers for certain CPT codes. The biller can't submit incorrectly — the system blocks it. One-time engineering &gt; perpetual training.
+      </div>
+    </article>
+
+    <!-- Standard Work -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Standard Work</h3>
+        <span class="concept-tag tag-preventive">Preventive</span>
+      </div>
+      <div class="concept-formula">Document the <em>current best known way</em> &mdash; then improve it</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>The documented, repeatable, current best practice for a task. Not a constraint on creativity — a baseline so improvement is measurable. Without standard work, there's no real process, just habits.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Onboarding new staff. Opening a new location (critical — you can't replicate what isn't written down). Any process where outputs vary by who performs it. Foundation for improvement.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Multi-location.</strong> New site can't perform like the original if the "how" lives only in tenured staff's heads. Standard work is the asset that lets a second location exist without becoming a different practice.
+      </div>
+    </article>
+
+    <!-- FMEA -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Failure Mode &amp; Effects Analysis</h3>
+        <span class="concept-tag tag-preventive">Preventive</span>
+      </div>
+      <div class="concept-formula"><em>Risk = Severity &times; Likelihood &times; Detectability</em></div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>A structured exercise to identify how a process could fail before it does, score each failure mode, and address the highest-risk ones. Originated in aerospace; now standard in healthcare quality.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before launching anything new — a new location, EHR module, payer contract, service line. Annual review of high-stakes processes. Whenever "we've never tried it this way" is the situation.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Multi-location.</strong> Before opening site #2, brainstorm: what could go wrong with credentialing? Pre-auth handoffs? Cross-site eligibility checks? Score each. Mitigate the worst 5 before opening day.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 5: CULTURAL ═══════ -->
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div class="section-title">Cultural foundations</div>
+    <div class="section-count">Two concepts &middot; Make it stick</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Kaizen -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Kaizen (Continuous Improvement)</h3>
+        <span class="concept-tag tag-cultural">Cultural</span>
+      </div>
+      <div class="concept-formula">Many <em>small</em> improvements &gt; few large ones</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>The philosophy that improvement is everyone's job, every day, in small increments. Opposite of the big consulting project. Most powerful improvement engine known — but requires culture, not just tools.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Always, in parallel with any other approach. Especially when the team feels like quality is "something done to them" rather than by them. Best signal of kaizen culture: front-line staff suggesting and implementing fixes weekly.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Practice-wide.</strong> One billing tweak per biller per month = 60 improvements/year. Even if each saves only 5 minutes/week, the compound effect dwarfs any single project. The hard part is the habit, not the ideas.
+      </div>
+    </article>
+
+    <!-- Gemba -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Gemba (Go &amp; See)</h3>
+        <span class="concept-tag tag-cultural">Cultural</span>
+      </div>
+      <div class="concept-formula">The truth lives where the work happens &mdash; <em>not in the report</em></div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it is</div>
+        <p>The discipline of leaders observing actual work in its actual location, in real time. Reports and dashboards are filtered abstractions. Most leadership "knowledge" of operations is wrong by the time it reaches them.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before any major operational decision. When reports and reality seem to disagree. Regularly, as a leadership practice — weekly is not too often. Sit with a biller for two hours; you'll learn more than from any report.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Dashboards show AR follow-up is on track. Sit next to an AR rep for an hour: half their time is on hold with payers. The dashboard didn't measure it. The improvement opportunity is invisible from upstairs.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ FLOWCHART ═══════ -->
+  <section class="flowchart-section">
+    <h2>Reach for <em>this</em>, when…</h2>
+    <p class="flowchart-intro">Quality problems disguise themselves as capacity problems, training problems, and personnel problems. The right diagnostic tool is what tells them apart.</p>
+
+    <div class="flow-grid">
+
+      <div class="flow-card">
+        <p class="flow-question">"We keep fixing the same problem over and over."</p>
+        <div class="flow-tool">5 Whys + Poka-Yoke</div>
+        <p class="flow-desc">You're treating symptoms. Find the root cause, then engineer the error out so it can't recur.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Where do we even start? Everything's broken."</p>
+        <div class="flow-tool">Pareto Analysis</div>
+        <p class="flow-desc">It isn't everything. A handful of causes drives most of the pain. Rank by frequency or cost and fix those.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"The metric jumped — is that real or noise?"</p>
+        <div class="flow-tool">Statistical Process Control</div>
+        <p class="flow-desc">Set control limits. Within them = normal variation. Outside = something actually changed.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Why does this process take a month for an hour of work?"</p>
+        <div class="flow-tool">Value Stream Mapping</div>
+        <p class="flow-desc">The waste isn't in the work — it's in the waiting between steps. Map it to see it.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"How do we make sure the new site performs like the original?"</p>
+        <div class="flow-tool">Standard Work + FMEA</div>
+        <p class="flow-desc">Document the current best way, then proactively identify how it could fail at a new site.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Quality investment keeps getting cut from the budget."</p>
+        <div class="flow-tool">Cost of Quality</div>
+        <p class="flow-desc">Quantify failure costs (rework, lost revenue) against prevention costs. The math usually wins.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"The big improvement project never gets finished."</p>
+        <div class="flow-tool">Kaizen + PDCA</div>
+        <p class="flow-desc">Stop chasing the big project. Run many small experiments instead. Compound effect beats heroic effort.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Reports look fine but something feels off."</p>
+        <div class="flow-tool">Gemba Walk</div>
+        <p class="flow-desc">Go where the work happens. Watch for an hour. Dashboards lie by omission; reality doesn't.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Multiple causes — how do we map them all?"</p>
+        <div class="flow-tool">Fishbone / Ishikawa</div>
+        <p class="flow-desc">Structured brainstorm by category (Method, Machine, Material, etc.). Surfaces causes you'd miss otherwise.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <span>End of reference &middot; 15 concepts</span>
+    <span class="footer-mark">— Every prevented defect is permanent capacity. —</span>
+    <span>Print-ready &middot; v1.0</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

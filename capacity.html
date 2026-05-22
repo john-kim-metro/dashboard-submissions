@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capacity Concepts — A Working Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1612;
+    --paper: #f5f1e8;
+    --paper-deep: #ede6d3;
+    --rule: #2a221a;
+    --accent: #b8451f;
+    --accent-soft: #d96846;
+    --muted: #6b6256;
+    --gold: #a8842b;
+    --teal: #2d5a52;
+    --plum: #6b2d4f;
+    --navy: #1e3a5f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(184,69,31,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(45,90,82,0.04) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 48px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ─── MASTHEAD ─────────────────────────── */
+  .masthead {
+    border-top: 4px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 28px 0 22px;
+    margin-bottom: 8px;
+  }
+
+  .masthead-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .masthead h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 88px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    font-variation-settings: 'SOFT' 30, 'WONK' 1;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .masthead-sub {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .masthead-tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    color: var(--ink);
+    max-width: 580px;
+    line-height: 1.4;
+  }
+
+  .masthead-edition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ─── HOW TO USE ─────────────────────────── */
+  .how-to-use {
+    margin: 36px 0 48px;
+    padding: 24px 28px;
+    background: var(--paper-deep);
+    border-left: 3px solid var(--accent);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .how-to-use-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: stretch;
+    padding: 4px 0;
+  }
+
+  .how-to-use p {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .how-to-use p + p { margin-top: 10px; }
+
+  /* ─── SECTION HEADERS ─────────────────────── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin: 64px 0 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .section-header:first-of-type { margin-top: 24px; }
+
+  .section-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--accent);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    flex: 1;
+    font-variation-settings: 'SOFT' 30';
+  }
+
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* ─── CONCEPT CARDS ───────────────────────── */
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .concept {
+    padding: 28px 28px 24px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.25s;
+  }
+
+  .concept:hover { background: rgba(184,69,31,0.03); }
+
+  .concept-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .concept-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .concept-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .tag-foundational { color: var(--accent); }
+  .tag-diagnostic   { color: var(--teal); }
+  .tag-strategic    { color: var(--navy); }
+  .tag-workforce    { color: var(--plum); }
+  .tag-benchmark    { color: var(--gold); }
+
+  .concept-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    margin: 6px 0 14px;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  .concept-formula em {
+    color: var(--accent-soft);
+    font-style: normal;
+  }
+
+  .concept-block {
+    margin-bottom: 14px;
+  }
+
+  .concept-block:last-child { margin-bottom: 0; }
+
+  .concept-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .concept-block-label::before {
+    content: '';
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .concept-block p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .concept-example {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--paper-deep);
+    border-radius: 2px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .concept-example::before {
+    content: 'EX';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: var(--paper);
+    padding: 0 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .concept-example strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ─── DECISION FLOWCHART ───────────────── */
+  .flowchart-section {
+    margin-top: 80px;
+    padding: 40px 36px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flowchart-section::before {
+    content: 'WHEN TO REACH FOR WHAT';
+    position: absolute;
+    top: 14px;
+    right: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent-soft);
+    opacity: 0.7;
+  }
+
+  .flowchart-section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    font-variation-settings: 'SOFT' 30';
+  }
+
+  .flowchart-section h2 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent-soft);
+  }
+
+  .flowchart-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(245,241,232,0.7);
+    margin-bottom: 32px;
+    max-width: 640px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+
+  .flow-card {
+    padding: 18px 20px;
+    background: rgba(245,241,232,0.06);
+    border-left: 2px solid var(--accent-soft);
+    border-radius: 2px;
+  }
+
+  .flow-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--accent-soft);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .flow-tool {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--paper);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .flow-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(245,241,232,0.75);
+  }
+
+  /* ─── FOOTER ─────────────────────────────── */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .footer-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+
+  /* ─── RESPONSIVE ───────────────────────── */
+  @media (max-width: 768px) {
+    .container { padding: 40px 24px 60px; }
+    .concepts-grid { grid-template-columns: 1fr; }
+    .how-to-use { grid-template-columns: 1fr; }
+    .how-to-use-label { writing-mode: horizontal-tb; transform: none; }
+    .section-header { flex-wrap: wrap; gap: 12px; }
+    .section-number { font-size: 42px; }
+    .section-title { font-size: 24px; }
+  }
+
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .concept { break-inside: avoid; }
+    .flowchart-section { background: white; color: black; border: 1px solid black; }
+    .flowchart-section h2, .flow-tool, .flow-desc { color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══════ MASTHEAD ═══════ -->
+  <header class="masthead">
+    <div class="masthead-meta">
+      <span>The Operating Manual</span>
+      <span>Vol. I · No. 01</span>
+      <span>For Working Reference</span>
+    </div>
+    <h1>Capacity, <em>measured.</em></h1>
+    <div class="masthead-sub">
+      <p class="masthead-tagline">A pocket reference of operations management concepts — what each one tells you, and the moment to reach for it.</p>
+      <div class="masthead-edition">
+        Applied To<br>
+        Revenue Cycle &middot; Patient Flow<br>
+        Call Centers &middot; Service Ops
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════ HOW TO USE ═══════ -->
+  <aside class="how-to-use">
+    <div class="how-to-use-label">How to use</div>
+    <div>
+      <p>Capacity problems wear many masks. The same symptom — a growing backlog, a stressed team, a missed target — can come from a constraint, a queue, a variability mismatch, or simply the wrong measurement. Different tools cut differently.</p>
+      <p>Scan the categories below. Match the question you're trying to answer to the lens that fits. The concept names are the search terms; the examples are how they land in a clinic.</p>
+    </div>
+  </aside>
+
+  <!-- ═══════ SECTION 1: FOUNDATIONAL ═══════ -->
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div class="section-title">Foundational laws</div>
+    <div class="section-count">Three concepts &middot; Always true</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Little's Law -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Little's Law</h3>
+        <span class="concept-tag tag-foundational">Foundational</span>
+      </div>
+      <div class="concept-formula">L = <em>λ</em> × W &nbsp;&nbsp;|&nbsp;&nbsp; Inventory = Throughput × Flow Time</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>For any stable queue, the amount of work sitting in it equals how fast work arrives times how long each item takes to complete. Know any two, solve for the third.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Any time you're managing a queue with arrivals and exits — claims, patients, calls, tickets. It's the starting point for almost every capacity diagnosis.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Days in AR climbing? Apply Little's Law: either claims are arriving faster (volume up), being worked slower (cycle time up), or both. The equation tells you which lever to pull.
+      </div>
+    </article>
+
+    <!-- Theory of Constraints -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Theory of Constraints</h3>
+        <span class="concept-tag tag-foundational">Foundational</span>
+      </div>
+      <div class="concept-formula">System throughput = <em>Bottleneck</em> throughput</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Every system has exactly one bottleneck at a time. Total output is governed entirely by that one step. Capacity added anywhere else is wasted.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before hiring or restructuring. Before automating any one step. Whenever someone says "we need more people" — first ask where, and why that step specifically.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Patient flow.</strong> Adding more exam rooms won't shorten visits if check-in is the bottleneck. Adding front-desk staff won't help if the bottleneck is the provider. Find the constraint first.
+      </div>
+    </article>
+
+    <!-- Queueing Theory -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Queueing Theory</h3>
+        <span class="concept-tag tag-foundational">Foundational</span>
+      </div>
+      <div class="concept-formula">Wait time grows as <em>ρ</em> / (1 − <em>ρ</em>)</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Utilization above ~85% causes wait times to explode non-linearly. A team running at 95% isn't efficient — it's fragile. Small disruptions create weeks of backlog.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>When justifying "slack" to finance. When a team that looks fully utilized keeps falling behind. When variability (sick days, payer batches, seasonal spikes) feels disproportionately disruptive.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Call center.</strong> Staffing to 95% utilization sounds efficient but produces 5-minute hold times. Staffing to 80% produces 30-second holds. The math is non-linear; intuition undersells it.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 2: DIAGNOSTIC ═══════ -->
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div class="section-title">Diagnostic tools</div>
+    <div class="section-count">Four concepts &middot; Measure first</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Takt / Cycle / Lead -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Takt, Cycle &amp; Lead Time</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Takt = <em>Available time</em> / Demand<br>Cycle = time per unit<br>Lead = total elapsed time</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Takt is the pace you <em>need</em>. Cycle is the pace you <em>have</em>. Lead is what the customer <em>feels</em>. If cycle &gt; takt, you're structurally under capacity — no amount of effort fixes it.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Right-sizing a team. Deciding whether a process needs more people or better tools. Comparing target performance to reality without ambiguity.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> 500 claims/day &divide; 5 billers &times; 7 productive hours = 5.04 min/claim takt. If actual cycle is 7 minutes, you're 40% under capacity — that's a math problem, not an effort one.
+      </div>
+    </article>
+
+    <!-- Utilization & Capacity Cushion -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Utilization &amp; Cushion</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Target utilization ≈ 80–85% for variable demand</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>How much of available capacity is actually used. A planned 15–20% cushion absorbs variability, training, meetings, and growth. Not slack — slack is unplanned. This is engineered.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Reading idle-time data (like HelloRache). Setting headcount targets. Justifying why "100% busy" is the wrong goal.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Idle 7% means no cushion — fragile. Idle 64% means overstaffed or misallocated. Idle 15–20% with stable backlog is the sweet spot you're aiming for.
+      </div>
+    </article>
+
+    <!-- Service Blueprinting -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Service Blueprinting</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Map every step → measure → find waste</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Where capacity actually goes. Most teams discover 60–70% of staff time goes to a few step types — rework, status checks, exceptions — not the work they think they do.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before automating anything. Before redesigning a workflow. When you suspect the work itself is the wrong shape, not the team size.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Patient flow.</strong> Map check-in to checkout. You'll often find a third of the lead time is patients waiting on internal handoffs invisible from any one role's vantage point.
+      </div>
+    </article>
+
+    <!-- Inventory & Aging -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Inventory &amp; Aging Analysis</h3>
+        <span class="concept-tag tag-diagnostic">Diagnostic</span>
+      </div>
+      <div class="concept-formula">Trend backlog volume + oldest-item age over time</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Whether throughput is keeping up with demand. Productivity metrics tell you how hard a team works; aging tells you whether that work is enough.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Weekly capacity check-ins. Whenever productivity looks fine but outcomes don't. Especially good as a leading indicator before days-in-AR moves.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> If denial backlog is stable at 200 items and oldest is &lt;14 days, capacity is adequate. If either is climbing, you have a problem — even if every biller is "busy."
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 3: STRATEGIC ═══════ -->
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div class="section-title">Strategic levers</div>
+    <div class="section-count">Three concepts &middot; Design choices</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Pooling Effect -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">The Pooling Effect</h3>
+        <span class="concept-tag tag-strategic">Strategic</span>
+      </div>
+      <div class="concept-formula">Combined variance &lt; sum of individual variances</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Combining variable demand streams smooths the combined queue. Cross-trained generalists need less total capacity than the same headcount split into deep specialists.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Cross-train vs. specialize debates. Designing teams for a multi-location practice. Whenever one queue spikes while another sits idle.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> The mathematical argument for cross-training: pooled denials + AR follow-up needs ~15% less capacity than the same staff siloed, because spikes in one offset lulls in the other.
+      </div>
+    </article>
+
+    <!-- Demand-Capacity Strategies -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Chase vs. Level Strategy</h3>
+        <span class="concept-tag tag-strategic">Strategic</span>
+      </div>
+      <div class="concept-formula">Vary capacity &nbsp;|&nbsp; vary demand &nbsp;|&nbsp; vary backlog</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Three ways to handle variable demand: chase it (flex headcount), level it (smooth demand), or absorb it (let backlog flex). Most service ops default to the third by accident.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Annual capacity planning. Deciding between PT/PRN staff vs. full-time. Whenever backlog has become a structural buffer instead of a temporary one.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Call center.</strong> Most call centers chase demand with shift staggering. RCM teams almost always level capacity and let backlog absorb the swings — fine until backlog becomes permanent.
+      </div>
+    </article>
+
+    <!-- Operations Triangle -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">The Operations Triangle</h3>
+        <span class="concept-tag tag-strategic">Strategic</span>
+      </div>
+      <div class="concept-formula">Cost &nbsp;◬&nbsp; Quality &nbsp;◬&nbsp; Speed / Flexibility</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>You can't optimize all three at once. Where you sit on this triangle is a strategic choice, not an operational one. Pretending otherwise produces incoherent staffing decisions.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Before any capacity decision with budget implications. Whenever leadership wants "faster, better, cheaper" — naming the tradeoff is the work.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> Staff for peak claim volume = high cost, fast service, low backlog. Staff for average = lower cost, periodic delays. Both are valid; choosing matters more than the choice.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 4: WORKFORCE ═══════ -->
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div class="section-title">Workforce modeling</div>
+    <div class="section-count">Three concepts &middot; Headcount math</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- Erlang C -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Erlang C</h3>
+        <span class="concept-tag tag-workforce">Workforce</span>
+      </div>
+      <div class="concept-formula">Staffing required = <em>f</em>(arrival rate, handle time, service level)</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>For a given arrival rate, handle time, and target service level (say, 80% of calls answered in 30 sec), the precise headcount needed. Small service-level increases require disproportionate staffing.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Phone-based teams. Any work queue with measurable arrival patterns. Whenever someone proposes a service-level target without knowing the cost.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Call center.</strong> Going from "answer in 60s" to "answer in 30s" can require 30%+ more staff — same calls, same handle time. Erlang C makes the cost of that promise visible.
+      </div>
+    </article>
+
+    <!-- Driver-Based Forecasting -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Driver-Based FTE Modeling</h3>
+        <span class="concept-tag tag-workforce">Workforce</span>
+      </div>
+      <div class="concept-formula">FTE = <em>f</em>(volume drivers) &nbsp;not&nbsp; FTE = last year + 1</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Headcount as a ratio of business drivers (encounters, claims, providers, locations) rather than a function of last year's headcount. Lets you forecast capacity for any future scenario.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Opening a new location. Onboarding a new provider line. Building a defensible budget. Replacing "we just need one more" arguments with math.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM.</strong> 1 AR FTE per ~12,000 annual claims; 1 pre-auth FTE per ~8,000 auth-requiring visits. New location's projected volume × ratios = incremental hire plan.
+      </div>
+    </article>
+
+    <!-- Learning Curves -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Learning Curves</h3>
+        <span class="concept-tag tag-workforce">Workforce</span>
+      </div>
+      <div class="concept-formula">~50% productivity month 1 &middot; ~75% month 3 &middot; ~100% month 6</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>New hires aren't full FTEs immediately. Knowledge work ramps over months. Hire-by date and full-capacity date are different dates.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Planning hires ahead of growth, not in reaction. Building location-opening timelines. Setting realistic ramp-period expectations with finance.</p>
+      </div>
+      <div class="concept-example">
+        <strong>Multi-location.</strong> New site opens June 1, needs 4 FTE at maturity. Hiring May 15 = ~2 effective FTE in month 1. Start hiring March to land at full capacity by month 4.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ SECTION 5: BENCHMARKS ═══════ -->
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div class="section-title">Industry benchmarks</div>
+    <div class="section-count">Two concepts &middot; External reference</div>
+  </div>
+
+  <div class="concepts-grid">
+
+    <!-- KPI Standards -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Published KPI Benchmarks</h3>
+        <span class="concept-tag tag-benchmark">Benchmark</span>
+      </div>
+      <div class="concept-formula">MGMA &middot; HFMA &middot; HBMA published medians</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>How your numbers compare to peer practices. Useful as a sanity check; dangerous as a target. Specialty mix, payer mix, and automation level vary enormously.</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Initial assessment of where you stand. Board reporting. Validating internal targets. Never as a substitute for understanding your own process.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM benchmarks.</strong> Cost to collect 3–5% (high performer), days in AR &lt;35, AR&gt;90 days &lt;15%, net collection rate 96%+, first-pass resolution 95%+, denial rate &lt;5%.
+      </div>
+    </article>
+
+    <!-- Productivity Standards -->
+    <article class="concept">
+      <div class="concept-head">
+        <h3 class="concept-name">Productivity Standards per FTE</h3>
+        <span class="concept-tag tag-benchmark">Benchmark</span>
+      </div>
+      <div class="concept-formula">Work units per FTE per day &mdash; by function</div>
+      <div class="concept-block">
+        <div class="concept-block-label">What it tells you</div>
+        <p>Whether individual output is in a reasonable range. Combined with idle %, separates "working hard" from "throughput sufficient."</p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-block-label">When to apply</div>
+        <p>Per-person capacity reviews. Identifying training opportunities. Comparing automated vs. manual workflows.</p>
+      </div>
+      <div class="concept-example">
+        <strong>RCM ranges.</strong> Claims submission 80–120/day &middot; AR follow-up 40–60 accounts &middot; Denials 25–40 worked &middot; Payment posting 600–1,200 lines manual &middot; Pre-auth 15–25/day.
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════ FLOWCHART ═══════ -->
+  <section class="flowchart-section">
+    <h2>Reach for <em>this</em>, when…</h2>
+    <p class="flowchart-intro">The hardest part isn't knowing the concepts — it's remembering which one fits the moment. Match the question to the tool.</p>
+
+    <div class="flow-grid">
+
+      <div class="flow-card">
+        <p class="flow-question">"Our backlog keeps growing — what do I look at first?"</p>
+        <div class="flow-tool">Little's Law + Aging Analysis</div>
+        <p class="flow-desc">Decompose into arrivals, cycle time, or both. Backlog age tells you which lever broke.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Should we hire more people?"</p>
+        <div class="flow-tool">Theory of Constraints</div>
+        <p class="flow-desc">Find the actual bottleneck before adding headcount anywhere else. Most "hiring" requests fail this test.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Are we right-sized? What's the math?"</p>
+        <div class="flow-tool">Takt vs. Cycle Time</div>
+        <p class="flow-desc">Pace required vs. pace achieved. If cycle &gt; takt, no effort fixes it.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Everyone's busy but we keep falling behind."</p>
+        <div class="flow-tool">Queueing Theory</div>
+        <p class="flow-desc">Utilization above 85% causes wait times to spike. Busy ≠ adequate.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Should we cross-train or specialize?"</p>
+        <div class="flow-tool">Pooling Effect</div>
+        <p class="flow-desc">Cross-training reduces total capacity needed by smoothing combined variance.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"How many FTEs for the new location?"</p>
+        <div class="flow-tool">Driver-Based Modeling + Learning Curves</div>
+        <p class="flow-desc">Ratios applied to projected volume, ramped over realistic onboarding time.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"What service level can we afford?"</p>
+        <div class="flow-tool">Erlang C + Operations Triangle</div>
+        <p class="flow-desc">Naming the cost-quality-speed tradeoff explicitly, with math.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"Where does staff time actually go?"</p>
+        <div class="flow-tool">Service Blueprinting</div>
+        <p class="flow-desc">Map the process before redesigning. Most time goes to invisible step types.</p>
+      </div>
+
+      <div class="flow-card">
+        <p class="flow-question">"How do we compare to peers?"</p>
+        <div class="flow-tool">Published Benchmarks</div>
+        <p class="flow-desc">Use MGMA/HFMA/HBMA as a sanity check, not a target. Context matters.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <span>End of reference &middot; 15 concepts</span>
+    <span class="footer-mark">— Keep within reach. —</span>
+    <span>Print-ready &middot; v1.0</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
