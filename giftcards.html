@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Cards · Metro Dermatology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;600&family=Inter+Tight:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --bg-card: #fdfcf9;
+    --ink: #1a1f1c;
+    --ink-soft: #5a625c;
+    --ink-faint: #9ba39e;
+    --line: #e4dfd4;
+    --line-soft: #efeae0;
+    --accent: #2d5a3d;
+    --accent-soft: #e8f0ea;
+    --warning: #b35900;
+    --warning-soft: #fbeede;
+    --danger: #9c2828;
+    --danger-soft: #f7e4e4;
+    --gold: #8a6d2a;
+    --shadow-sm: 0 1px 2px rgba(26, 31, 28, 0.04);
+    --shadow-md: 0 2px 8px rgba(26, 31, 28, 0.06), 0 1px 2px rgba(26, 31, 28, 0.04);
+    --shadow-lg: 0 8px 24px rgba(26, 31, 28, 0.08), 0 2px 6px rgba(26, 31, 28, 0.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(45, 90, 61, 0.025) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(138, 109, 42, 0.02) 0%, transparent 40%);
+  }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; font-feature-settings: 'ss01'; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+    background: rgba(253, 252, 249, 0.92);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .brand-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-style: italic;
+  }
+  .brand-mark::before {
+    content: '◈';
+    margin-right: 8px;
+    color: var(--accent);
+    font-style: normal;
+    font-size: 14px;
+  }
+  .brand-sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    border-left: 1px solid var(--line);
+    padding-left: 14px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .location-picker {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 6px 6px 6px 14px;
+    transition: all 0.15s ease;
+  }
+  .location-picker:hover { border-color: var(--ink-faint); }
+  .location-picker .pin {
+    color: var(--accent);
+    margin-right: 8px;
+    display: flex;
+  }
+  .location-picker .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    margin-right: 10px;
+  }
+  .location-picker select {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    padding: 6px 28px 6px 8px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a625c' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    border-radius: 6px;
+  }
+  .location-picker select:hover { background-color: var(--bg); }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .user-chip .avatar {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* TAB NAV */
+  .tabnav {
+    border-bottom: 1px solid var(--line);
+    padding: 0 40px;
+    display: flex;
+    gap: 4px;
+    background: rgba(253, 252, 249, 0.5);
+  }
+  .tab {
+    padding: 14px 18px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+  .tab .tab-icon {
+    width: 16px; height: 16px;
+    opacity: 0.7;
+  }
+  .tab.active .tab-icon { opacity: 1; }
+  .tab-spacer { flex: 1; }
+  .tab.admin-tag {
+    margin-left: auto;
+  }
+  .admin-badge {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 40px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* HERO LOOKUP — the centerpiece */
+  .hero {
+    margin-bottom: 36px;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+  .hero-help {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+  .hero-help code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+
+  .lookup-bar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+  }
+  .lookup-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg), 0 0 0 4px rgba(45, 90, 61, 0.08);
+  }
+  .lookup-bar .icon {
+    padding: 0 18px 0 22px;
+    color: var(--ink-faint);
+  }
+  .lookup-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 20px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .lookup-bar input::placeholder {
+    color: var(--ink-faint);
+    font-family: 'Inter Tight', sans-serif;
+    letter-spacing: 0;
+  }
+  .lookup-bar .mode-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    margin-right: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.2s ease;
+  }
+  .lookup-bar .mode-tag.mrn-mode {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+  .lookup-bar .kbd-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 18px;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  kbd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 7px;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: var(--bg);
+    color: var(--ink-soft);
+  }
+
+  /* SINGLE PRIMARY ACTION */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .action {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 26px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    font-family: inherit;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .action:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--ink-faint);
+  }
+  .action.primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .action.primary:hover { background: #0d100e; }
+  .action-icon {
+    width: 42px; height: 42px;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.12);
+    color: var(--bg);
+    border-radius: 11px;
+    flex-shrink: 0;
+  }
+  .action-text { flex: 1; }
+  .action-title {
+    font-family: 'Fraunces', serif;
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  .action-desc {
+    color: rgba(246, 244, 239, 0.7);
+    font-size: 13.5px;
+  }
+  .action-arrow {
+    color: rgba(246, 244, 239, 0.5);
+    transition: transform 0.2s ease;
+  }
+  .action:hover .action-arrow {
+    transform: translateX(4px);
+    color: var(--bg);
+  }
+
+  /* RECENT ACTIVITY */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+  }
+  .section-header h2 em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .section-header .meta {
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* ACTIVITY TABLE */
+  .activity {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .activity-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 130px 130px 110px;
+    gap: 20px;
+    padding: 16px 24px;
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+    transition: background 0.15s ease;
+    cursor: pointer;
+  }
+  .activity-row:last-child { border-bottom: none; }
+  .activity-row:hover { background: var(--bg); }
+  .activity-row.header {
+    background: var(--bg);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    padding: 12px 24px;
+    cursor: default;
+  }
+  .activity-row.header:hover { background: var(--bg); }
+
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .activity-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .activity-primary { color: var(--ink); }
+  .activity-secondary {
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  .amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+  }
+  .amount.positive { color: var(--accent); }
+  .amount.negative { color: var(--danger); }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    width: fit-content;
+  }
+  .tag.purchase {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .tag.use {
+    background: var(--warning-soft);
+    color: var(--warning);
+  }
+  .tag.dot::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ===== ADMIN — TRANSACTIONS ===== */
+  .admin-header {
+    margin-bottom: 24px;
+  }
+  .admin-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .admin-header h1 em { font-style: italic; color: var(--accent); }
+  .admin-sub { color: var(--ink-soft); font-size: 14px; }
+
+  .filters {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) auto;
+    gap: 10px;
+    align-items: end;
+  }
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .filter-group label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .filter-group input,
+  .filter-group select {
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--bg);
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+  }
+  .filter-group input.mono { font-family: 'JetBrains Mono', monospace; }
+  .filter-group input:focus,
+  .filter-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(45, 90, 61, 0.08);
+  }
+  .filter-clear {
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-family: inherit;
+    transition: all 0.15s ease;
+    height: 36px;
+  }
+  .filter-clear:hover { background: var(--bg-card); color: var(--ink); }
+
+  .results-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+  .results-count {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .results-count strong { color: var(--ink); font-weight: 600; }
+  .export-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 7px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .export-btn:hover { background: var(--bg-card); color: var(--ink); }
+
+  .txn-table {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .txn-row {
+    display: grid;
+    grid-template-columns: 110px 80px 110px 90px 120px 1fr 100px;
+    gap: 16px;
+    padding: 12px 20px;
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 13px;
+    transition: background 0.15s ease;
+  }
+  .txn-row:last-child { border-bottom: none; }
+  .txn-row:hover { background: var(--bg); }
+  .txn-row.header {
+    background: var(--bg);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    padding: 11px 20px;
+    font-weight: 500;
+  }
+  .txn-row.header:hover { background: var(--bg); }
+  .txn-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .txn-mrn, .txn-card {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+  }
+  .txn-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+  }
+  .txn-amount.positive { color: var(--accent); }
+  .txn-amount.negative { color: var(--danger); }
+  .txn-user {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .txn-loc {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-faint);
+  }
+  .empty-state .serif { font-size: 20px; color: var(--ink-soft); margin-bottom: 6px; }
+
+  /* ===== ANALYTICS ===== */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat-value .currency {
+    font-size: 18px;
+    opacity: 0.5;
+    margin-right: 2px;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stat-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .stat-trend.up { background: var(--accent-soft); color: var(--accent); }
+  .stat-trend.down { background: var(--danger-soft); color: var(--danger); }
+
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .panel {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .panel-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .panel-meta {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+
+  /* CHART */
+  .chart {
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0 4px;
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    height: 100%;
+    justify-content: flex-end;
+    position: relative;
+  }
+  .bar-stack {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: flex-end;
+  }
+  .bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    transition: opacity 0.15s ease;
+    cursor: pointer;
+    min-height: 2px;
+  }
+  .bar.sales { background: var(--accent); }
+  .bar.uses { background: var(--warning); opacity: 0.85; }
+  .bar:hover { opacity: 0.7; }
+  .chart-labels {
+    display: flex;
+    gap: 4px;
+    padding: 8px 4px 0;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .chart-labels span {
+    flex: 1;
+    text-align: center;
+  }
+  .legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+  }
+  .legend-dot.sales { background: var(--accent); }
+  .legend-dot.uses { background: var(--warning); }
+
+  /* BREAKDOWN LIST */
+  .breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .breakdown-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .breakdown-name {
+    font-size: 13.5px;
+    margin-bottom: 6px;
+  }
+  .breakdown-bar-wrap {
+    height: 6px;
+    background: var(--line-soft);
+    border-radius: 99px;
+    overflow: hidden;
+    grid-column: 1 / -1;
+  }
+  .breakdown-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+  }
+  .breakdown-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .breakdown-pct {
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* LIABILITY CARD */
+  .liability {
+    background: linear-gradient(135deg, #2d5a3d 0%, #1a3a26 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .liability::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  .liability::after {
+    content: '';
+    position: absolute;
+    right: 10px; top: 10px;
+    width: 80px; height: 80px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .liability-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .liability-value {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .liability-value .currency { font-size: 22px; opacity: 0.6; margin-right: 4px; }
+  .liability-sub {
+    font-size: 13px;
+    opacity: 0.8;
+    max-width: 80%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 31, 28, 0.4);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 5vh;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-backdrop.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal {
+    background: var(--bg-card);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 620px;
+    box-shadow: 0 20px 60px rgba(26, 31, 28, 0.2);
+    animation: slideUp 0.25s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .modal-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .modal-sub {
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+  .modal-close {
+    background: transparent;
+    border: 1px solid var(--line);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+  .modal-close:hover {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .modal-body { padding: 24px 32px 32px; }
+
+  /* CARD DETAIL */
+  .card-detail-hero {
+    background: linear-gradient(135deg, #2d5a3d 0%, #1a3a26 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-detail-hero::before {
+    content: '◈';
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 80px;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+  }
+  .card-detail-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .card-detail-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+  .card-detail-balance {
+    font-family: 'Fraunces', serif;
+    font-size: 46px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .card-detail-balance .currency { font-size: 24px; opacity: 0.6; margin-right: 4px; }
+  .card-detail-of {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 8px;
+  }
+
+  .card-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 20px;
+  }
+  .meta-item .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 3px;
+  }
+  .meta-item .meta-value {
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .meta-item .meta-value.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  .history-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .history-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    align-items: center;
+  }
+  .history-date {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .history-loc {
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  /* MULTIPLE CARDS FOR ONE MRN */
+  .mrn-results {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .mrn-results-header {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .mrn-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mrn-card:hover {
+    border-color: var(--accent);
+    background: var(--bg-card);
+    transform: translateX(2px);
+  }
+  .mrn-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .mrn-card-meta {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .mrn-card-bal {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .mrn-card-bal.depleted {
+    color: var(--ink-faint);
+    font-size: 14px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .btn {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg-card);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn:hover { background: var(--bg); border-color: var(--ink-faint); }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .btn.primary:hover { background: #0d100e; }
+  .btn.warning {
+    background: var(--warning-soft);
+    color: var(--warning);
+    border-color: rgba(179, 89, 0, 0.2);
+  }
+  .btn.warning:hover {
+    background: var(--warning);
+    color: white;
+    border-color: var(--warning);
+  }
+
+  /* FORM */
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    margin-bottom: 7px;
+    font-weight: 500;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--bg-card);
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition: all 0.15s ease;
+  }
+  .form-group input.mono {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .form-hint {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 5px;
+  }
+  .location-readonly {
+    padding: 12px 14px;
+    border: 1px dashed var(--line);
+    border-radius: 9px;
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .location-readonly .change-link {
+    margin-left: auto;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: underline;
+  }
+
+  /* USE — BALANCE PREVIEW */
+  .balance-preview {
+    background: var(--accent-soft);
+    border: 1px solid rgba(45, 90, 61, 0.15);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 4px 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideUp 0.25s ease;
+  }
+  .balance-preview .bp-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .balance-preview .bp-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .balance-preview .bp-mrn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  /* SUGGESTIONS DROPDOWN */
+  .suggestions {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    z-index: 50;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .suggestions.show { display: block; }
+  .lookup-bar-wrap { position: relative; }
+  .suggestion {
+    padding: 12px 22px;
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--line-soft);
+    transition: background 0.1s ease;
+  }
+  .suggestion:last-child { border-bottom: none; }
+  .suggestion:hover, .suggestion.active { background: var(--bg); }
+  .suggestion-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .suggestion-mrn {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .suggestion-bal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .suggestion-bal.depleted { color: var(--ink-faint); text-decoration: line-through; }
+  .suggestion-group-label {
+    padding: 8px 22px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    background: var(--bg);
+    font-weight: 600;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 14px 22px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 200;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast .check {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: white;
+    font-size: 13px;
+  }
+
+  /* STATUS BANNER */
+  .alert {
+    padding: 12px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .alert.show { display: flex; }
+  .alert.error {
+    background: var(--danger-soft);
+    color: var(--danger);
+    border: 1px solid rgba(156, 40, 40, 0.15);
+  }
+  .alert.warn {
+    background: var(--warning-soft);
+    color: var(--warning);
+    border: 1px solid rgba(179, 89, 0, 0.15);
+  }
+
+  /* INLINE — USE FORM TOGGLE */
+  .use-form-section {
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-soft);
+    animation: slideUp 0.25s ease;
+  }
+  .use-form-section.show { display: block; }
+  .use-form-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    margin-bottom: 4px;
+  }
+  .use-form-title em { font-style: italic; color: var(--accent); }
+  .use-form-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+
+  /* SMALL ELEMENTS */
+  svg.icon-sm { width: 16px; height: 16px; }
+  svg.icon-md { width: 20px; height: 20px; }
+
+  @media (max-width: 900px) {
+    .filters { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .analytics-grid { grid-template-columns: 1fr; }
+    .txn-row { grid-template-columns: 90px 70px 90px 1fr 90px; gap: 10px; padding: 10px 14px; font-size: 12px; }
+    .txn-row .hide-tablet { display: none; }
+  }
+  @media (max-width: 768px) {
+    main { padding: 24px 20px; }
+    header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+    .tabnav { padding: 0 20px; overflow-x: auto; }
+    .hero h1 { font-size: 30px; }
+    .form-row { grid-template-columns: 1fr; }
+    .card-meta-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">Metro <em>Gift Cards</em></div>
+    <div class="brand-sub">Internal · Cosmetic</div>
+  </div>
+  <div class="header-right">
+    <div class="location-picker">
+      <div class="pin">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <span class="label">Working at</span>
+      <select id="globalLocation">
+        <option>Bronx Concourse</option>
+        <option>Flushing</option>
+        <option>Forest Hills</option>
+        <option>Astoria</option>
+        <option>Manhattan</option>
+        <option>Jackson Heights</option>
+        <option>Whitestone</option>
+      </select>
+    </div>
+    <div class="user-chip">
+      <div class="avatar">JC</div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabnav">
+  <div class="tab active" onclick="switchTab('home', this)">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </div>
+  <div class="tab" onclick="switchTab('transactions', this)">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    Transactions <span class="admin-badge">Admin</span>
+  </div>
+  <div class="tab" onclick="switchTab('analytics', this)">
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V10"/><path d="M11 16V6"/><path d="M15 16v-4"/><path d="M19 16V8"/></svg>
+    Analytics <span class="admin-badge">Admin</span>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============== VIEW: HOME (Staff) ============== -->
+  <div class="view active" id="view-home">
+    <div class="hero">
+      <div class="hero-eyebrow">Gift Card Manager</div>
+      <h1>Look up a card or <em>start a sale.</em></h1>
+      <div class="hero-help">Search by card number — or prefix with <code>#</code> to search by MRN. Press <kbd>/</kbd> from anywhere to focus.</div>
+
+      <div class="lookup-bar-wrap">
+        <div class="lookup-bar">
+          <div class="icon">
+            <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <input type="text" id="lookup" placeholder="Card number — or #MRN" autocomplete="off" />
+          <div class="mode-tag" id="modeTag">Card</div>
+          <div class="kbd-hint">
+            <kbd>↵</kbd>
+          </div>
+        </div>
+
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+    </div>
+
+    <!-- SINGLE PRIMARY ACTION -->
+    <div class="quick-actions">
+      <button class="action primary" onclick="openModal('purchase')">
+        <div class="action-icon">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+        </div>
+        <div class="action-text">
+          <div class="action-title serif">New gift card sale</div>
+          <div class="action-desc">Record a purchase — card number, amount, MRN.</div>
+        </div>
+        <div class="action-arrow">
+          <svg class="icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+      </button>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <section>
+      <div class="section-header">
+        <h2 class="serif">Recent <em>activity</em></h2>
+        <div class="meta">Last 7 days · All locations</div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-row header">
+          <div>Card</div>
+          <div>Details</div>
+          <div>Type</div>
+          <div class="hide-mobile">Location</div>
+          <div style="text-align:right">Amount</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('3047')">
+          <div class="card-num">#3047</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 82516</span>
+            <span class="activity-secondary">Today · 2:14 PM</span>
+          </div>
+          <div><span class="tag purchase dot">Purchase</span></div>
+          <div class="hide-mobile activity-secondary">Bronx Concourse</div>
+          <div class="amount positive">+$500.00</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('1002')">
+          <div class="card-num">#1002</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 540012</span>
+            <span class="activity-secondary">Today · 11:08 AM · Partial use</span>
+          </div>
+          <div><span class="tag use dot">Use</span></div>
+          <div class="hide-mobile activity-secondary">Flushing</div>
+          <div class="amount negative">−$2,000.00</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('3041')">
+          <div class="card-num">#3041</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 199203</span>
+            <span class="activity-secondary">Yesterday · 4:42 PM</span>
+          </div>
+          <div><span class="tag purchase dot">Purchase</span></div>
+          <div class="hide-mobile activity-secondary">Forest Hills</div>
+          <div class="amount positive">+$1,200.00</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('2987')">
+          <div class="card-num">#2987</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 332108</span>
+            <span class="activity-secondary">Yesterday · 1:15 PM · Fully redeemed</span>
+          </div>
+          <div><span class="tag use dot">Use</span></div>
+          <div class="hide-mobile activity-secondary">Astoria</div>
+          <div class="amount negative">−$350.00</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('3038')">
+          <div class="card-num">#3038</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 445221</span>
+            <span class="activity-secondary">May 12 · 10:30 AM</span>
+          </div>
+          <div><span class="tag purchase dot">Purchase</span></div>
+          <div class="hide-mobile activity-secondary">Manhattan</div>
+          <div class="amount positive">+$750.00</div>
+        </div>
+
+        <div class="activity-row" onclick="showCard('3025')">
+          <div class="card-num">#3025</div>
+          <div class="activity-meta">
+            <span class="activity-primary">MRN 778455</span>
+            <span class="activity-secondary">May 11 · 3:55 PM · Remaining $150</span>
+          </div>
+          <div><span class="tag use dot">Use</span></div>
+          <div class="hide-mobile activity-secondary">Bronx Concourse</div>
+          <div class="amount negative">−$350.00</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============== VIEW: TRANSACTIONS (Admin) ============== -->
+  <div class="view" id="view-transactions">
+    <div class="admin-header">
+      <h1>All <em>transactions</em></h1>
+      <div class="admin-sub">Full ledger across every location. Filter, sort, export.</div>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label>Card #</label>
+        <input type="text" id="fCard" class="mono" placeholder="e.g. 3047" oninput="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label>MRN</label>
+        <input type="text" id="fMRN" class="mono" placeholder="e.g. 82516" oninput="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label>Location</label>
+        <select id="fLoc" onchange="applyFilters()">
+          <option value="">All locations</option>
+          <option>Bronx Concourse</option>
+          <option>Flushing</option>
+          <option>Forest Hills</option>
+          <option>Astoria</option>
+          <option>Manhattan</option>
+          <option>Jackson Heights</option>
+          <option>Whitestone</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sales rep</label>
+        <select id="fUser" onchange="applyFilters()">
+          <option value="">All staff</option>
+          <option>Jiyeong Cheon</option>
+          <option>Jinhee Kim</option>
+          <option>Maria Lopez</option>
+          <option>Sarah Patel</option>
+          <option>David Chen</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Type</label>
+        <select id="fType" onchange="applyFilters()">
+          <option value="">Both</option>
+          <option>Purchase</option>
+          <option>Use</option>
+        </select>
+      </div>
+      <button class="filter-clear" onclick="clearFilters()">Clear</button>
+    </div>
+
+    <div class="results-bar">
+      <div class="results-count"><strong id="resultCount">12</strong> transactions · Total <strong id="resultTotal">$5,450.00</strong></div>
+      <button class="export-btn">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export CSV
+      </button>
+    </div>
+
+    <div class="txn-table" id="txnTable">
+      <div class="txn-row header">
+        <div>Date</div>
+        <div>Type</div>
+        <div>Card</div>
+        <div>MRN</div>
+        <div>Location</div>
+        <div>Sales rep · Notes</div>
+        <div style="text-align:right">Amount</div>
+      </div>
+      <!-- rows injected by JS -->
+    </div>
+  </div>
+
+  <!-- ============== VIEW: ANALYTICS (Admin) ============== -->
+  <div class="view" id="view-analytics">
+    <div class="admin-header">
+      <h1>Gift card <em>analytics</em></h1>
+      <div class="admin-sub">Last 30 days · Compared to previous 30 days</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">Sales</div>
+        <div class="stat-value"><span class="currency">$</span>18,450</div>
+        <div class="stat-sub">
+          <span class="stat-trend up">↑ 12%</span> vs prior period
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Redemptions</div>
+        <div class="stat-value"><span class="currency">$</span>11,200</div>
+        <div class="stat-sub">
+          <span class="stat-trend up">↑ 8%</span> vs prior period
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Cards issued</div>
+        <div class="stat-value">42</div>
+        <div class="stat-sub">
+          <span class="stat-trend up">↑ 3</span> vs prior period
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Avg sale</div>
+        <div class="stat-value"><span class="currency">$</span>439</div>
+        <div class="stat-sub">
+          <span class="stat-trend down">↓ 4%</span> vs prior period
+        </div>
+      </div>
+    </div>
+
+    <div class="liability">
+      <div class="liability-label">Outstanding balance · liability</div>
+      <div class="liability-value"><span class="currency">$</span>34,890<span style="opacity:0.6">.00</span></div>
+      <div class="liability-sub">Across 87 active cards. This is the total value patients hold but haven't redeemed yet — your unbooked revenue obligation.</div>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Daily sales vs redemptions</div>
+          <div class="panel-meta">Last 14 days</div>
+        </div>
+        <div class="chart" id="chart"></div>
+        <div class="chart-labels" id="chartLabels"></div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot sales"></span>Sales (issued)</div>
+          <div class="legend-item"><span class="legend-dot uses"></span>Redemptions</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">By location</div>
+          <div class="panel-meta">Sales</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Bronx Concourse</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$5,420</div>
+              <div class="breakdown-pct">29%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:29%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Flushing</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$4,180</div>
+              <div class="breakdown-pct">23%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:23%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Manhattan</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$3,250</div>
+              <div class="breakdown-pct">18%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:18%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Forest Hills</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$2,400</div>
+              <div class="breakdown-pct">13%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:13%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Astoria</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$1,600</div>
+              <div class="breakdown-pct">9%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:9%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Jackson Heights</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$960</div>
+              <div class="breakdown-pct">5%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:5%"></div>
+            </div>
+          </div>
+          <div class="breakdown-item">
+            <div>
+              <div class="breakdown-name">Whitestone</div>
+            </div>
+            <div>
+              <div class="breakdown-value">$640</div>
+              <div class="breakdown-pct">3%</div>
+            </div>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar-fill" style="width:3%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analytics-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Top sales reps</div>
+          <div class="panel-meta">By total sold</div>
+        </div>
+        <div class="breakdown">
+          <div class="breakdown-item">
+            <div><div class="breakdown-name">Jiyeong Cheon · Bronx Concourse</div></div>
+            <div><div class="breakdown-value">$4,820</div><div class="breakdown-pct">11 cards</div></div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:88%"></div></div>
+          </div>
+          <div class="breakdown-item">
+            <div><div class="breakdown-name">Jinhee Kim · Flushing</div></div>
+            <div><div class="breakdown-value">$3,940</div><div class="breakdown-pct">9 cards</div></div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:72%"></div></div>
+          </div>
+          <div class="breakdown-item">
+            <div><div class="breakdown-name">Sarah Patel · Manhattan</div></div>
+            <div><div class="breakdown-value">$3,250</div><div class="breakdown-pct">7 cards</div></div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:59%"></div></div>
+          </div>
+          <div class="breakdown-item">
+            <div><div class="breakdown-name">Maria Lopez · Forest Hills</div></div>
+            <div><div class="breakdown-value">$2,400</div><div class="breakdown-pct">6 cards</div></div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:44%"></div></div>
+          </div>
+          <div class="breakdown-item">
+            <div><div class="breakdown-name">David Chen · Astoria</div></div>
+            <div><div class="breakdown-value">$1,600</div><div class="breakdown-pct">4 cards</div></div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:29%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Card lifecycle</div>
+          <div class="panel-meta">Active</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
+              <span>Active · partial balance</span>
+              <span class="mono" style="font-weight:500">52</span>
+            </div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:60%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
+              <span>Active · full balance</span>
+              <span class="mono" style="font-weight:500">35</span>
+            </div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:40%;background:var(--gold)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
+              <span>Fully redeemed (last 30d)</span>
+              <span class="mono" style="font-weight:500">18</span>
+            </div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:21%;background:var(--ink-faint)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
+              <span>Expiring within 30 days</span>
+              <span class="mono" style="font-weight:500;color:var(--warning)">7</span>
+            </div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:8%;background:var(--warning)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px">
+              <span>Expired · unredeemed</span>
+              <span class="mono" style="font-weight:500;color:var(--danger)">3</span>
+            </div>
+            <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:3%;background:var(--danger)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ============== CARD DETAIL MODAL ============== -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title serif">Card <em>#<span id="detailNum">3047</span></em></div>
+        <div class="modal-sub">Active · Issued <span id="detailIssued">April 10, 2025</span></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('detailModal')">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="card-detail-hero">
+        <div class="card-detail-label">Current balance</div>
+        <div class="card-detail-balance"><span class="currency">$</span><span id="detailBalance">456</span><span style="opacity:0.6">.00</span></div>
+        <div class="card-detail-of">of $<span id="detailOriginal">456</span>.00 original value</div>
+        <div style="position: absolute; bottom: 24px; right: 28px;">
+          <div class="card-detail-label" style="text-align:right">Card number</div>
+          <div class="card-detail-number" id="detailFullNum">3047</div>
+        </div>
+      </div>
+
+      <div class="card-meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">Patient MRN</div>
+          <div class="meta-value mono" id="detailMRN">82516</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Issued at</div>
+          <div class="meta-value" id="detailLoc">Bronx Concourse</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Expires</div>
+          <div class="meta-value" id="detailExpires">April 10, 2026</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Payment</div>
+          <div class="meta-value" id="detailPayment">Credit Card · MC 6048</div>
+        </div>
+      </div>
+
+      <div class="history-title">Transaction history</div>
+      <div class="history-list" id="detailHistory">
+        <!-- history rendered by JS -->
+      </div>
+
+      <!-- INLINE USE FORM -->
+      <div class="use-form-section" id="useFormSection">
+        <div class="use-form-title serif">Apply card toward <em>treatment</em></div>
+        <div class="use-form-sub">Partial uses allowed — any leftover stays on the card.</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="useAmount">Amount to redeem ($)</label>
+            <input type="number" id="useAmount" class="mono" placeholder="0.00" step="0.01" />
+            <div class="form-hint" id="useRemaining">Leftover will remain on card.</div>
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <div class="location-readonly">
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="useLocDisplay">Bronx Concourse</span>
+              <span class="change-link" onclick="document.getElementById('globalLocation').focus()">change in header</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="useNote">Comments <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint);font-weight:400">(optional)</span></label>
+          <input type="text" id="useNote" placeholder="e.g. Botox treatment, Dr. Kim" />
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button class="btn" onclick="toggleUseForm(false)">Cancel</button>
+          <button class="btn primary" onclick="submitUse()">
+            Apply redemption
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-actions" id="detailActions">
+        <button class="btn" onclick="closeModal('detailModal')">Close</button>
+        <button class="btn primary" id="detailRedeemBtn" onclick="toggleUseForm(true)">
+          Apply toward treatment
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== MRN RESULTS MODAL ============== -->
+<div class="modal-backdrop" id="mrnModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title serif">Cards for <em>MRN <span id="mrnNumber">540012</span></em></div>
+        <div class="modal-sub"><span id="mrnCount">2</span> cards found · Tap a card to view details</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('mrnModal')">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="mrn-results" id="mrnResults">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== PURCHASE MODAL ============== -->
+<div class="modal-backdrop" id="purchaseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title serif">New gift card <em>sale</em></div>
+        <div class="modal-sub">Record a new card purchase. All fields required unless noted.</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('purchaseModal')">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="purCard">Card number</label>
+          <input type="text" id="purCard" class="mono" placeholder="e.g. 3048" />
+          <div class="form-hint">From the physical pre-printed card.</div>
+        </div>
+        <div class="form-group">
+          <label for="purMRN">Patient MRN</label>
+          <input type="text" id="purMRN" class="mono" placeholder="e.g. 82516" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="purAmount">Amount ($)</label>
+          <input type="number" id="purAmount" class="mono" placeholder="0.00" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <div class="location-readonly">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="purLocDisplay">Bronx Concourse</span>
+            <span class="change-link" onclick="document.getElementById('globalLocation').focus()">change in header</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="purPay">Payment method</label>
+          <select id="purPay">
+            <option>Credit Card</option>
+            <option>Cash</option>
+            <option>Check</option>
+            <option>Care Credit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="purLast4">Last 4 of CC <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint);font-weight:400">(if applicable)</span></label>
+          <input type="text" id="purLast4" class="mono" placeholder="e.g. 6048" maxlength="4" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="purNote">Additional info <span style="text-transform:none;letter-spacing:0;color:var(--ink-faint);font-weight:400">(optional)</span></label>
+        <input type="text" id="purNote" placeholder="Any notes about this purchase…" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" onclick="closeModal('purchaseModal')">Cancel</button>
+        <button class="btn primary" onclick="submitPurchase()">
+          Record sale
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="check">✓</div>
+  <span id="toastMsg">Sale recorded</span>
+</div>
+
+<script>
+  // Mock card database
+  const cards = {
+    '3047': { mrn: '82516', balance: 456, original: 456, location: 'Bronx Concourse', issued: 'April 10, 2025', expires: 'April 10, 2026', payment: 'Credit Card · MC 6048',
+      history: [{ type: 'Purchase', loc: 'Bronx Concourse · MC 6048', amt: 456, date: 'Apr 10, 2025', user: 'Jiyeong Cheon' }] },
+    '1002': { mrn: '540012', balance: 200, original: 2200, location: 'Flushing', issued: 'Jan 15, 2025', expires: 'Jan 15, 2026', payment: 'Credit Card · Visa 1234',
+      history: [
+        { type: 'Use', loc: 'Flushing · Partial', amt: -2000, date: 'Apr 7, 2025', user: 'Jinhee Kim' },
+        { type: 'Purchase', loc: 'Flushing · Visa 1234', amt: 2200, date: 'Jan 15, 2025', user: 'Jinhee Kim' }
+      ] },
+    '2841': { mrn: '540012', balance: 0, original: 500, location: 'Flushing', issued: 'Oct 3, 2024', expires: 'Oct 3, 2025', payment: 'Cash',
+      history: [
+        { type: 'Use', loc: 'Flushing · Full', amt: -500, date: 'Dec 15, 2024', user: 'Jinhee Kim' },
+        { type: 'Purchase', loc: 'Flushing · Cash', amt: 500, date: 'Oct 3, 2024', user: 'Jinhee Kim' }
+      ] },
+    '3041': { mrn: '199203', balance: 1200, original: 1200, location: 'Forest Hills', issued: 'May 14, 2026', expires: 'May 14, 2027', payment: 'Cash',
+      history: [{ type: 'Purchase', loc: 'Forest Hills · Cash', amt: 1200, date: 'May 14, 2026', user: 'Maria Lopez' }] },
+    '2987': { mrn: '332108', balance: 0, original: 350, location: 'Astoria', issued: 'Feb 20, 2025', expires: 'Feb 20, 2026', payment: 'Credit Card · Amex 4499',
+      history: [
+        { type: 'Use', loc: 'Astoria · Full', amt: -350, date: 'May 14, 2026', user: 'David Chen' },
+        { type: 'Purchase', loc: 'Astoria · Amex 4499', amt: 350, date: 'Feb 20, 2025', user: 'David Chen' }
+      ] },
+    '3038': { mrn: '445221', balance: 750, original: 750, location: 'Manhattan', issued: 'May 12, 2026', expires: 'May 12, 2027', payment: 'Credit Card · Visa 8821',
+      history: [{ type: 'Purchase', loc: 'Manhattan · Visa 8821', amt: 750, date: 'May 12, 2026', user: 'Sarah Patel' }] },
+    '3025': { mrn: '778455', balance: 150, original: 500, location: 'Bronx Concourse', issued: 'Mar 3, 2025', expires: 'Mar 3, 2026', payment: 'Credit Card · MC 2210',
+      history: [
+        { type: 'Use', loc: 'Bronx Concourse · Partial', amt: -350, date: 'May 11, 2026', user: 'Jiyeong Cheon' },
+        { type: 'Purchase', loc: 'Bronx Concourse · MC 2210', amt: 500, date: 'Mar 3, 2025', user: 'Jiyeong Cheon' }
+      ] }
+  };
+
+  // Flat transactions list (for admin view)
+  const transactions = [
+    { date: '5/15/2026 2:14 PM', type: 'Purchase', card: '3047', mrn: '82516', loc: 'Bronx Concourse', user: 'Jiyeong Cheon', amt: 500, note: 'MC 6048' },
+    { date: '5/15/2026 11:08 AM', type: 'Use', card: '1002', mrn: '540012', loc: 'Flushing', user: 'Jinhee Kim', amt: -2000, note: 'Botox · Dr. Kim · Remaining $200' },
+    { date: '5/14/2026 4:42 PM', type: 'Purchase', card: '3041', mrn: '199203', loc: 'Forest Hills', user: 'Maria Lopez', amt: 1200, note: 'Cash' },
+    { date: '5/14/2026 1:15 PM', type: 'Use', card: '2987', mrn: '332108', loc: 'Astoria', user: 'David Chen', amt: -350, note: 'Filler · Fully redeemed' },
+    { date: '5/12/2026 10:30 AM', type: 'Purchase', card: '3038', mrn: '445221', loc: 'Manhattan', user: 'Sarah Patel', amt: 750, note: 'Visa 8821' },
+    { date: '5/11/2026 3:55 PM', type: 'Use', card: '3025', mrn: '778455', loc: 'Bronx Concourse', user: 'Jiyeong Cheon', amt: -350, note: 'Laser · Remaining $150' },
+    { date: '5/10/2026 9:20 AM', type: 'Purchase', card: '3033', mrn: '110923', loc: 'Bronx Concourse', user: 'Jiyeong Cheon', amt: 1000, note: 'MC 4521' },
+    { date: '5/9/2026 2:18 PM', type: 'Purchase', card: '3031', mrn: '887230', loc: 'Manhattan', user: 'Sarah Patel', amt: 2500, note: 'Care Credit' },
+    { date: '5/8/2026 11:45 AM', type: 'Use', card: '2944', mrn: '662401', loc: 'Flushing', user: 'Jinhee Kim', amt: -800, note: 'CoolSculpting · Partial · Remaining $200' },
+    { date: '5/7/2026 4:30 PM', type: 'Purchase', card: '3028', mrn: '991823', loc: 'Jackson Heights', user: 'Maria Lopez', amt: 350, note: 'Cash' },
+    { date: '5/6/2026 1:00 PM', type: 'Use', card: '2901', mrn: '443120', loc: 'Astoria', user: 'David Chen', amt: -600, note: 'Fully redeemed' },
+    { date: '5/5/2026 10:15 AM', type: 'Purchase', card: '3022', mrn: '775331', loc: 'Whitestone', user: 'David Chen', amt: 250, note: 'Visa 3344' },
+  ];
+
+  // ===== TABS =====
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('view-' + name).classList.add('active');
+    if (name === 'transactions') applyFilters();
+    if (name === 'analytics') renderChart();
+  }
+
+  // ===== LOCATION SYNC =====
+  const globalLocSelect = document.getElementById('globalLocation');
+  function syncLocation() {
+    const loc = globalLocSelect.value;
+    document.getElementById('purLocDisplay').textContent = loc;
+    document.getElementById('useLocDisplay').textContent = loc;
+  }
+  globalLocSelect.addEventListener('change', syncLocation);
+
+  // ===== LOOKUP =====
+  const lookupInput = document.getElementById('lookup');
+  const suggestionsEl = document.getElementById('suggestions');
+  const modeTag = document.getElementById('modeTag');
+
+  function updateMode() {
+    const v = lookupInput.value;
+    if (v.startsWith('#')) {
+      modeTag.textContent = 'MRN';
+      modeTag.classList.add('mrn-mode');
+    } else {
+      modeTag.textContent = 'Card';
+      modeTag.classList.remove('mrn-mode');
+    }
+  }
+
+  lookupInput.addEventListener('input', () => {
+    updateMode();
+    const raw = lookupInput.value.trim();
+
+    if (!raw || raw === '#') {
+      suggestionsEl.classList.remove('show');
+      return;
+    }
+
+    let matches = [];
+    let mode = 'card';
+
+    if (raw.startsWith('#')) {
+      mode = 'mrn';
+      const q = raw.slice(1).trim();
+      if (!q) { suggestionsEl.classList.remove('show'); return; }
+      // Match cards whose mrn starts with q
+      matches = Object.entries(cards).filter(([, c]) => c.mrn.startsWith(q));
+    } else {
+      // card number match
+      matches = Object.entries(cards).filter(([n]) => n.startsWith(raw));
+    }
+
+    if (!matches.length) {
+      const what = mode === 'mrn' ? `MRN starting with "${raw.slice(1)}"` : `card "${raw}"`;
+      suggestionsEl.innerHTML = `<div class="suggestion" style="cursor:default;color:var(--ink-faint);grid-template-columns:1fr">No ${what}</div>`;
+      suggestionsEl.classList.add('show');
+      return;
+    }
+
+    if (mode === 'mrn') {
+      // Group by MRN
+      const byMRN = {};
+      matches.forEach(([n, c]) => {
+        if (!byMRN[c.mrn]) byMRN[c.mrn] = [];
+        byMRN[c.mrn].push([n, c]);
+      });
+      const html = Object.entries(byMRN).map(([mrn, list]) => {
+        if (list.length === 1) {
+          const [n, c] = list[0];
+          const depleted = c.balance === 0;
+          return `<div class="suggestion" onclick="showCard('${n}'); clearLookup();">
+            <div class="suggestion-num">#${n}</div>
+            <div>
+              <div>MRN ${c.mrn}</div>
+              <div class="suggestion-mrn">${c.location} · Expires ${c.expires}</div>
+            </div>
+            <div class="suggestion-bal ${depleted ? 'depleted' : ''}">$${c.balance.toFixed(2)}</div>
+          </div>`;
+        } else {
+          return `<div class="suggestion" onclick="showMRN('${mrn}'); clearLookup();">
+            <div class="suggestion-num">MRN ${mrn}</div>
+            <div>
+              <div>${list.length} cards on file</div>
+              <div class="suggestion-mrn">${list.map(([n]) => '#' + n).join(' · ')}</div>
+            </div>
+            <div class="suggestion-bal">$${list.reduce((s, [, c]) => s + c.balance, 0).toFixed(2)}</div>
+          </div>`;
+        }
+      }).join('');
+      suggestionsEl.innerHTML = html;
+    } else {
+      suggestionsEl.innerHTML = matches.map(([n, c]) => {
+        const depleted = c.balance === 0;
+        return `<div class="suggestion" onclick="showCard('${n}'); clearLookup();">
+          <div class="suggestion-num">#${n}</div>
+          <div>
+            <div>MRN ${c.mrn}</div>
+            <div class="suggestion-mrn">${c.location} · Expires ${c.expires}</div>
+          </div>
+          <div class="suggestion-bal ${depleted ? 'depleted' : ''}">$${c.balance.toFixed(2)}</div>
+        </div>`;
+      }).join('');
+    }
+    suggestionsEl.classList.add('show');
+  });
+
+  function clearLookup() {
+    suggestionsEl.classList.remove('show');
+    lookupInput.value = '';
+    updateMode();
+  }
+
+  lookupInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const raw = lookupInput.value.trim();
+      if (raw.startsWith('#')) {
+        const mrn = raw.slice(1).trim();
+        const matching = Object.entries(cards).filter(([, c]) => c.mrn === mrn);
+        if (matching.length === 1) {
+          showCard(matching[0][0]); clearLookup();
+        } else if (matching.length > 1) {
+          showMRN(mrn); clearLookup();
+        }
+      } else if (cards[raw]) {
+        showCard(raw); clearLookup();
+      }
+    }
+    if (e.key === 'Escape') { suggestionsEl.classList.remove('show'); }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.lookup-bar-wrap')) suggestionsEl.classList.remove('show');
+  });
+
+  // ===== MODALS =====
+  function openModal(type) {
+    const id = type === 'purchase' ? 'purchaseModal' : type === 'detail' ? 'detailModal' : type === 'mrn' ? 'mrnModal' : '';
+    if (!id) return;
+    document.getElementById(id).classList.add('show');
+    setTimeout(() => {
+      const firstInput = document.getElementById(id).querySelector('input');
+      if (firstInput) firstInput.focus();
+    }, 100);
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+    if (id === 'purchaseModal') {
+      ['purCard','purMRN','purAmount','purLast4','purNote'].forEach(i => document.getElementById(i).value = '');
+    }
+    if (id === 'detailModal') {
+      toggleUseForm(false);
+    }
+  }
+
+  function showMRN(mrn) {
+    const matching = Object.entries(cards).filter(([, c]) => c.mrn === mrn);
+    document.getElementById('mrnNumber').textContent = mrn;
+    document.getElementById('mrnCount').textContent = matching.length;
+    document.getElementById('mrnResults').innerHTML = matching.map(([n, c]) => {
+      const depleted = c.balance === 0;
+      return `<div class="mrn-card" onclick="closeModal('mrnModal'); showCard('${n}')">
+        <div>
+          <div class="mrn-card-num">#${n}</div>
+          <div class="mrn-card-meta">${c.location} · Exp ${c.expires}</div>
+        </div>
+        <div></div>
+        <div class="mrn-card-bal ${depleted ? 'depleted' : ''}">${depleted ? 'Depleted' : '$' + c.balance.toFixed(2)}</div>
+      </div>`;
+    }).join('');
+    openModal('mrn');
+  }
+
+  let currentCard = null;
+  function showCard(num) {
+    const c = cards[num];
+    if (!c) return;
+    currentCard = num;
+    document.getElementById('detailNum').textContent = num;
+    document.getElementById('detailFullNum').textContent = num;
+    document.getElementById('detailBalance').textContent = c.balance.toFixed(2).split('.')[0];
+    document.getElementById('detailOriginal').textContent = c.original;
+    document.getElementById('detailMRN').textContent = c.mrn;
+    document.getElementById('detailLoc').textContent = c.location;
+    document.getElementById('detailIssued').textContent = c.issued;
+    document.getElementById('detailExpires').textContent = c.expires;
+    document.getElementById('detailPayment').textContent = c.payment;
+    document.getElementById('detailHistory').innerHTML = c.history.map(h => `
+      <div class="history-item">
+        <div>
+          <div>${h.type} · <span style="color:var(--ink-soft);font-size:13px">${h.user || ''}</span></div>
+          <div class="history-loc">${h.loc}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="amount ${h.amt > 0 ? 'positive' : 'negative'}">${h.amt > 0 ? '+' : '−'}$${Math.abs(h.amt).toFixed(2)}</div>
+          <div class="history-date">${h.date}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Disable redeem button if depleted
+    const btn = document.getElementById('detailRedeemBtn');
+    if (c.balance === 0) {
+      btn.style.opacity = '0.4';
+      btn.style.pointerEvents = 'none';
+      btn.innerHTML = 'Card depleted';
+    } else {
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+      btn.innerHTML = `Apply toward treatment <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
+    }
+
+    openModal('detail');
+  }
+
+  // ===== USE form (inline in detail modal) =====
+  function toggleUseForm(show) {
+    document.getElementById('useFormSection').classList.toggle('show', show);
+    document.getElementById('detailActions').style.display = show ? 'none' : 'flex';
+    if (show) {
+      setTimeout(() => document.getElementById('useAmount').focus(), 100);
+    } else {
+      document.getElementById('useAmount').value = '';
+      document.getElementById('useNote').value = '';
+      document.getElementById('useRemaining').textContent = 'Leftover will remain on card.';
+      document.getElementById('useRemaining').style.color = 'var(--ink-faint)';
+    }
+  }
+
+  document.getElementById('useAmount').addEventListener('input', () => {
+    if (!currentCard) return;
+    const c = cards[currentCard];
+    const amt = parseFloat(document.getElementById('useAmount').value) || 0;
+    const hint = document.getElementById('useRemaining');
+    if (amt > 0) {
+      const after = c.balance - amt;
+      if (after < 0) {
+        hint.textContent = `⚠ Exceeds balance by $${Math.abs(after).toFixed(2)}`;
+        hint.style.color = 'var(--danger)';
+      } else if (after === 0) {
+        hint.textContent = `Fully redeems the card — $0.00 remaining.`;
+        hint.style.color = 'var(--accent)';
+      } else {
+        hint.textContent = `$${after.toFixed(2)} will remain on the card.`;
+        hint.style.color = 'var(--accent)';
+      }
+    } else {
+      hint.textContent = 'Leftover will remain on card.';
+      hint.style.color = 'var(--ink-faint)';
+    }
+  });
+
+  // ===== SUBMIT =====
+  function submitPurchase() {
+    const card = document.getElementById('purCard').value.trim();
+    const mrn = document.getElementById('purMRN').value.trim();
+    const amt = document.getElementById('purAmount').value.trim();
+    if (!card || !mrn || !amt) {
+      showToast('Please fill all required fields', false);
+      return;
+    }
+    closeModal('purchaseModal');
+    showToast(`Sale recorded · Card #${card} · $${parseFloat(amt).toFixed(2)}`);
+  }
+
+  function submitUse() {
+    const amt = parseFloat(document.getElementById('useAmount').value);
+    if (!currentCard || !amt || amt <= 0) {
+      showToast('Please enter a valid amount', false);
+      return;
+    }
+    closeModal('detailModal');
+    showToast(`Redeemed · Card #${currentCard} · −$${amt.toFixed(2)}`);
+  }
+
+  // ===== TOAST =====
+  function showToast(msg, success = true) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.querySelector('.check').style.background = success ? 'var(--accent)' : 'var(--danger)';
+    t.querySelector('.check').textContent = success ? '✓' : '!';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ===== ESC + slash =====
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      ['detailModal','purchaseModal','mrnModal'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+      });
+    }
+    if (e.key === '/' && document.activeElement !== lookupInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
+      e.preventDefault();
+      lookupInput.focus();
+    }
+  });
+
+  document.querySelectorAll('.modal-backdrop').forEach(b => {
+    b.addEventListener('click', (e) => { if (e.target === b) b.classList.remove('show'); });
+  });
+
+  // ===== TRANSACTIONS FILTER =====
+  function applyFilters() {
+    const fCard = document.getElementById('fCard').value.trim();
+    const fMRN = document.getElementById('fMRN').value.trim();
+    const fLoc = document.getElementById('fLoc').value;
+    const fUser = document.getElementById('fUser').value;
+    const fType = document.getElementById('fType').value;
+
+    const filtered = transactions.filter(t => {
+      if (fCard && !t.card.startsWith(fCard)) return false;
+      if (fMRN && !t.mrn.startsWith(fMRN)) return false;
+      if (fLoc && t.loc !== fLoc) return false;
+      if (fUser && t.user !== fUser) return false;
+      if (fType && t.type !== fType) return false;
+      return true;
+    });
+
+    const total = filtered.reduce((s, t) => s + t.amt, 0);
+    document.getElementById('resultCount').textContent = filtered.length;
+    document.getElementById('resultTotal').textContent = (total < 0 ? '−$' : '$') + Math.abs(total).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const table = document.getElementById('txnTable');
+    const headerHtml = table.querySelector('.txn-row.header').outerHTML;
+    if (filtered.length === 0) {
+      table.innerHTML = headerHtml + `<div class="empty-state">
+        <div class="serif">No transactions match these filters.</div>
+        <div>Try clearing some filters above.</div>
+      </div>`;
+      return;
+    }
+    table.innerHTML = headerHtml + filtered.map(t => `
+      <div class="txn-row" onclick="showCard('${t.card}')">
+        <div class="txn-date">${t.date}</div>
+        <div><span class="tag ${t.type === 'Purchase' ? 'purchase' : 'use'} dot">${t.type}</span></div>
+        <div class="txn-card">#${t.card}</div>
+        <div class="txn-mrn">${t.mrn}</div>
+        <div class="txn-loc hide-tablet">${t.loc}</div>
+        <div class="txn-user">${t.user}<div style="font-size:11px;color:var(--ink-faint);margin-top:2px">${t.note}</div></div>
+        <div class="txn-amount ${t.amt > 0 ? 'positive' : 'negative'}">${t.amt > 0 ? '+' : '−'}$${Math.abs(t.amt).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
+    `).join('');
+  }
+  function clearFilters() {
+    ['fCard','fMRN'].forEach(i => document.getElementById(i).value = '');
+    ['fLoc','fUser','fType'].forEach(i => document.getElementById(i).value = '');
+    applyFilters();
+  }
+  applyFilters();
+
+  // ===== CHART =====
+  function renderChart() {
+    const data = [
+      { d: '5/2', sales: 850, uses: 400 },
+      { d: '5/3', sales: 1200, uses: 600 },
+      { d: '5/4', sales: 600, uses: 350 },
+      { d: '5/5', sales: 1450, uses: 800 },
+      { d: '5/6', sales: 950, uses: 1100 },
+      { d: '5/7', sales: 1750, uses: 450 },
+      { d: '5/8', sales: 1100, uses: 900 },
+      { d: '5/9', sales: 2500, uses: 700 },
+      { d: '5/10', sales: 1300, uses: 500 },
+      { d: '5/11', sales: 700, uses: 1300 },
+      { d: '5/12', sales: 1850, uses: 950 },
+      { d: '5/13', sales: 950, uses: 600 },
+      { d: '5/14', sales: 1550, uses: 1100 },
+      { d: '5/15', sales: 1200, uses: 2000 },
+    ];
+    const maxVal = Math.max(...data.map(d => Math.max(d.sales, d.uses)));
+    const chart = document.getElementById('chart');
+    const labels = document.getElementById('chartLabels');
+    chart.innerHTML = data.map(d => {
+      const salesH = (d.sales / maxVal) * 100;
+      const usesH = (d.uses / maxVal) * 100;
+      return `<div class="bar-group">
+        <div class="bar-stack" style="height:100%">
+          <div class="bar sales" style="height:${salesH}%" title="Sales: $${d.sales}"></div>
+          <div class="bar uses" style="height:${usesH}%" title="Uses: $${d.uses}"></div>
+        </div>
+      </div>`;
+    }).join('');
+    labels.innerHTML = data.map(d => `<span>${d.d}</span>`).join('');
+  }
+</script>
+
+</body>
+</html>
