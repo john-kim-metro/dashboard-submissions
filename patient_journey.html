@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmetic Campaign — Patient Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1ec;
+    --bg-warm: #ede7df;
+    --ink: #1c1c1a;
+    --ink-soft: #4a4a47;
+    --muted: #8a857d;
+    --rule: #d6cfc4;
+    --accent: #b5562c;
+    --accent-soft: #d4805a;
+    --sage: #7a8471;
+    --plum: #6b4e5e;
+    --cream: #faf7f2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(181, 86, 44, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(107, 78, 94, 0.04) 0%, transparent 40%);
+    min-height: 100vh;
+    padding: 60px 40px 100px;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 32px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 68px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  .meta strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ===== LEGEND ===== */
+  .legend {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .sw-digital { background: var(--accent); }
+  .sw-physical { background: var(--sage); }
+  .sw-data { background: var(--plum); }
+  .sw-conversion { background: var(--ink); }
+
+  /* ===== NETWORK MAP ===== */
+  .network-section {
+    margin-bottom: 96px;
+    padding: 40px;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .network-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .network-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+
+  .network-header h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .network-header .desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+
+  .network-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .network-legend .line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .network-legend .line-sample {
+    width: 32px;
+    height: 0;
+    border-top: 2px solid var(--accent);
+  }
+
+  .network-legend .line-sample.dashed {
+    border-top: 1.5px dashed var(--muted);
+  }
+
+  .network-legend .line-sample.dotted {
+    border-top: 1.5px dotted var(--plum);
+  }
+
+  .network-svg-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .network-svg {
+    width: 100%;
+    height: auto;
+    min-width: 720px;
+    display: block;
+  }
+
+  /* SVG element styles */
+  .node-rect {
+    transition: all 0.25s ease;
+    cursor: default;
+  }
+
+  .node-group:hover .node-rect {
+    filter: drop-shadow(0 6px 14px rgba(28, 28, 26, 0.15));
+  }
+
+  .node-group:hover .node-label {
+    font-weight: 500;
+  }
+
+  .node-label {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    fill: var(--ink);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .node-sublabel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: var(--muted);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .node-conversion .node-label {
+    fill: var(--cream);
+  }
+
+  .node-conversion .node-sublabel {
+    fill: rgba(250, 247, 242, 0.6);
+  }
+
+  .flow-primary {
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+    marker-end: url(#arrow-primary);
+  }
+
+  .flow-secondary {
+    stroke: var(--muted);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+    fill: none;
+    marker-end: url(#arrow-secondary);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Show detour arrows whose data-source matches the hovered node's data-node */
+  .node-group[data-node="email"]:hover ~ .detour-layer [data-source="email"],
+  .node-group[data-node="sms"]:hover ~ .detour-layer [data-source="sms"],
+  .node-group[data-node="facebook"]:hover ~ .detour-layer [data-source="facebook"],
+  .node-group[data-node="instagram"]:hover ~ .detour-layer [data-source="instagram"],
+  .node-group[data-node="posters"]:hover ~ .detour-layer [data-source="posters"],
+  .node-group[data-node="tv"]:hover ~ .detour-layer [data-source="tv"] {
+    opacity: 0.85;
+  }
+
+  /* Subtle hover indicator on nodes that have detours */
+  .node-group[data-has-detours="true"] {
+    cursor: help;
+  }
+
+  .node-group[data-has-detours="true"]:hover .node-rect {
+    stroke-width: 2;
+  }
+
+  .section-bg {
+    fill: rgba(181, 86, 44, 0.025);
+  }
+
+  .section-bg-new {
+    fill: rgba(122, 132, 113, 0.04);
+  }
+
+  .section-bg-external {
+    fill: rgba(107, 78, 94, 0.04);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    fill: var(--muted);
+  }
+
+  /* ===== JOURNEY TRACKS ===== */
+  .track {
+    margin-bottom: 80px;
+    position: relative;
+  }
+
+  .track-header {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+    align-items: baseline;
+  }
+
+  .track-number {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 56px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .track-title-wrap h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .track-title-wrap .desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+
+  /* ===== STAGES ROW ===== */
+  .stages {
+    display: grid;
+    gap: 0;
+    position: relative;
+    padding-left: 112px;
+  }
+
+  .stages.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .stages.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .stages.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .stage {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 24px 22px;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-right: -1px;
+  }
+
+  .stage:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(28, 28, 26, 0.08);
+    z-index: 2;
+  }
+
+  .stage-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stage-tag .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .stage-tag.digital .dot { background: var(--accent); }
+  .stage-tag.physical .dot { background: var(--sage); }
+  .stage-tag.data .dot { background: var(--plum); }
+  .stage-tag.conversion .dot { background: var(--ink); }
+
+  .stage h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    letter-spacing: -0.005em;
+  }
+
+  .stage-list {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .stage-list li {
+    padding: 4px 0 4px 14px;
+    position: relative;
+  }
+
+  .stage-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  .stage-meta {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== ARROW ===== */
+  .stage:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg);
+    color: var(--accent);
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    z-index: 3;
+    border-radius: 50%;
+  }
+
+  /* ===== CONVERGENCE / FUNNEL ===== */
+  .convergence {
+    margin: 80px 0;
+    padding: 48px 40px;
+    background: var(--ink);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .convergence::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(circle at 30% 50%, rgba(181, 86, 44, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(122, 132, 113, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .convergence-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .convergence h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 44px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .convergence h2 strong {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--accent-soft);
+  }
+
+  .convergence p {
+    font-size: 15px;
+    color: rgba(250, 247, 242, 0.7);
+    line-height: 1.6;
+  }
+
+  .funnel-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .funnel-step {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 18px 24px;
+    background: rgba(250, 247, 242, 0.04);
+    border: 1px solid rgba(250, 247, 242, 0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+
+  .funnel-step:hover {
+    background: rgba(250, 247, 242, 0.08);
+    border-color: var(--accent-soft);
+  }
+
+  .funnel-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--accent-soft);
+  }
+
+  .funnel-label {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 400;
+  }
+
+  .funnel-label small {
+    display: block;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 12px;
+    color: rgba(250, 247, 242, 0.5);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .funnel-tech {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    padding: 4px 10px;
+    border: 1px solid rgba(212, 128, 90, 0.3);
+    border-radius: 2px;
+  }
+
+  /* ===== CHANNEL MATRIX ===== */
+  .matrix-section {
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .matrix-section h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 32px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .matrix-section .subtitle {
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    font-size: 14px;
+    max-width: 600px;
+  }
+
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .matrix th {
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .matrix td {
+    padding: 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .matrix tr:hover td {
+    background: var(--cream);
+  }
+
+  .matrix .channel-name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .matrix .channel-name small {
+    display: block;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 2px;
+    letter-spacing: 0;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+  }
+
+  .pill.digital { color: var(--accent); border-color: var(--accent); }
+  .pill.physical { color: var(--sage); border-color: var(--sage); }
+  .pill.data { color: var(--plum); border-color: var(--plum); }
+  .pill.conversion { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    body { padding: 32px 20px 60px; }
+    header { grid-template-columns: 1fr; }
+    .meta { text-align: left; }
+    .stages { padding-left: 0; }
+    .stages.cols-4, .stages.cols-3, .stages.cols-2 {
+      grid-template-columns: 1fr;
+    }
+    .stage:not(:last-child)::after {
+      content: '↓';
+      right: 50%;
+      top: auto;
+      bottom: -16px;
+      transform: translateX(50%);
+    }
+    .stage { margin-right: 0; margin-bottom: -1px; }
+    .convergence-content { grid-template-columns: 1fr; gap: 32px; }
+    .convergence { padding: 32px 24px; }
+    .convergence h2 { font-size: 32px; }
+    .track-header { grid-template-columns: 1fr; gap: 12px; }
+    .track-number { font-size: 40px; }
+    .funnel-step { grid-template-columns: 32px 1fr; }
+    .funnel-tech { grid-column: 2; justify-self: start; }
+    .matrix { font-size: 12px; }
+    .matrix td, .matrix th { padding: 10px 8px; }
+    .network-section { padding: 24px 20px; }
+    .network-header { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Stagger animation on load */
+  .stage, .funnel-step, .matrix tr {
+    animation: fadeUp 0.6s ease backwards;
+  }
+
+  .stage:nth-child(1) { animation-delay: 0.1s; }
+  .stage:nth-child(2) { animation-delay: 0.2s; }
+  .stage:nth-child(3) { animation-delay: 0.3s; }
+  .stage:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div>
+      <div class="eyebrow">Marketing Operations · Campaign Blueprint</div>
+      <h1>The Patient <em>Journey</em><br>Cosmetic Campaigns</h1>
+    </div>
+    <div class="meta">
+      <div><strong>VERSION</strong> 1.0 · DRAFT</div>
+      <div><strong>SCOPE</strong> Standard Campaign</div>
+      <div><strong>AUDIENCE</strong> Existing + New</div>
+    </div>
+  </header>
+
+  <!-- ===== LEGEND ===== -->
+  <div class="legend">
+    <div class="legend-item"><span class="swatch sw-data"></span>Data / CRM</div>
+    <div class="legend-item"><span class="swatch sw-digital"></span>Digital Channel</div>
+    <div class="legend-item"><span class="swatch sw-physical"></span>Physical / In-Clinic</div>
+    <div class="legend-item"><span class="swatch sw-conversion"></span>Conversion Point</div>
+  </div>
+
+  <!-- ===== NETWORK MAP ===== -->
+  <section class="network-section">
+    <div class="network-header">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 10px;">Overview · Touchpoint Network</div>
+        <h2>The Real Journey is <em>Non-Linear</em></h2>
+        <p class="desc">All channels route patients to the same landing page by design — but in practice, patients often divert through Google, Maps, or social profiles first. Hover any outbound or awareness node to reveal its common detours.</p>
+      </div>
+      <div class="network-legend">
+        <div class="line"><span class="line-sample"></span>Designed Flow</div>
+        <div class="line"><span class="line-sample dashed"></span>Common Detour <span style="color: var(--muted); text-transform: none; letter-spacing: 0;">(hover node)</span></div>
+      </div>
+    </div>
+
+    <div class="network-svg-wrap">
+      <svg class="network-svg" viewBox="0 0 1000 860" xmlns="http://www.w3.org/2000/svg" style="min-width: 640px;">
+        <!-- Arrow markers -->
+        <defs>
+          <marker id="arrow-primary" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#b5562c"/>
+          </marker>
+          <marker id="arrow-secondary" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a857d"/>
+          </marker>
+        </defs>
+
+        <!-- ============================================================ -->
+        <!-- LAYOUT: hub-and-spoke around landing page (centered at 500,405) -->
+        <!--   TOP    : Paid Social — Facebook, Instagram                    -->
+        <!--   RIGHT  : External Discovery — Google, Maps, Organic, Reviews  -->
+        <!--   BOTTOM : In-Clinic — Posters, TV                              -->
+        <!--   LEFT   : Outbound — Email · EHR (between) · SMS               -->
+        <!-- ============================================================ -->
+
+        <!-- Quadrant background zones -->
+        <rect x="40" y="60" width="220" height="740" rx="4" fill="rgba(181, 86, 44, 0.025)"/>
+        <rect x="340" y="60" width="280" height="200" rx="4" fill="rgba(181, 86, 44, 0.025)"/>
+        <rect class="section-bg-external" x="640" y="60" width="280" height="740" rx="4"/>
+        <rect class="section-bg-new" x="340" y="640" width="280" height="160" rx="4"/>
+
+        <!-- Section labels -->
+        <text class="section-label" x="50" y="48">OUTBOUND · EHR-FED</text>
+        <text class="section-label" x="350" y="48">PAID SOCIAL · TOP OF FUNNEL</text>
+        <text class="section-label" x="650" y="48">EXTERNAL DISCOVERY</text>
+        <text class="section-label" x="350" y="628">IN-CLINIC · PHYSICAL</text>
+        <text class="section-label" x="940" y="48" text-anchor="end">CONVERSION</text>
+
+        <!-- ===== DESIGNED FLOW EDGES (always visible) ===== -->
+
+        <!-- EHR → Email (up), EHR → SMS (down) -->
+        <path class="flow-primary" d="M 150 410 L 150 365"/>
+        <path class="flow-primary" d="M 150 470 L 150 515"/>
+
+        <!-- LEFT side: Email, SMS → Landing -->
+        <path class="flow-primary" d="M 240 335 L 420 395"/>
+        <path class="flow-primary" d="M 240 545 L 420 425"/>
+
+        <!-- TOP: Facebook, Instagram → Landing -->
+        <path class="flow-primary" d="M 445 160 L 485 370"/>
+        <path class="flow-primary" d="M 635 160 L 540 370"/>
+
+        <!-- RIGHT: Google Search, Maps, Organic, Reviews → Landing -->
+        <path class="flow-primary" d="M 680 310 L 580 395"/>
+        <path class="flow-primary" d="M 680 395 L 580 405"/>
+        <path class="flow-primary" d="M 680 480 L 580 415"/>
+        <path class="flow-primary" d="M 680 565 C 640 510, 620 450, 580 425"/>
+
+        <!-- BOTTOM: Posters, TV → Landing -->
+        <path class="flow-primary" d="M 445 680 L 485 440"/>
+        <path class="flow-primary" d="M 635 680 L 540 440"/>
+
+        <!-- HUB → CONVERSION: Landing → Typeform -->
+        <path class="flow-primary" d="M 500 440 L 500 470" stroke-width="2.5"/>
+
+        <!-- ===== NODES ===== -->
+
+        <!-- LEFT — OUTBOUND CAMPAIGNS (Email · EHR · SMS) -->
+        <g class="node-group" data-node="email" data-has-detours="true">
+          <rect class="node-rect" x="60" y="275" width="180" height="60" rx="3" fill="#faf7f2" stroke="#b5562c" stroke-width="1.5"/>
+          <text class="node-sublabel" x="150" y="299">EMAIL</text>
+          <text class="node-label" x="150" y="319">Email Campaign</text>
+        </g>
+
+        <!-- EHR Export — placed BETWEEN Email and SMS, visually distinct (dashed border, smaller) -->
+        <g class="node-group" data-node="ehr">
+          <rect class="node-rect" x="80" y="410" width="140" height="60" rx="3" fill="#faf7f2" stroke="#6b4e5e" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <text class="node-sublabel" x="150" y="434" fill="#6b4e5e">DATA SOURCE</text>
+          <text class="node-label" x="150" y="454">EHR Export</text>
+        </g>
+
+        <g class="node-group" data-node="sms" data-has-detours="true">
+          <rect class="node-rect" x="60" y="515" width="180" height="60" rx="3" fill="#faf7f2" stroke="#b5562c" stroke-width="1.5"/>
+          <text class="node-sublabel" x="150" y="539">SMS</text>
+          <text class="node-label" x="150" y="559">SMS Campaign</text>
+        </g>
+
+        <!-- TOP — PAID SOCIAL -->
+        <g class="node-group" data-node="facebook" data-has-detours="true">
+          <rect class="node-rect" x="360" y="100" width="170" height="60" rx="3" fill="#faf7f2" stroke="#b5562c" stroke-width="1.5"/>
+          <text class="node-sublabel" x="445" y="124">META · PAID</text>
+          <text class="node-label" x="445" y="144">Facebook</text>
+        </g>
+        <g class="node-group" data-node="instagram" data-has-detours="true">
+          <rect class="node-rect" x="550" y="100" width="170" height="60" rx="3" fill="#faf7f2" stroke="#b5562c" stroke-width="1.5"/>
+          <text class="node-sublabel" x="635" y="124">META · PAID</text>
+          <text class="node-label" x="635" y="144">Instagram</text>
+        </g>
+
+        <!-- RIGHT — EXTERNAL DISCOVERY -->
+        <g class="node-group" data-node="search">
+          <rect class="node-rect" x="680" y="280" width="170" height="60" rx="3" fill="#faf7f2" stroke="#6b4e5e" stroke-width="1.5"/>
+          <text class="node-sublabel" x="765" y="304">SEARCH</text>
+          <text class="node-label" x="765" y="324">Google Search</text>
+        </g>
+        <g class="node-group" data-node="maps">
+          <rect class="node-rect" x="680" y="365" width="170" height="60" rx="3" fill="#faf7f2" stroke="#6b4e5e" stroke-width="1.5"/>
+          <text class="node-sublabel" x="765" y="389">LOCAL</text>
+          <text class="node-label" x="765" y="409">Google Maps · GBP</text>
+        </g>
+        <g class="node-group" data-node="organic">
+          <rect class="node-rect" x="680" y="450" width="170" height="60" rx="3" fill="#faf7f2" stroke="#6b4e5e" stroke-width="1.5"/>
+          <text class="node-sublabel" x="765" y="474">ORGANIC</text>
+          <text class="node-label" x="765" y="494">Social Profiles</text>
+        </g>
+        <g class="node-group" data-node="reviews">
+          <rect class="node-rect" x="680" y="535" width="170" height="60" rx="3" fill="#faf7f2" stroke="#6b4e5e" stroke-width="1.5"/>
+          <text class="node-sublabel" x="765" y="559">SOCIAL PROOF</text>
+          <text class="node-label" x="765" y="579">Reviews · WoM</text>
+        </g>
+
+        <!-- BOTTOM — IN-CLINIC -->
+        <g class="node-group" data-node="posters" data-has-detours="true">
+          <rect class="node-rect" x="360" y="680" width="170" height="60" rx="3" fill="#faf7f2" stroke="#7a8471" stroke-width="1.5"/>
+          <text class="node-sublabel" x="445" y="704">IN-CLINIC · PRINT</text>
+          <text class="node-label" x="445" y="724">Wall Posters</text>
+        </g>
+        <g class="node-group" data-node="tv" data-has-detours="true">
+          <rect class="node-rect" x="550" y="680" width="170" height="60" rx="3" fill="#faf7f2" stroke="#7a8471" stroke-width="1.5"/>
+          <text class="node-sublabel" x="635" y="704">IN-CLINIC · VIDEO</text>
+          <text class="node-label" x="635" y="724">Waiting Room TV</text>
+        </g>
+
+        <!-- CENTER — Landing Page (the hub) -->
+        <g class="node-group" data-node="landing">
+          <rect class="node-rect" x="420" y="370" width="160" height="70" rx="3" fill="#faf7f2" stroke="#b5562c" stroke-width="2.5"/>
+          <text class="node-sublabel" x="500" y="396">WEBSITE</text>
+          <text class="node-label" x="500" y="418" style="font-weight: 500; font-size: 14px;">Landing Page</text>
+        </g>
+
+        <!-- CENTER (below) — Typeform conversion -->
+        <g class="node-group node-conversion" data-node="typeform">
+          <rect class="node-rect" x="420" y="470" width="160" height="60" rx="3" fill="#1c1c1a" stroke="#1c1c1a" stroke-width="1.5"/>
+          <text class="node-sublabel" x="500" y="494">TYPEFORM</text>
+          <text class="node-label" x="500" y="514">Inquiry Form</text>
+        </g>
+
+        <!-- ===== DETOUR LAYER (hover-activated, placed AFTER nodes so ~ selector works) ===== -->
+        <g class="detour-layer">
+          <!-- Email → Google Search -->
+          <path class="flow-secondary" data-source="email" d="M 240 290 C 450 230, 600 260, 680 295"/>
+
+          <!-- SMS → Google Search -->
+          <path class="flow-secondary" data-source="sms" d="M 240 555 C 480 580, 620 380, 680 325"/>
+
+          <!-- Facebook → Google Search (researches brand) -->
+          <path class="flow-secondary" data-source="facebook" d="M 530 130 C 660 130, 720 220, 750 280"/>
+
+          <!-- Instagram → Google Maps -->
+          <path class="flow-secondary" data-source="instagram" d="M 720 145 C 800 200, 800 320, 770 365"/>
+          <!-- Instagram → Organic Profile -->
+          <path class="flow-secondary" data-source="instagram" d="M 720 160 C 820 240, 840 380, 850 450"/>
+
+          <!-- Posters → Google Search -->
+          <path class="flow-secondary" data-source="posters" d="M 530 710 C 680 710, 730 410, 750 340"/>
+          <!-- Posters → Google Maps -->
+          <path class="flow-secondary" data-source="posters" d="M 530 695 C 660 600, 710 470, 750 425"/>
+
+          <!-- TV → Google Maps -->
+          <path class="flow-secondary" data-source="tv" d="M 720 700 C 800 600, 800 460, 770 425"/>
+          <!-- TV → Instagram -->
+          <path class="flow-secondary" data-source="tv" d="M 680 690 C 760 580, 760 280, 700 165"/>
+        </g>
+
+      </svg>
+    </div>
+
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--rule); font-size: 12px; color: var(--ink-soft); display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;">
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px;">Designed Flow</div>
+        Direct paths the campaign is built around — link in SMS goes to landing page, ad click to landing page, etc. Always visible.
+      </div>
+      <div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Common Detour · Hover to Reveal</div>
+        What patients actually do — hover over <strong>Email, SMS, Facebook, Instagram, Posters,</strong> or <strong>TV</strong> to see where patients commonly divert instead of following the designed path.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRACK 1: EXISTING PATIENTS ===== -->
+  <section class="track">
+    <div class="track-header">
+      <div class="track-number">01</div>
+      <div class="track-title-wrap">
+        <h2>Existing Patients</h2>
+        <p class="desc">Targeted outreach to known patients from medical and cosmetic service lines, using historical appointment data as the seed for audience selection.</p>
+      </div>
+    </div>
+
+    <div class="stages cols-4">
+      <!-- Stage 1: EHR Export -->
+      <div class="stage">
+        <div class="stage-tag data"><span class="dot"></span>Source · Data</div>
+        <h3>EHR Audience Export</h3>
+        <ul class="stage-list">
+          <li>2-year appointment lookback</li>
+          <li>Medical + cosmetic lines</li>
+          <li>Filter: gender, age</li>
+          <li>Filter: office location</li>
+        </ul>
+        <div class="stage-meta">CHANNEL · EHR System</div>
+      </div>
+
+      <!-- Stage 2: Email + SMS -->
+      <div class="stage">
+        <div class="stage-tag digital"><span class="dot"></span>Outreach · Direct</div>
+        <h3>Email &amp; SMS Campaign</h3>
+        <ul class="stage-list">
+          <li>Segmented blast to target list</li>
+          <li>Personalized by location</li>
+          <li>Embedded campaign links</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Email + SMS</div>
+      </div>
+
+      <!-- Stage 3: Landing Page -->
+      <div class="stage">
+        <div class="stage-tag digital"><span class="dot"></span>Engage · Web</div>
+        <h3>Campaign Landing Page</h3>
+        <ul class="stage-list">
+          <li>Dedicated campaign URL</li>
+          <li>Offer + service details</li>
+          <li>CTA buttons</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Website</div>
+      </div>
+
+      <!-- Stage 4: Typeform -->
+      <div class="stage">
+        <div class="stage-tag conversion"><span class="dot"></span>Convert</div>
+        <h3>Cosmetic Inquiry Form</h3>
+        <ul class="stage-list">
+          <li>Hosted on Typeform</li>
+          <li>Lead capture</li>
+          <li>Hand-off to coordinator</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Typeform</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRACK 2: NEW PATIENTS ===== -->
+  <section class="track">
+    <div class="track-header">
+      <div class="track-number">02</div>
+      <div class="track-title-wrap">
+        <h2>New Patients</h2>
+        <p class="desc">Top-of-funnel awareness across paid social, in-clinic display, and broadcast in waiting areas — designed to drive cold audiences into the same conversion path.</p>
+      </div>
+    </div>
+
+    <div class="stages cols-3">
+      <!-- Meta -->
+      <div class="stage">
+        <div class="stage-tag digital"><span class="dot"></span>Awareness · Paid</div>
+        <h3>Meta Social Ads</h3>
+        <ul class="stage-list">
+          <li>Facebook feed + stories</li>
+          <li>Instagram feed + reels</li>
+          <li>Geo-targeted by office</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Facebook + Instagram</div>
+      </div>
+
+      <!-- Posters -->
+      <div class="stage">
+        <div class="stage-tag physical"><span class="dot"></span>Awareness · In-Clinic</div>
+        <h3>Physical Posters</h3>
+        <ul class="stage-list">
+          <li>Wall-mounted in offices</li>
+          <li>Campaign creative + QR code</li>
+          <li>Reaches walk-in traffic</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Print</div>
+      </div>
+
+      <!-- TV -->
+      <div class="stage">
+        <div class="stage-tag physical"><span class="dot"></span>Awareness · In-Clinic</div>
+        <h3>Waiting Room TV</h3>
+        <ul class="stage-list">
+          <li>Looping video spots</li>
+          <li>Waiting + exam rooms</li>
+          <li>Captive audience moment</li>
+        </ul>
+        <div class="stage-meta">MEDIUM · Broadcast Display</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONVERGENCE ===== -->
+  <section class="convergence">
+    <div class="convergence-content">
+      <div>
+        <h2>All paths converge at <strong>conversion.</strong></h2>
+        <p>Regardless of entry channel — direct outreach, social, in-clinic display — every patient is routed through the same landing page and Typeform funnel. This standardizes attribution, measurement, and hand-off to the cosmetic coordinator team.</p>
+      </div>
+      <div class="funnel-steps">
+        <div class="funnel-step">
+          <div class="funnel-num">i</div>
+          <div class="funnel-label">Touchpoint
+            <small>Email · SMS · Meta ad · Poster · TV spot</small>
+          </div>
+          <div class="funnel-tech">Multi-Channel</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">ii</div>
+          <div class="funnel-label">Landing Page
+            <small>Dedicated campaign URL on website</small>
+          </div>
+          <div class="funnel-tech">Website</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">iii</div>
+          <div class="funnel-label">Inquiry Form
+            <small>Lead captured · routed to coordinator</small>
+          </div>
+          <div class="funnel-tech">Typeform</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CHANNEL MATRIX ===== -->
+  <section class="matrix-section">
+    <h2>Channel &amp; Medium Matrix</h2>
+    <p class="subtitle">A flat view of every touchpoint in the campaign, its role in the funnel, and the audience it serves.</p>
+
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th style="width:24%">Touchpoint</th>
+          <th style="width:14%">Channel Type</th>
+          <th style="width:18%">Medium</th>
+          <th style="width:14%">Funnel Stage</th>
+          <th style="width:14%">Audience</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="channel-name">EHR Export<small>Targeting source</small></td>
+          <td><span class="pill data">Data</span></td>
+          <td>EHR system</td>
+          <td>Source</td>
+          <td>Existing</td>
+          <td>2-year lookback · gender · age · location</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Email Campaign<small>Targeted blast</small></td>
+          <td><span class="pill digital">Digital</span></td>
+          <td>Email</td>
+          <td>Outreach</td>
+          <td>Existing</td>
+          <td>Links to campaign landing page</td>
+        </tr>
+        <tr>
+          <td class="channel-name">SMS Campaign<small>Targeted blast</small></td>
+          <td><span class="pill digital">Digital</span></td>
+          <td>SMS / Text</td>
+          <td>Outreach</td>
+          <td>Existing</td>
+          <td>Links to campaign landing page</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Facebook Ads<small>Paid social</small></td>
+          <td><span class="pill digital">Digital</span></td>
+          <td>Meta · Facebook</td>
+          <td>Awareness</td>
+          <td>New</td>
+          <td>Feed + stories placements</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Instagram Ads<small>Paid social</small></td>
+          <td><span class="pill digital">Digital</span></td>
+          <td>Meta · Instagram</td>
+          <td>Awareness</td>
+          <td>New</td>
+          <td>Feed + reels placements</td>
+        </tr>
+        <tr>
+          <td class="channel-name">In-Clinic Posters<small>Print display</small></td>
+          <td><span class="pill physical">Physical</span></td>
+          <td>Wall posters</td>
+          <td>Awareness</td>
+          <td>New + Existing</td>
+          <td>Drives QR / URL traffic</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Waiting Room TV<small>Video display</small></td>
+          <td><span class="pill physical">Physical</span></td>
+          <td>TV screens</td>
+          <td>Awareness</td>
+          <td>New + Existing</td>
+          <td>Waiting + exam rooms</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Landing Page<small>Campaign site</small></td>
+          <td><span class="pill digital">Digital</span></td>
+          <td>Website</td>
+          <td>Engagement</td>
+          <td>All</td>
+          <td>Single destination for all channels</td>
+        </tr>
+        <tr>
+          <td class="channel-name">Inquiry Form<small>Lead capture</small></td>
+          <td><span class="pill conversion">Convert</span></td>
+          <td>Typeform</td>
+          <td>Conversion</td>
+          <td>All</td>
+          <td>Hand-off to cosmetic coordinator</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>Patient Journey Map · Cosmetic Campaigns</div>
+    <div>v1.0 — Initial Draft</div>
+  </footer>
+
+</div>
+</body>
+</html>
