@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetroDerm UTM Builder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spline+Sans+Mono:wght@400;500;600&family=Spline+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --ink: #14201c;
+    --paper: #f4f1e8;
+    --paper-2: #ebe6d6;
+    --moss: #2f5d4f;
+    --moss-deep: #1f3f35;
+    --clay: #c45a3b;
+    --clay-soft: #e0805f;
+    --gold: #c79a3e;
+    --line: #cfc6ac;
+    --mute: #6f7068;
+    --white: #fbfaf4;
+    --shadow: rgba(20,32,28,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Spline Sans', sans-serif;
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(47,93,79,0.06), transparent 40%),
+      radial-gradient(circle at 88% 82%, rgba(196,90,59,0.06), transparent 42%);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+    padding: 0 20px 80px;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header { padding: 64px 0 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--moss-deep);
+  }
+  h1 em { font-style: italic; color: var(--clay); }
+  .sub { margin-top: 18px; max-width: 560px; color: var(--mute); font-size: 1.02rem; }
+
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin: 50px 0 24px; }
+  .sec-num {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--clay);
+    border: 1px solid var(--clay);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .sec-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--moss-deep);
+    letter-spacing: -0.01em;
+  }
+
+  .fields { display: grid; gap: 18px; }
+  .field-block {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 26px 26px;
+    box-shadow: 0 1px 0 var(--shadow);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .field-block:focus-within { box-shadow: 0 12px 34px -16px var(--shadow); border-color: var(--moss); }
+  .fb-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .field-tag { font-family: 'Spline Sans Mono', monospace; font-size: 0.95rem; font-weight: 600; color: var(--moss); }
+  .field-q { font-family: 'Fraunces', serif; font-style: italic; font-size: 1.06rem; color: var(--ink); }
+  .field-desc { color: var(--mute); font-size: 0.9rem; margin-bottom: 16px; }
+  .field-desc b { color: var(--clay); font-weight: 600; }
+
+  .ctrl-label {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .selectwrap { position: relative; }
+  .selectwrap::after {
+    content: "\25BE";
+    position: absolute;
+    right: 16px; top: 50%; transform: translateY(-50%);
+    color: var(--moss); pointer-events: none; font-size: 0.8rem;
+  }
+  select, input[type="text"] {
+    width: 100%;
+    font-family: 'Spline Sans', sans-serif;
+    font-size: 0.96rem;
+    padding: 13px 15px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+  input[type="text"] { cursor: text; }
+  select:focus, input[type="text"]:focus { outline: none; border-color: var(--moss); background: var(--white); }
+  .hint { font-size: 0.76rem; color: var(--mute); margin-top: 7px; font-style: italic; min-height: 1em; }
+  .extra { margin-top: 14px; }
+
+  /* Read-only auto-filled medium */
+  .medium-display {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: var(--moss-deep);
+    background: var(--paper-2);
+    border: 1px dashed var(--moss);
+    border-radius: 10px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .medium-display::before {
+    content: "\1F512";
+    font-size: 0.82rem;
+    opacity: 0.55;
+    -webkit-text-fill-color: initial;
+  }
+
+  /* Assembled content preview */
+  .content-preview {
+    margin-top: 12px;
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.86rem;
+    color: var(--moss-deep);
+    min-height: 1.2em;
+  }
+  .content-preview b { color: var(--clay); font-weight: 600; }
+  .content-preview .empty-note { color: var(--mute); font-style: italic; }
+
+  /* Clickable example chips */
+  .examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+  }
+  .examples .ex-label {
+    width: 100%;
+    font-size: 0.72rem;
+    color: var(--mute);
+    font-style: italic;
+    margin-bottom: 1px;
+  }
+  .ex-chip {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--moss-deep);
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  }
+  .ex-chip:hover { background: var(--moss); color: var(--white); border-color: var(--moss); }
+  .ex-chip:active { transform: scale(0.95); }
+
+  /* Paid / organic toggle */
+  .toggle-row { margin-top: 16px; }
+  .toggle-row .ctrl-label { margin-bottom: 10px; }
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .seg button {
+    font-family: 'Spline Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 11px 22px;
+    border: none;
+    background: transparent;
+    color: var(--mute);
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.active { background: var(--moss); color: var(--white); }
+  .seg button:hover:not(.active) { background: var(--paper-2); color: var(--ink); }
+
+  .builder {
+    background: var(--moss-deep);
+    border-radius: 18px;
+    padding: 32px;
+    color: var(--paper);
+    box-shadow: 0 24px 60px -28px rgba(20,32,28,0.6);
+    margin-top: 8px;
+  }
+  .out-label {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .out-box {
+    background: var(--ink);
+    border: 1px solid rgba(199,154,62,0.35);
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--paper);
+    word-break: break-all;
+    line-height: 1.7;
+  }
+  .out-box .qk { color: var(--gold); }
+  .out-box .vl { color: var(--clay-soft); }
+  .out-box .amp { color: var(--mute); }
+  .copy-btn {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 7px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.18s ease, transform 0.1s ease;
+  }
+  .copy-btn:hover { background: #d8ac4f; }
+  .copy-btn:active { transform: scale(0.96); }
+  .copy-btn.done { background: var(--clay-soft); color: var(--white); }
+
+  .decoded { margin-top: 22px; display: grid; gap: 9px; }
+  .dec-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 16px;
+    font-size: 0.86rem;
+    padding-bottom: 9px;
+    border-bottom: 1px dashed rgba(244,241,232,0.16);
+  }
+  .dec-row span:first-child { font-family: 'Spline Sans Mono', monospace; color: var(--gold); }
+  .dec-row span:last-child { color: var(--paper); }
+  .dec-row .empty { color: rgba(244,241,232,0.4); font-style: italic; }
+  @media (max-width: 560px) { .dec-row { grid-template-columns: 1fr; gap: 2px; } }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--mute);
+    font-size: 0.84rem;
+  }
+  footer b { color: var(--moss); }
+  .pill {
+    display: inline-block;
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin: 0 2px;
+    color: var(--moss-deep);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">MetroDerm &middot; Campaign Tracking</div>
+    <h1>The UTM <em>Builder</em></h1>
+    <p class="sub">Read each field, make your choice right below it, and watch the link build at the bottom. Every value maps to a fixed vocabulary, so your reports always roll up the same way.</p>
+  </header>
+
+  <div class="sec-head">
+    <span class="sec-num">1</span>
+    <h2>Fill in each field</h2>
+  </div>
+
+  <div class="fields">
+
+    <div class="field-block">
+      <div class="fb-top">
+        <span class="field-tag">utm_campaign</span>
+        <span class="field-q">Which promotion is this?</span>
+      </div>
+      <p class="field-desc">The promotion itself. Stays identical across every channel so all traffic rolls up under one campaign. <b>e.g. coolsculpting_summer_2026_buy3get1</b></p>
+      <label class="ctrl-label" for="campaign">Type the campaign name</label>
+      <input type="text" id="campaign" value="" placeholder="e.g. coolsculpting_summer_2026_buy3get1">
+      <div class="hint">Lowercase + underscores. Include the offer if you want to compare promos later.</div>
+    </div>
+
+    <div class="field-block">
+      <div class="fb-top">
+        <span class="field-tag">utm_source</span>
+        <span class="field-q">What specific platform sent them?</span>
+      </div>
+      <p class="field-desc">The exact platform or vendor the click came from. Picking one here auto-fills the matching medium below. <b>e.g. website, brevo, instagram, google_business</b></p>
+      <label class="ctrl-label" for="source">Select a source</label>
+      <div class="selectwrap">
+        <select id="source">
+          <optgroup label="Our landing pages">
+            <option value="landing_page">landing_page</option>
+          </optgroup>
+          <optgroup label="Platforms &amp; channels">
+            <option value="website" selected>website</option>
+            <option value="vital_interaction">vital_interaction (SMS)</option>
+            <option value="brevo">brevo (Email)</option>
+            <option value="facebook">facebook</option>
+            <option value="instagram">instagram</option>
+            <option value="google_business">google_business</option>
+            <option value="google_ads">google_ads</option>
+            <option value="zocdoc">zocdoc</option>
+            <option value="poster">poster</option>
+            <option value="tv_display">tv_display</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="hint" id="source-hint">The exact platform</div>
+      <div class="extra" id="lp-detail" style="display:none;">
+        <label class="ctrl-label" for="lp-desc">Which landing page?</label>
+        <input type="text" id="lp-desc" placeholder="e.g. teens">
+        <div class="hint">Lowercase + underscores. Becomes <b>landing_page_yourdetail</b>.</div>
+        <div class="content-preview" id="lp-preview"></div>
+      </div>
+      <div class="toggle-row" id="paid-toggle" style="display:none;">
+        <label class="ctrl-label">Is this an organic post or a paid ad?</label>
+        <div class="seg">
+          <button type="button" id="seg-organic" class="active" data-medium="organic_social">Organic post</button>
+          <button type="button" id="seg-paid" data-medium="paid_social">Paid ad</button>
+        </div>
+        <div class="hint">Source stays the same; this sets the medium to organic_social or paid_social.</div>
+      </div>
+    </div>
+
+    <div class="field-block">
+      <div class="fb-top">
+        <span class="field-tag">utm_medium</span>
+        <span class="field-q">What type of channel was it?</span>
+      </div>
+      <p class="field-desc">The channel category. This is now <b>filled in automatically</b> from your source choice (and the paid/organic toggle), so it always stays consistent. <b>e.g. email, sms, organic_social, paid_social</b></p>
+      <label class="ctrl-label" for="medium">Auto-filled from source</label>
+      <div class="medium-display" id="medium-display">referral</div>
+      <input type="hidden" id="medium" value="referral">
+      <div class="hint">Locked on purpose &mdash; consistent mediums are what keep your reports clean.</div>
+    </div>
+
+    <div class="field-block">
+      <div class="fb-top">
+        <span class="field-tag">utm_content</span>
+        <span class="field-q">Which exact element did they click?</span>
+      </div>
+      <p class="field-desc">The specific element &mdash; built as <b>type_descriptor</b>. Pick the type, then describe it. On-page placement (hero, footer) lives here, never in medium. <b>e.g. button_book_hero, location_flushing</b></p>
+      <label class="ctrl-label" for="content-type">Element type</label>
+      <div class="selectwrap">
+        <select id="content-type">
+          <option value="button">button &mdash; a clickable CTA</option>
+          <option value="location">location &mdash; a location-specific link</option>
+          <option value="image">image &mdash; a banner or graphic</option>
+          <option value="link">link &mdash; an inline text link</option>
+          <option value="post">post &mdash; an organic social post</option>
+        </select>
+      </div>
+      <label class="ctrl-label" for="content-desc" style="margin-top:16px;">Describe it</label>
+      <input type="text" id="content-desc" placeholder="e.g. book_hero">
+      <div class="hint">Lowercase + underscores. The type prefix is added for you. Tap an example to use it.</div>
+      <div class="examples" id="content-examples"></div>
+      <div class="content-preview" id="content-preview"></div>
+    </div>
+
+  </div>
+
+  <div class="sec-head">
+    <span class="sec-num">2</span>
+    <h2>Your tracking link</h2>
+  </div>
+
+  <div class="builder">
+    <label class="ctrl-label" for="base" style="color:var(--gold)">Destination URL</label>
+    <input type="text" id="base" value="https://metroderm.typeform.com/to/hQY1NQMM"
+           style="background:rgba(244,241,232,0.06);color:var(--paper);border-color:rgba(244,241,232,0.18);margin-bottom:24px;">
+
+    <div class="out-label">
+      <span>Generated link</span>
+      <button class="copy-btn" id="copy">Copy</button>
+    </div>
+    <div class="out-box" id="out"></div>
+
+    <div class="decoded" id="decoded"></div>
+  </div>
+
+  <footer>
+    <b>One rule to remember:</b> <span class="pill">utm_medium</span> is always a short, fixed list of channel types. On-page placement (hero, footer, etc.) always lives in <span class="pill">utm_content</span>. Get that split right and every channel rolls up cleanly under the same campaign.
+  </footer>
+
+</div>
+
+<script>
+  var $ = function(id){ return document.getElementById(id); };
+  var base = $('base'), campaign = $('campaign'), source = $('source'),
+      medium = $('medium'), mediumDisplay = $('medium-display'),
+      contentType = $('content-type'), contentDesc = $('content-desc'), contentPreview = $('content-preview'),
+      contentExamples = $('content-examples'),
+      lpDetail = $('lp-detail'), lpDesc = $('lp-desc'), lpPreview = $('lp-preview'),
+      out = $('out'), decoded = $('decoded'), copyBtn = $('copy'),
+      sourceHint = $('source-hint');
+
+  var paidToggle = $('paid-toggle'), segOrganic = $('seg-organic'), segPaid = $('seg-paid');
+  var socialSources = { facebook: true, instagram: true };
+
+  var sourceToMedium = {
+    landing_page: 'referral',
+    website: 'referral', vital_interaction: 'sms', brevo: 'email',
+    facebook: 'organic_social', instagram: 'organic_social',
+    google_business: 'organic', google_ads: 'paid_search',
+    zocdoc: 'referral', poster: 'qr', tv_display: 'qr'
+  };
+  var sourceNote = {
+    landing_page: 'One of our landing pages - name it below',
+    vital_interaction: 'Your SMS platform',
+    brevo: 'Your email platform',
+    facebook: 'Use the toggle below for paid vs. organic',
+    instagram: 'Use the toggle below for paid vs. organic',
+    poster: 'Offline - link sits behind a QR code',
+    tv_display: 'Offline - link sits behind a QR code'
+  };
+
+  // Example descriptors per content type, tailored to MetroDerm
+  var contentExamplesByType = {
+    button: ['book_hero', 'book_footer', 'schedule_consult', 'call_now'],
+    location: ['flushing', 'concourse', 'find_a_clinic'],
+    image: ['summer_offer', 'buy3get1_banner', 'beforeafter'],
+    link: ['acne_program', 'scar_program', 'coolsculpting_info', 'pricing'],
+    post: ['acne_tips', 'beforeafter', 'patient_story', 'promo_reel']
+  };
+
+  function renderExamples(){
+    var list = contentExamplesByType[contentType.value] || [];
+    var chips = list.map(function(d){
+      return '<span class="ex-chip" data-desc="' + d + '">' + contentType.value + '_' + d + '</span>';
+    }).join('');
+    contentExamples.innerHTML = '<span class="ex-label">Examples (tap to use):</span>' + chips;
+  }
+
+  function setMedium(value){
+    medium.value = value;
+    mediumDisplay.textContent = value; // lock icon is added by CSS ::before
+  }
+
+  function getContent(){
+    var desc = contentDesc.value.trim().toLowerCase().replace(/\s+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+    return desc ? contentType.value + '_' + desc : '';
+  }
+
+  function getSource(){
+    if (source.value === 'landing_page') {
+      var d = lpDesc.value.trim().toLowerCase().replace(/\s+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+      return d ? 'landing_page_' + d : 'landing_page';
+    }
+    return source.value;
+  }
+
+  function build(){
+    var cVal = campaign.value.trim().toLowerCase().replace(/\s+/g, '_');
+    var sVal = getSource();
+    var conVal = getContent();
+
+    // content preview chip
+    if (conVal) {
+      contentPreview.innerHTML = 'utm_content = <b>' + conVal + '</b>';
+    } else {
+      contentPreview.innerHTML = '<span class="empty-note">Add a description to build the value (e.g. ' + contentType.value + '_book_hero)</span>';
+    }
+
+    // landing-page source preview
+    if (source.value === 'landing_page') {
+      lpPreview.innerHTML = 'utm_source = <b>' + sVal + '</b>';
+    }
+
+    var params = [
+      ['utm_campaign', cVal],
+      ['utm_source', sVal],
+      ['utm_medium', medium.value],
+      ['utm_content', conVal]
+    ].filter(function(p){ return p[1]; });
+
+    var qs = params.map(function(p, i){
+      return '<span class="amp">' + (i === 0 ? '?' : '&') + '</span><span class="qk">' + p[0] + '</span>=<span class="vl">' + p[1] + '</span>';
+    }).join('');
+    out.innerHTML = base.value + qs;
+
+    out.dataset.plain = base.value + params.map(function(p, i){
+      return (i === 0 ? '?' : '&') + p[0] + '=' + encodeURIComponent(p[1]);
+    }).join('');
+
+    var rows = [
+      ['Destination', base.value],
+      ['utm_campaign', cVal],
+      ['utm_source', sVal],
+      ['utm_medium', medium.value],
+      ['utm_content', conVal]
+    ];
+    decoded.innerHTML = rows.map(function(r){
+      return '<div class="dec-row"><span>' + r[0] + '</span><span class="' + (r[1] ? '' : 'empty') + '">' + (r[1] || 'not set') + '</span></div>';
+    }).join('');
+  }
+
+  contentType.addEventListener('change', function(){ renderExamples(); build(); });
+  contentDesc.addEventListener('input', build);
+
+  contentExamples.addEventListener('click', function(e){
+    var chip = e.target.closest ? e.target.closest('.ex-chip') : null;
+    if (!chip) return;
+    contentDesc.value = chip.getAttribute('data-desc');
+    build();
+  });
+
+  function setSegment(isPaid){
+    segPaid.classList.toggle('active', isPaid);
+    segOrganic.classList.toggle('active', !isPaid);
+    setMedium(isPaid ? 'paid_social' : 'organic_social');
+    build();
+  }
+
+  segOrganic.addEventListener('click', function(){ setSegment(false); });
+  segPaid.addEventListener('click', function(){ setSegment(true); });
+
+  source.addEventListener('change', function(){
+    var isSocial = socialSources[source.value];
+    var isLP = source.value === 'landing_page';
+    paidToggle.style.display = isSocial ? 'block' : 'none';
+    lpDetail.style.display = isLP ? 'block' : 'none';
+    if (isSocial) {
+      // respect current toggle position rather than forcing organic
+      setMedium(segPaid.classList.contains('active') ? 'paid_social' : 'organic_social');
+    } else if (sourceToMedium[source.value]) {
+      setMedium(sourceToMedium[source.value]);
+    }
+    sourceHint.textContent = sourceNote[source.value] || 'The exact platform';
+    if (isLP) lpDesc.focus();
+    build();
+  });
+
+  lpDesc.addEventListener('input', build);
+
+  [base, campaign].forEach(function(el){
+    el.addEventListener('input', build);
+  });
+
+  copyBtn.addEventListener('click', function(){
+    navigator.clipboard.writeText(out.dataset.plain).then(function(){
+      copyBtn.textContent = 'Copied \u2713';
+      copyBtn.classList.add('done');
+      setTimeout(function(){ copyBtn.textContent = 'Copy'; copyBtn.classList.remove('done'); }, 1600);
+    });
+  });
+
+  renderExamples();
+  // set initial source-dependent state (detail field, medium, hint)
+  source.dispatchEvent(new Event('change'));
+  build();
+</script>
+</body>
+</html>
