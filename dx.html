@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Top 30 Diagnoses (Dx Count)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #1A3A5C;padding-bottom:20px;margin-bottom:30px}
+  .hdr h1{font-size:30px;font-weight:600;color:#1A3A5C;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:20px 24px;margin-bottom:28px;font-size:17px;line-height:1.7}
+  .lede strong{color:#1A3A5C}
+  .method{background:#fafbfc;border:1px solid #e4e4e4;border-radius:8px;padding:20px 24px;margin-bottom:28px}
+  .method h3{font-size:15px;color:#1A3A5C;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+  .method p{font-size:14.5px;color:#444;margin-bottom:10px}
+  .method p:last-child{margin-bottom:0}
+  .method strong{color:#1A3A5C}
+  .kpis{display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 8px}
+  .kpi{flex:1;min-width:150px;background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:16px 18px}
+  .kpi .v{font-size:26px;font-weight:700;color:#1A3A5C;letter-spacing:-0.5px}
+  .kpi .l{font-size:12px;color:#888;margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+  h2{font-size:22px;font-weight:600;color:#1A3A5C;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#1A3A5C;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#1A3A5C;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+  td.r{text-align:right;font-variant-numeric:tabular-nums}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .rk{display:inline-block;width:22px;color:#aaa;font-size:12px}
+  .barbox{display:flex;align-items:center;gap:8px}
+  .bartrack{display:block;flex:1 1 auto;height:16px;background:#eef0f3;border-radius:4px;overflow:hidden}
+  .barfill{display:block;height:16px;background:#1A3A5C;border-radius:4px}
+  .barpct{flex:0 0 42px;text-align:right;font-size:12px;font-weight:600;color:#1a1a1a;font-variant-numeric:tabular-nums}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}.pill-n{background:#eef2f7;color:#475569}
+  .callout{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:16px 20px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#1A3A5C}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}.callout-good strong{color:#14532d}
+  .callout-amber{background:#fef3c7;border-left-color:#f59e0b}.callout-amber strong{color:#78350f}
+  .two{display:flex;gap:18px;flex-wrap:wrap}
+  .two .chart-wrap{flex:1;min-width:300px}
+  .heat{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0}
+  .heat th{background:#1A3A5C;color:#fff;padding:8px 6px;font-size:11.5px;text-align:center;font-weight:600}
+  .heat th.dx{text-align:left;min-width:150px}
+  .heat td{padding:7px 6px;text-align:center;border:1px solid #fff;font-variant-numeric:tabular-nums}
+  .heat td.dx{text-align:left;background:#f7f9fb !important;font-weight:600;color:#1A3A5C;white-space:nowrap}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+  .note{font-size:13px;color:#888;font-style:italic;margin-top:-4px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Top 30 Diagnoses by Frequency</h1>
+  <div class="hdr-sub">
+    <span><strong>Prepared for:</strong> CEO</span>
+    <span>&middot;</span>
+    <span><strong>Scope:</strong> Medical dermatology, evaluation visits</span>
+    <span>&middot;</span>
+    <span><strong>Period:</strong> Jan 2024 – May 2026</span>
+  </div>
+  <div class="hdr-meta">Measured in diagnosis count (Dx count) — how often each condition is coded.</div>
+</div>
+
+<div class="lede">
+This report ranks the conditions the practice diagnoses most often. The book is highly concentrated: <strong>the top 30 diagnoses account for 63% of all diagnosis activity</strong>, and Acne Vulgaris alone is roughly 1 in 7. The mix is growing on the right things — dermatitis, skin-cancer screening, and hair-loss diagnoses are rising fastest.
+</div>
+
+<div class="method">
+  <h3>Methodology — why these numbers, and what's excluded</h3>
+  <p><strong>We count diagnoses, not visits.</strong> A single patient visit can carry more than one diagnosis (for example, acne and seborrheic dermatitis assessed in the same appointment). This report therefore measures <strong>diagnosis count (Dx count)</strong> — the number of times each condition was coded — which is the correct unit for ranking <em>what the practice diagnoses</em>. It is not a count of unique visits or unique patients, and Dx counts should not be summed across different diagnoses to infer visit volume.</p>
+  <p><strong>We filtered to evaluation (E&amp;M) visits only, excluding treatment encounters.</strong> Treatment visits — phototherapy, excimer laser, and similar recurring procedures — are coded against a diagnosis but are not new clinical assessments. A patient receiving phototherapy several times a week generates many treatment records for the same underlying condition, which would inflate that condition's apparent frequency. By keeping only E&amp;M (evaluation and decision-making) encounters, the ranking reflects genuine diagnostic activity rather than the cadence of a treatment program. The clearest example: under an all-encounters view, vitiligo appeared to be a top-5 condition, but roughly 5 of every 6 of those records were phototherapy treatments — on an evaluation basis it ranks far lower.</p>
+  <p><strong>Scope &amp; notes.</strong> Medical (MED) facilities only; cosmetic (COS) excluded. Year-over-year compares full-year 2024 vs 2025. May 2026 is the most recent month and may be incomplete.</p>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">487,157</div><div class="l">Total Dx count (E&amp;M)</div></div>
+  <div class="kpi"><div class="v">63%</div><div class="l">From the top 30</div></div>
+  <div class="kpi"><div class="v">14.8%</div><div class="l">Acne — largest single dx</div></div>
+  <div class="kpi"><div class="v">6</div><div class="l">Locations</div></div>
+  <div class="kpi"><div class="v">29 mo</div><div class="l">Jan '24 – May '26</div></div>
+</div>
+
+<!-- 1: TABLE -->
+<h2><span class="num">1</span>The top 30 diagnoses</h2>
+
+<p>Ranked by total Dx count over the period. The bar shows each diagnosis's share of the total; the final column shows year-over-year change.</p>
+
+<div class="tbl-wrap">
+<table id="t30tbl">
+<thead><tr>
+  <th>#</th><th>Diagnosis</th><th class="r">Dx count</th>
+  <th style="width:170px">Share of total</th><th class="r">YoY '24→'25</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+</div>
+<p class="note">Dx count = number of times the diagnosis was coded on an evaluation visit. May 2026 may be partial.</p>
+
+<div class="callout callout-good">
+<strong>Takeaway:</strong> A small set of conditions carries the practice. The top 5 — Acne, Seborrheic Dermatitis, Atopic Dermatitis, Eczematous Dermatitis, and Verruca — make up roughly a third of all diagnostic activity. These are the pathways where clinical protocols, scheduling templates, and provider training have the highest leverage.
+</div>
+
+<!-- 2: TRENDS -->
+<h2><span class="num">2</span>What's growing and what's fading</h2>
+
+<div class="two">
+<div class="chart-wrap">
+<div class="chart-title">Fastest-growing (YoY)</div>
+<div class="chart-sub">Top-30 diagnoses, full-year 2024 → 2025</div>
+<div style="position:relative;height:230px"><canvas id="cUp"></canvas></div>
+</div>
+<div class="chart-wrap">
+<div class="chart-title">Fastest-declining (YoY)</div>
+<div class="chart-sub">Top-30 diagnoses, full-year 2024 → 2025</div>
+<div style="position:relative;height:230px"><canvas id="cDn"></canvas></div>
+</div>
+</div>
+
+<div class="chart-wrap">
+<div class="chart-title">Top 6 diagnoses — monthly Dx count</div>
+<div class="chart-sub">Acne leads by a wide margin and is stable-to-growing. Note the steady climb in Dermatitis Unspecified.</div>
+<div class="chart-leg" id="trLeg"></div>
+<div style="position:relative;height:260px"><canvas id="cTrend"></canvas></div>
+</div>
+
+<div class="callout callout-amber">
+<strong>Worth a closer look:</strong> "Dermatitis Unspecified" grew ~50% year-over-year — far faster than any specific condition. A non-specific code rising that quickly usually reflects documentation/coding behavior rather than a real change in disease, and is worth a coding review so visits are captured under their most specific (and best-reimbursed) diagnosis.
+</div>
+
+<!-- 3: LOCATION HEATMAP -->
+<h2><span class="num">3</span>Top diagnoses by location</h2>
+
+<p>The matrix below shows Dx count for the top 10 conditions at each location. Reading down a column shows a site's diagnostic profile; reading across a row shows where a condition is most often diagnosed. Darker cells are higher counts.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Dx count — top 10 diagnoses × location</div>
+<div class="chart-sub">Each cell is the number of times that diagnosis was coded at that site (evaluation visits).</div>
+<div style="overflow-x:auto"><div id="heatLoc"></div></div>
+</div>
+
+<div class="callout">
+<strong>Takeaway:</strong> Acne leads at every location. Beyond it, sites have distinct profiles: Flushing Northern carries the most eczematous dermatitis and neoplasm work, Elmhurst and Fordham over-index on "Dermatitis Unspecified," and Concourse leads on atopic dermatitis and xerosis. These differences can guide local protocol and staffing decisions.
+</div>
+
+<!-- 4: PROVIDER HEATMAP -->
+<h2><span class="num">4</span>Top diagnoses by provider</h2>
+
+<p>The same matrix for the 10 highest-volume providers. This shows each clinician's diagnostic mix and highlights where individual coding patterns stand out.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Dx count — top 10 diagnoses × top 10 providers</div>
+<div class="chart-sub">Each cell is the number of times that provider coded that diagnosis (evaluation visits).</div>
+<div style="overflow-x:auto"><div id="heatProv"></div></div>
+</div>
+
+<div class="callout callout-amber">
+<strong>Worth a closer look:</strong> Most providers show a broadly similar mix, but one stands out — a single provider accounts for the large majority of all "Dermatitis Unspecified" coding. That concentration, combined with the system-wide +50% growth in that code, points to an individual documentation pattern worth reviewing rather than a true shift in disease.
+</div>
+
+<div class="end">Office of the CIO/CSO · Metro Dermatology · Confidential · Evaluation (E&amp;M) visits · Diagnosis count</div>
+
+</div>
+
+<script>
+const NAVY='#1A3A5C';
+const T30=[{"dx": "Acne Vulgaris", "v": 72008, "share": 14.8, "yoy": 6.1}, {"dx": "Seborrheic Dermatitis", "v": 32957, "share": 6.8, "yoy": 11.6}, {"dx": "Atopic Dermatitis", "v": 23198, "share": 4.8, "yoy": 10.2}, {"dx": "Eczematous Dermatitis", "v": 19621, "share": 4.0, "yoy": 0.5}, {"dx": "Verruca Vulgaris", "v": 12067, "share": 2.5, "yoy": 18.4}, {"dx": "Dermatitis Unspecified", "v": 10788, "share": 2.2, "yoy": 49.6}, {"dx": "Neoplasm of Uncertain Behavior", "v": 10627, "share": 2.2, "yoy": 11.6}, {"dx": "Psoriasis", "v": 9519, "share": 2.0, "yoy": -0.9}, {"dx": "Xerosis", "v": 8629, "share": 1.8, "yoy": 1.8}, {"dx": "Androgenetic Alopecia", "v": 7469, "share": 1.5, "yoy": 15.4}, {"dx": "Onychomycosis", "v": 7367, "share": 1.5, "yoy": 1.5}, {"dx": "Rosacea", "v": 6996, "share": 1.4, "yoy": 7.5}, {"dx": "Keloid", "v": 6965, "share": 1.4, "yoy": 10.9}, {"dx": "Inflammatory Acne Cyst", "v": 6770, "share": 1.4, "yoy": 4.6}, {"dx": "Post-Inflammatory Hyperpigmentation", "v": 6762, "share": 1.4, "yoy": -6.5}, {"dx": "Folliculitis", "v": 6747, "share": 1.4, "yoy": -7.1}, {"dx": "Melasma", "v": 6517, "share": 1.3, "yoy": -7.7}, {"dx": "Alopecia Areata", "v": 5386, "share": 1.1, "yoy": 4.9}, {"dx": "Alopecia", "v": 4743, "share": 1.0, "yoy": 22.8}, {"dx": "Seborrheic Keratosis", "v": 4410, "share": 0.9, "yoy": 5.7}, {"dx": "Intertrigo", "v": 4215, "share": 0.9, "yoy": 9.4}, {"dx": "Allergic Contact Dermatitis", "v": 4085, "share": 0.8, "yoy": -13.1}, {"dx": "Vitiligo", "v": 3964, "share": 0.8, "yoy": 10.5}, {"dx": "Irritated Seborrheic Keratosis", "v": 3906, "share": 0.8, "yoy": -6.6}, {"dx": "Tinea Pedis", "v": 3870, "share": 0.8, "yoy": 8.1}, {"dx": "Screening for malignant neoplasms of the skin", "v": 3851, "share": 0.8, "yoy": 29.2}, {"dx": "Keratosis Pilaris", "v": 3802, "share": 0.8, "yoy": 1.7}, {"dx": "Cyst", "v": 3694, "share": 0.8, "yoy": 6.2}, {"dx": "Dyshidrotic Eczema", "v": 3555, "share": 0.7, "yoy": -0.1}, {"dx": "Traction Alopecia", "v": 3148, "share": 0.6, "yoy": -10.8}];
+const TREND={"months": ["Jan '24", "Feb '24", "Mar '24", "Apr '24", "May '24", "Jun '24", "Jul '24", "Aug '24", "Sep '24", "Oct '24", "Nov '24", "Dec '24", "Jan '25", "Feb '25", "Mar '25", "Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26", "Apr '26", "May '26"], "dx": ["Acne Vulgaris", "Seborrheic Dermatitis", "Atopic Dermatitis", "Eczematous Dermatitis", "Verruca Vulgaris", "Dermatitis Unspecified"], "s": {"Acne Vulgaris": [2203, 2054, 2311, 2319, 2526, 2346, 2520, 2786, 2273, 2673, 2448, 2410, 2677, 2294, 2622, 2371, 2763, 2615, 2651, 2784, 2488, 2625, 2223, 2531, 2562, 2169, 2652, 2564, 2548], "Seborrheic Dermatitis": [957, 882, 1070, 1051, 1123, 1001, 1051, 1148, 1092, 1221, 1108, 1098, 1257, 1130, 1278, 1127, 1261, 1153, 1165, 1213, 1168, 1329, 1061, 1149, 1192, 1008, 1296, 1218, 1150], "Atopic Dermatitis": [636, 612, 672, 788, 805, 821, 835, 818, 705, 784, 738, 772, 877, 719, 792, 759, 849, 878, 864, 920, 780, 889, 729, 847, 901, 790, 893, 864, 861], "Eczematous Dermatitis": [641, 586, 652, 710, 702, 701, 794, 667, 659, 721, 612, 597, 738, 651, 724, 645, 711, 705, 692, 618, 656, 656, 598, 686, 714, 680, 746, 706, 653], "Verruca Vulgaris": [279, 290, 317, 354, 402, 400, 440, 475, 477, 479, 436, 323, 392, 348, 425, 432, 487, 481, 564, 570, 521, 499, 400, 412, 388, 328, 389, 377, 382], "Dermatitis Unspecified": [200, 235, 232, 248, 287, 238, 310, 364, 332, 338, 294, 264, 302, 288, 283, 331, 395, 471, 502, 481, 521, 524, 451, 449, 425, 404, 499, 552, 568]}};
+const HLOC={"dx": ["Acne Vulgaris", "Seborrheic Dermatitis", "Atopic Dermatitis", "Eczematous Dermatitis", "Verruca Vulgaris", "Dermatitis Unspecified", "Neoplasm of Uncertain Behavior", "Psoriasis", "Xerosis", "Androgenetic Alopecia"], "cols": ["Concourse", "Flushing Northern", "Elmhurst", "Fort Lee", "Fordham", "Glen Oaks"], "m": [[16403, 13809, 14016, 14079, 10370, 3331], [8135, 6412, 6668, 4228, 5841, 1673], [6287, 3787, 2474, 4162, 5523, 965], [3923, 6101, 3814, 3675, 1208, 900], [1680, 3526, 2517, 2462, 1102, 780], [1264, 2093, 3282, 1568, 2155, 426], [1493, 3218, 1664, 2506, 1257, 489], [2145, 2396, 1849, 1865, 833, 431], [2561, 1807, 1225, 1125, 1447, 464], [1628, 1816, 724, 1389, 1487, 425]]};
+const HPROV={"dx": ["Acne Vulgaris", "Seborrheic Dermatitis", "Atopic Dermatitis", "Eczematous Dermatitis", "Verruca Vulgaris", "Dermatitis Unspecified", "Neoplasm of Uncertain Behavior", "Psoriasis", "Xerosis", "Androgenetic Alopecia"], "cols": ["Park", "Mamanova", "Hussain", "Shin", "Lee", "Li", "Kwak", "Kim", "Hu", "Park"], "full": ["Park, Hyeyoon", "Mamanova, Angelina", "Hussain, Samantha", "Shin, David", "Lee, Hyun Soo", "Li, Stacy", "Kwak, Charles", "Kim, Yu Jin", "Hu, Stephanie", "Park, Chohee"], "m": [[6090, 6512, 6643, 5551, 3028, 5727, 5350, 3473, 2718, 4250], [2105, 3541, 3669, 2133, 1206, 1791, 2495, 1738, 1590, 1356], [1819, 2758, 1397, 2240, 1461, 1223, 502, 899, 497, 1064], [1283, 1998, 2181, 1112, 2008, 1121, 1027, 1048, 2166, 872], [905, 675, 1344, 793, 674, 822, 798, 964, 875, 587], [795, 235, 831, 763, 532, 294, 3269, 63, 825, 256], [1112, 293, 513, 896, 1215, 390, 1107, 82, 1358, 472], [1258, 797, 768, 608, 722, 910, 562, 391, 456, 389], [1332, 1059, 415, 526, 392, 673, 520, 233, 188, 281], [672, 551, 256, 804, 516, 393, 368, 342, 515, 293]]};
+
+// disambiguate duplicate provider surnames
+(function(){const seen={};HPROV.cols=HPROV.cols.map((c,i)=>{const full=HPROV.full[i];const first=full.split(',')[1].trim()[0];if(HPROV.cols.filter(x=>x===c).length>1){return c+' '+first+'.';}return c;});})();
+
+// Top 30 table with bars
+const tb=document.querySelector('#t30tbl tbody');
+const maxShare=Math.max(...T30.map(r=>r.share));
+T30.forEach((r,i)=>{
+  const yoy=r.yoy===null?'—':`<span class="pill ${r.yoy>=0?'pill-g':'pill-r'}">${r.yoy>=0?'+':''}${r.yoy}%</span>`;
+  const w=Math.max(r.share/maxShare*100,3);
+  tb.insertAdjacentHTML('beforeend',
+    `<tr><td><span class="rk">${i+1}</span></td>
+      <td><strong>${r.dx}</strong></td>
+      <td class="r">${r.v.toLocaleString()}</td>
+      <td><div class="barbox"><span class="bartrack"><span class="barfill" style="width:${w}%"></span></span><span class="barpct">${r.share}%</span></div></td>
+      <td class="r">${yoy}</td></tr>`);
+});
+
+// Risers / decliners
+const RISE=[['Dermatitis Unspecified',49.6],['Screening for skin cancer',29.2],['Alopecia',22.8],['Verruca Vulgaris',18.4],['Androgenetic Alopecia',15.4]];
+const DECL=[['Allergic Contact Dermatitis',-13.1],['Traction Alopecia',-10.8],['Melasma',-7.7],['Folliculitis',-7.1],['Irritated Seb. Keratosis',-6.6]];
+function hbar(id,data,color){new Chart(document.getElementById(id),{type:'bar',
+  data:{labels:data.map(d=>d[0]),datasets:[{data:data.map(d=>d[1]),backgroundColor:color,borderRadius:4}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.x>=0?'+':''}${c.parsed.x}% YoY`}}},
+    scales:{x:{grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>v+'%'}},y:{ticks:{font:{size:11.5}}}}}});}
+hbar('cUp',RISE,'#0d7a55'); hbar('cDn',DECL,'#b91c1c');
+
+// Trend top6
+const palette=[NAVY,'#0d7a55','#c2410c','#0891b2','#7c3aed','#be185d'];
+const tleg=document.getElementById('trLeg');
+TREND.dx.forEach((d,i)=>tleg.insertAdjacentHTML('beforeend',`<span><span class="swl" style="background:${palette[i]}"></span>${d}</span>`));
+new Chart(document.getElementById('cTrend'),{type:'line',
+  data:{labels:TREND.months,datasets:TREND.dx.map((d,i)=>({label:d,data:TREND.s[d],borderColor:palette[i],backgroundColor:'transparent',borderWidth:2,pointRadius:1.2,tension:.3}))},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`}}},
+    scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?TREND.months[i]:''}},
+      y:{min:0,grid:{color:'#f0f0f0'},ticks:{font:{size:11},callback:v=>v.toLocaleString()},title:{display:true,text:'Monthly Dx count',font:{size:12},color:'#888'}}}}});
+
+// Heatmap builder (column-normalized shading so each site/provider is comparable internally)
+function buildHeat(elId,data){
+  const max=Math.max(...data.m.flat());
+  function color(v){const t=Math.sqrt(Math.min(v/max,1));const r=Math.round(245-(245-26)*t),g=Math.round(248-(248-58)*t),b=Math.round(252-(252-92)*t);return {bg:`rgb(${r},${g},${b})`,txt:t>0.55?'#fff':'#1a1a1a'};}
+  let h='<table class="heat"><thead><tr><th class="dx">Diagnosis</th>'+data.cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead><tbody>';
+  data.dx.forEach((d,i)=>{
+    h+=`<tr><td class="dx">${d}</td>`;
+    data.m[i].forEach(v=>{const c=color(v);h+=`<td style="background:${c.bg};color:${c.txt}">${v.toLocaleString()}</td>`;});
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById(elId).innerHTML=h;
+}
+buildHeat('heatLoc',HLOC);
+buildHeat('heatProv',HPROV);
+</script>
+</body>
+</html>
