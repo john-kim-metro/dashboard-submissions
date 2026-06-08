@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Productivity Dashboard · May 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-0.3px}
+  .db-header-left p{font-size:12px;color:#666;margin-top:3px}
+  .db-header-right{text-align:right;font-size:11px;color:#888;line-height:1.7}
+  .db-header-right strong{color:#1A3A5C}
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:10px;flex-wrap:wrap}
+  .kpi-delta{font-size:11px;font-weight:500;display:flex;align-items:center;gap:3px}
+  .kpi-delta .lbl{font-size:10px;color:#aaa;font-weight:400}
+  .up{color:#0d7a55}.dn{color:#b91c1c}.nt{color:#888}
+  .sec-label{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
+  .card-title{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card-sub{font-size:11px;color:#888;margin-bottom:12px}
+  .full{margin-bottom:14px}
+  .leg{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#666;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:5px}
+  .leg-item{display:flex;align-items:center;gap:5px;cursor:pointer;padding:3px 8px;border-radius:20px;border:0.5px solid #e4e4e4;font-size:11px;color:#555;transition:background .12s}
+  .leg-item:hover{background:#f0f6ff;border-color:#93c5fd}
+  .leg-item.active{background:#f0f6ff;border-color:#1A3A5C}
+  .leg-item.dimmed{opacity:.22}
+  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .note{font-size:11px;color:#888;margin-top:10px;font-style:italic;border-top:1px solid #f0f0f0;padding-top:8px}
+  .insight-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .ins{background:#f7f9fb;border:1px solid #e4e4e4;border-radius:8px;padding:12px 14px}
+  .ins-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-bottom:6px}
+  .tag-g{background:#dcfce7;color:#166534}.tag-r{background:#fee2e2;color:#991b1b}
+  .tag-a{background:#fef3c7;color:#92400e}.tag-b{background:#dbeafe;color:#1e40af}
+  .tag-p{background:#ede9fe;color:#5b21b6}
+  .ins-head{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+  .ins-body{font-size:11px;color:#555;line-height:1.6}
+  .ms-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+  .ms-table th{background:#1A3A5C;color:#fff;padding:7px 10px;font-weight:600;font-size:11px;text-align:left}
+  .ms-table th.c{text-align:center}
+  .ms-table td{padding:6px 10px;border-bottom:1px solid #f0f0f0}
+  .ms-table td.c{text-align:center}
+  .ms-table tr:nth-child(even) td{background:#fafafa}
+  .pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .ramp-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+  .ramp-table th{background:#1A3A5C;color:#fff;padding:7px 10px;font-weight:600;font-size:11px;text-align:left}
+  .ramp-table th.c{text-align:center}
+  .ramp-table td{padding:6px 10px;border-bottom:1px solid #f0f0f0}
+  .ramp-table td.c{text-align:center}
+  .ramp-table tr:nth-child(even) td{background:#fafafa}
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11px;color:#aaa}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="db-header">
+    <div class="db-header-left">
+      <h1>Metro Dermatology &mdash; Productivity Dashboard</h1>
+      <p>Reporting period: May 2026 &nbsp;|&nbsp; All 6 locations &nbsp;|&nbsp; VPH = Visits / Scheduled Hours</p>
+    </div>
+    <div class="db-header-right"><strong>Prepared June 8, 2026</strong><br>Office of the CIO/CSO<br>Confidential</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">System VPH &mdash; May 2026</div><div class="kpi-value">5.67</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+5.2%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+8.4%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Scheduled hours</div><div class="kpi-value">1,804</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;6.3%</div><div class="kpi-delta nt"><span class="lbl">Apr</span>1,925</div></div></div>
+    <div class="kpi"><div class="kpi-label">Active providers</div><div class="kpi-value">17</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">Peak</span>19 (Jun '25)</div><div class="kpi-delta nt"><span class="lbl">Start</span>16 (May '24)</div></div></div>
+    <div class="kpi"><div class="kpi-label">Top VPH &mdash; Lee H.S.</div><div class="kpi-value">7.12</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">3mo avg</span>7.04</div><div class="kpi-delta up"><span class="lbl">YoY</span>+6%</div></div></div>
+    <div class="kpi"><div class="kpi-label">Fastest ramp &mdash; FO Ortiz</div><div class="kpi-value">6.81</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">Start</span>3.22 (May '25)</div><div class="kpi-delta up"><span class="lbl">To avg</span>3 months</div></div></div>
+  </div>
+
+  <!-- Chart 1 -->
+  <div class="sec-label">1 &mdash; System productivity (monthly, May 2024 &ndash; Mar 2026)</div>
+  <div class="full card">
+    <div class="card-title">System VPH (line) &middot; Scheduled hours (bars) &middot; hover bars for provider breakdown</div>
+    <div class="card-sub">Provider count atop each bar. Significant per-provider schedule changes annotated. Production average = 5.10 VPH (18-month mean).</div>
+    <div class="leg">
+      <span><span class="sw" style="background:#B5D4F4"></span>Scheduled hours</span>
+      <span><span class="sw-line" style="background:#1A3A5C"></span>System VPH</span>
+      <span><span class="sw-line" style="background:#D85A30;height:2px;border-style:dashed"></span>Production avg (5.10)</span>
+      <span style="color:#b45309"><strong>▽</strong> Hour reduction</span>
+      <span style="color:#0d7a55"><strong>△</strong> Hour increase</span>
+    </div>
+    <div style="position:relative;height:340px"><canvas id="sysProd"></canvas></div>
+    <div class="note">Annotations reflect individual provider schedule changes of ≥30h or ≥30% MoM — vacations, leave, or slot expansions. Hover any bar for full provider-hour breakdown.</div>
+  </div>
+
+  <!-- Chart 2 -->
+  <div class="sec-label">2 &mdash; Provider productivity matrix (Mar&ndash;May 2026 average)</div>
+  <div class="full card">
+    <div class="card-title">VPH vs no-show rate &middot; bubble size = avg monthly completed visits &middot; initials = firstname + lastname</div>
+    <div class="card-sub">X axis 1.5&ndash;8.0. Bubble color matches insight categories below: blue = ideal, green = at/near benchmark, red = high NS, amber = below benchmark VPH, purple = new provider (May start). Hover for detail.</div>
+    <div style="position:relative;height:440px"><canvas id="bubble"></canvas></div>
+    <div class="note">DS and SH each appear twice (Diana Sun / David Shin; Stephanie Hu / Samantha Hussain). Kim, Carey excluded (&lt;100 visits). Initials = firstname + lastname initial.</div>
+    <div class="insight-row">
+      <div class="ins"><span class="ins-tag tag-b">Ideal quadrant</span><div class="ins-head">HL, SH (Hu), DS (Sun) &mdash; high VPH + low NS</div><div class="ins-body">Lee (7.04, 7.9% NS), Hu (6.33, 8.3%), Sun (6.17, 11.2%). Highest throughput with best adherence. Benchmark for scheduling density.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Leaky panel</span><div class="ins-head">FO, AM, CK, CH &mdash; high NS regardless of VPH</div><div class="ins-body">Ortiz (6.63, 31.1% NS), Mamanova (6.69, 26.9%), Shin (6.13, 23.3%), Kwak (4.95, 26.4%), Huang (4.76, 24.4%), Sit (4.24, 27.6%) all lose roughly 1 in 4 booked appointments. Panel or lead-time review warranted.</div></div>
+      <div class="ins"><span class="ins-tag tag-a">Below benchmark</span><div class="ins-head">GG &mdash; low VPH after 11 months</div><div class="ins-body">Garcia (2.96) remains well below the 5.67 system VPH after a year, though her May uptick to 3.20 is the clearest movement yet. Aileen Espinal (new in May, VPH 3.08) is the only provider below her &mdash; expected for a first month.</div></div>
+    </div>
+  </div>
+
+  <!-- Chart 3 -->
+  <div class="sec-label">3 &mdash; Rising provider VPH velocity (monthly, 2025 cohort) &amp; ramp standard</div>
+  <div class="full card">
+    <div class="card-title">Monthly VPH &middot; ramp zones &middot; regression trend per provider &middot; click label to isolate</div>
+    <div class="card-sub">2025 cohort: Ortiz (May '25), Huang (Mar '25), Sit (Jun '25), Garcia (Jun '25). Dashed lines = linear regression. Coefficient = VPH gained per month. Production average shown as horizontal reference.</div>
+    <div id="risingLeg" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
+    <div style="position:relative;height:380px"><canvas id="rising"></canvas></div>
+
+    <!-- Milestone table -->
+    <div style="margin-top:18px;border-top:1px solid #f0f0f0;padding-top:14px">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">2025 cohort milestone tracker</div>
+      <div style="font-size:11px;color:#666;margin-bottom:10px;line-height:1.6;background:#f7f9fb;border:1px solid #e4e4e4;border-radius:6px;padding:10px 12px">New provider slots are not fully booked from day one — the practice intentionally ramps scheduling capacity alongside panel growth. However, some providers also self-limit patient volume during early months independent of scheduling constraints. The ramp standard distinguishes these cases: a provider with 140+ scheduled hours but low VPH is not capacity-limited by design — they are underperforming their available schedule.</div>
+      <table class="ms-table">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Started</th>
+            <th class="c">Current VPH</th>
+            <th class="c">Trend (VPH/mo)</th>
+            <th class="c">≥ 2.5 (Mo 3)</th>
+            <th class="c">≥ 3.5 (Mo 6)</th>
+            <th class="c">≥ 4.5 (Mo 12)</th>
+            <th class="c">≥ 5.1 (Mo 18)</th>
+            <th class="c">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>FO &mdash; Ortiz</strong></td><td>May '25</td>
+            <td class="c"><strong>6.81</strong></td>
+            <td class="c"><span style="color:#0C447C;font-weight:600">+0.22/mo</span> <span style="font-size:10px;color:#888">R²=0.61</span></td>
+            <td class="c"><span class="pill pill-g">Month 1</span></td>
+            <td class="c"><span class="pill pill-g">Month 2</span></td>
+            <td class="c"><span class="pill pill-g">Month 3</span></td>
+            <td class="c"><span class="pill pill-g">Month 3</span></td>
+            <td class="c"><span class="pill pill-g">At benchmark</span></td>
+          </tr>
+          <tr>
+            <td><strong>CH &mdash; Huang</strong></td><td>Mar '25</td>
+            <td class="c"><strong>5.12</strong></td>
+            <td class="c"><span style="color:#D85A30;font-weight:600">+0.25/mo</span> <span style="font-size:10px;color:#888">R²=0.97</span></td>
+            <td class="c"><span class="pill pill-g">Month 5</span></td>
+            <td class="c"><span class="pill pill-g">Month 9</span></td>
+            <td class="c"><span class="pill pill-a">Month 14 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
+            <td class="c"><span class="pill pill-g">Month 15</span></td>
+            <td class="c"><span class="pill pill-g">At benchmark</span></td>
+          </tr>
+          <tr>
+            <td><strong>PS &mdash; Sit</strong></td><td>Jun '25</td>
+            <td class="c"><strong>4.80</strong></td>
+            <td class="c"><span style="color:#7F77DD;font-weight:600">+0.20/mo</span> <span style="font-size:10px;color:#888">R²=0.71</span></td>
+            <td class="c"><span class="pill pill-g">Month 2</span></td>
+            <td class="c"><span class="pill pill-a">Month 10 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
+            <td class="c"><span class="pill pill-a">Month 11 <em style="font-size:9px;color:#aaa">(late)</em></span></td>
+            <td class="c"><span class="pill pill-a">Not yet</span></td>
+            <td class="c"><span class="pill pill-g">Approaching</span></td>
+          </tr>
+          <tr>
+            <td><strong>GG &mdash; Garcia</strong></td><td>Jun '25</td>
+            <td class="c"><strong>3.20</strong></td>
+            <td class="c"><span style="color:#888780;font-weight:600">+0.08/mo</span> <span style="font-size:10px;color:#888">R²=0.65</span></td>
+            <td class="c"><span class="pill pill-g">Month 3</span></td>
+            <td class="c"><span class="pill pill-r">Not yet <em style="font-size:9px;color:#aaa">(mo 11)</em></span></td>
+            <td class="c"><span class="pill pill-r">Not yet</span></td>
+            <td class="c"><span class="pill pill-r">Not yet</span></td>
+            <td class="c"><span class="pill pill-r">Intervention</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:10px;color:#aaa;margin-top:6px">Trend = linear regression slope (VPH per month) over all active months from joining. R² = goodness of fit (1.0 = perfectly linear). Green = on/ahead of schedule, amber = late, red = not yet reached.</div>
+    </div>
+
+    <!-- Ramp standard -->
+    <div style="margin-top:16px;border-top:1px solid #f0f0f0;padding-top:14px">
+      <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">New Provider VPH Ramp Standard (adopted April 2026)</div>
+      <table class="ramp-table">
+        <thead><tr><th>Milestone</th><th class="c">Target VPH</th><th class="c">By month</th><th class="c">If below</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Early ramp</td><td class="c"><strong>≥ 2.5</strong></td><td class="c">3</td><td class="c"><span class="pill pill-a">Watch</span></td><td>Confirm scheduling template built; panel actively populating</td></tr>
+          <tr><td>Mid ramp</td><td class="c"><strong>≥ 3.5</strong></td><td class="c">6</td><td class="c"><span class="pill pill-a">Review</span></td><td>Panel review with operations; assess appointment type mix and available slots</td></tr>
+          <tr><td>Approaching benchmark</td><td class="c"><strong>≥ 4.5</strong></td><td class="c">12</td><td class="c"><span class="pill pill-r">Escalate</span></td><td>Leadership review; increase scheduling density or consider panel transfer</td></tr>
+          <tr><td>Full productivity</td><td class="c"><strong>≥ 5.1</strong></td><td class="c">18</td><td class="c"><span class="pill pill-r">Escalate</span></td><td>Formal remediation plan with Dr. Lee and CIO/CSO; define timeline</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-row" style="margin-top:14px">
+      <div class="ins"><span class="ins-tag tag-p">Fastest ramp</span><div class="ins-head">FO (Ortiz) &mdash; at benchmark in 3 months</div><div class="ins-body">Likely joined with established referrals. +0.22 VPH/mo trend, though R²=0.50 reflects volatility around an already-high baseline. Aspirational ceiling, not the organic standard setter.</div></div>
+      <div class="ins"><span class="ins-tag tag-g">Most consistent</span><div class="ins-head">CH (Huang) &mdash; +0.24/mo, R²=0.96</div><div class="ins-body">Strongest and most linear ramp in the cohort (R²=0.97). May reached the full 5.1 benchmark (5.12) — the first cohort member after Ortiz to do so. A textbook ramp from 1.13 to 5.12 over 15 months.</div></div>
+      <div class="ins"><span class="ins-tag tag-r">Intervention needed</span><div class="ins-head">GG (Garcia) &mdash; +0.06/mo, slow progress</div><div class="ins-body">Continued slow climb (slope now 0.08/mo) with May at 3.20 — her best month. Still below the 3.5 Month 6 target after 12 months, but the trajectory has finally turned upward three months running.</div></div>
+    </div>
+  </div>
+
+  <div class="db-footer">Data source: Appointment Custom report (ModMed EMA) productivity_060826.csv (Jun 2024&ndash;May 2026). VPH = Visits / Scheduled Hours. Provider matrix = Mar&ndash;May 2026 3-month average. NS% = NS / (NS + Completed). June 2026 excluded (partial month). Regression = OLS linear fit over each provider's active months. Production average = 24-month mean system VPH. Ramp standard adopted April 2026. Hours definition: new file source reports patient-facing scheduled hours (lower than prior file). Analysis by Office of the CIO/CSO, Metro Dermatology.</div>
+</div>
+
+<script>
+// sysLabels index: May'24=0 ... Mar'26=22. Jan'25=idx 8.
+// Chart 3 x-axis starts Jan'25 (sysLabels[8..22]), 15 points total.
+const sysLabels=["Jun '24","Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26"];
+const chart3Labels=sysLabels.slice(7); // Jan'25 ... May'26, 17 labels
+
+const sysVPH=[5.53,5.14,5.15,5.05,4.89,5.23,5.12,4.56,4.85,4.94,5.22,5.23,4.85,5.13,5.31,4.81,4.95,5.11,5.16,4.87,4.70,5.22,5.39,5.67];
+const sysHrs=[1513,1988,2022,1872,2119,1748,1732,2165,1794,1989,1755,1997,2128,2138,1988,2107,2158,1697,1858,1953,1793,2002,1925,1804];
+const activeProvs=[16,16,17,17,17,17,17,18,17,16,16,17,19,18,18,18,18,18,18,17,17,17,17,17];
+const PROD_AVG = 5.10; // 24-month mean system VPH (Jun 2024 - May 2026, new file)
+
+// Significant per-provider hour events on Chart 1 (full range)
+// Each: {idx, dir:'up'|'down', label}
+// Collected from all providers with >=30h or >=30% swings, grouped by month
+const sysHrEvents=[
+  {idx:1, dir:'up',  label:'Kim Y.\nLi\nHuh'},
+  {idx:5, dir:'down',label:'Kim S.\nKwak\nPark C.'},
+  {idx:7, dir:'up',  label:'Huh\nLee\nPark H.'},
+  {idx:8, dir:'down',label:'Chen\nKim S.'},
+  {idx:17,dir:'down',label:'Park C.\nHuang\nPark H.'},
+  {idx:22,dir:'down',label:'Mamanova\nLi'},
+  {idx:23,dir:'down',label:'Mamanova\n(leave)'},
+];
+
+const monthProviders={
+  "Jun '24":["Curtis C. — 132h","Samantha H. — 130h","Sujin K. — 128h","Chohee P. — 124h","Hyeyoon P. — 124h","David S. — 120h","Stacy L. — 101h","Sophy Y. — 100h","Ra H. — 96h","Hyun L. — 94h","Angelina M. — 89h","Yu K. — 88h","Charles K. — 73h","Stephanie H. — 56h","Carey K. — 48h","Diana S. — 9h"],
+  "Jul '24":["Curtis C. — 160h","Charles K. — 154h","Samantha H. — 154h","Hyeyoon P. — 148h","Angelina M. — 148h","Sophy Y. — 144h","Sujin K. — 138h","Stacy L. — 136h","Yu K. — 136h","Chohee P. — 128h","Ra H. — 126h","David S. — 120h","Hyun L. — 109h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 58h"],
+  "Aug '24":["Samantha H. — 155h","Angelina M. — 148h","Curtis C. — 147h","Sophy Y. — 144h","Hyeyoon P. — 144h","David S. — 140h","Chohee P. — 140h","Charles K. — 139h","Sujin K. — 136h","Yu K. — 116h","Ra H. — 116h","Yesenia J. — 115h","Hyun L. — 107h","Stacy L. — 98h","Carey K. — 64h","Diana S. — 56h","Stephanie H. — 56h"],
+  "Sep '24":["Charles K. — 146h","Samantha H. — 144h","Sujin K. — 139h","Ra H. — 137h","Sophy Y. — 136h","Hyeyoon P. — 136h","Angelina M. — 132h","Chohee P. — 124h","Yu K. — 116h","Curtis C. — 112h","Stacy L. — 106h","Yesenia J. — 104h","Hyun L. — 81h","David S. — 76h","Carey K. — 64h","Stephanie H. — 64h","Diana S. — 53h"],
+  "Oct '24":["Sujin K. — 164h","Charles K. — 162h","Yesenia J. — 160h","Hyeyoon P. — 160h","David S. — 152h","Sophy Y. — 152h","Stacy L. — 142h","Ra H. — 136h","Chohee P. — 136h","Curtis C. — 120h","Angelina M. — 114h","Yu K. — 112h","Samantha H. — 103h","Hyun L. — 97h","Stephanie H. — 76h","Carey K. — 72h","Diana S. — 60h"],
+  "Nov '24":["Charles K. — 135h","Curtis C. — 132h","David S. — 124h","Angelina M. — 122h","Stacy L. — 121h","Chohee P. — 119h","Hyeyoon P. — 116h","Yesenia J. — 110h","Ra H. — 108h","Yu K. — 107h","Sophy Y. — 104h","Sujin K. — 102h","Samantha H. — 89h","Hyun L. — 82h","Carey K. — 68h","Stephanie H. — 56h","Diana S. — 53h"],
+  "Dec '24":["Samantha H. — 154h","Yu K. — 136h","Ra H. — 134h","Yesenia J. — 129h","Curtis C. — 124h","Chohee P. — 124h","Angelina M. — 108h","Hyeyoon P. — 104h","Hyun L. — 99h","Sujin K. — 97h","Stacy L. — 95h","Charles K. — 93h","Sophy Y. — 92h","David S. — 88h","Carey K. — 60h","Stephanie H. — 56h","Diana S. — 39h"],
+  "Jan '25":["Sujin K. — 156h","Curtis C. — 152h","Ra H. — 147h","Charles K. — 146h","Hyeyoon P. — 144h","Yu K. — 144h","Sophy Y. — 136h","Angelina M. — 132h","Chohee P. — 132h","Stacy L. — 128h","Oresta B. — 124h","Hyun L. — 121h","Samantha H. — 118h","Yesenia J. — 102h","David S. — 84h","Carey K. — 72h","Stephanie H. — 72h","Diana S. — 53h"],
+  "Feb '25":["Charles K. — 146h","Samantha H. — 144h","Ra H. — 136h","Hyeyoon P. — 136h","David S. — 136h","Stacy L. — 135h","Angelina M. — 126h","Yesenia J. — 124h","Chohee P. — 120h","Hyun L. — 117h","Yu K. — 116h","Sophy Y. — 95h","Carey K. — 64h","Diana S. — 60h","Sujin K. — 53h","Stephanie H. — 44h","Curtis C. — 40h"],
+  "Mar '25":["Hyeyoon P. — 148h","Sophy Y. — 148h","Yesenia J. — 148h","Chohee P. — 145h","Samantha H. — 144h","Stacy L. — 144h","Charles K. — 143h","Yu K. — 143h","Angelina M. — 141h","Ra H. — 136h","David S. — 132h","Hyun L. — 117h","Cindy H. — 108h","Stephanie H. — 68h","Carey K. — 64h","Diana S. — 60h"],
+  "Apr '25":["Samantha H. — 152h","Sophy Y. — 152h","Charles K. — 150h","Chohee P. — 144h","Hyun L. — 129h","Ra H. — 128h","Angelina M. — 126h","David S. — 124h","Yesenia J. — 120h","Hyeyoon P. — 120h","Cindy H. — 104h","Carey K. — 71h","Stacy L. — 70h","Stephanie H. — 68h","Diana S. — 60h","Yu K. — 36h"],
+  "May '25":["Samantha H. — 160h","Charles K. — 158h","Stacy L. — 146h","Sophy Y. — 140h","Hyeyoon P. — 140h","Angelina M. — 136h","Yu K. — 136h","Cindy H. — 136h","Chohee P. — 136h","David S. — 120h","Ra H. — 116h","Yesenia J. — 100h","Hyun L. — 99h","Fabian O. — 80h","Carey K. — 72h","Stephanie H. — 68h","Diana S. — 53h"],
+  "Jun '25":["Chohee P. — 148h","Stacy L. — 140h","Angelina M. — 136h","Fabian O. — 136h","Cindy H. — 136h","David S. — 136h","Yesenia J. — 128h","Yu K. — 128h","Charles K. — 120h","Sophy Y. — 120h","Samantha H. — 118h","Hyeyoon P. — 116h","Pui S. — 116h","Ra H. — 112h","Giselle G. — 112h","Hyun L. — 81h","Stephanie H. — 68h","Carey K. — 56h","Diana S. — 21h"],
+  "Jul '25":["Angelina M. — 161h","Samantha H. — 154h","Giselle G. — 148h","Cindy H. — 148h","Sophy Y. — 144h","David S. — 144h","Pui S. — 144h","Yu K. — 144h","Stacy L. — 134h","Ra H. — 132h","Charles K. — 127h","Hyun L. — 113h","Fabian O. — 112h","Chohee P. — 112h","Hyeyoon P. — 112h","Diana S. — 71h","Carey K. — 21h","Stephanie H. — 16h"],
+  "Aug '25":["Yu K. — 148h","Fabian O. — 148h","Samantha H. — 148h","Pui S. — 148h","Charles K. — 146h","Cindy H. — 136h","David S. — 132h","Angelina M. — 127h","Hyeyoon P. — 120h","Giselle G. — 116h","Chohee P. — 112h","Ra H. — 108h","Hyun L. — 100h","Sophy Y. — 92h","Stacy L. — 76h","Diana S. — 64h","Carey K. — 35h","Stephanie H. — 32h"],
+  "Sep '25":["Charles K. — 154h","Cindy H. — 148h","Ra H. — 144h","Sophy Y. — 144h","Hyeyoon P. — 144h","Samantha H. — 144h","David S. — 136h","Giselle G. — 136h","Stacy L. — 136h","Chohee P. — 131h","Pui S. — 120h","Angelina M. — 117h","Fabian O. — 116h","Yu K. — 103h","Hyun L. — 77h","Stephanie H. — 68h","Diana S. — 60h","Carey K. — 28h"],
+  "Oct '25":["David S. — 159h","Charles K. — 157h","Hyeyoon P. — 152h","Fabian O. — 152h","Ra H. — 151h","Sophy Y. — 151h","Chohee P. — 148h","Cindy H. — 144h","Giselle G. — 136h","Angelina M. — 123h","Samantha H. — 116h","Yu K. — 112h","Stacy L. — 112h","Pui S. — 88h","Hyun L. — 81h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 35h"],
+  "Nov '25":["Charles K. — 134h","Pui S. — 128h","Sophy Y. — 128h","Fabian O. — 127h","Giselle G. — 116h","Ra H. — 111h","Stacy L. — 109h","Hyeyoon P. — 108h","Angelina M. — 105h","Samantha H. — 96h","Cindy H. — 91h","David S. — 88h","Chohee P. — 82h","Hyun L. — 69h","Yu K. — 68h","Stephanie H. — 56h","Diana S. — 53h","Carey K. — 28h"],
+  "Dec '25":["Fabian O. — 140h","David S. — 136h","Pui S. — 136h","Ra H. — 129h","Charles K. — 127h","Angelina M. — 126h","Stacy L. — 126h","Chohee P. — 125h","Hyeyoon P. — 124h","Hyun L. — 111h","Yu K. — 103h","Samantha H. — 96h","Sophy Y. — 92h","Giselle G. — 84h","Cindy H. — 83h","Stephanie H. — 56h","Diana S. — 46h","Carey K. — 17h"],
+  "Jan '26":["Cindy H. — 148h","Samantha H. — 148h","Pui S. — 148h","Ra H. — 144h","Fabian O. — 140h","Charles K. — 138h","Sophy Y. — 132h","Chohee P. — 129h","Stacy L. — 128h","Hyeyoon P. — 128h","Giselle G. — 124h","Angelina M. — 118h","David S. — 100h","Hyun L. — 89h","Stephanie H. — 60h","Diana S. — 53h","Yu K. — 25h"],
+  "Feb '26":["Charles K. — 138h","Giselle G. — 136h","Cindy H. — 136h","Pui S. — 136h","Ra H. — 128h","Chohee P. — 127h","Fabian O. — 124h","Stacy L. — 121h","Samantha H. — 120h","Hyeyoon P. — 120h","David S. — 119h","Angelina M. — 102h","Sophy Y. — 96h","Hyun L. — 89h","Diana S. — 53h","Stephanie H. — 44h","Carey K. — 3h"],
+  "Mar '26":["Sophy Y. — 152h","Fabian O. — 148h","Pui S. — 144h","David S. — 144h","Cindy H. — 144h","Ra H. — 140h","Angelina M. — 136h","Samantha H. — 136h","Giselle G. — 136h","Stacy L. — 128h","Hyeyoon P. — 128h","Chohee P. — 124h","Charles K. — 119h","Hyun L. — 80h","Stephanie H. — 72h","Diana S. — 67h","Carey K. — 3h"],
+  "Apr '26":["Pui S. — 156h","Charles K. — 154h","Sophy Y. — 152h","Cindy H. — 152h","David S. — 151h","Chohee P. — 144h","Giselle G. — 136h","Samantha H. — 132h","Ra H. — 128h","Hyeyoon P. — 120h","Fabian O. — 116h","Hyun L. — 105h","Stacy L. — 94h","Stephanie H. — 72h","Diana S. — 67h","Angelina M. — 43h","Carey K. — 3h"],
+  "May '26":["Cindy H. — 140h","Chohee P. — 140h","Fabian O. — 140h","Ra H. — 140h","Charles K. — 129h","Giselle G. — 128h","Samantha H. — 128h","David S. — 120h","Stacy L. — 117h","Hyeyoon P. — 108h","Sophy Y. — 108h","Hyun L. — 89h","Pui S. — 64h","Stephanie H. — 60h","Diana S. — 53h","Carey K. — 3h"]
+};
+
+// 2025 cohort — full 23-month arrays, chart 3 will slice from idx 8
+const cohortFull={
+  FO:{color:'#0C447C',label:'FO — Ortiz', slope:0.216,r2:0.61,firstIdx:11,
+    data:[null,null,null,null,null,null,null,null,null,null,null,3.22,3.71,5.90,5.98,5.84,6.04,6.28,5.84,5.93,6.06,6.22,6.95,6.81],
+    // events relative to full sysLabels idx (Jun'24 start)
+    events:[{idx:12,dir:'up',note:'FO: hrs +70%'},{idx:14,dir:'up',note:'FO: hrs +32%'},{idx:16,dir:'up',note:'FO: hrs +31%'}]},
+  CH:{color:'#D85A30',label:'CH — Huang',slope:0.248,r2:0.97,firstIdx:9,
+    data:[null,null,null,null,null,null,null,null,null,1.13,1.64,2.08,2.48,2.63,2.83,2.97,3.12,3.56,3.25,3.75,4.10,4.46,4.70,5.12],
+    events:[{idx:11,dir:'up',note:'CH: hrs +31%'},{idx:17,dir:'down',note:'CH: hrs −37%'},{idx:19,dir:'up',note:'CH: hrs +78%'}]},
+  PS:{color:'#7F77DD',label:'PS — Sit',   slope:0.199,r2:0.71,firstIdx:12,
+    data:[null,null,null,null,null,null,null,null,null,null,null,null,1.65,2.90,2.92,2.58,2.75,3.06,2.70,3.00,2.97,3.71,4.51,4.80],
+    events:[{idx:17,dir:'up',note:'PS: hrs +46%'}]},
+  GG:{color:'#888780',label:'GG — Garcia',slope:0.078,r2:0.65,firstIdx:12,
+    data:[null,null,null,null,null,null,null,null,null,null,null,null,2.02,2.28,2.52,2.13,2.32,2.48,2.19,2.36,2.47,2.71,2.99,3.20],
+    events:[{idx:13,dir:'up',note:'GG: hrs +32%'},{idx:19,dir:'up',note:'GG: hrs +48%'}]},
+};
+const cohortKeys=['FO','CH','PS','GG'];
+
+// Slice to Jan'25 onwards (idx 8..22)
+const C3_OFFSET=7; // Jan'25 is index 7 in full array (Jun'24 start)
+const c3Data=k=>cohortFull[k].data.slice(C3_OFFSET); // 16 values
+
+// Build regression line for chart 3 x-axis (0..14, relative to Jan'25)
+// Provider's first active point relative to Jan'25
+function buildRegLine(k){
+  const p=cohortFull[k];
+  const full=p.data;
+  const slope=p.slope; const intercept=(()=>{
+    // Re-derive intercept from firstIdx: y = intercept + slope*(x-firstIdx)
+    // -> intercept_chart = firstVPH - slope*0  where x=0 = firstIdx from join
+    // Actually use: y at x_months_from_join = slope*x + intercept_from_polyfit
+    // polyfit intercept from Python: FO=4.43, CH=1.49, PS=2.28, GG=2.15
+    const intercepts={FO:4.43,CH:1.49,PS:2.28,GG:2.15};
+    return intercepts[k];
+  })();
+  // For each chart3 x position (0=Jan'25), find months-from-join
+  const firstIdx=p.firstIdx; // in full 23-array
+  const line=[];
+  for(let i=0;i<15;i++){
+    const fullIdx=C3_OFFSET+i;
+    if(fullIdx<firstIdx){line.push(null);continue;}
+    const xFromJoin=fullIdx-firstIdx;
+    line.push(parseFloat((slope*xFromJoin+intercept).toFixed(3)));
+  }
+  return line;
+}
+
+// Colors aligned to insight card categories:
+// Blue  (#1e3a8a) = Ideal quadrant: high VPH + low NS
+// Green (#0d7a55) = Above/at benchmark, moderate NS
+// Red   (#dc2626) = Leaky panel: high NS regardless of VPH
+// Amber (#b45309) = Below benchmark VPH
+const provs=[
+  {name:'Lee, Hyun Soo',    init:'HL',vph:7.04,ns:7.9, vol:645,color:'#1e3a8a'}, // ideal
+  {name:'Mamanova, Angelina',init:'AM',vph:6.69,ns:26.9,vol:399,color:'#dc2626'}, // leaky
+  {name:'Ortiz, Fabian',    init:'FO',vph:6.63,ns:31.1,vol:893,color:'#dc2626'}, // leaky
+  {name:'Park, Hyeyoon',    init:'HP',vph:6.56,ns:19.0,vol:779,color:'#0d7a55'}, // benchmark+
+  {name:'Hu, Stephanie',    init:'SH',vph:6.33,ns:8.3, vol:431,color:'#1e3a8a'}, // ideal
+  {name:'Sun, Diana',       init:'DS',vph:6.17,ns:11.2,vol:384,color:'#1e3a8a'}, // ideal
+  {name:'Shin, David',      init:'DS',vph:6.13,ns:23.3,vol:848,color:'#dc2626'}, // leaky (high vol high NS)
+  {name:'Hussain, Samantha',init:'SH',vph:6.01,ns:20.3,vol:793,color:'#0d7a55'}, // benchmark+
+  {name:'Li, Stacy',        init:'SL',vph:5.57,ns:17.7,vol:631,color:'#0d7a55'}, // benchmark+
+  {name:'Park, Chohee',     init:'CP',vph:5.44,ns:12.4,vol:739,color:'#0d7a55'}, // benchmark+
+  {name:'Huh, Ra La',       init:'RH',vph:5.21,ns:12.8,vol:709,color:'#0d7a55'}, // benchmark+
+  {name:'Yu, Sophy',        init:'SY',vph:4.98,ns:14.8,vol:684,color:'#0d7a55'}, // near benchmark
+  {name:'Kwak, Charles',    init:'CK',vph:4.95,ns:26.4,vol:666,color:'#dc2626'}, // leaky
+  {name:'Huang, Cindy',     init:'CH',vph:4.76,ns:24.4,vol:691,color:'#dc2626'}, // leaky
+  {name:'Sit, Pui Yi',      init:'PS',vph:4.24,ns:27.6,vol:515,color:'#dc2626'}, // leaky
+  {name:'Espinal, Aileen (new, May)',init:'AE',vph:3.08,ns:26.6,vol:416,hrs:135,color:'#9333ea'}, // NEW May starter
+  {name:'Garcia, Giselle',  init:'GG',vph:2.96,ns:21.0,vol:395,color:'#b45309'}, // below benchmark
+];
+
+// ── Chart 1: System productivity ─────────────────────────────────────────────
+const prodAvgLine1=sysVPH.map(()=>PROD_AVG);
+
+const annotPlugin={id:'annot',afterDraw(chart){
+  const{ctx,scales:{x,y},chartArea:{top,bottom}}=chart;
+  ctx.save();
+  // Glen Oaks annotation
+  const gx=x.getPixelForValue(4);
+  ctx.strokeStyle='#7F77DD';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(gx,top-2);ctx.lineTo(gx,bottom);ctx.stroke();
+  ctx.setLineDash([]);ctx.fillStyle='#7F77DD';ctx.font='bold 9px sans-serif';
+  ctx.textAlign='center';ctx.fillText('Glen Oaks opens',gx,top-6);
+
+  // Hour change events — drawn in padding zone ABOVE chart area (top = chart area start)
+  // Use top-offset values: symbol near top of padding, names below it, all above bars
+  sysHrEvents.forEach(e=>{
+    const px=x.getPixelForValue(e.idx);
+    const isDown=e.dir==='down';
+    const color=isDown?'#b45309':'#0d7a55';
+    const sym=isDown?'▽':'△';
+    ctx.fillStyle=color;ctx.font='bold 10px sans-serif';ctx.textAlign='center';
+    ctx.fillText(sym,px,top-62);
+    const lines=e.label.split('\n');
+    ctx.font='8.5px sans-serif';
+    lines.forEach((ln,li)=>ctx.fillText(ln,px,top-48+li*11));
+  });
+  ctx.restore();
+}};
+
+const provCountPlugin={id:'provCounts',afterDatasetsDraw(chart){
+  const ctx=chart.ctx,meta=chart.getDatasetMeta(0);
+  ctx.save();
+  meta.data.forEach((bar,i)=>{
+    ctx.fillStyle='#185FA5';ctx.font='bold 10px sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='bottom';
+    ctx.fillText(activeProvs[i]+'p',bar.x,bar.y-5);
+  });
+  ctx.restore();
+}};
+
+const customTooltip={enabled:false,external(context){
+  let el=document.getElementById('sys-tt');
+  if(!el){el=document.createElement('div');el.id='sys-tt';el.style.cssText='position:absolute;background:#1a1a1a;color:#fff;border-radius:8px;padding:10px 14px;font-size:11px;line-height:1.7;pointer-events:none;z-index:99;min-width:210px;max-width:270px;box-shadow:0 4px 12px rgba(0,0,0,.25)';document.body.appendChild(el);}
+  const{chart,tooltip}=context;
+  if(tooltip.opacity===0){el.style.opacity='0';return;}
+  const i=tooltip.dataPoints?.[0]?.dataIndex;
+  const lbl=sysLabels[i];
+  const providers=monthProviders[lbl]||[];
+  let html=`<div style="font-weight:600;margin-bottom:6px;color:#93c5fd">${lbl} &nbsp;&middot;&nbsp; ${sysHrs[i].toLocaleString()} hrs &nbsp;&middot;&nbsp; VPH ${sysVPH[i].toFixed(2)}</div>`;
+  providers.forEach(p=>{html+=`<div style="color:#ddd">${p}</div>`;});
+  el.innerHTML=html;
+  const pos=chart.canvas.getBoundingClientRect();
+  el.style.left=(pos.left+window.scrollX+tooltip.caretX+12)+'px';
+  el.style.top=(pos.top+window.scrollY+tooltip.caretY-20)+'px';
+  el.style.opacity='1';
+}};
+
+new Chart(document.getElementById('sysProd'),{
+  type:'bar',plugins:[annotPlugin,provCountPlugin],
+  data:{labels:sysLabels,datasets:[
+    {type:'bar',   label:'Scheduled hours',data:sysHrs,backgroundColor:'#B5D4F4',yAxisID:'y2',order:3,barPercentage:.65,categoryPercentage:.85},
+    {type:'line',  label:'System VPH',data:sysVPH,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:3.5,pointBackgroundColor:'#1A3A5C',tension:.3,yAxisID:'y',order:1},
+    {type:'line',  label:'Production avg',data:prodAvgLine1,borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,borderDash:[6,4],yAxisID:'y',order:2},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:customTooltip},
+    layout:{padding:{top:90}},
+    scales:{
+      x:{ticks:{font:{size:9},maxRotation:45,autoSkip:false,callback:(v,i)=>i%2===0?sysLabels[i]:''}},
+      y:{position:'left',min:3.0,max:7.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'VPH',font:{size:10},color:'#888'}},
+      y2:{position:'right',min:0,max:3000,grid:{display:false},ticks:{font:{size:10},callback:v=>v>=1000?(v/1000).toFixed(1)+'k':v},title:{display:true,text:'Scheduled hrs',font:{size:10},color:'#888'}}
+    }
+  }
+});
+document.getElementById('sysProd').addEventListener('mouseleave',()=>{const el=document.getElementById('sys-tt');if(el)el.style.opacity='0';});
+
+// ── Chart 2: Bubble matrix ────────────────────────────────────────────────────
+const labelPlugin={id:'bubbleLabels',afterDatasetsDraw(chart){
+  const ctx=chart.ctx;ctx.save();
+  chart.data.datasets.forEach((ds,di)=>{
+    const meta=chart.getDatasetMeta(di);if(meta.hidden)return;
+    meta.data.forEach(el=>{
+      ctx.fillStyle='#fff';ctx.font='bold 9.5px sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(provs[di].init,el.x,el.y);
+    });
+  });
+  ctx.restore();
+}};
+new Chart(document.getElementById('bubble'),{
+  type:'bubble',plugins:[labelPlugin],
+  data:{datasets:provs.map(p=>({
+    label:p.name,data:[{x:p.vph,y:p.ns,r:Math.sqrt(p.vol)*0.72}],
+    backgroundColor:p.color+'aa',borderColor:p.color,borderWidth:1.5
+  }))},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:16,bottom:16,left:16,right:16}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+      const p=provs[c.datasetIndex];
+      return[p.name,`VPH: ${p.vph.toFixed(2)}`,`NS: ${p.ns.toFixed(1)}%`,`Avg visits/mo: ${p.vol}`];
+    }}}},
+    scales:{
+      x:{min:1.5,max:8.0,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'Visits per hour (3-mo avg Mar–May 2026)',font:{size:10},color:'#888'}},
+      y:{min:0,max:38,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// ── Chart 3: 2025 cohort, Jan'25 x-axis, ramp zones, regression, hr events ───
+const rampZonePlugin={id:'rampZones',beforeDatasetsDraw(chart){
+  const{ctx,scales:{x,y},chartArea:{left,right}}=chart;
+  ctx.save();
+  [[0,2.5,'rgba(239,68,68,0.07)'],[2.5,3.5,'rgba(251,191,36,0.09)'],[3.5,4.5,'rgba(251,191,36,0.07)'],[4.5,5.1,'rgba(34,197,94,0.08)'],[5.1,7.5,'rgba(34,197,94,0.05)']].forEach(([a,b,col])=>{
+    ctx.fillStyle=col;ctx.fillRect(left,y.getPixelForValue(b),right-left,y.getPixelForValue(a)-y.getPixelForValue(b));
+  });
+  [[2.5,'#ef4444'],[3.5,'#f59e0b'],[4.5,'#f59e0b'],[5.1,'#22c55e']].forEach(([val,col])=>{
+    const yp=y.getPixelForValue(val);
+    ctx.strokeStyle=col;ctx.lineWidth=1;ctx.setLineDash([6,4]);ctx.globalAlpha=0.5;
+    ctx.beginPath();ctx.moveTo(left,yp);ctx.lineTo(right,yp);ctx.stroke();
+    ctx.globalAlpha=1;ctx.setLineDash([]);
+    ctx.fillStyle=col;ctx.font='bold 9px sans-serif';ctx.textAlign='left';ctx.textBaseline='bottom';
+    ctx.fillText(val.toFixed(1)+' VPH',left+4,yp-2);
+  });
+  ctx.restore();
+}};
+
+// Per-provider hour event annotations on chart 3
+// events use full sysLabels idx; chart3 x = fullIdx - C3_OFFSET
+// Build chart 3 datasets
+const c3Datasets=[];
+cohortKeys.forEach(k=>{
+  const p=cohortFull[k];
+  // Actual VPH line
+  c3Datasets.push({
+    label:p.label,data:c3Data(k),borderColor:p.color,backgroundColor:'transparent',
+    borderWidth:2.5,pointRadius:3,pointBackgroundColor:p.color,tension:.3,spanGaps:false,order:2
+  });
+  // Regression line (dashed, same color, thinner)
+  c3Datasets.push({
+    label:`${p.label} trend`,data:buildRegLine(k),borderColor:p.color,backgroundColor:'transparent',
+    borderWidth:1.5,pointRadius:0,borderDash:[5,4],tension:0,spanGaps:false,order:3
+  });
+});
+// Production average horizontal line
+const prodAvgLine3=chart3Labels.map(()=>PROD_AVG);
+c3Datasets.push({
+  label:'Production avg',data:prodAvgLine3,borderColor:'#D85A30',backgroundColor:'transparent',
+  borderWidth:1.5,pointRadius:0,borderDash:[6,4],tension:0,order:4
+});
+
+const risingChart=new Chart(document.getElementById('rising'),{
+  type:'line',plugins:[rampZonePlugin],
+  data:{labels:chart3Labels,datasets:c3Datasets},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:24}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:c=>{
+        if(c.dataset.label.includes('trend'))return null;
+        if(c.parsed.y!=null)return`${c.dataset.label}: ${c.parsed.y.toFixed(2)} VPH`;
+        return null;
+      }
+    }}},
+    scales:{
+      x:{ticks:{font:{size:10},maxRotation:45,autoSkip:false}},
+      y:{min:0,max:7.5,grid:{color:'#f0f0f0'},ticks:{font:{size:10},callback:v=>v.toFixed(1)},title:{display:true,text:'VPH',font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// Interactive legend (controls both actual + regression dataset pairs)
+let activeIdx=null;
+const legEl=document.getElementById('risingLeg');
+cohortKeys.forEach((k,i)=>{
+  const p=cohortFull[k];
+  const item=document.createElement('div');
+  item.className='leg-item';
+  // Show slope in legend
+  item.innerHTML=`<span class="sw" style="background:${p.color}"></span>${p.label} <span style="color:#888;font-size:10px;margin-left:4px">${p.slope>0?'+':''}${p.slope.toFixed(2)}/mo</span>`;
+  item.addEventListener('click',()=>{
+    const actualDsIdx=i*2;   // actual line is at i*2
+    const trendDsIdx=i*2+1;  // regression is at i*2+1
+    if(activeIdx===i){
+      activeIdx=null;
+      risingChart.data.datasets.forEach((ds,di)=>{
+        if(di<cohortKeys.length*2){
+          const ki=Math.floor(di/2);
+          ds.borderColor=di%2===0?cohortFull[cohortKeys[ki]].color:cohortFull[cohortKeys[ki]].color;
+          ds.borderWidth=di%2===0?2.5:1.5;
+        }
+      });
+      document.querySelectorAll('.leg-item').forEach(el=>el.classList.remove('dimmed','active'));
+    }else{
+      activeIdx=i;
+      risingChart.data.datasets.forEach((ds,di)=>{
+        if(di>=cohortKeys.length*2)return;
+        const ki=Math.floor(di/2);
+        if(ki===i){ds.borderColor=cohortFull[cohortKeys[ki]].color;ds.borderWidth=di%2===0?3:1.5;}
+        else{ds.borderColor='rgba(180,180,180,0.18)';ds.borderWidth=1.2;}
+      });
+      document.querySelectorAll('.leg-item').forEach((el,j)=>{
+        el.classList.toggle('dimmed',j!==i);el.classList.toggle('active',j===i);
+      });
+    }
+    risingChart.update();
+  });
+  legEl.appendChild(item);
+});
+// Production avg item
+const prodItem=document.createElement('div');
+prodItem.style.cssText='display:flex;align-items:center;gap:5px;font-size:11px;color:#888;padding:3px 8px';
+prodItem.innerHTML='<span class="sw-line" style="background:#D85A30"></span>Production avg (5.10)';
+legEl.appendChild(prodItem);
+</script>
+</body>
+</html>

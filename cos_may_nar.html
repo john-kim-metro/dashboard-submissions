@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — April 2026 Cosmetic Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #534AB7;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#534AB7;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f3fc;border-left:4px solid #534AB7;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#534AB7}
+  h2{font-size:22px;font-weight:600;color:#534AB7;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#534AB7;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#534AB7;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#534AB7;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}
+  .callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}
+  .callout-bad strong{color:#7f1d1d}
+  .callout-info{background:#ede9fe;border-left-color:#7c3aed}
+  .callout-info strong{color:#5b21b6}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Office of the CIO/CSO — May 2026 Cosmetic Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> John Kim</span>
+    <span>&middot;</span>
+    <span><strong>Reporting period:</strong> May 2026</span>
+    <span>&middot;</span>
+    <span><strong>Prepared:</strong> June 8, 2026</span>
+    <span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Cosmetic Volume &amp; No-Show Dashboard</div>
+</div>
+
+<!-- STORY 1: EVENT HANGOVER -->
+<h2><span class="num">1</span>The April event spike reversed &mdash; as expected</h2>
+
+<p>April's 1,227 visits were the highest in the dataset, driven by the April 18 Jeuveau/Letybo event. May returned to 989, almost exactly the level the trend would have predicted without the event. This is the normal shape of an event-driven month: a sharp spike followed by a giveback. It is not a sign of decline &mdash; it is the spike resolving.</p>
+<p>The operating-day calendar compounds the raw figure slightly. Counting Monday&ndash;Friday as full days and Saturdays as half-days, and removing the Memorial Day closure, May 2026 had 22.5 operating-day-equivalents versus 24.0 in April. On that basis &mdash; visits per operating-day (VPD), now shown on the dashboard &mdash; the MoM decline narrows from &minus;19.4% to about &minus;13.9% (51.1 to 44.0 VPD), and the YoY from &minus;11.4% to roughly &minus;7.4%. The calendar is a minor factor here, though &mdash; unlike the medical side, where it explained almost the whole decline, the cosmetic drop is overwhelmingly the event giveback.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Cosmetic completed visits &mdash; seasonal trend by year</div>
+<div class="chart-sub">April's spike (orange) and May's giveback are both visible. May 2026 sits within the normal 2024/2025 May band.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#d1d5db"></span>2024</span>
+  <span><span class="swl" style="background:#AFA9EC"></span>2025</span>
+  <span><span class="swl" style="background:#534AB7"></span>2026 YTD</span>
+</div>
+<div style="position:relative;height:240px"><canvas id="cSeason"></canvas></div>
+</div>
+
+<p>Against May 2025 (1,116), this May is down 11.4%. But May 2025 did not have the benefit or the payback of an event, so the cleaner comparison is the year-to-date trend: through five months, 2026 cosmetic volume is running roughly even with 2025, with April's surge offsetting the softer surrounding months.</p>
+
+<div class="callout callout-info">
+<strong>The event worked as designed.</strong> A one-day event that produces a 238-visit monthly spike and then reverts is doing exactly what such events do. The strategic question is not "why did May drop" &mdash; that was predictable &mdash; but "what did the event leave behind." The next two stories address that.
+</div>
+
+<!-- STORY 2: BOTOX RESIDUAL -->
+<h2><span class="num">2</span>Cosmetic Botox settled above its pre-event baseline</h2>
+
+<p>Cosmetic Botox fell from April's record 203 to 132 in May &mdash; but 132 is still above the year-ago figure of 119 and sits at the upper end of the pre-event trading range. For most of 2024&ndash;2025, Botox ran between 97 and 166 per month; May's 132 is comfortably mid-range, not depressed.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Cosmetic Botox &mdash; monthly volume (Jan 2024 &ndash; May 2026)</div>
+<div class="chart-sub">April's 203 spike reverted to 132 in May &mdash; still above the year-ago 119 and within the normal band.</div>
+<div style="position:relative;height:220px"><canvas id="cBotox"></canvas></div>
+</div>
+
+<p>This is the better-than-feared outcome. A pure pull-forward would have left May <em>below</em> trend, as patients who would have come in May instead came to the April event. Instead May held at a normal level, which suggests the event attracted genuinely incremental demand &mdash; new patients and new interest &mdash; rather than just rescheduling existing demand.</p>
+
+<div class="callout callout-good">
+<strong>What this means:</strong> The absence of a May trough is the strongest evidence that the event created new demand rather than borrowing from the future. This is the signal that justifies repeating the format. If June also holds in the normal range, the case for a quarterly event cadence is well supported.
+</div>
+
+<!-- STORY 3: NEW PATIENTS HELD -->
+<h2><span class="num">3</span>New patient acquisition held its year-over-year gain</h2>
+
+<p>New cosmetic patients came in at 97 in May &mdash; down from April's all-time high of 128, but still above the year-ago 92. After an event-driven peak, holding above the prior-year level is the outcome that matters for durability: it means some of April's new patients are the leading edge of a sustained higher baseline, not a one-month blip.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">New cosmetic patients &mdash; monthly trend (Jan 2024 &ndash; May 2026)</div>
+<div class="chart-sub">May (97) gave back April's record 128 but stayed above the year-ago 92 and the 2024&ndash;2025 norm.</div>
+<div style="position:relative;height:220px"><canvas id="cNewPt"></canvas></div>
+</div>
+
+<p>The durable-value argument from April still applies: a new cosmetic patient typically generates several visits over the following year. The April cohort's return behavior over the next 60&ndash;90 days is the number that determines the event's true ROI. May's healthy new-patient count suggests the acquisition engine did not simply exhaust itself in April.</p>
+
+<div class="callout callout-good">
+<strong>The retention question is now live.</strong> The April new-patient cohort is reaching its 30&ndash;60 day return window. Tracking what share book a second visit &mdash; and at what service value &mdash; is the single most important measurement for deciding whether to repeat and how much to spend. May's solid baseline is necessary but not sufficient; retention is the proof.
+</div>
+
+<!-- STORY 4: FORT LEE & CONCOURSE -->
+<h2><span class="num">4</span>The location split persists: Fort Lee strong, Bronx Concourse weak</h2>
+
+<p>Underneath the event noise, the two structural location stories from prior months continued. <strong>Fort Lee normalized to 329 visits</strong> after April's event-inflated 412, but that is still up 19.6% versus May 2025 &mdash; the site's underlying growth is intact. <strong>Bronx Concourse fell to 122</strong>, continuing the multi-year decline that mirrors the medical-side pattern at the same location.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">May '24</th><th class="r">May '25</th><th class="r">May '26</th><th class="r">1-yr Δ</th><th class="r">NS '26</th></tr></thead>
+<tbody>
+<tr><td><strong>Fort Lee</strong></td><td class="r">269</td><td class="r">275</td><td class="r">329</td><td class="r"><span class="pill pill-g">+19.6%</span></td><td class="r"><span class="pill pill-g">3.8%</span></td></tr>
+<tr><td>Flushing Northern</td><td class="r">386</td><td class="r">365</td><td class="r">277</td><td class="r"><span class="pill pill-r">&minus;24.1%</span></td><td class="r"><span class="pill pill-g">3.5%</span></td></tr>
+<tr><td>Elmhurst</td><td class="r">202</td><td class="r">147</td><td class="r">149</td><td class="r"><span class="pill pill-g">+1.4%</span></td><td class="r"><span class="pill pill-a">8.0%</span></td></tr>
+<tr><td>Glen Oaks</td><td class="r">&mdash;</td><td class="r">111</td><td class="r">112</td><td class="r"><span class="pill pill-g">+0.9%</span></td><td class="r"><span class="pill pill-g">3.4%</span></td></tr>
+<tr><td><strong>Bronx Concourse</strong></td><td class="r">237</td><td class="r">218</td><td class="r">122</td><td class="r"><span class="pill pill-r">&minus;44.0%</span></td><td class="r"><span class="pill pill-r">14.7%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Two locations moved sharply this month. <strong>Flushing Northern dropped 24% YoY</strong> to 277, giving back its April recovery &mdash; worth watching but likely event-related volatility. <strong>Bronx Concourse fell 44% YoY</strong>, with its no-show rate (14.7%) by far the worst in the cosmetic network. Concourse is the one location where the decline is clearly structural rather than event noise.</p>
+
+<div class="callout callout-bad">
+<strong>Bronx Concourse remains the cross-service concern.</strong> Both the cosmetic and medical panels at this location are eroding simultaneously &mdash; cosmetic down 44% YoY, medical volume down and no-show up to 28.6%. This is now a clear site-level problem, not a service-line problem. A single coordinated review of Concourse (staffing, provider continuity, local competition, patient migration to other sites) would serve both service lines better than two separate investigations.
+</div>
+
+<div class="end">Office of the CIO/CSO · Metro Dermatology · Confidential</div>
+
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fullLabels=[];
+for(let m=1;m<=12;m++) fullLabels.push(MO[m-1]+" '24");
+for(let m=1;m<=12;m++) fullLabels.push(MO[m-1]+" '25");
+for(let m=1;m<=5;m++) fullLabels.push(MO[m-1]+" '26");
+
+// Chart 1: Seasonal
+(function(){
+  const s2024=[1005,1040,1067,1105,1094,917,897,956,882,1116,871,937];
+  const s2025=[1008,946,1167,1054,1116,986,1062,959,927,997,826,1023];
+  const s2026=[941,891,1050,1227,989,null,null,null,null,null,null,null];
+  new Chart(document.getElementById('cSeason'),{type:'line',data:{labels:MO,datasets:[
+    {label:'2024',data:s2024,borderColor:'#d1d5db',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:s2025,borderColor:'#AFA9EC',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2026',data:s2026,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.06)',fill:true,borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 2: Botox
+(function(){
+  const botox=[91,112,105,132,134,112,109,126,112,164,105,120,115,110,166,129,129,107,188,159,97,122,125,152,119,112,118,203,132];
+  new Chart(document.getElementById('cBotox'),{type:'line',data:{labels:fullLabels,datasets:[{label:'Cosmetic Botox',data:botox,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.08)',fill:true,borderWidth:2.5,pointRadius:2.2,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} visits`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?fullLabels[i]:''}},y:{min:80,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'Cosmetic Botox visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 3: New patients
+(function(){
+  const npt=[60,57,77,68,63,45,67,68,70,97,68,80,91,79,99,96,92,92,98,77,78,81,61,69,89,68,81,128,97];
+  new Chart(document.getElementById('cNewPt'),{type:'line',data:{labels:fullLabels,datasets:[{label:'New patients',data:npt,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.08)',fill:true,borderWidth:2.5,pointRadius:2.2,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} new patients`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?fullLabels[i]:''}},y:{min:40,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'New patient visits',font:{size:12},color:'#888'}}}}});
+})();
+</script>
+</body>
+</html>
