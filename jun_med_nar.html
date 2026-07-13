@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — June 2026 Medical &amp; Productivity Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #1A3A5C;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#1A3A5C;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#1A3A5C}
+  h2{font-size:22px;font-weight:600;color:#1A3A5C;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#1A3A5C;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#1A3A5C;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#1A3A5C;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}
+  .callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}
+  .callout-bad strong{color:#7f1d1d}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Office of the CIO/CSO — June 2026 Medical &amp; Productivity Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> John Kim</span>
+    <span>&middot;</span>
+    <span><strong>Reporting period:</strong> June 2026</span>
+    <span>&middot;</span>
+    <span><strong>Prepared:</strong> July 13, 2026</span>
+    <span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Medical Volume &amp; No-Show and Medical Productivity dashboards</div>
+</div>
+
+<!-- STORY 1: VOLUME RECOVERY -->
+<h2><span class="num">1</span>June delivered the rebound May's per-day rate predicted &mdash; but the calendar did much of the work</h2>
+
+<p>Completed visits rose to <strong>13,353 in June, up 8.9% from May and 3.0% above June 2025</strong>. That headline jump overstates the underlying gain, though, because June had more operating days than May: no closures this month, against May's Memorial Day. Counting weekdays as 1.0 and Saturdays as 0.5, June 2026 had <strong>24.0 operating-day-equivalents versus 22.5 in May</strong> and 23.0 in June 2025.</p>
+<p>On that like-for-like basis, June ran <strong>556 visits per operating-day (VPD)</strong> &mdash; up a more measured <strong>2.0% from May's 545</strong>, and 1.3% below June 2025's 564. So the demand recovery is real but modest: most of the 8.9% raw jump is the extra working days, not a surge in patients. Last month's report predicted this rebound &mdash; May's strong per-day rate implied the raw total would mechanically recover toward ~13,000 once the calendar normalized, and June landed slightly above that.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Completed visits &mdash; seasonal trend by year (2023&ndash;2026)</div>
+<div class="chart-sub">The 2026 line (orange) rebounds in June to its highest point of the year, back in line with the 2025 pace.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#d1d5db"></span>2023</span>
+  <span><span class="swl" style="background:#93c5fd"></span>2024</span>
+  <span><span class="swl" style="background:#1A3A5C"></span>2025</span>
+  <span><span class="swl" style="background:#D85A30"></span>2026 YTD</span>
+</div>
+<div style="position:relative;height:240px"><canvas id="cSeason"></canvas></div>
+</div>
+
+<p>Because June carried a fuller calendar than May, the operating-day drag reverses this month: where a category or site below shows a strong month-over-month gain, roughly 6 points of it is simply the added capacity. The residual after that adjustment is the real movement. Total appointment demand (completed + no-show + cancelled) rose 6.9% MoM and 5.3% YoY to 22,159 &mdash; a genuine YoY demand gain that the per-day view confirms.</p>
+
+<div class="callout callout-good">
+<strong>What this means:</strong> June is a healthy month, but read it on a per-day basis. Underlying demand grew about 2% over May and is running close to last year on capacity-adjusted throughput. The practice is stable and near its recent ceiling; the raw 13,353 is a calendar-flattered version of a solid-but-modest 2% per-day gain.
+</div>
+
+<!-- STORY 2: NO-SHOW -->
+<h2><span class="num">2</span>The no-show rate held near its high &mdash; and Bronx Concourse rebounded without fixing it</h2>
+
+<p>June's system no-show rate was <strong>20.1%</strong>, essentially flat from May's 20.2% and still the second-highest reading in the dataset back to January 2023. Because this is a ratio, the calendar has no effect on it &mdash; the near-record level is a clean, real signal. June is now the ninth consecutive month above 18%. Whatever is driving the structural drift did not ease this month even as volume recovered.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">System no-show rate &mdash; monthly trend (Jan 2024 &ndash; June 2026)</div>
+<div class="chart-sub">The upward drift that began in Q3 2025 has plateaued at a high level: 20.2% in May, 20.1% in June.</div>
+<div style="position:relative;height:200px"><canvas id="cNS"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">May '26 NS</th><th class="r">Jun '26 NS</th><th class="r">Jun vol MoM</th></tr></thead>
+<tbody>
+<tr><td><strong>Bronx Concourse</strong></td><td class="r">28.5%</td><td class="r">28.5%</td><td class="r"><span class="pill pill-g">+16.8%</span></td></tr>
+<tr><td><strong>Bronx Fordham</strong></td><td class="r">30.5%</td><td class="r">30.5%</td><td class="r"><span class="pill pill-r">&minus;4.3%</span></td></tr>
+<tr><td>Elmhurst</td><td class="r">19.1%</td><td class="r">19.1%</td><td class="r"><span class="pill pill-g">+1.3%</span></td></tr>
+<tr><td>Flushing Northern</td><td class="r">12.4%</td><td class="r">13.1%</td><td class="r"><span class="pill pill-g">+16.0%</span></td></tr>
+<tr><td>Fort Lee</td><td class="r">11.5%</td><td class="r">12.6%</td><td class="r"><span class="pill pill-g">+11.1%</span></td></tr>
+<tr><td>Glen Oaks</td><td class="r">13.4%</td><td class="r">13.7%</td><td class="r"><span class="pill pill-g">+6.9%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Bronx Concourse rebounded sharply on volume &mdash; up 16.8% MoM to 2,714 completed &mdash; yet its no-show rate stayed pinned at 28.5%</strong>, the second-worst in the network behind Fordham. That combination is the concern: the site recovered its booking volume, but the recovered bookings are just as unreliable as before. Both Bronx sites remain above 28% while every other location sits below 20%. The two Bronx locations continue to hold essentially the entire network no-show problem.</p>
+
+<div class="callout callout-bad">
+<strong>Volume recovery is masking an unfixed no-show problem at Concourse.</strong> The site looks healthier on the volume dashboard this month, but nearly 3 in 10 of its booked visits still go unattended. A volume rebound with an unchanged 28.5% no-show rate means the underlying panel-reliability issue is untouched &mdash; the extra bookings simply carry the same failure rate. This deserves a targeted reminder/confirmation intervention at Concourse specifically, separate from Fordham's overbooking-style pattern.
+</div>
+
+<!-- STORY 3: PROCEDURES -->
+<h2><span class="num">3</span>Procedures ticked up month-over-month, but the year-over-year decline is now nine months deep</h2>
+
+<p>Procedures reached 2,028 completed visits in June, up 3.9% from May &mdash; but that MoM gain is almost entirely the extra operating days, and against June 2025 the category is still <strong>down 21.1% year-over-year</strong>. This extends the structural decline documented since late 2025 into its ninth month. The per-day view removes the small MoM bump and leaves the YoY erosion clearly intact.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Procedures &mdash; monthly volume (Jan 2024 &ndash; June 2026)</div>
+<div class="chart-sub">The category has declined for nine consecutive months on a YoY basis. June 2026 was 2,028.</div>
+<div style="position:relative;height:200px"><canvas id="cProc"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Procedure type</th><th class="r">Jun '25</th><th class="r">Jun '26</th><th class="r">YoY</th></tr></thead>
+<tbody>
+<tr><td>AS SAAS</td><td class="r">1,378</td><td class="r">1,021</td><td class="r"><span class="pill pill-r">&minus;25.9%</span></td></tr>
+<tr><td>Excimer Laser</td><td class="r">602</td><td class="r">505</td><td class="r"><span class="pill pill-r">&minus;16.1%</span></td></tr>
+<tr><td>Photochemotherapy 96910</td><td class="r">472</td><td class="r">409</td><td class="r"><span class="pill pill-r">&minus;13.3%</span></td></tr>
+<tr><td>Photo NBUVB 96900</td><td class="r">89</td><td class="r">56</td><td class="r"><span class="pill pill-r">&minus;37.1%</span></td></tr>
+<tr><td>Hand Foot Unit</td><td class="r">29</td><td class="r">37</td><td class="r"><span class="pill pill-g">+27.6%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>SAAS remains the largest drag at &minus;25.9% YoY</strong>, roughly 1,021 this June against 1,378 a year ago. As established in prior months, SAAS is recorded under "Non-Provider, Treatment" so the ordering provider is not visible in the appointment data, and the decline concentrates at Bronx Fordham and Flushing Northern. The recommended EMA ordering-provider drill-down at those two sites remains the open action item carried since April; nine months of sustained decline makes it the most overdue item in this report.</p>
+
+<div class="callout callout-bad">
+<strong>This is now a sustained, material revenue line.</strong> SAAS has fallen from roughly 1,380/month a year ago to about 1,020 today, and the laser sub-types are all down double digits YoY. Combined, procedures run about 540 visits/month below their year-ago level. The SAAS portion is not explained by payer rules and remains the most actionable piece &mdash; if the ordering-pattern shift can be reversed, it is recoverable volume. The drill-down should not slip another month.
+</div>
+
+<!-- STORY 4: ZOCDOC -->
+<h2><span class="num">4</span>ZocDoc new patients recovered with ads still off &mdash; weakening the ad-cut worry</h2>
+
+<p>Last month flagged a concern: ZocDoc new-patient bookings had dropped 27% in May (696 &rarr; 505), the same month Sponsored Ads were switched off, and the leading hypothesis was that cutting the ads caused the decline. <strong>June resolves much of that worry.</strong> With Sponsored Ads still at zero, new-patient bookings <strong>recovered to 525</strong> (up from 505) and total bookings rose to 889 (from 872). The feared continued slide did not happen.</p>
+
+<p>That recovery is the decisive data point. If cutting the ads had genuinely removed ~80&ndash;90 incremental new patients a month, June &mdash; a second full month with no ad spend &mdash; should have stayed depressed or fallen further. Instead the channel ticked back up on its own. The most likely reading now is that <strong>May's dip was largely noise</strong>, not a durable consequence of the ad cut, and that the organic channels (Branded Directory and Marketplace) are carrying the channel without the paid layer.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">ZocDoc Sponsored Ads vs new-patient bookings (Jan&ndash;June 2026)</div>
+<div class="chart-sub">Ads went to zero in May and stayed there. New-patient bookings dipped in May, then recovered in June &mdash; without the ads returning.</div>
+<div class="chart-leg">
+  <span><span class="sw" style="background:#1A3A5C"></span>New-patient bookings</span>
+  <span><span class="sw" style="background:#f2c14e"></span>Sponsored Ads bookings</span>
+</div>
+<div style="position:relative;height:240px"><canvas id="cZocAds"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>ZocDoc bookings</th><th class="r">Feb</th><th class="r">Mar</th><th class="r">Apr</th><th class="r">May</th><th class="r">Jun</th></tr></thead>
+<tbody>
+<tr><td><strong>New patients</strong></td><td class="r">363</td><td class="r">732</td><td class="r">696</td><td class="r">505</td><td class="r"><span class="pill pill-g">525</span></td></tr>
+<tr><td>Sponsored Ads</td><td class="r">85</td><td class="r">93</td><td class="r">83</td><td class="r">0</td><td class="r"><span class="pill pill-a">0</span></td></tr>
+<tr><td>Total bookings</td><td class="r">546</td><td class="r">997</td><td class="r">985</td><td class="r">872</td><td class="r">889</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The recovery aligns with the volume side of this report: June's New Patient appointment category rose 13.6% MoM to 2,075 &mdash; its strongest month of the year &mdash; consistent with ZocDoc acquisition holding up. ZocDoc remains a major engine: Branded Directory (launched March) keeps total bookings well above the early-year baseline, and existing-patient rebookings continue to climb. The channel looks healthy without the paid ads.</p>
+
+<div class="callout callout-good">
+<strong>The Sponsored Ads cut looks defensible so far.</strong> Two full months with ads off have not produced the sustained new-patient loss May alone suggested &mdash; June recovered on organic strength. That points toward May being a one-month wobble rather than the ad cut biting. One more month (July) would confirm the pattern holds, but the evidence now leans toward the savings being largely free of acquisition cost. The detailed source and spend breakdown sits in the separate ZocDoc analysis.
+</div>
+
+<!-- PRODUCTIVITY DIVIDER -->
+<h2 style="border-bottom:3px solid #1A3A5C;padding-bottom:10px;margin-top:48px"><span class="num">P</span>Provider productivity</h2>
+<p style="font-size:15px;color:#666;margin-top:-4px">The productivity view (medical only) measures provider efficiency &mdash; visits per scheduled hour (VPH) &mdash; rather than demand. Where the volume stories above use visits per operating-day, this section uses VPH, which normalizes for staffed hours rather than calendar days. June extended the practice's strongest efficiency run, with the new provider now in her second month and ramping.</p>
+
+<!-- P1: SYSTEM VPH HIGH -->
+<h3 style="font-size:19px;margin-top:24px">System VPH set another series high &mdash; now with hours back to normal</h3>
+<p>System VPH edged up to <strong>5.71 in June &mdash; a new series high</strong>, up 0.7% from May and a striking 17.7% year-over-year. What makes June the more convincing record is that it came with <strong>scheduled hours back to a normal 1,974</strong> (up 9.4% from May's Memorial-Day-shortened month). May's high was set on reduced hours; June sustained an even higher mark on a full staffed schedule &mdash; a cleaner signal of genuine efficiency. It also absorbed new provider Aileen Espinal, now in her second month and ramping (VPH 3.40, up from 3.08), which pulls the system average down; the established base is running higher still.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">System VPH vs scheduled hours &mdash; monthly (Jul 2024 &ndash; June 2026)</div>
+<div class="chart-sub">June 2026 set a new series high for VPH (5.71) with scheduled hours back to normal &mdash; a cleaner efficiency signal than May's reduced-hours peak.</div>
+<div style="position:relative;height:240px"><canvas id="cSysVPH"></canvas></div>
+</div>
+
+<div class="callout">
+<strong>What to watch:</strong> Two consecutive series highs, the second on a full hour base, is strong evidence the efficiency gain is real rather than a scheduling artifact. As Aileen continues to ramp (3.08 &rarr; 3.40 so far), she should lift the average further rather than drag it. The open question is simply how much headroom remains above 5.7 before the system hits a practical ceiling.</p>
+</div>
+
+<!-- P2: COHORT -->
+<h3 style="font-size:19px;margin-top:24px">The 2025 cohort: Garcia broke through as Huang and Sit paused</h3>
+<p>The four-provider 2025 cohort showed a more mixed month. <strong>Ortiz reached a new high of 7.09</strong>, and &mdash; most notably &mdash; <strong>Garcia (GG) finally cleared the 3.5 Month-6 target, jumping to 3.65</strong>, her best month and the fourth consecutive month of gains after a long flat stretch. Against that, Huang eased from May's benchmark-crossing 5.12 back to 4.71, and Sit slipped from 4.80 to 4.65 &mdash; the first pullbacks for both after long climbs. Both remain on strong overall trajectories; a single down month is not a trend, but it is worth watching next cycle.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">2025 cohort &mdash; monthly VPH trajectory</div>
+<div class="chart-sub">Garcia (gray) cleared the 3.5 Month-6 target in June. Huang (orange) and Sit (purple) eased back slightly after long climbs.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#0C447C"></span>FO &mdash; Ortiz</span>
+  <span><span class="swl" style="background:#D85A30"></span>CH &mdash; Huang</span>
+  <span><span class="swl" style="background:#7F77DD"></span>PS &mdash; Sit</span>
+  <span><span class="swl" style="background:#888780"></span>GG &mdash; Garcia</span>
+</div>
+<div style="position:relative;height:260px"><canvas id="cCohort"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Provider</th><th class="r">Joined</th><th class="r">May '26 VPH</th><th class="r">Jun '26 VPH</th><th class="r">Slope/mo</th><th class="r">Status</th></tr></thead>
+<tbody>
+<tr><td><strong>FO &mdash; Ortiz</strong></td><td class="r">May '25</td><td class="r">6.81</td><td class="r">7.09</td><td class="r">+0.21</td><td class="r"><span class="pill pill-g">At benchmark</span></td></tr>
+<tr><td><strong>CH &mdash; Huang</strong></td><td class="r">Mar '25</td><td class="r">5.12</td><td class="r">4.71</td><td class="r">+0.24</td><td class="r"><span class="pill pill-a">Eased from 5.1</span></td></tr>
+<tr><td><strong>PS &mdash; Sit</strong></td><td class="r">Jun '25</td><td class="r">4.80</td><td class="r">4.65</td><td class="r">+0.21</td><td class="r"><span class="pill pill-g">Approaching</span></td></tr>
+<tr><td><strong>GG &mdash; Garcia</strong></td><td class="r">Jun '25</td><td class="r">3.20</td><td class="r">3.65</td><td class="r">+0.10</td><td class="r"><span class="pill pill-a">Cleared Mo 6</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-good">
+<strong>Garcia's breakthrough is the headline.</strong> After months as the cohort's clear laggard, she cleared the Month-6 target and her slope has ticked up to +0.10/mo &mdash; the patience is finally paying off, and an active intervention looks less urgent than it did last month. Huang and Sit both edging down slightly is the item to watch: both are strong ramps and one soft month is likely noise, but if the dip continues next cycle it would warrant a look at their hours or panel mix.</p>
+</div>
+
+<!-- P3: CAPACITY GAP -->
+<h3 style="font-size:19px;margin-top:24px">The veteran capacity gap remains the larger opportunity</h3>
+<p>Beneath the cohort story, the spread among established providers remains the bigger structural lever. On the trailing 3-month average (Apr&ndash;Jun), several high-hour veterans run below the system VPH, splitting into two patterns: a <strong>leaky-panel group</strong> (Shin, Kwak, Huang, Sit &mdash; high no-show rates of 25&ndash;27% despite solid throughput) and a <strong>tight-throughput group</strong> (Yu, Huh &mdash; healthy no-show but lower visit density). The two need different fixes &mdash; no-show recovery for the first, scheduling-template review for the second. Note that this same leaky-panel pattern ties directly to the Bronx Concourse no-show story above: high-NS providers and the high-NS site are the same underlying reliability problem viewed two ways. (Aileen Espinal, in her second month at 3.24 3-mo avg, sits low but is expected there as a ramping hire, not part of this established gap.)</p>
+
+<div class="callout">
+<strong>Two problems, two remedies.</strong> Bundling all below-benchmark providers under "low productivity" obscures which lever to pull. The leaky-panel group's bookings are already made &mdash; the fix is getting patients to show, and it overlaps with the Bronx Concourse no-show intervention. The tight-throughput group shows up fine &mdash; the fix is visit density during booked time. The combined gap, if closed to system VPH, is worth several hundred visits per month at zero additional staffed hours.</p>
+</div>
+
+<div class="end">Office of the CIO/CSO · Metro Dermatology · Confidential</div>
+
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Chart 1: Seasonal
+(function(){
+  const s2023=[6692,9205,10978,9793,11042,11427,10740,11239,10027,10627,9830,9014];
+  const s2024=[10226,10231,11304,11635,12566,11943,12764,13140,11998,13064,11711,11344];
+  const s2025=[12339,10983,12477,11725,13045,12963,13475,13115,12668,13285,11117,11797];
+  const s2026=[11592,10298,12553,12586,12267,13353,null,null,null,null,null,null];
+  new Chart(document.getElementById('cSeason'),{type:'line',data:{labels:MO,datasets:[
+    {label:'2023',data:s2023,borderColor:'#d1d5db',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2024',data:s2024,borderColor:'#93c5fd',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:s2025,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2,pointRadius:2.5,tension:.3},
+    {label:'2026',data:s2026,borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>(v/1000).toFixed(0)+'k'},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 2: NS trend
+(function(){
+  const labels=[];
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '24");
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '25");
+  for(let m=1;m<=6;m++) labels.push(MO[m-1]+" '26");
+  const ns=[18.5,16.7,17.1,16.9,16.7,17.9,18.9,16.8,17.0,16.0,16.9,17.7,16.5,15.7,15.6,16.3,17.0,17.5,16.6,16.4,18.4,18.4,19.0,17.8,17.9,18.6,18.8,18.6,20.2,20.1];
+  new Chart(document.getElementById('cNS'),{type:'line',data:{labels,datasets:[{label:'System NS',data:ns,borderColor:'#b91c1c',backgroundColor:'rgba(185,28,28,0.06)',fill:true,borderWidth:2,pointRadius:1.8,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toFixed(1)}%`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{min:14,max:22,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 3: Procedures
+(function(){
+  const labels=[];
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '24");
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '25");
+  for(let m=1;m<=6;m++) labels.push(MO[m-1]+" '26");
+  const proc=[2115,2135,2308,2368,2470,2442,2483,2641,2504,2614,2507,2406,2387,2234,2573,2505,2544,2570,2444,2488,2462,2526,2349,2137,2004,1811,2012,2104,1951,2028];
+  new Chart(document.getElementById('cProc'),{type:'line',data:{labels,datasets:[{label:'Procedures',data:proc,borderColor:'#0d7a55',backgroundColor:'rgba(13,122,85,0.08)',fill:true,borderWidth:2,pointRadius:1.8,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toLocaleString()} visits`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{min:1500,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v.toLocaleString()},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 4: ZocDoc Sponsored Ads vs new-patient bookings Jan-Jun 2026
+(function(){
+  const labels=["Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26"];
+  new Chart(document.getElementById('cZocAds'),{data:{labels,datasets:[
+    {type:'line',label:'New-patient bookings',data:[437,363,732,696,505,525],borderColor:'#1A3A5C',backgroundColor:'rgba(26,58,92,0.06)',fill:true,borderWidth:2.5,pointRadius:3,tension:.3,yAxisID:'y',order:1},
+    {type:'bar',label:'Sponsored Ads bookings',data:[78,85,93,83,0,0],backgroundColor:'#f2c14e',yAxisID:'y2',order:2},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}`}}},scales:{x:{ticks:{font:{size:11}}},y:{position:'left',min:0,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'New-patient bookings',font:{size:12},color:'#888'}},y2:{position:'right',min:0,max:200,grid:{display:false},ticks:{font:{size:12}},title:{display:true,text:'Sponsored Ads',font:{size:12},color:'#888'}}}}});
+})();
+
+// === PRODUCTIVITY CHARTS ===
+// System VPH vs hours
+(function(){
+  const labels=["Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26"];
+  const vph=[5.14,5.15,5.04,4.89,5.23,5.12,4.56,4.85,4.93,5.22,5.22,4.85,5.13,5.31,4.81,4.95,5.11,5.16,4.87,4.70,5.22,5.39,5.67,5.71];
+  const hrs=[1620,2023,1872,2120,1749,1732,2166,1794,1990,1755,1997,2129,2138,1988,2108,2159,1698,1859,1953,1793,2002,1925,1803,1973];
+  new Chart(document.getElementById('cSysVPH'),{data:{labels,datasets:[
+    {type:'bar',label:'Scheduled hours',data:hrs,backgroundColor:'#B5D4F4',yAxisID:'y2',order:2},
+    {type:'line',label:'System VPH',data:vph,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,yAxisID:'y',order:1},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:12},boxWidth:14}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{position:'left',min:3,max:7,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'VPH',font:{size:12},color:'#888'}},y2:{position:'right',min:0,max:3000,grid:{display:false},ticks:{font:{size:12},callback:v=>(v/1000).toFixed(1)+'k'},title:{display:true,text:'Scheduled hours',font:{size:12},color:'#888'}}}}});
+})();
+
+// Cohort trajectory
+(function(){
+  const labels=["Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26"];
+  new Chart(document.getElementById('cCohort'),{type:'line',data:{labels,datasets:[
+    {label:'FO Ortiz',data:[null,null,null,null,3.22,3.71,5.90,5.98,5.84,6.04,6.28,5.84,5.93,6.06,6.22,6.95,6.81,7.09],borderColor:'#0C447C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'CH Huang',data:[null,null,1.13,1.64,2.08,2.48,2.63,2.83,2.97,3.12,3.56,3.25,3.75,4.10,4.46,4.70,5.12,4.71],borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'PS Sit',data:[null,null,null,null,null,1.65,2.90,2.92,2.58,2.75,3.06,2.70,3.00,2.97,3.71,4.51,4.80,4.65],borderColor:'#7F77DD',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'GG Garcia',data:[null,null,null,null,null,2.02,2.28,2.52,2.13,2.32,2.48,2.19,2.36,2.47,2.71,2.99,3.20,3.65],borderColor:'#888780',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'Benchmark 5.1',data:Array(18).fill(5.1),borderColor:'#0d7a55',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,borderDash:[6,4]},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y}`:null}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%2===0?labels[i]:''}},y:{min:0,max:8,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'VPH',font:{size:12},color:'#888'}}}}});
+})();
+</script>
+</body>
+</html>
