@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capacity Assessment — Medical Dermatology, Six Offices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root{
+    --ink:#14202C; --ink-soft:#3A4A5A; --muted:#7C8B99;
+    --paper:#EFF2F5; --surface:#FFFFFF; --line:#DCE3E9; --line-soft:#E9EEF2;
+    --teal:#0D7A85; --teal-2:#56A9B0; --amber:#C77D1E; --slate:#9AA8B4;
+    --measure:100%; --wide:62rem;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Source Serif 4",Georgia,serif;font-size:18px;line-height:1.6;font-optical-sizing:auto}
+  .wrap{max-width:var(--wide);margin:0 auto;padding:0 1.5rem}
+  .col{max-width:var(--measure)}
+
+  h1,h2,h3,.chart-t,.oc-mult{font-family:"Bricolage Grotesque",system-ui,sans-serif}
+  .kicker,.src,th,.oc-l,.legend,.byline,.oc dt{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  h1{font-size:clamp(2.3rem,6.4vw,4.5rem);line-height:1.02;font-weight:800;letter-spacing:-.032em;margin:0 0 1.8rem}
+  h2{font-size:clamp(1.75rem,3.5vw,2.55rem);line-height:1.1;font-weight:700;letter-spacing:-.022em;margin:0 0 .7rem}
+  h3{font-size:1.1rem;font-weight:600;letter-spacing:-.01em;margin:0 0 .35rem}
+  p{margin:0 0 1rem}
+  .lede{font-size:1.18rem;line-height:1.5;color:var(--ink-soft)}
+  .byline{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.11em;
+    text-transform:uppercase;color:#7E93A3;margin:0;padding-top:1.4rem;border-top:1px solid #2A3B4C;
+    display:flex;flex-wrap:wrap;gap:.4rem 1.6rem}
+  .byline b{color:#C9D8E2;font-weight:500}
+  .kicker{font-size:.85rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;
+    margin:0 0 1.1rem;display:flex;align-items:center;gap:.8rem}
+  .kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+  .sn{color:var(--teal);font-weight:600;margin-right:.8rem;letter-spacing:.06em;font-size:.95em}
+
+  /* header tooltips */
+  th .q{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:13px;height:13px;margin-left:.3rem;border-radius:50%;
+    border:1px solid var(--slate);color:var(--slate);
+    font-size:.55rem;line-height:1;cursor:help;vertical-align:middle;
+    background:none;padding:0;font-family:"IBM Plex Mono",monospace;
+  }
+  th .q:hover,th .q:focus-visible{border-color:var(--teal);color:var(--teal)}
+  .tip{display:inline-block}
+  .tip .bub{display:none}
+  #tipbox{
+    position:fixed;z-index:999;max-width:17rem;
+    background:var(--ink);color:#DCE7EE;
+    font-family:"Source Serif 4",serif;font-size:.8rem;line-height:1.45;
+    letter-spacing:0;text-transform:none;font-weight:400;text-align:left;
+    padding:.65rem .75rem;border-radius:6px;
+    box-shadow:0 8px 24px rgba(20,32,44,.28);
+    opacity:0;visibility:hidden;transition:opacity .13s ease;pointer-events:none;
+  }
+  #tipbox.on{opacity:1;visibility:visible}
+  @media(prefers-reduced-motion:reduce){#tipbox{transition:none}}
+
+  /* method disclosure */
+  details.method{
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;margin:1.4rem 0 0;
+  }
+  .band details.method{background:var(--paper)}
+  details.method summary{
+    cursor:pointer;padding:.95rem 1.2rem;font-family:"IBM Plex Mono",monospace;
+    font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;color:var(--teal);font-weight:600;
+    list-style:none;display:flex;align-items:center;gap:.55rem;
+  }
+  details.method summary::-webkit-details-marker{display:none}
+  details.method summary::before{content:"+";font-size:.95rem;line-height:1;color:var(--slate)}
+  details.method[open] summary::before{content:"–"}
+  details.method summary:hover{color:var(--ink)}
+  .method-body{padding:0 1.2rem 1.3rem;border-top:1px solid var(--line-soft);margin-top:-.1rem}
+  .method-body h4{
+    font-family:"IBM Plex Mono",monospace;font-size:.63rem;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;margin:1.2rem 0 .5rem;
+  }
+  .method-body p{font-size:.88rem;line-height:1.55;color:var(--ink-soft);margin:0 0 .7rem}
+  .fml{
+    font-family:"IBM Plex Mono",monospace;font-size:.76rem;line-height:1.85;color:var(--ink);
+    background:var(--paper);border-left:2px solid var(--teal-2);
+    padding:.75rem .9rem;border-radius:0 4px 4px 0;overflow-x:auto;white-space:pre;
+  }
+  .band .fml{background:var(--surface)}
+  strong{font-weight:600}
+  em.hl{font-style:normal;background:linear-gradient(transparent 62%,rgba(13,122,133,.16) 62%)}
+
+  header{background:var(--ink);color:#E8EEF2;padding:4.5rem 0 4.2rem;position:relative;overflow:hidden}
+  header::before{content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 1px 34px);pointer-events:none}
+  header .wrap{position:relative}
+  header h1{color:#FFF}
+
+  main{padding:0 0 4rem}
+  section{padding:3.4rem 0 0}
+  main>section:first-of-type{padding-top:2.2rem}
+  .part{padding:5.5rem 0 0}
+  .part:first-child{padding-top:5rem}
+  .part .wrap{padding-bottom:1.1rem;border-bottom:3px solid var(--ink)}
+  .part .wrap>span{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:.82rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:.7rem;
+  }
+  .part .wrap>em{
+    display:block;font-style:normal;font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    font-size:clamp(1.9rem,4.6vw,3.1rem);font-weight:800;letter-spacing:-.028em;line-height:1.02;color:var(--ink);
+  }
+  .part+section{padding-top:2.8rem}
+  @media(max-width:640px){.part{padding-top:3.6rem}.part:first-child{padding-top:3.6rem}}
+  .band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:3.4rem;padding:3.4rem 0}
+
+  .finds{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:1.7rem 0 0}
+  .find{background:var(--surface);padding:1.4rem 1.5rem}
+  .find .num{font-size:.68rem;color:var(--teal);letter-spacing:.12em;font-weight:600;display:block;margin-bottom:.5rem}
+  .find p{margin:0;font-size:.94rem;line-height:1.52;color:var(--ink-soft)}
+  @media(min-width:820px){.finds{grid-template-columns:repeat(3,1fr)}}
+
+  figure{margin:1.9rem 0 0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.4rem 1.3rem 1.1rem}
+  .band figure{background:var(--paper)}
+  .chart-t{font-size:.96rem;font-weight:600;margin:0 0 .2rem}
+  .chart-s{font-size:.85rem;color:var(--muted);margin:0 0 1rem;font-family:"Source Serif 4",serif;line-height:1.45}
+  .cv{position:relative;width:100%}
+  figcaption{margin-top:.85rem;padding-top:.75rem;border-top:1px solid var(--line-soft);font-size:.83rem;color:var(--ink-soft);line-height:1.5}
+  .legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-bottom:.85rem;font-size:.67rem;color:var(--muted);letter-spacing:.03em}
+  .ln{width:15px;height:0;border-top:2.5px solid;display:inline-block;vertical-align:middle}
+  .legend.toggle{gap:.5rem .55rem}
+  .lgb{
+    font-family:"IBM Plex Mono",monospace;font-size:.67rem;letter-spacing:.03em;color:var(--ink-soft);
+    background:none;border:1px solid var(--line);border-radius:20px;padding:.28rem .68rem;
+    cursor:pointer;display:inline-flex;align-items:center;gap:.42rem;line-height:1;
+    transition:border-color .15s ease,opacity .15s ease,color .15s ease;
+  }
+  .lgb:hover{border-color:var(--slate)}
+  .lgb[aria-pressed="false"]{opacity:.42;color:var(--muted);text-decoration:line-through}
+  .lgb[aria-pressed="false"] .ln{opacity:.4}
+  .legend-hint{width:100%;font-family:"Source Serif 4",serif;font-size:.8rem;color:var(--muted);
+    margin:0 0 .55rem;letter-spacing:0;text-transform:none}
+  @media(prefers-reduced-motion:reduce){.lgb{transition:none}}
+  .sw{width:11px;height:11px;border-radius:2px;display:inline-block;vertical-align:middle}
+
+  .tbl-scroll{overflow-x:auto;margin:1.7rem 0 0;-webkit-overflow-scrolling:touch}
+  table{border-collapse:collapse;width:100%;font-size:.87rem;background:var(--surface);min-width:min(100%,36rem)}
+  .band table{background:var(--paper)}
+  th{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;
+    text-align:right;padding:.65rem .7rem;border-bottom:1px solid var(--ink);white-space:nowrap}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:.58rem .7rem;text-align:right;border-bottom:1px solid var(--line-soft);font-variant-numeric:tabular-nums}
+  tbody tr:last-child td{border-bottom:none}
+  td.l{text-align:left}
+  td.pos{color:var(--teal);font-weight:600}
+  td.neg{color:var(--amber);font-weight:600}
+
+  .offices{display:grid;gap:1rem;margin-top:1.9rem}
+  @media(min-width:640px){.offices{grid-template-columns:1fr 1fr}}
+  .oc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.3rem 1.35rem;border-left:3px solid var(--slate)}
+  .oc.low{border-left-color:var(--teal)}
+  .oc.high{border-left-color:var(--amber)}
+  .oc-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.15rem}
+  .oc-pc{text-align:right;line-height:1.05;flex:none}
+  .oc-pc small{display:block;font-family:"IBM Plex Mono",monospace;font-size:.55rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-top:.3rem;font-weight:400}
+  .oc h3{margin:0;font-size:1.05rem}
+  .oc-mult{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--ink-soft)}
+  .oc.low .oc-mult{color:var(--teal)} .oc.high .oc-mult{color:var(--amber)}
+  .oc-l{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.9rem}
+  .oc dl{display:grid;grid-template-columns:auto 1fr;gap:.32rem .9rem;margin:0 0 .9rem;font-size:.83rem}
+  .oc dt{font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);align-self:center}
+  .oc dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+  .oc .read{font-size:.87rem;line-height:1.5;color:var(--ink-soft);margin:0;padding-top:.75rem;border-top:1px solid var(--line-soft)}
+
+  .note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--amber);
+    border-radius:8px;padding:1.15rem 1.3rem;margin:1.8rem 0 0}
+  .band .note{background:var(--paper)}
+  .note p{margin:0;font-size:.92rem;line-height:1.55;color:var(--ink-soft)}
+  .note b{color:var(--ink)}
+
+  ol.qs{list-style:none;counter-reset:q;padding:0;margin:1.5rem 0 0}
+  ol.qs li{counter-increment:q;position:relative;padding:0 0 1.05rem 2.6rem;font-size:.95rem;line-height:1.52;color:var(--ink-soft)}
+  ol.qs li::before{content:"Q" counter(q);position:absolute;left:0;top:.1rem;font-family:"IBM Plex Mono",monospace;
+    font-size:.65rem;font-weight:600;color:var(--teal);letter-spacing:.06em}
+  ol.qs b{color:var(--ink);font-weight:600}
+
+  footer{border-top:1px solid var(--line);padding:2rem 0 2.8rem;margin-top:3.2rem}
+  .src{font-size:.71rem;color:var(--muted);line-height:1.7}
+
+  .rise{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+  .rise.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;transition:none}}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>How much capacity does each office actually have?</h1>
+    <p class="byline">
+      <span>Medical dermatology</span>
+      <span><b>John Kim</b>, CIO / CSO</span>
+      <span><b>8 August 2026</b></span>
+    </p>
+  </div>
+</header>
+
+<main>
+
+<div class="part"><div class="wrap"><span>Part one</span><em>Findings</em></div></div>
+
+<section>
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">01</span>Office by office</p>
+      <h2>Where each office stands</h2>
+      <p>Capacity has three components: how much of its own ceiling the office uses, whether demand is arriving fast enough to close the gap unaided, and how much delivered capacity is lost to non-attendance.</p>
+      <p>The headline percentage on each card is <strong>capacity used</strong> — the office&rsquo;s delivered multiple divided by its own ceiling, both printed directly beneath it. Glen Oaks delivers 0.95&times; against a ceiling of 1.48&times;, so 0.95 &divide; 1.48 = 64%. Because every office is measured against its own ceiling rather than a shared one, the figures compare like with like even though the ceilings differ.</p>
+    </div>
+
+    <div class="offices rise">
+      <div class="oc low">
+        <div class="oc-top"><h3>Glen Oaks</h3><span class="oc-pc"><span class="oc-mult">64%</span><small>capacity used</small></span></div>
+        <span class="oc-l">Most headroom, weakest demand</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>0.95&times; of 1.48&times;</dd>
+          <dt>Headroom</dt><dd>122 visits/wk</dd>
+          <dt>Booking pace</dt><dd>78 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>10.1% / 28.9%</dd>
+        </dl>
+        <p class="read">The least utilised office and the only one below network booking pace at every horizon. All its providers carry double blocks, so the ceiling is normal — the constraint is demand, not template structure. It is also the smallest office by some margin, running 6.9 provider-days a week against 9&ndash;14 everywhere else, with no provider based there full time.</p>
+      </div>
+
+      <div class="oc low">
+        <div class="oc-top"><h3>Elmhurst</h3><span class="oc-pc"><span class="oc-mult">71%</span><small>capacity used</small></span></div>
+        <span class="oc-l">High ceiling, moderate demand</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>1.12&times; of 1.58&times;</dd>
+          <dt>Headroom</dt><dd>170 visits/wk</dd>
+          <dt>Booking pace</dt><dd>90 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>15.1% / 24.6%</dd>
+        </dl>
+        <p class="read">Second-highest ceiling in the network on a fully tenured provider roster, and below network pace at most horizons. Also carries the third-largest recoverable no-show volume at 41 visits a week.</p>
+      </div>
+
+      <div class="oc">
+        <div class="oc-top"><h3>Flushing Northern</h3><span class="oc-pc"><span class="oc-mult">74%</span><small>capacity used</small></span></div>
+        <span class="oc-l">Largest absolute headroom</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>1.17&times; of 1.57&times;</dd>
+          <dt>Headroom</dt><dd>184 visits/wk</dd>
+          <dt>Booking pace</dt><dd>100 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>9.0% / 28.8%</dd>
+        </dl>
+        <p class="read">The biggest office by templated hours, with the most unused capacity in absolute terms — but tracking network pace exactly, so the gap is closing on its own. Low no-shows; cancellations at 28.8% are the soft spot.</p>
+      </div>
+
+      <div class="oc">
+        <div class="oc-top"><h3>Bronx Concourse</h3><span class="oc-pc"><span class="oc-mult">78%</span><small>capacity used</small></span></div>
+        <span class="oc-l">Lowest ceiling in the network</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>1.11&times; of 1.42&times;</dd>
+          <dt>Headroom</dt><dd>130 visits/wk</dd>
+          <dt>Booking pace</dt><dd>104 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>22.8% / 21.3%</dd>
+        </dl>
+        <p class="read">Looks mid-pack on delivered volume but has the least room to grow, because 28% of templated hours sit with a single-block provider. Its ceiling will rise on its own as that provider moves to double blocks. The immediate opportunity is attendance: 110 recoverable visits a week.</p>
+      </div>
+
+      <div class="oc">
+        <div class="oc-top"><h3>Bronx Fordham</h3><span class="oc-pc"><span class="oc-mult">81%</span><small>capacity used</small></span></div>
+        <span class="oc-l">Tight capacity, severe attendance loss</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>1.20&times; of 1.47&times;</dd>
+          <dt>Headroom</dt><dd>81 visits/wk</dd>
+          <dt>Booking pace</dt><dd>96 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>25.4% / 19.0%</dd>
+        </dl>
+        <p class="read">Worst no-show rate in the network at 25.4%, and the clearest case of a constraint that is not capacity. Staffing has been stable — provider-days and templated hours are flat across two years, and visits are up 31% since early 2025 — so what limits this office is patients not arriving, not sessions not existing.</p>
+      </div>
+
+      <div class="oc high">
+        <div class="oc-top"><h3>Fort Lee</h3><span class="oc-pc"><span class="oc-mult">89%</span><small>capacity used</small></span></div>
+        <span class="oc-l">Effectively at capacity</span>
+        <dl>
+          <dt>Delivered / ceiling</dt><dd>1.39&times; of 1.56&times;</dd>
+          <dt>Headroom</dt><dd>66 visits/wk</dd>
+          <dt>Booking pace</dt><dd>130 vs 100 network</dd>
+          <dt>No-show / cancel</dt><dd>8.3% / 28.3%</dd>
+        </dl>
+        <p class="read">Closest to its ceiling, filling faster than every other office at every horizon, and with the lowest no-show rate. The network&rsquo;s operational benchmark — and the office where additional demand would degrade access rather than add volume.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="part"><div class="wrap"><span>Part two</span><em>How the numbers were derived</em></div></div>
+
+<section class="band">
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">02</span>The ceiling</p>
+      <h2>There is no single ceiling — it depends on block allocation</h2>
+      <p>The utilization column in the export is not a fill rate. Templated hours are wall-clock; scheduled hours are appointment minutes summed across concurrent blocks. Because those are different units, the figure routinely exceeds 100% — so 100% is not the ceiling, and the real ceiling has to be derived.</p>
+      <p>Capacity is set by how many concurrent blocks a provider&rsquo;s template carries. New providers schedule single blocks and sit near 1.0&times;; tenured providers carry double blocks. Triple blocks exist but are rare enough to be immaterial.</p>
+    <p>Block allocation sets the normal operating level rather than a hard limit — a schedule can be overridden to book concurrently on any given day, and single-block providers do occasionally exceed 1.0&times;. Because the ceilings below are measured from what providers actually delivered, those override days are already in the data. Using the 95th percentile rather than the maximum keeps an occasional stretch day from being treated as the standard.</p>
+      <p>So each provider gets their own ceiling, taken as whichever is higher of two figures: what providers with the same block structure typically sustain, or what that provider has themselves proven they can sustain. The result ranges from <strong>0.95&times; to 1.87&times;</strong>.</p>
+    <p>The ceiling is a <em class="hl">good-day standard</em>: the level a provider reaches on their better days, measured as the 95th percentile of their daily record. It is deliberately a stretch. Headroom throughout this document therefore means what would be gained if every day looked like a good day, which is an upper bound rather than a forecast.</p>
+    </div>
+    <div class="tbl-scroll rise">
+      <table>
+        <thead><tr><th>Provider</th><th>Peers sustain</th><th>Own record</th><th>Ceiling</th><th class="l">Which applies, and why</th></tr></thead>
+        <tbody>
+          <tr><td>Giselle</td><td>1.46&times;</td><td>1.17&times;</td><td class="pos">1.46&times;</td><td class="l">Peers. Her own figure is held down by a schedule that never fills, not by her blocks.</td></tr>
+          <tr><td>Hyun Soo</td><td>1.46&times;</td><td>1.87&times;</td><td class="pos">1.87&times;</td><td class="l">His own. He has repeatedly delivered more than his peers sustain.</td></tr>
+          <tr><td>Aileen</td><td>0.95&times;</td><td>0.96&times;</td><td class="pos">0.96&times;</td><td class="l">Either. Single blocks, and the two figures agree.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="rise">
+      <p class="chart-t">Delivered against ceiling, by provider</p>
+      <p class="chart-s">The 18 providers who worked in the 13 weeks to 8 Aug 2026. The solid segment is what each delivered over that window; the full bar is their ceiling, derived from their full two-year record.</p>
+      <div class="legend">
+        <span><i class="sw" style="background:#56A9B0"></i> Delivered, double blocks</span>
+        <span><i class="sw" style="background:#C77D1E"></i> Delivered, single blocks</span>
+        <span><i class="sw" style="background:#B9C6D0"></i> Unused, up to ceiling</span>
+      </div>
+      <div class="cv" style="height:500px"><canvas id="c1" role="img" aria-label="Stacked horizontal bars for 18 providers, ceiling highest first. Each bar shows the delivered multiple then unused capacity up to the ceiling. Hyun Soo delivered 1.50 of a 1.87 ceiling, Hyeyoon 1.39 of 1.75, Giselle 0.76 of 1.46, Aileen 0.73 of 0.96. No provider reached their ceiling."></canvas></div>
+      <figcaption>The solid segment is a 13-week average while the ceiling is a good-day standard, so a full bar is not expected — providers reach or pass their ceiling on 4&ndash;22% of days, around 11% on average. What matters is the size of the gap: Chohee and Ra La sit within 0.16&times; of theirs, while Giselle is 0.70&times; below, the largest single pocket of unused provider capacity in the network. Aileen&rsquo;s bar is short because her ceiling is, not because she is underused.</figcaption>
+    </figure>
+
+    <div class="note rise">
+      <p><b>Why not use a flat ceiling.</b> A single network figure of 1.5&times; would overstate capacity for newly hired providers and understate it for the most tenured. It would also have hidden the finding below: that Bronx Concourse&rsquo;s ceiling is genuinely lower than every other office&rsquo;s.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">03</span>Current capacity</p>
+      <h2>The network is running at 77% of what it can deliver</h2>
+      <p>Blending provider ceilings by templated hours gives each office its own effective ceiling. Measured that way, the network delivers 2,514 visits a week against a capacity of roughly 3,270.</p>
+    </div>
+
+    <figure class="rise">
+      <p class="chart-t">Delivered against ceiling, by office</p>
+      <p class="chart-s">Multiple of templated hours, 13 weeks to 8 Aug 2026.</p>
+      <div class="legend">
+        <span><i class="sw" style="background:#14202C"></i> Currently delivered</span>
+        <span><i class="sw" style="background:#B9C6D0"></i> Remaining to ceiling</span>
+      </div>
+      <div class="cv" style="height:280px"><canvas id="c2" role="img" aria-label="Stacked bars of delivered versus ceiling by office. Glen Oaks delivers 0.95 of a 1.48 ceiling, Elmhurst 1.12 of 1.58, Flushing Northern 1.17 of 1.57, Bronx Concourse 1.11 of 1.42, Bronx Fordham 1.20 of 1.47, Fort Lee 1.39 of 1.56."></canvas></div>
+      <figcaption>Bronx Concourse carries the lowest ceiling in the network at 1.42&times; because 28% of its templated hours belong to a single-block provider.</figcaption>
+    </figure>
+
+    <div class="tbl-scroll rise">
+      <table>
+        <thead><tr><th><span class="tip">Office<button type="button" class="q" aria-label="What does Office mean?" data-tip="One row per office. Medical dermatology providers only — cosmetic and non-provider treatment schedules are excluded.">?</button></span></th><th><span class="tip">Template hrs/wk<button type="button" class="q" aria-label="What does Template hrs/wk mean?" data-tip="Total templated wall-clock hours across every provider at that office, averaged over the 13 weeks. A location total, not per provider — Glen Oaks&#39; 50 hours is five providers working part of the week each.">?</button></span></th><th><span class="tip">Delivered<button type="button" class="q" aria-label="What does Delivered mean?" data-tip="Appointment minutes actually kept, divided by templated hours. Exceeds 1.0 when concurrent blocks are in use. This is the office&rsquo;s current operating level.">?</button></span></th><th><span class="tip">Ceiling<button type="button" class="q" aria-label="What does Ceiling mean?" data-tip="The office&rsquo;s sustainable multiple — a weighted blend of its own providers&rsquo; individual ceilings, which depend on whether their templates carry single or double blocks.">?</button></span></th><th><span class="tip">Capacity used<button type="button" class="q" aria-label="What does Capacity used mean?" data-tip="Delivered ÷ Ceiling. The headline measure: how much of what this office can deliver, it currently does. Comparable across offices even though their ceilings differ.">?</button></span></th><th><span class="tip">Visits/wk<button type="button" class="q" aria-label="What does Visits/wk mean?" data-tip="Appointments actually kept per week. No-shows and cancellations are already excluded — this is completed visits, not booked slots.">?</button></span></th><th><span class="tip">Headroom visits/wk<button type="button" class="q" aria-label="What does Headroom visits/wk mean?" data-tip="Additional completed visits per week if the office reached its ceiling. Gross, before discounting for the follow-ups each new patient generates.">?</button></span></th></tr></thead>
+        <tbody>
+          <tr><td>Glen Oaks</td><td>50</td><td>0.95&times;</td><td>1.48&times;</td><td class="pos">64%</td><td>221</td><td class="pos">122</td></tr>
+          <tr><td>Elmhurst</td><td>77</td><td>1.12&times;</td><td>1.58&times;</td><td class="pos">71%</td><td>418</td><td class="pos">170</td></tr>
+          <tr><td>Flushing Northern</td><td>92</td><td>1.17&times;</td><td>1.57&times;</td><td>74%</td><td>526</td><td class="pos">184</td></tr>
+          <tr><td>Bronx Concourse</td><td>86</td><td>1.11&times;</td><td>1.42&times;</td><td>78%</td><td>474</td><td>130</td></tr>
+          <tr><td>Bronx Fordham</td><td>63</td><td>1.20&times;</td><td>1.47&times;</td><td>81%</td><td>353</td><td>81</td></tr>
+          <tr><td>Fort Lee</td><td>79</td><td>1.39&times;</td><td>1.56&times;</td><td class="neg">89%</td><td>522</td><td class="neg">66</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="method rise">
+      <summary>How these numbers are calculated</summary>
+      <div class="method-body">
+        <p>Every figure comes from four columns in the export — Time Templated, Time Scheduled, Booked Appointments, and Primary Provider — aggregated over the 13 weeks to 8 Aug 2026. Nothing is modelled or estimated except the provider ceilings.</p>
+
+        <h4>Step 1 &middot; Each provider&rsquo;s ceiling</h4>
+        <p>Take every day that provider has worked across the full two years and compute Scheduled ÷ Templated for each. A provider whose 99th percentile stays under 1.15 is running single blocks; everyone else has double blocks. Their ceiling is then whichever of two figures is higher: the benchmark for their block tier, or their own 95th percentile. The 95th percentile is used rather than the maximum so that occasional schedule overrides, which let any provider book concurrently on a given day, do not set the sustained ceiling. Note that this is a per-day standard being compared against a 13-week average, so an office at 100% of ceiling would mean every day matching its best days — which is why no office approaches it.</p>
+        <div class="fml">single-block benchmark = 0.95
+double-block benchmark = 1.46   (median 90th pct of tenured double-block providers)
+
+provider ceiling = max( tier benchmark , provider's own 95th pct )
+
+  Giselle    peers 1.46   own 0.95 pct 1.17   ->  ceiling 1.46
+  Hyun Soo   peers 1.46   own 0.95 pct 1.87   ->  ceiling 1.87
+  Aileen     peers 0.95   own 0.95 pct 0.96   ->  ceiling 0.96</div>
+
+        <h4>Step 2 &middot; Office columns</h4>
+        <div class="fml">Template hrs/wk = Σ Templated ÷ 13
+Delivered      = Σ Scheduled ÷ Σ Templated
+Ceiling        = Σ (Templated × provider ceiling) ÷ Σ Templated
+Capacity used  = Delivered ÷ Ceiling
+Visits/wk      = Σ Booked ÷ 13
+Headroom       = (Ceiling − Delivered) × Template hrs/wk × visits per scheduled hour</div>
+        <p>Visits per scheduled hour is Σ Booked ÷ Σ Scheduled, and lands at 4.78 network-wide with a standard deviation of 0.26 across all providers — nobody works materially faster or slower, so it can be treated as a constant per office.</p>
+
+        <h4>Step 3 &middot; Worked example — Glen Oaks</h4>
+        <div class="fml">Templated       653.0 hrs ÷ 13  =  50.2 hrs/wk
+Scheduled       621.8 hrs ÷ 13  =  47.8 hrs/wk
+Delivered       621.8 ÷ 653.0   =  0.95×
+Capacity hrs    Σ(tmpl × ceiling) = 964.9
+Ceiling         964.9 ÷ 653.0   =  1.48×
+Capacity used   621.8 ÷ 964.9   =  64%
+Visits          2,876 ÷ 13      =  221/wk
+Visits per sched hr  2,876 ÷ 621.8  =  4.63
+Spare hours     (964.9 − 621.8) ÷ 13  =  26.4 hrs/wk
+Headroom        26.4 × 4.63     =  122 visits/wk</div>
+        <p>Glen Oaks draws on five providers over the period, four with a 1.50&times; ceiling and one at 1.71&times;, weighted by their templated hours — which is how the office arrives at 1.48&times;. Published figures are rounded, so hand calculations may differ by one or two visits.</p>
+      </div>
+    </details>
+
+    <div class="note rise">
+      <p><b>Headroom is gross, not bookable tomorrow.</b> These figures assume every day performs like a good day and every spare minute is filled. In practice a new patient consumes 20 minutes and generates roughly four follow-ups, so a full episode costs about 62 minutes. For planning growth, divide headroom by three.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">04</span>Forward book</p>
+      <h2>Empty-looking weeks are not spare capacity</h2>
+      <p>Appointments are booked through July 2027, and they contain a trap. Six weeks out every office looks nearly empty — Bronx Concourse shows more open hours than Glen Oaks. Those hours are not headroom; they are demand that has not arrived yet.</p>
+      <p>This practice books late: 105% of template filled in the final week, 28% at five-to-eight weeks. What distinguishes offices is <em class="hl">how fast they fill relative to each other.</em></p>
+    </div>
+
+    <figure class="rise">
+      <p class="chart-t">Booking pace by distance from today</p>
+      <p class="chart-s">Share of template already booked. Snapshot as of 8 Aug 2026.</p>
+      <p class="legend-hint">Six offices overlap closely — use the buttons to show or hide each one.</p>
+      <div class="legend toggle" id="leg3">
+        <button type="button" class="lgb" data-ds="0" aria-pressed="true"><i class="ln" style="border-color:#0D7A85"></i>Glen Oaks</button>
+        <button type="button" class="lgb" data-ds="1" aria-pressed="true"><i class="ln" style="border-color:#56A9B0"></i>Elmhurst</button>
+        <button type="button" class="lgb" data-ds="2" aria-pressed="true"><i class="ln" style="border-color:#8FBF6B"></i>Flushing Northern</button>
+        <button type="button" class="lgb" data-ds="3" aria-pressed="true"><i class="ln" style="border-color:#7A6BA8"></i>Bronx Concourse</button>
+        <button type="button" class="lgb" data-ds="4" aria-pressed="true"><i class="ln" style="border-color:#B5566B"></i>Bronx Fordham</button>
+        <button type="button" class="lgb" data-ds="5" aria-pressed="true"><i class="ln" style="border-color:#C77D1E"></i>Fort Lee</button>
+        <button type="button" class="lgb" data-ds="6" aria-pressed="true"><i class="ln" style="border-color:#9AA8B4;border-top-style:dashed"></i>Network</button>
+      </div>
+      <div class="cv" style="height:310px"><canvas id="c3" role="img" aria-label="Line chart of booking pace for all six offices. At one week: Bronx Concourse 137 percent, Bronx Fordham 112, Fort Lee 110, Flushing Northern 97, Elmhurst and Glen Oaks 79, network 105. By five to eight weeks all fall to between 21 and 35 percent. Glen Oaks is lowest at almost every horizon; Fort Lee is highest from two weeks out."></canvas></div>
+      <figcaption>Glen Oaks sits at or below network pace at every horizon — the only office that does. Fort Lee is highest from two weeks out. Bronx Concourse starts highest of all at 137% next week then falls below the network beyond a month, the signature of a same-week practice rather than a booked one.</figcaption>
+    </figure>
+
+    <div class="note rise">
+      <p><b>This is a moving picture.</b> The forward figures are a snapshot taken 8 Aug 2026 and change daily as appointments are booked, cancelled and rescheduled. Near horizons move fastest — next week&rsquo;s fill is largely settled, while the 5&ndash;8 week band will roughly triple before those dates arrive. Forward numbers are also gross of no-shows and cancellations, so expect them to settle 16&ndash;47% lower depending on the office. Treat pace <em>relative to other offices</em> as the durable signal, and re-run before acting on any absolute figure.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">05</span>Capacity lost</p>
+      <h2>The largest single block of capacity is already paid for</h2>
+      <p>Across medical, 42% of scheduled appointments end as a no-show or cancellation — about 1,706 slots a week. The rates are not evenly spread: the Bronx offices run no-show rates roughly three times Fort Lee&rsquo;s, inside the same organisation on the same systems.</p>
+    </div>
+    <figure class="rise">
+      <p class="chart-t">Visits recoverable per week if each office matched the best in-network no-show rate</p>
+      <p class="chart-s">Benchmark is Fort Lee at 8.3%. Cancellations excluded — these are appointments that simply did not appear.</p>
+      <div class="cv" style="height:245px"><canvas id="c5" role="img" aria-label="Bar chart of weekly recoverable visits: Bronx Concourse 110, Bronx Fordham 103, Elmhurst 41, Glen Oaks 6, Flushing Northern 6, Fort Lee 0."></canvas></div>
+      <figcaption>267 visits a week network-wide — more than double the headroom at Glen Oaks, and available without adding a single appointment to any template.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">06</span>Limits of this assessment</p>
+      <h2>Three things the data cannot settle</h2>
+      <ol class="qs">
+        <li><b>When does a provider move to double blocks?</b> The ceilings assume block allocation follows the pattern visible in the data. If the decision is discretionary rather than tenure-based, Bronx Concourse&rsquo;s ceiling may not rise on its own, and its headroom is smaller than shown.</li>
+        <li><b>Is Glen Oaks constrained by catchment or by operations?</b> Low utilisation is consistent with both a thin surrounding population and an under-marketed office. The data cannot distinguish them; ten calls as a prospective patient would.</li>
+        <li><b>How much of the cancellation rate is practice-initiated?</b> Cancellations run 19&ndash;29% at every office including the best performers, unlike no-shows which vary sharply. A rate that uniform suggests some are clinic reschedules — a scheduling problem rather than a patient one.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="col rise">
+      <p class="kicker"><span class="sn">07</span>Next phase</p>
+      <h2>What the formal study will measure</h2>
+      <p>This assessment works around a gap. The export aggregates to one row per provider per day, so it holds no record of individual appointment slots — and without slots there is no true fill rate and no third next available. Everything above is built from appointment minutes instead.</p>
+      <p>The formal study will measure capacity and fill rate directly:</p>
+      <div class="fml">WHAT THIS STUDY USES   (appointment minutes, no slot data)
+
+  delivered multiple  =  scheduled appointment minutes ÷ templated minutes
+  capacity used       =  delivered multiple ÷ good-day ceiling
+
+
+WHAT WE WANT           (requires a slot-level export)
+
+  capacity            =  bookable slots in the template
+  fill rate           =  booked slots ÷ bookable slots
+  open slots          =  bookable slots − booked slots
+  3rd next available  =  date of the 3rd open slot, by appointment type</div>
+      <p>One input unlocks all four: an <strong>open slot inventory</strong> from EMA — one row per slot with date, time, provider, appointment type, and whether it is booked. Practices can usually produce this even when template exports are unavailable, and it is worth requesting before the study begins.</p>
+      <p>Three additions will need data from outside the scheduling system: <strong>demand</strong>, counted as appointment requests and referrals rather than only bookings made; <strong>the binding constraint</strong> at each office, which this study assumed to be the provider and at some sites will not be; and a <strong>target utilisation</strong> per office, since waiting times rise sharply above roughly 85% and the ceiling is not the goal.</p>
+      <p>The three open questions in section 06 are the natural starting point, since each requires information gathered outside this export.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="src">Source: EMA scheduling export, 18,080 provider-day records, 1 Jan 2025 &ndash; 31 Jul 2027. Medical dermatology providers only; cosmetic and non-provider treatment schedules excluded. Historical measures cover the 13 weeks to 8 Aug 2026. Forward measures are a snapshot of appointments booked as of 8 Aug 2026 and will change. Provider ceilings are derived from each provider&rsquo;s full record and blended by templated hours to give each office its own ceiling. Appointment lengths of 20 minutes (new) and 10.5 minutes (established) are fitted from the data rather than assumed, R&sup2; = 0.976.</p>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var C={ink:'#14202C',teal:'#0D7A85',teal2:'#56A9B0',amber:'#C77D1E',slate:'#9AA8B4',
+         muted:'#7C8B99',line:'#E9EEF2',ghost:'#B9C6D0'};
+  var mono="'IBM Plex Mono', monospace";
+  Chart.defaults.font.family=mono; Chart.defaults.font.size=11; Chart.defaults.color=C.muted;
+  var grid={color:C.line,drawTicks:false}, noGrid={display:false};
+
+  var provs=['Hyun Soo','Hyeyoon','Stacy','David','Samantha','Fabian','Diana','Yu Jin','Stephanie','Ra La',
+             'Charles','Giselle','Cindy','Carey','Pui Yi','Chohee','Sophy','Aileen'];
+  var deliv=[1.50,1.39,1.19,1.37,1.21,1.37,1.27,1.16,1.27,1.33,
+             1.10,0.76,0.95,1.06,0.99,1.33,1.05,0.73];
+  var ceils=[1.87,1.75,1.71,1.62,1.61,1.58,1.54,1.50,1.50,1.49,
+             1.46,1.46,1.46,1.46,1.46,1.46,1.46,0.96];
+  var gaps=ceils.map(function(c,i){return +(c-deliv[i]).toFixed(2)});
+  new Chart(document.getElementById('c1'),{
+    type:'bar',
+    data:{labels:provs,datasets:[
+      {label:'Delivered',data:deliv,barThickness:15,
+       backgroundColor:function(c){return c.dataIndex===17?C.amber:C.teal2},
+       borderRadius:{topLeft:2,bottomLeft:2}},
+      {label:'Unused',data:gaps,backgroundColor:C.ghost,barThickness:15,
+       borderRadius:{topRight:2,bottomRight:2}}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:14}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{
+        title:function(i){return provs[i[0].dataIndex]},
+        label:function(c){var i=c.dataIndex;
+          return c.datasetIndex===0
+            ? 'delivered '+deliv[i].toFixed(2)+'× of '+ceils[i].toFixed(2)+'× ceiling'
+            : 'unused '+gaps[i].toFixed(2)+'×';}}}},
+      scales:{
+        x:{stacked:true,min:0,max:2,grid:grid,border:{display:false},
+           ticks:{callback:function(v){return v.toFixed(1)+'×'}},
+           title:{display:true,text:'multiple of templated hours',color:C.muted,font:{size:10}}},
+        y:{stacked:true,grid:noGrid,border:{display:false},ticks:{font:{size:11},autoSkip:false}}}}
+  });
+
+  new Chart(document.getElementById('c2'),{
+    type:'bar',
+    data:{labels:['Glen Oaks','Elmhurst','Flushing Northern','Bronx Concourse','Bronx Fordham','Fort Lee'],
+      datasets:[
+        {label:'Delivered',data:[0.95,1.12,1.17,1.11,1.20,1.39],backgroundColor:C.ink,
+         borderRadius:{topLeft:3,bottomLeft:3},barThickness:20},
+        {label:'Remaining',data:[0.53,0.46,0.40,0.31,0.27,0.17],backgroundColor:C.ghost,
+         borderRadius:{topRight:3,bottomRight:3},barThickness:20}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:16}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){
+        return c.dataset.label+': '+c.parsed.x.toFixed(2)+'×'}}}},
+      scales:{x:{stacked:true,min:0,max:1.7,grid:grid,border:{display:false},
+          ticks:{callback:function(v){return v.toFixed(1)+'×'}},
+          title:{display:true,text:'multiple of templated hours',color:C.muted,font:{size:10}}},
+        y:{stacked:true,grid:noGrid,border:{display:false},ticks:{font:{size:11}}}}}
+  });
+
+  function line(l,d,col,dash){return {label:l,data:d,borderColor:col,borderWidth:dash?1.5:2.2,
+    pointRadius:dash?0:2.5,pointBackgroundColor:col,borderDash:dash||[],tension:.3};}
+  var ch3 = new Chart(document.getElementById('c3'),{
+    type:'line',
+    data:{labels:['1 wk','2 wks','3–4 wks','5–8 wks','9–13 wks','14+ wks'],
+      datasets:[
+        line('Glen Oaks',[79,53,34,21,9,1],C.teal),
+        line('Elmhurst',[79,70,39,28,10,1],C.teal2),
+        line('Flushing Northern',[97,69,45,28,14,2],'#8FBF6B'),
+        line('Bronx Concourse',[137,77,38,24,7,1],'#7A6BA8'),
+        line('Bronx Fordham',[112,74,49,22,9,1],'#B5566B'),
+        line('Fort Lee',[110,96,54,35,18,5],C.amber),
+        line('Network',[105,74,43,26,11,2],C.slate,[5,4])]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y+'% booked'}}}},
+      scales:{x:{grid:noGrid,border:{display:false}},
+        y:{grid:grid,border:{display:false},ticks:{callback:function(v){return v+'%'}},
+          title:{display:true,text:'% of template booked',color:C.muted,font:{size:10}}}}}
+  });
+
+  document.querySelectorAll('#leg3 .lgb').forEach(function(b){
+    b.addEventListener('click',function(){
+      var i=+b.getAttribute('data-ds'), on=ch3.isDatasetVisible(i);
+      ch3.setDatasetVisibility(i,!on);
+      b.setAttribute('aria-pressed', String(!on));
+      ch3.update();
+    });
+  });
+
+  new Chart(document.getElementById('c5'),{
+    type:'bar',
+    data:{labels:['Bronx Concourse','Bronx Fordham','Elmhurst','Glen Oaks','Flushing Northern','Fort Lee'],
+      datasets:[{data:[110,103,41,6,6,0],
+        backgroundColor:function(c){return c.dataIndex<2?C.amber:C.slate},borderRadius:3,barThickness:20}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:16}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.parsed.x+' visits/wk recoverable'}}}},
+      scales:{x:{grid:grid,border:{display:false},title:{display:true,text:'visits per week',color:C.muted,font:{size:10}}},
+        y:{grid:noGrid,border:{display:false},ticks:{font:{size:11}}}}}
+  });
+
+  /* fixed-position tooltips so the table's scroll container can't clip them */
+  var tb=document.createElement('div'); tb.id='tipbox'; tb.setAttribute('role','tooltip');
+  document.body.appendChild(tb);
+  var cur=null;
+  function place(btn){
+    tb.textContent=btn.getAttribute('data-tip');
+    tb.classList.add('on');
+    var r=btn.getBoundingClientRect(), t=tb.getBoundingClientRect();
+    var top=r.top-t.height-9;
+    if(top<8) top=r.bottom+9;
+    var left=r.left+r.width/2-t.width/2;
+    left=Math.max(10,Math.min(left,window.innerWidth-t.width-10));
+    tb.style.top=top+'px'; tb.style.left=left+'px';
+  }
+  function hide(){tb.classList.remove('on');cur=null}
+  document.querySelectorAll('.q[data-tip]').forEach(function(b){
+    b.addEventListener('mouseenter',function(){cur=b;place(b)});
+    b.addEventListener('mouseleave',hide);
+    b.addEventListener('focus',function(){cur=b;place(b)});
+    b.addEventListener('blur',hide);
+    b.addEventListener('click',function(e){e.preventDefault();if(cur===b){hide()}else{cur=b;place(b)}});
+  });
+  window.addEventListener('scroll',function(){if(cur)place(cur)},{passive:true});
+  window.addEventListener('resize',hide);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')hide()});
+
+  var els=document.querySelectorAll('.rise');
+  if(!window.IntersectionObserver||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(e){e.classList.add('in')});
+  }else{
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+    },{threshold:.1});
+    els.forEach(function(e){io.observe(e)});
+  }
+})();
+</script>
+</body>
+</html>
