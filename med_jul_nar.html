@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — July 2026 Medical &amp; Productivity Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #1A3A5C;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#1A3A5C;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#1A3A5C}
+  h2{font-size:22px;font-weight:600;color:#1A3A5C;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#1A3A5C;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#1A3A5C;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#1A3A5C;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}
+  .callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}
+  .callout-bad strong{color:#7f1d1d}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Metro Dermatology — July 2026 Medical &amp; Productivity Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> Darell Dado</span>
+    <span>&middot;</span>
+    <span><strong>Reporting period:</strong> July 2026</span>
+    <span>&middot;</span>
+    <span><strong>Prepared:</strong> August 9, 2026</span>
+    <span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Medical Volume &amp; No-Show and Medical Productivity dashboards</div>
+</div>
+
+<!-- STORY 1 -->
+<h2><span class="num">1</span>Per operating-day, visits held flat while demand rose &mdash; cancellations are the whole story</h2>
+
+<p>Completed medical visits came in at <strong>13,042 in July, down 2.3% from June and 3.2% below July 2025</strong>. Total appointment demand, however, <em>rose</em> 0.5% to 22,282. Patients booked at the same rate as June; fewer of those bookings converted into a completed visit.</p>
+<p><strong>Almost all of the raw decline is calendar.</strong> July carried <strong>23.5 operating-day-equivalents</strong> against June&rsquo;s 24.0 &mdash; the practice was closed Friday 3 July (holiday observed, the 4th falling on a Saturday) and Saturday 4 July. Normalising for that, the &minus;2.3% raw fall becomes <strong>&minus;0.3% per operating-day</strong>, and &minus;3.2% YoY becomes &minus;1.2%. Throughput per day open was essentially unchanged.</p>
+<p>That makes the conversion gap sharper, not softer. Demand per operating-day <strong>rose 2.6%</strong> (924.0 to 948.2) while completed visits per day were flat. More patients wanted appointments on each day the practice was open, and the same number got seen.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Completed medical visits &mdash; seasonal trend by year</div>
+<div class="chart-sub">July 2026 (13,042) sits below July 2025 (13,475) and just above July 2024 (12,764). Raw counts &mdash; two fewer operating-day-equivalents than June.</div>
+<div style="position:relative;height:240px"><canvas id="cSeason"></canvas></div>
+</div>
+
+<p>The decomposition is unusually clean. No-show rate was essentially flat at <strong>20.0%</strong> (from 20.2%). Cancellation rate rose to <strong>26.8% from 24.6%</strong> &mdash; the highest month of 2026 and 2.2 points above June. Rates are ratios and are unaffected by the operating-day count, so unlike the volume figures these moves are entirely real. Demand per day rose; cancellations took the difference.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Measure</th><th class="r">June 2026</th><th class="r">July 2026</th><th class="r">Change</th></tr></thead>
+<tbody>
+<tr><td>Operating-day-equivalents</td><td class="r">24.0</td><td class="r">23.5</td><td class="r"><span class="pill pill-a">&minus;0.5</span></td></tr>
+<tr><td>Total appointment demand</td><td class="r">22,175</td><td class="r">22,282</td><td class="r"><span class="pill pill-g">+0.5%</span></td></tr>
+<tr><td>Demand per operating-day</td><td class="r">924.0</td><td class="r">948.2</td><td class="r"><span class="pill pill-g">+2.6%</span></td></tr>
+<tr><td><strong>Completed visits</strong></td><td class="r">13,353</td><td class="r">13,042</td><td class="r"><span class="pill pill-r">&minus;2.3%</span></td></tr>
+<tr><td><strong>Visits per operating-day</strong></td><td class="r">556.4</td><td class="r">555.0</td><td class="r"><span class="pill pill-a">&minus;0.3%</span></td></tr>
+<tr><td>No-show rate</td><td class="r">20.2%</td><td class="r">20.0%</td><td class="r"><span class="pill pill-g">&minus;0.2pp</span></td></tr>
+<tr><td><strong>Cancellation rate</strong></td><td class="r">24.6%</td><td class="r">26.8%</td><td class="r"><span class="pill pill-r">+2.2pp</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-bad">
+<strong>This is a conversion problem, not a demand problem.</strong> The distinction matters because the remedies are different. Falling demand calls for marketing and referral work; falling conversion calls for reminder cadence, waitlist backfill, deposit or late-cancel policy, and scheduling-friction review. Normalised for the two lost operating days, throughput per day was flat while demand per day rose 2.6%. Everything that went wrong happened between booking and arrival &mdash; and the raw &minus;2.3% headline should not be read as a demand decline.
+</div>
+
+<!-- STORY 2 -->
+<h2><span class="num">2</span>Follow-up cancellations at 30.6% are where the volume actually went</h2>
+
+<p>Cancellation rate is not evenly distributed. <strong>Follow-up &mdash; the largest category at 7,276 completed visits &mdash; cancelled at 30.6%</strong>, the worst of any category and well above the 26.8% system figure. Follow-up also carries a 23.1% no-show rate. Together, close to half of all booked follow-up appointments do not result in a completed visit.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">System no-show and cancellation rate &mdash; monthly (Jan 2024 &ndash; Jul 2026)</div>
+<div class="chart-sub">Cancellation rate (dashed) turns up sharply in July while no-show holds flat.</div>
+<div style="position:relative;height:220px"><canvas id="cNS"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Category</th><th class="r">Visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
+<tbody>
+<tr><td><strong>Follow-up</strong></td><td class="r">7,276</td><td class="r"><span class="pill pill-r">&minus;2.0%</span></td><td class="r"><span class="pill pill-r">&minus;2.3%</span></td><td class="r"><span class="pill pill-r">23.1%</span></td><td class="r"><span class="pill pill-r">30.6%</span></td></tr>
+<tr><td>Procedures</td><td class="r">2,028</td><td class="r"><span class="pill pill-a">0.0%</span></td><td class="r"><span class="pill pill-r">&minus;17.0%</span></td><td class="r"><span class="pill pill-a">15.2%</span></td><td class="r"><span class="pill pill-g">18.8%</span></td></tr>
+<tr><td>New Patient</td><td class="r">1,933</td><td class="r"><span class="pill pill-r">&minus;6.8%</span></td><td class="r"><span class="pill pill-r">&minus;7.7%</span></td><td class="r"><span class="pill pill-a">18.4%</span></td><td class="r"><span class="pill pill-a">21.4%</span></td></tr>
+<tr><td>Chronic Disease Mgmt</td><td class="r">926</td><td class="r"><span class="pill pill-r">&minus;4.3%</span></td><td class="r"><span class="pill pill-g">+18.1%</span></td><td class="r"><span class="pill pill-a">18.6%</span></td><td class="r"><span class="pill pill-a">24.4%</span></td></tr>
+<tr><td>Walk-in</td><td class="r">437</td><td class="r"><span class="pill pill-r">&minus;5.8%</span></td><td class="r"><span class="pill pill-g">+39.6%</span></td><td class="r"><span class="pill pill-g">0.2%</span></td><td class="r"><span class="pill pill-g">7.2%</span></td></tr>
+<tr><td>Screening &amp; Diagnostics</td><td class="r">153</td><td class="r"><span class="pill pill-g">+7.0%</span></td><td class="r"><span class="pill pill-g">+28.6%</span></td><td class="r"><span class="pill pill-a">12.1%</span></td><td class="r"><span class="pill pill-r">32.8%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>By location the no-show picture is starker than the system average suggests. <strong>Bronx Fordham reached 32.2%</strong> and Bronx Concourse 27.4%, against Fort Lee at 10.6% and Flushing Northern at 12.8%. A three-fold spread across sites in the same practice is not patient-mix alone.</p>
+
+<div class="callout">
+<strong>Follow-up is the highest-leverage target in the practice.</strong> It is the largest category and has the worst conversion. A one-point reduction in follow-up cancellation is worth roughly 100 completed visits a month &mdash; more than the entire Screening &amp; Diagnostics category. Whether the lever is reminder timing, rescheduling friction, or how far ahead follow-ups are booked is worth establishing before choosing an intervention.
+</div>
+
+<!-- STORY 3 -->
+<h2><span class="num">3</span>The Procedures decline is now ten months deep and structural</h2>
+
+<p>Procedures held flat month-over-month at <strong>2,028 completed visits, but sits 17.0% below July 2025</strong>. The category has now run below its prior-year level for ten consecutive months. Monthly volume has moved from a 2,400&ndash;2,600 band through 2024 and early 2025 to roughly 1,950&ndash;2,100 today.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Procedures &mdash; monthly completed visits (Jan 2024 &ndash; Jul 2026)</div>
+<div class="chart-sub">The step down from the 2024 band is sustained, not a dip.</div>
+<div style="position:relative;height:220px"><canvas id="cProc"></canvas></div>
+</div>
+
+<p>A decline this persistent is no longer a series of bad months. The previously identified drivers &mdash; payer-rule changes affecting laser coverage, and shifting SAAS ordering patterns &mdash; would both produce exactly this shape: a level shift rather than a gradual slope. The category is roughly 400 visits a month below where it ran eighteen months ago.</p>
+
+<div class="callout">
+<strong>Procedures deserves a decision, not another month of monitoring.</strong> If the payer-rule change is permanent, the current level is the new baseline and capacity planning should reflect it. If SAAS ordering patterns are the larger factor, that is addressable clinically. The open drill-down at Fordham and Flushing Northern remains the fastest way to separate the two, and it has now been outstanding for several cycles.
+</div>
+
+<!-- STORY 4 -->
+<h2><span class="num">4</span>ZocDoc confirmed the recovery &mdash; the Sponsored Ads cut looks settled</h2>
+
+<p>July ZocDoc bookings reached <strong>900 total and 532 new patients, with Sponsored Results still at zero</strong>. That is a second consecutive month of recovery with ads switched off, and both figures now sit above the pre-cut April level for total bookings.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">ZocDoc new-patient bookings vs Sponsored Ads spend bookings (Jan &ndash; Jul 2026)</div>
+<div class="chart-sub">Ads went to zero in May. New-patient bookings dipped, then recovered across June and July.</div>
+<div style="position:relative;height:230px"><canvas id="cZocAds"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Month</th><th class="r">Total bookings</th><th class="r">New patients</th><th class="r">Sponsored Ads</th></tr></thead>
+<tbody>
+<tr><td>April 2026</td><td class="r">985</td><td class="r">696</td><td class="r">83</td></tr>
+<tr><td>May 2026</td><td class="r">872</td><td class="r">505</td><td class="r"><span class="pill pill-b">0</span></td></tr>
+<tr><td>June 2026</td><td class="r">889</td><td class="r">525</td><td class="r"><span class="pill pill-b">0</span></td></tr>
+<tr><td><strong>July 2026</strong></td><td class="r"><strong>900</strong></td><td class="r"><strong>532</strong></td><td class="r"><span class="pill pill-b">0</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-good">
+<strong>The question raised in May can be closed.</strong> Three months without Sponsored Ads have produced total bookings above the ad-supported April level and new-patient bookings recovering steadily. May&rsquo;s 27% drop reads as noise rather than a durable ad-cut effect. The saved spend appears to be a clean saving. Worth noting the contrast with the cosmetic line, where new-patient acquisition fell sharply in the same month &mdash; whatever is happening there is not a ZocDoc effect.</p>
+</div>
+
+<!-- PRODUCTIVITY DIVIDER -->
+<h2><span class="num">P</span>Provider productivity</h2>
+
+<p>This section uses <strong>VPH &mdash; visits per templated hour</strong> &mdash; rather than the VPD measure used above. VPD normalizes demand against the calendar; VPH measures efficiency against staffed supply. They can move in opposite directions, and this month they move the same way for a specific reason. Medical only.</p>
+
+<!-- P1 -->
+<h3>System VPH fell to 5.23 as capacity was added into softening demand</h3>
+
+<p>System VPH dropped to <strong>5.23 in July from 5.67 in June</strong> &mdash; a 7.8% fall and the sharpest single-month decline in the two-year window. The cause is visible in the two inputs: templated hours rose <strong>5.0% to 2,086</strong>, the highest in the window, while provider visits fell 2.9%.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">System VPH and templated hours (Aug 2024 &ndash; Jul 2026)</div>
+<div class="chart-sub">Bars = templated hours (right axis). Line = system VPH (left axis). Dashed = 24-month production average, 5.07.</div>
+<div style="position:relative;height:250px"><canvas id="cSysVPH"></canvas></div>
+</div>
+
+<p>The hours increase is explainable provider by provider and looks deliberate rather than anomalous: Yu Jin Kim continued ramping (30 to 100 hours), and Ortiz, Garcia and Huang all returned to normal schedules after an unusually light June. This was capacity coming back online, and it arrived in the month demand softened.</p>
+<p style="font-size:14px;color:#666"><em>Note: a further 68 templated hours appeared against A. Mamanova in the July export. Those were a scheduling error &mdash; she returns from leave later in August &mdash; and are excluded from hours, VPH and the active-provider count. Left in, they would have understated system VPH at 5.11 and shown 18 active providers rather than 17.</em></p>
+
+<div class="callout callout-bad">
+<strong>Capacity and demand moved in opposite directions.</strong> That is the single most consequential fact in this month&rsquo;s numbers. VPH at 5.23 is still above the 5.07 two-year average, so this is not yet a crisis &mdash; but an 8% efficiency fall in one month, driven by added hours meeting fewer completed visits, compounds quickly if August repeats it. The cancellation problem in Story 1 and this productivity fall are the same problem measured two ways.
+</div>
+
+<!-- P2 -->
+<h3>Every member of the 2025 cohort fell back this month</h3>
+
+<p>All four 2025-cohort providers declined in July, which is unusual enough to be worth separating from individual performance. Given system VPH fell 7.8% on added hours, the cohort moves are largely the same effect rather than four simultaneous individual regressions.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">2025 cohort &mdash; monthly VPH with regression trend</div>
+<div class="chart-sub">Ramp zones shaded. Dashed lines are per-provider regression fits. Click a label to isolate.</div>
+<div style="position:relative;height:280px"><canvas id="cCohort"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Provider</th><th class="r">Jun VPH</th><th class="r">Jul VPH</th><th class="r">Slope /mo</th><th class="r">R&sup2;</th><th class="r">Status</th></tr></thead>
+<tbody>
+<tr><td><strong>FO &mdash; Ortiz</strong></td><td class="r">6.99</td><td class="r">6.53</td><td class="r">+0.199</td><td class="r">0.59</td><td class="r"><span class="pill pill-g">Above benchmark</span></td></tr>
+<tr><td>CH &mdash; Huang</td><td class="r">4.69</td><td class="r">4.20</td><td class="r">+0.220</td><td class="r">0.90</td><td class="r"><span class="pill pill-a">Approaching</span></td></tr>
+<tr><td>PS &mdash; Sit</td><td class="r">4.63</td><td class="r">3.61</td><td class="r">+0.175</td><td class="r">0.69</td><td class="r"><span class="pill pill-r">Watch</span></td></tr>
+<tr><td>GG &mdash; Garcia</td><td class="r">3.64</td><td class="r">3.23</td><td class="r">+0.100</td><td class="r">0.74</td><td class="r"><span class="pill pill-r">Review</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Sit is the one to watch individually.</strong> A fall from 4.63 to 3.61 is the largest single drop in the cohort and takes her back below the 4.5 twelve-month milestone she had cleared. Garcia had cleared the 3.5 six-month target in June at 3.64 and has slipped back under it at 3.23 &mdash; the intervention flag relaxed last month should be restored. Huang retains the strongest and most consistent trend in the cohort (slope +0.220, R&sup2; 0.90) despite the July dip.</p>
+
+<div class="callout">
+<strong>Read the cohort against the system, not in isolation, this month.</strong> Four simultaneous declines in a month when system VPH fell 7.8% on a 5.0% hours increase is mostly denominator. The individual signals still worth acting on are Sit&rsquo;s size of fall and Garcia slipping back below his milestone. Both should be re-checked in August against a month with a stable hours base before any conclusion is drawn.
+</div>
+
+<!-- P3 -->
+<h3>The capacity gap is now concentrated in high no-show panels</h3>
+
+<p>The trailing three-month provider matrix separates two distinct problems. The <strong>leaky-panel group</strong> combines strong throughput with high no-show: Ortiz at 6.75 VPH but 31.6% NS, Shin at 6.80 and 28.7%, Kwak at 4.86 and 27.6%. These providers are working efficiently against a panel that does not turn up. The <strong>ramping group</strong> &mdash; Espinal at 3.20, Garcia at 3.32, Sit at 4.23 &mdash; has the opposite profile.</p>
+
+<p>At the other end, Hyun Soo Lee combines the highest VPH in the practice (6.90) with the lowest no-show rate (8.0%), and Stephanie Hu (6.52 VPH, 10.7% NS) and Chohee Park (6.23, 11.8%) sit in the same quadrant. The spread between an 8% and a 32% no-show panel inside one practice is the largest single recoverable opportunity in these numbers.</p>
+
+<div class="callout">
+<strong>Two problems, two remedies.</strong> High-VPH/high-NS providers do not need throughput coaching &mdash; they need panel management: reminder intensity, overbooking policy, waitlist backfill. Ramping providers need the opposite. Applying one remedy to both wastes the effort. Given that system-wide cancellations rather than no-shows drove this month, the panel-management work has just become more urgent than the ramp work.
+</div>
+
+<div class="end">Darell Dado · Metro Dermatology · Confidential</div>
+
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Chart 1: Seasonal
+(function(){
+  const s2023=[7345,10164,12213,10824,12181,12467,11694,12323,10027,10627,9830,9014];
+  const s2024=[10226,10231,11304,11635,12566,11943,12764,13140,11998,13064,11711,11344];
+  const s2025=[12339,10983,12477,11725,13045,12963,13475,13115,12668,13285,11117,11797];
+  const s2026=[11592,10298,12553,12586,12267,13353,13042,null,null,null,null,null];
+  new Chart(document.getElementById('cSeason'),{type:'line',data:{labels:MO,datasets:[
+    {label:'2023',data:s2023,borderColor:'#d1d5db',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2024',data:s2024,borderColor:'#93c5fd',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:s2025,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2,pointRadius:2.5,tension:.3},
+    {label:'2026',data:s2026,borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>(v/1000).toFixed(0)+'k'},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 2: NS trend
+(function(){
+  const labels=[];
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '24");
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '25");
+  for(let m=1;m<=7;m++) labels.push(MO[m-1]+" '26");
+  const ns=[18.5,16.7,17.1,16.9,16.7,17.9,18.9,16.8,17.0,16.0,16.9,17.7,16.5,15.7,15.6,16.3,17.0,17.5,16.6,16.4,18.4,18.4,19.0,17.8,17.9,18.6,18.8,18.6,20.2,20.2,20.0];const can=[28.2,29.1,25.5,25.4,24.6,25.3,27.7,26.0,26.7,24.7,24.7,25.5,26.3,26.4,25.5,24.9,25.4,25.4,26.0,24.3,25.4,24.9,26.4,28.6,30.3,29.7,25.0,25.7,25.9,24.6,26.8];
+  new Chart(document.getElementById('cNS'),{type:'line',data:{labels,datasets:[{label:'System NS',data:ns,borderColor:'#b91c1c',backgroundColor:'rgba(185,28,28,0.06)',fill:true,borderWidth:2,pointRadius:1.8,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toFixed(1)}%`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{min:14,max:22,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v+'%'},title:{display:true,text:'No-show rate',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 3: Procedures
+(function(){
+  const labels=[];
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '24");
+  for(let m=1;m<=12;m++) labels.push(MO[m-1]+" '25");
+  for(let m=1;m<=7;m++) labels.push(MO[m-1]+" '26");
+  const proc=[2115,2135,2308,2368,2470,2442,2483,2641,2504,2614,2507,2406,2387,2234,2573,2505,2544,2570,2444,2488,2462,2526,2349,2137,2004,1811,2012,2104,1951,2028,2028];
+  new Chart(document.getElementById('cProc'),{type:'line',data:{labels,datasets:[{label:'Procedures',data:proc,borderColor:'#0d7a55',backgroundColor:'rgba(13,122,85,0.08)',fill:true,borderWidth:2,pointRadius:1.8,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y.toLocaleString()} visits`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{min:1500,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>v.toLocaleString()},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 4: ZocDoc Sponsored Ads vs new-patient bookings Jan-Jun 2026
+(function(){
+  const labels=["Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26","Jul '26"];
+  new Chart(document.getElementById('cZocAds'),{data:{labels,datasets:[
+    {type:'line',label:'New-patient bookings',data:[437,363,732,696,505,525,532],borderColor:'#1A3A5C',backgroundColor:'rgba(26,58,92,0.06)',fill:true,borderWidth:2.5,pointRadius:3,tension:.3,yAxisID:'y',order:1},
+    {type:'bar',label:'Sponsored Ads bookings',data:[78,85,93,83,0,0,0],backgroundColor:'#f2c14e',yAxisID:'y2',order:2},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}`}}},scales:{x:{ticks:{font:{size:11}}},y:{position:'left',min:0,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'New-patient bookings',font:{size:12},color:'#888'}},y2:{position:'right',min:0,max:200,grid:{display:false},ticks:{font:{size:12}},title:{display:true,text:'Sponsored Ads',font:{size:12},color:'#888'}}}}});
+})();
+
+// === PRODUCTIVITY CHARTS ===
+// System VPH vs hours
+(function(){
+  const labels=["Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26","Jul '26"];
+  const vph=[5.11,4.99,4.86,5.23,5.1,4.56,4.85,4.85,5.21,5.15,4.82,5.11,5.26,4.79,4.93,5.04,5.11,4.83,4.7,5.22,5.39,5.66,5.67,5.23];
+  const hrs=[2038,1895,2137,1749,1740,2166,1794,2026,1758,2025,2142,2146,2008,2116,2167,1722,1876,1971,1794,2002,1925,1805,1986,2086];
+  new Chart(document.getElementById('cSysVPH'),{data:{labels,datasets:[
+    {type:'bar',label:'Templated hours',data:hrs,backgroundColor:'#B5D4F4',yAxisID:'y2',order:2},
+    {type:'line',label:'System VPH',data:vph,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,yAxisID:'y',order:1},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{font:{size:12},boxWidth:14}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?labels[i]:''}},y:{position:'left',min:3,max:7,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'VPH',font:{size:12},color:'#888'}},y2:{position:'right',min:0,max:3000,grid:{display:false},ticks:{font:{size:12},callback:v=>(v/1000).toFixed(1)+'k'},title:{display:true,text:'Templated hours',font:{size:12},color:'#888'}}}}});
+})();
+
+// Cohort trajectory
+(function(){
+  const labels=["Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26","Jul '26"];
+  new Chart(document.getElementById('cCohort'),{type:'line',data:{labels,datasets:[
+    {label:'FO Ortiz',data:[null,null,null,null,2.69,3.71,5.9,5.98,5.84,6.04,6.28,5.84,5.93,6.06,6.22,6.95,6.81,6.99,6.53],borderColor:'#0C447C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'CH Huang',data:[null,null,0.87,1.64,2.08,2.48,2.63,2.83,2.97,3.12,3.56,2.97,3.75,4.1,4.46,4.7,5.12,4.69,4.2],borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'PS Sit',data:[null,null,null,null,null,1.65,2.9,2.92,2.58,2.75,3.06,2.7,3.0,2.97,3.71,4.51,4.78,4.63,3.61],borderColor:'#7F77DD',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'GG Garcia',data:[null,null,null,null,null,2.02,2.28,2.52,2.13,2.32,2.32,2.19,2.36,2.47,2.71,2.99,3.2,3.64,3.23],borderColor:'#888780',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,tension:.3,spanGaps:false},
+    {label:'Benchmark 5.1',data:Array(18).fill(5.1),borderColor:'#0d7a55',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,borderDash:[6,4]},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y}`:null}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%2===0?labels[i]:''}},y:{min:0,max:8,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'VPH',font:{size:12},color:'#888'}}}}});
+})();
+</script>
+</body>
+</html>

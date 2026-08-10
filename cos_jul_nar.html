@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — July 2026 Cosmetic Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #534AB7;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#534AB7;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#666;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#888;margin-top:10px}
+  .lede{background:#f5f3fc;border-left:4px solid #534AB7;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#534AB7}
+  h2{font-size:22px;font-weight:600;color:#534AB7;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#534AB7;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#534AB7;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#888;margin-bottom:12px}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:#666;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#534AB7;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#166534}.pill-r{background:#fee2e2;color:#991b1b}
+  .pill-a{background:#fef3c7;color:#92400e}.pill-b{background:#dbeafe;color:#1e40af}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}
+  .callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}
+  .callout-bad strong{color:#7f1d1d}
+  .callout-info{background:#ede9fe;border-left-color:#7c3aed}
+  .callout-info strong{color:#5b21b6}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#aaa;margin-top:40px;text-align:center;padding-top:20px;border-top:1px solid #e4e4e4}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Metro Dermatology — July 2026 Cosmetic Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> Darell Dado</span>
+    <span>&middot;</span>
+    <span><strong>Reporting period:</strong> July 2026</span>
+    <span>&middot;</span>
+    <span><strong>Prepared:</strong> August 10, 2026</span>
+    <span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Cosmetic Volume &amp; No-Show Dashboard &nbsp;·&nbsp; revenue = <code>[Total Payments]</code> by date of service</div>
+</div>
+
+<!-- STORY 1: VOLUME + REVENUE -->
+<h2><span class="num">1</span>Cosmetic volume gave back June&rsquo;s gain &mdash; and revenue fell with it</h2>
+
+<p>Cosmetic completed visits fell to <strong>918 in July, down 13.8% from June and 13.6% below July 2025</strong>. The month sits between its two predecessors &mdash; above July 2024 (897), below July 2025 (1,062) &mdash; but the direction is what matters: June&rsquo;s 1,065 had put the line above both prior Junes, and a single month erased that.</p>
+<p>The calendar explains only a little of it. July carried <strong>23.5 operating-day-equivalents</strong> against June&rsquo;s 24.0 &mdash; the practice closed Friday 3 July (holiday observed) and Saturday 4 July. Normalising for that, the &minus;13.8% raw fall becomes <strong>&minus;12.0% per operating-day</strong> (44.4 to 39.1 VPD) and &minus;13.6% YoY becomes &minus;11.7%. Two lost operating days account for under two points of a twelve-point decline.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Cosmetic completed visits &mdash; seasonal trend by year</div>
+<div class="chart-sub">July 2026 (purple) drops below the 2025 line after a June that had run above it.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#d1d5db"></span>2024</span>
+  <span><span class="swl" style="background:#AFA9EC"></span>2025</span>
+  <span><span class="swl" style="background:#534AB7"></span>2026 YTD</span>
+</div>
+<div style="position:relative;height:240px"><canvas id="cSeason"></canvas></div>
+</div>
+
+<p><strong>Because revenue per patient varies so much by procedure, volume alone can mislead &mdash; so this month the money was checked directly.</strong> Payments by date of service came in at <strong>$215,060, down 15.7% MoM and 15.4% YoY</strong>. Revenue per visit slipped from $239 to <strong>$234</strong>, and revenue per patient from $266 to $264. Revenue fell slightly <em>more</em> than volume, not less &mdash; so July was not a case of fewer patients spending more.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Cosmetic payments and revenue per visit &mdash; monthly (Jan 2024 &ndash; Jul 2026)</div>
+<div class="chart-sub">Bars = payments by DOS (left axis). Line = revenue per completed visit (right axis). Note the repeating June&ndash;July trough in all three years.</div>
+<div class="chart-leg">
+  <span><span class="sw" style="background:#AFA9EC"></span>Payments (by DOS)</span>
+  <span><span class="swl" style="background:#534AB7"></span>Revenue / visit</span>
+</div>
+<div style="position:relative;height:250px"><canvas id="cRev"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Measure</th><th class="r">Jul '24</th><th class="r">Jul '25</th><th class="r">Jun '26</th><th class="r">Jul '26</th><th class="r">MoM</th><th class="r">YoY</th></tr></thead>
+<tbody>
+<tr><td><strong>Payments (DOS)</strong></td><td class="r">$208,593</td><td class="r">$254,076</td><td class="r">$255,039</td><td class="r"><strong>$215,060</strong></td><td class="r"><span class="pill pill-r">&minus;15.7%</span></td><td class="r"><span class="pill pill-r">&minus;15.4%</span></td></tr>
+<tr><td>Completed visits</td><td class="r">897</td><td class="r">1,062</td><td class="r">1,065</td><td class="r"><strong>918</strong></td><td class="r"><span class="pill pill-r">&minus;13.8%</span></td><td class="r"><span class="pill pill-r">&minus;13.6%</span></td></tr>
+<tr><td>Revenue / visit</td><td class="r">$233</td><td class="r">$239</td><td class="r">$239</td><td class="r"><strong>$234</strong></td><td class="r"><span class="pill pill-a">&minus;2.1%</span></td><td class="r"><span class="pill pill-a">&minus;2.1%</span></td></tr>
+<tr><td>Revenue / patient</td><td class="r">$250</td><td class="r">$260</td><td class="r">$266</td><td class="r"><strong>$264</strong></td><td class="r"><span class="pill pill-g">&minus;0.8%</span></td><td class="r"><span class="pill pill-g">+1.5%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>But judge summer against summer.</strong> June and July are a structural trough: payments fall 34&ndash;42% off the spring peak in every year on record. And revenue per visit in those two months is strikingly stable &mdash; <strong>$238/$233 in 2024, $235/$239 in 2025, $239/$234 in 2026</strong>. July 2026 revenue is also <em>above</em> July 2024. The month is inside its historical band, not breaking out of it, and the flat per-visit value across three summers argues seasonal mix rather than weakening pricing.</p>
+
+<p>Year to date the two measures diverge in exactly the way a volume-only view would miss. Across Jan&ndash;Jul: visits <strong>&minus;3.5%</strong>, payments <strong>+1.1%</strong> ($2,216,579 vs $2,192,560), revenue per visit <strong>+4.8%</strong> ($299 to $313). The business is earning slightly more from slightly fewer visits than a year ago.</p>
+
+<div class="callout callout-info">
+<strong>Two readings, both true.</strong> July itself was genuinely weaker on revenue as well as volume &mdash; the volume signal was not hiding a value story this month. But the <em>level</em> sits within a well-established summer trough, and across the year to date volume is down 3.5% while revenue is up 1.1%. A volume-only report would describe 2026 as a soft cosmetic year, and that would be wrong.
+</div>
+
+<!-- STORY 2: INJECTABLES -->
+<h2><span class="num">2</span>Injectables turned negative year-over-year, reversing the event thesis</h2>
+
+<p>Injectables fell to <strong>163 completed visits, down 5.8% MoM and 24.5% below July 2025</strong> (216). Cosmetic Botox specifically came in at <strong>127 against 188 a year earlier</strong>. In June this category was running +29% YoY and was read as proof the April Jeuveau/Letybo event had left a durable footprint.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Cosmetic Botox &mdash; monthly volume (Jan 2024 &ndash; July 2026)</div>
+<div class="chart-sub">July&rsquo;s 127 is well below the year-ago 188 and back inside the pre-event band.</div>
+<div style="position:relative;height:220px"><canvas id="cBotox"></canvas></div>
+</div>
+
+<p>On volume the honest reading is that April&rsquo;s spike (203) was largely demand pulled forward, and the elevated May and June figures were the tail of that pull rather than a new baseline. On <em>revenue</em>, however, injectables remain the engine: <strong>Jeuveau alone was $50,355 in July, roughly 23% of all cosmetic payments</strong>, and held up better than the visit count (June $53,960, May $45,305). Fewer injectable visits, but still the largest single revenue line.</p>
+
+<div class="callout callout-bad">
+<strong>The case for a quarterly event cadence weakens, but on volume rather than value.</strong> July is the first month far enough from the April event to be a clean test of durability, and visit volume failed it. Revenue held up better, so the right measurement is the April/May cohorts&rsquo; second- and third-visit rates and spend, not top-line injectable counts.
+</div>
+
+<!-- STORY 3: NEW PATIENTS -->
+<h2><span class="num">3</span>New cosmetic patients fell by a third &mdash; the sharpest move of the month</h2>
+
+<p>New cosmetic patients dropped to <strong>74 in July, down 32.1% MoM and 24.5% below the year-ago 98</strong>. That is the lowest monthly figure since June 2024 and the largest single-month percentage fall in the series. June had recorded 109.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">New cosmetic patients &mdash; monthly trend (Jan 2024 &ndash; July 2026)</div>
+<div class="chart-sub">July (74) is the weakest month in over two years, down from 109 in June and 128 at the April peak.</div>
+<div style="position:relative;height:220px"><canvas id="cNewPt"></canvas></div>
+</div>
+
+<p>This is the one finding revenue does <strong>not</strong> soften. New patients matter more than any single month&rsquo;s revenue because each generates several visits over the following year, so a one-third fall depresses the future visit base rather than the current month&rsquo;s total. Promotional mix is a plausible part of the explanation: a calendar weighted toward high-ticket procedures serves existing patients more than first-timers, and would hold revenue per patient steady while starving the top of the funnel &mdash; which is close to what the numbers show.</p>
+
+<div class="callout callout-bad">
+<strong>This is the number to explain before the next cycle.</strong> Revenue per patient held; acquisition did not. Worth confirming directly: what acquisition-focused activity ran in July, and did marketing spend or channel mix change? A 32% fall compounds if it persists, and it will show up in visits long after this month closes.
+</div>
+
+<!-- STORY 4: PROMOTIONS -->
+<h2><span class="num">4</span>The CoolSculpting promotion does not appear in the revenue data</h2>
+
+<p>June and July ran a CoolSculpting promotion. Because CoolSculpting is high-ticket, the expectation is meaningful revenue without much volume &mdash; which would explain a low-volume month that is financially healthy. The data does not show that.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Procedure (payments by DOS)</th><th class="r">May '26</th><th class="r">Jun '26</th><th class="r">Jul '26</th></tr></thead>
+<tbody>
+<tr><td><strong>CoolSculpting</strong></td><td class="r">$8,975</td><td class="r">$7,000</td><td class="r"><strong>$9,000</strong></td></tr>
+<tr><td>Jeuveau</td><td class="r">$45,305</td><td class="r">$53,960</td><td class="r">$50,355</td></tr>
+<tr><td>Thermage</td><td class="r">$10,000</td><td class="r">$8,000</td><td class="r">$15,380</td></tr>
+<tr><td>V-Beam</td><td class="r">$12,875</td><td class="r">$25,150</td><td class="r">$14,000</td></tr>
+<tr><td>Ultherapy</td><td class="r">$25,750</td><td class="r">$9,900</td><td class="r">$9,100</td></tr>
+<tr><td>Laser Toning</td><td class="r">$25,150</td><td class="r">$13,400</td><td class="r">$8,600</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>CoolSculpting payments were <strong>$9,000 in July against $8,975 in May, before the promotion ran</strong> &mdash; essentially flat, and about 4% of cosmetic revenue. At typical CoolSculpting price points that is a handful of cycles. Thermage was the only line up materially ($8,000 to $15,380).</p>
+
+<div class="callout">
+<strong>Two possible readings, needing different responses.</strong> Either the promotion did not convert &mdash; in which case spend and targeting are the question &mdash; or its revenue is not landing in <code>[Total Payments]</code> by date of service, which would happen if CoolSculpting is sold as a prepaid package or recorded on a cash/product channel rather than billed per date of service. <strong>This should be resolved before judging the promotion.</strong> It also matters beyond July: if promotional revenue is systematically invisible in this measure, every promotion-period comparison built on it will understate performance &mdash; and because the promotional calendar changes year to year, that would distort YoY comparisons too.
+</div>
+
+<!-- STORY 5: LOCATIONS -->
+<h2><span class="num">5</span>Fort Lee reversed sharply; Bronx Concourse was the only location up</h2>
+
+<p>The location picture inverted. <strong>Fort Lee fell to 259 from June&rsquo;s 357 &mdash; down 27.5% MoM and 14.8% below July 2025</strong>. Last month Fort Lee was the network&rsquo;s cosmetic growth engine at +41.7% YoY and a new high. Meanwhile <strong>Bronx Concourse was the only location to gain</strong>, rising to 145 from 139.</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">Jul '24</th><th class="r">Jul '25</th><th class="r">Jul '26</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS '26</th></tr></thead>
+<tbody>
+<tr><td><strong>Flushing Northern</strong></td><td class="r">318</td><td class="r">317</td><td class="r">267</td><td class="r"><span class="pill pill-r">&minus;11.9%</span></td><td class="r"><span class="pill pill-r">&minus;15.8%</span></td><td class="r"><span class="pill pill-a">6.0%</span></td></tr>
+<tr><td><strong>Fort Lee</strong></td><td class="r">220</td><td class="r">304</td><td class="r">259</td><td class="r"><span class="pill pill-r">&minus;27.5%</span></td><td class="r"><span class="pill pill-r">&minus;14.8%</span></td><td class="r"><span class="pill pill-g">3.7%</span></td></tr>
+<tr><td><strong>Bronx Concourse</strong></td><td class="r">203</td><td class="r">164</td><td class="r">145</td><td class="r"><span class="pill pill-g">+4.3%</span></td><td class="r"><span class="pill pill-r">&minus;11.6%</span></td><td class="r"><span class="pill pill-r">12.1%</span></td></tr>
+<tr><td>Elmhurst</td><td class="r">156</td><td class="r">167</td><td class="r">128</td><td class="r"><span class="pill pill-r">&minus;3.0%</span></td><td class="r"><span class="pill pill-r">&minus;23.4%</span></td><td class="r"><span class="pill pill-a">6.6%</span></td></tr>
+<tr><td>Glen Oaks</td><td class="r">&mdash;</td><td class="r">110</td><td class="r">119</td><td class="r"><span class="pill pill-r">&minus;11.2%</span></td><td class="r"><span class="pill pill-g">+8.2%</span></td><td class="r"><span class="pill pill-a">6.3%</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Four of five locations fell year-over-year, so this is a system-level move rather than a site-specific one &mdash; which is itself the useful finding. Glen Oaks is the only location still positive against last year (+8.2%). Bronx Concourse&rsquo;s small monthly gain does not change its position: still down 11.6% YoY with a 12.1% no-show rate, the worst in the cosmetic network by a wide margin.</p>
+
+<div class="callout">
+<strong>The pattern argues against a location diagnosis.</strong> When one site falls, the question is that site. When four of five fall together inside a known seasonal trough, the question is demand generation across the cosmetic line. Fort Lee&rsquo;s reversal is the most striking number, but treating it as a Fort Lee problem would likely be a misread. The Bronx Concourse cross-service review recommended in prior months still stands on its own merits &mdash; its decline is structural and predates this month.
+</div>
+
+<div class="end">Darell Dado · Metro Dermatology · Confidential</div>
+
+</div>
+
+<script>
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fullLabels=[];
+for(let m=1;m<=12;m++) fullLabels.push(MO[m-1]+" '24");
+for(let m=1;m<=12;m++) fullLabels.push(MO[m-1]+" '25");
+for(let m=1;m<=7;m++) fullLabels.push(MO[m-1]+" '26");
+
+// Chart 1: Seasonal
+(function(){
+  const s2024=[1005,1040,1067,1105,1094,917,897,956,882,1116,871,937];
+  const s2025=[1008,946,1167,1054,1116,986,1062,959,927,997,826,1023];
+  const s2026=[941,891,1050,1227,989,1065,918,null,null,null,null,null];
+  new Chart(document.getElementById('cSeason'),{type:'line',data:{labels:MO,datasets:[
+    {label:'2024',data:s2024,borderColor:'#d1d5db',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:s2025,borderColor:'#AFA9EC',backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:.3,borderDash:[5,4]},
+    {label:'2026',data:s2026,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.06)',fill:true,borderWidth:2.5,pointRadius:3,tension:.3,spanGaps:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}}},scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'Completed visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 2: Botox
+(function(){
+  const botox=[91,112,105,132,134,112,109,126,112,164,105,120,115,110,166,129,129,107,188,159,97,122,125,152,119,112,118,203,132,135,127];
+  new Chart(document.getElementById('cBotox'),{type:'line',data:{labels:fullLabels,datasets:[{label:'Cosmetic Botox',data:botox,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.08)',fill:true,borderWidth:2.5,pointRadius:2.2,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} visits`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?fullLabels[i]:''}},y:{min:80,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'Cosmetic Botox visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart 3: New patients
+(function(){
+  const npt=[60,57,77,68,63,45,67,68,70,97,68,80,91,79,99,96,92,92,98,77,78,81,61,69,89,68,81,128,97,109,74];
+  new Chart(document.getElementById('cNewPt'),{type:'line',data:{labels:fullLabels,datasets:[{label:'New patients',data:npt,borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,0.08)',fill:true,borderWidth:2.5,pointRadius:2.2,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.parsed.y} new patients`}}},scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?fullLabels[i]:''}},y:{min:40,grid:{color:'#f0f0f0'},ticks:{font:{size:12}},title:{display:true,text:'New patient visits',font:{size:12},color:'#888'}}}}});
+})();
+
+// Chart: payments + revenue per visit
+(function(){
+  const L=["Jan '24","Feb '24","Mar '24","Apr '24","May '24","Jun '24","Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24","Jan '25","Feb '25","Mar '25","Apr '25","May '25","Jun '25","Jul '25","Aug '25","Sep '25","Oct '25","Nov '25","Dec '25","Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26","Jul '26"], PAY=[239279,233831,243930,300652,342231,218633,208593,216612,223778,290973,226682,295217,309129,298497,302686,412289,383980,231902,254076,268312,249968,265289,218915,414143,252851,273350,366834,480414,373031,255039,215060], RPV=[238,225,229,272,313,238,233,227,254,261,260,315,307,316,259,391,344,235,239,280,270,266,265,405,269,307,349,392,377,239,234];
+  new Chart(document.getElementById('cRev'),{data:{labels:L,datasets:[
+    {type:'bar',label:'Payments',data:PAY,backgroundColor:'#AFA9EC',yAxisID:'y',order:2},
+    {type:'line',label:'Revenue / visit',data:RPV,borderColor:'#534AB7',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.2,tension:.3,yAxisID:'y2',order:1}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label==='Payments'?'Payments: $'+c.parsed.y.toLocaleString():'Revenue/visit: $'+c.parsed.y}}},
+   scales:{x:{ticks:{font:{size:11},maxRotation:45,callback:(v,i)=>i%3===0?L[i]:''}},
+     y:{position:'left',min:0,grid:{color:'#f0f0f0'},ticks:{font:{size:12},callback:v=>'$'+(v/1000).toFixed(0)+'k'},title:{display:true,text:'Payments (DOS)',font:{size:12},color:'#888'}},
+     y2:{position:'right',min:0,max:500,grid:{display:false},ticks:{font:{size:12},callback:v=>'$'+v},title:{display:true,text:'Revenue / visit',font:{size:12},color:'#888'}}}}});
+})();
+</script>
+</body>
+</html>
