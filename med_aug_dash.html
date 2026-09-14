@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — Volume &amp; No-Show Dashboard · August 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5;
+       -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-0.3px}
+  .db-header-left p{font-size:12px;color:#5a5a5a;margin-top:4px;line-height:1.6}
+  .db-header-right{text-align:right;font-size:11.5px;color:#6b6b6b;line-height:1.7;white-space:nowrap}
+  .db-header-right strong{color:#1A3A5C}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:11px;color:#6b6b6b;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1.1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:12px;flex-wrap:wrap}
+  .kpi-delta{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:4px}
+  .kpi-delta .lbl{font-size:11px;color:#767676;font-weight:400}
+  .up{color:#0b6b4a}.dn{color:#a81d1d}.nt{color:#6b6b6b}
+  .sec-label{font-size:11px;font-weight:700;color:#6b6b6b;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
+  .card-title{font-size:13.5px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card-sub{font-size:11.5px;color:#5a5a5a;margin-bottom:12px;line-height:1.6}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .grid-6040{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
+  .full{margin-bottom:14px}
+  .leg{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:#4a4a4a;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#1A3A5C;color:#fff;padding:8px 10px;font-weight:600;text-align:left;font-size:11.5px;white-space:nowrap}
+  th.r{text-align:right}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a1a;white-space:nowrap}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:hover td{background:#f0f6ff}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#14532d}
+  .pill-r{background:#fee2e2;color:#7f1d1d}
+  .pill-a{background:#fef3c7;color:#78350f}
+  .pill-b{background:#dbeafe;color:#1e3a8a}
+  .pill-n{background:#f1f1f1;color:#4a4a4a}
+  .cat-def{margin-top:14px;border-top:1px solid #f0f0f0;padding-top:12px}
+  .cat-def h4{font-size:11.5px;font-weight:600;color:#4a4a4a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+  .cat-rows{display:flex;flex-direction:column;gap:7px}
+  .cat-row{display:grid;grid-template-columns:150px 1fr;gap:8px;font-size:11.5px}
+  .cat-row-name{font-weight:600;color:#1A3A5C;padding-top:1px}
+  .cat-row-types{color:#5a5a5a;line-height:1.6}
+  .excl-note{font-size:11px;color:#767676;margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5;line-height:1.6}
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11.5px;color:#6b6b6b;line-height:1.7}
+  .note{background:#fffbeb;border:1px solid #fde68a;border-left:3px solid #d97706;border-radius:6px;padding:12px 14px;font-size:12px;color:#78350f;margin-bottom:14px;line-height:1.6}
+  .note strong{color:#78350f}
+  @media (max-width:900px){.grid-2,.grid-6040{grid-template-columns:1fr} .page{padding:16px 16px 40px}}
+  @media print{
+    body{background:#fff}
+    .page{max-width:none;padding:0}
+    .card{break-inside:avoid;page-break-inside:avoid;border:1px solid #ccc}
+    .kpi{break-inside:avoid}
+    .grid-2,.grid-6040{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="db-header">
+    <div class="db-header-left">
+      <h1>Metro Dermatology &mdash; Volume &amp; No-Show Dashboard</h1>
+      <p>Reporting period: August 2026 (23.5 operating-days) &nbsp;|&nbsp; All 6 medical locations &nbsp;|&nbsp; NS% = NS / (NS + Completed) &nbsp;|&nbsp; Can% = Cancelled / total demand &nbsp;|&nbsp; VPD = Completed / operating-day (Mon&ndash;Fri = 1, Sat = 0.5)</p>
+    </div>
+    <div class="db-header-right"><strong>Prepared September 11, 2026</strong><br>Darell Dado<br>Confidential</div>
+  </div>
+
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Completed visits</div><div class="kpi-value">12,998</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.3%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&minus;0.9%</div></div></div><div class="kpi"><div class="kpi-label">Visits / operating-day</div><div class="kpi-value">553.1</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.3%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&minus;0.9%</div></div></div><div class="kpi"><div class="kpi-label">No-show rate</div><div class="kpi-value">19.2%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&minus;0.8pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+2.8pp</div></div></div><div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value">25.2%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&minus;1.6pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+0.9pp</div></div></div><div class="kpi"><div class="kpi-label">Total appt demand</div><div class="kpi-value">21,521</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;3.4%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+3.9%</div></div></div><div class="kpi"><div class="kpi-label">Top type &mdash; Follow-up</div><div class="kpi-value">7,231</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.6%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+0.3%</div></div></div><div class="kpi"><div class="kpi-label">New patients (all types)</div><div class="kpi-value">1,984</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+2.6%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+2.6%</div></div></div></div>
+
+  <div class="sec-label">Volume trend</div>
+  <div class="full card">
+    <div class="card-title">Completed visits &mdash; seasonal trend by year (2023&ndash;2026)</div>
+    <div class="card-sub">August closed at 12,998 completed, &minus;0.3% MoM and &minus;0.9% YoY. August and July carry the same operating-day count (23.5), so unlike the last three months there is no calendar effect to unwind &mdash; the per-day move equals the raw move.</div>
+    <div class="leg">
+      <span><span class="sw-line" style="background:#c7ccd1"></span>2023</span>
+      <span><span class="sw-line" style="background:#8fb3d9"></span>2024</span>
+      <span><span class="sw-line" style="background:#1A3A5C"></span>2025</span>
+      <span><span class="sw-line" style="background:#D85A30"></span>2026 YTD</span>
+    </div>
+    <div style="position:relative;height:240px"><canvas id="seasonal"></canvas></div>
+  </div>
+
+  <div class="grid-6040">
+    <div class="card">
+      <div class="card-title">System no-show &amp; cancellation rate &mdash; monthly trend (2023&ndash;2026)</div>
+      <div class="card-sub">Both rates improved this month: no-show 20.0% &rarr; 19.2% and cancellation 26.8% &rarr; 25.2%, off July's 2026 high. Both remain well above their 2023&ndash;2025 range.</div>
+      <div class="leg">
+        <span><span class="sw-line" style="background:#a81d1d"></span>No-show rate</span>
+        <span><span class="sw-line" style="background:#e89a9a"></span>Cancellation rate</span>
+      </div>
+      <div style="position:relative;height:240px"><canvas id="nsTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">August completed visits by location</div>
+      <div class="card-sub">August of each year, with MoM vs July 2026, YoY vs August 2025, and August no-show rate. <strong>MoM/day</strong> normalises for two single-site closures &mdash; see the note below the table.</div>
+      <div class="tbl-wrap">
+        <table id="locTable">
+          <thead><tr><th>Location</th><th class="r">2023</th><th class="r">2024</th><th class="r">2025</th><th class="r">Aug '26</th><th class="r">MoM</th><th class="r">MoM/day</th><th class="r">YoY</th><th class="r">NS%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="excl-note">Ranked by August 2026 completed visits. Bronx Fordham opened during 2024, so it has no 2023 column.
+      <strong>Two single-site closures affect the MoM comparison:</strong> Fort Lee was closed Friday 24 July (July ODE 22.5) and Flushing Northern had no provider Saturday 29 August (August ODE 23.0). <strong>MoM/day</strong> divides each site by its own operating-days and is the like-for-like figure; raw MoM is kept because it is what reconciles against Power BI. All other sites carry the system ODE of 23.5 in both months, so their two columns are identical.</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Completed visits by category &mdash; monthly (2024&ndash;2026) &middot; log scale</div>
+      <div class="card-sub">A log scale is used so the smaller categories are readable alongside Follow-up, which is roughly 20&times; larger than Screening &amp; Diagnostics. Series are labelled at the line end as well as in the legend.</div>
+      <div class="leg" id="catTrendLeg"></div>
+      <div style="position:relative;height:280px"><canvas id="catTrend"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">August 2026 &mdash; appointment category summary</div>
+      <div class="card-sub">Six consolidated categories. MoM vs July 2026, YoY vs August 2025.</div>
+      <div class="tbl-wrap">
+        <table id="catTable">
+          <thead><tr><th>Category</th><th class="r">Visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="cat-def">
+        <h4>Category definitions</h4>
+        <div class="cat-rows"><div class="cat-row"><div class="cat-row-name">Follow-up</div><div class="cat-row-types">Follow-up &middot; Follow-up 12 Months &middot; Follow-Up 36 Months &middot; Telehealth Follow up &middot; Urgent Follow-up</div></div><div class="cat-row"><div class="cat-row-name">Procedures</div><div class="cat-row-types">AS SAAS &middot; Excimer Laser &middot; Photochemotherapy 96910 &middot; Photo NBUVB 96900 &middot; Hand Foot Unit</div></div><div class="cat-row"><div class="cat-row-name">New Patient</div><div class="cat-row-types">New Patient &middot; Walk In NEW PT &middot; ZocDoc New &middot; Telehealth NEW &middot; Urgent New Pt</div></div><div class="cat-row"><div class="cat-row-name">Chronic Disease Mgmt</div><div class="cat-row-types">Biologics &middot; Accutane &middot; Telehealth Accutane</div></div><div class="cat-row"><div class="cat-row-name">Walk-in</div><div class="cat-row-types">Walk In</div></div><div class="cat-row"><div class="cat-row-name">Screening & Diagnostics</div><div class="cat-row-types">Total Body Exam &middot; Labs</div></div></div>
+        <div class="excl-note">Categories cover 12,739 of 12,998 completed medical visits (98.0%). The remainder are surgical, biopsy, patch-test and other types that sit outside the six consolidated categories and are included in all system totals.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="db-footer">
+    Data source: <strong>MetroDermatologyBIData</strong> semantic model (Power BI), live query 2026-09-10; model last refreshed 2026-09-10 09:39 AM ET.
+    Volume, no-shows and cancellations come from <code>fact_Appointment</code>; medical scope is the <code>MED&nbsp;-</code> facility prefix (6 active locations).
+    Cancellations are counted from <code>appointment_status&nbsp;=&nbsp;"CANCELLED"</code>, not derived by subtraction.
+    NS% = NS / (NS + Completed); cancellations are excluded from that denominator. September 2026 is excluded throughout as a partial month.
+    Three cosmetic-typed appointments booked at medical locations were left in the demand total (0 completed, immaterial).
+    System ODE = 23.5 (21 weekdays + 5 Saturdays &times; 0.5), no practice-wide closure in August. Single-site closures are taken from <code>metroapp_shared.schedule_holiday</code> and verified against daily visit counts.
+    Chart text is rendered at a minimum 2&times; pixel density and 11px so it stays sharp in print, PDF export and screenshots.
+    Prepared by Darell Dado, Metro Dermatology.
+  </div>
+</div>
+<script>
+
+// ---- Rendering fixes (see footer note) -------------------------------------
+// 1. Force a high backing-store resolution so canvas text is as crisp as the
+//    surrounding HTML text, and stays crisp when printed or screenshotted.
+Chart.defaults.devicePixelRatio = Math.max(2, window.devicePixelRatio || 1);
+// 2. Match the page font exactly, and never render chart text below 11px.
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#4a4a4a';
+Chart.defaults.plugins.tooltip.titleFont = {size:12,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont  = {size:12};
+Chart.defaults.plugins.tooltip.padding   = 9;
+Chart.defaults.plugins.legend.display    = false;
+Chart.defaults.animation = false;
+Chart.defaults.interaction = {mode:'index', intersect:false};
+
+// Standard x-axis for a long monthly series: let Chart.js skip labels itself
+// (autoSkip) with NO rotation, so labels can never collide or overlap.
+function monthAxis(labels, maxTicks){
+  var n=labels.length, mt=Math.max(2, maxTicks||9);
+  var step=Math.max(1, Math.ceil((n-1)/(mt-1)));
+  var keep={};
+  for(var i=n-1;i>=0;i-=step) keep[i]=1;   // anchored to the LAST point
+  return {
+    grid:{display:false},
+    afterBuildTicks:function(scale){
+      if(!scale.ticks||!scale.ticks.length) return;
+      scale.ticks=scale.ticks.filter(function(t){ return keep[t.value]; });
+    },
+    ticks:{
+      font:{size:11}, color:'#5a5a5a',
+      autoSkip:false, maxRotation:0, minRotation:0,
+      callback:function(v,i,t){
+        var idx=(t&&t[i]&&t[i].value!=null)?t[i].value:v;
+        return labels[idx];
+      }
+    }
+  };
+}
+function yAxis(title, opts){
+  return Object.assign({
+    grid:{color:'#eceff2', drawTicks:false},
+    border:{display:false},
+    ticks:{font:{size:11}, color:'#5a5a5a', padding:6},
+    title:{display:!!title, text:title, font:{size:11,weight:'600'}, color:'#6b6b6b'}
+  }, opts||{});
+}
+// Draws the series name at the end of each line — secondary encoding so series
+// are identifiable without relying on colour alone.
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart, args, opts){
+    if(!opts || !opts.enabled) return;
+    const {ctx} = chart;
+    ctx.save();
+    ctx.font = '600 11px ' + Chart.defaults.font.family;
+    ctx.textBaseline = 'middle';
+    const placed = [];
+    chart.data.datasets.forEach((ds,di)=>{
+      const meta = chart.getDatasetMeta(di);
+      if(meta.hidden) return;
+      let last = null;
+      for(let i=meta.data.length-1;i>=0;i--){
+        const v = ds.data[i];
+        if(v!==null && v!==undefined && !isNaN(v)){ last = meta.data[i]; break; }
+      }
+      if(!last) return;
+      let y = last.y;
+      while(placed.some(p=>Math.abs(p-y)<12)) y += 12;
+      placed.push(y);
+      ctx.fillStyle = ds.borderColor;
+      ctx.textAlign = 'left';
+      ctx.fillText(ds.label, last.x + 7, y);
+    });
+    ctx.restore();
+  }
+};
+Chart.register(endLabels);
+
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const SEAS={"2023": [7345, 10164, 12213, 10824, 12181, 12467, 11694, 12323, 10027, 10627, 9830, 9014], "2024": [10226, 10231, 11304, 11635, 12566, 11943, 12764, 13140, 11998, 13064, 11711, 11344], "2025": [12339, 10983, 12477, 11725, 13045, 12963, 13475, 13115, 12668, 13285, 11117, 11797], "2026": [11592, 10298, 12553, 12586, 12267, 13353, 13042, 12998, null, null, null, null]};
+const RATES=[{"y": 2023, "n": 1, "ns": 20.8, "c": 19.2}, {"y": 2023, "n": 2, "ns": 18.2, "c": 22.2}, {"y": 2023, "n": 3, "ns": 16.9, "c": 22.6}, {"y": 2023, "n": 4, "ns": 19.4, "c": 21.9}, {"y": 2023, "n": 5, "ns": 18.1, "c": 23.5}, {"y": 2023, "n": 6, "ns": 17.0, "c": 27.1}, {"y": 2023, "n": 7, "ns": 16.6, "c": 25.9}, {"y": 2023, "n": 8, "ns": 16.0, "c": 26.4}, {"y": 2023, "n": 9, "ns": 18.8, "c": 29.2}, {"y": 2023, "n": 10, "ns": 16.7, "c": 28.2}, {"y": 2023, "n": 11, "ns": 18.0, "c": 29.6}, {"y": 2023, "n": 12, "ns": 19.3, "c": 29.1}, {"y": 2024, "n": 1, "ns": 18.5, "c": 28.2}, {"y": 2024, "n": 2, "ns": 16.7, "c": 29.1}, {"y": 2024, "n": 3, "ns": 17.1, "c": 25.5}, {"y": 2024, "n": 4, "ns": 16.9, "c": 25.4}, {"y": 2024, "n": 5, "ns": 16.7, "c": 24.6}, {"y": 2024, "n": 6, "ns": 17.9, "c": 25.3}, {"y": 2024, "n": 7, "ns": 18.9, "c": 27.7}, {"y": 2024, "n": 8, "ns": 16.8, "c": 26.0}, {"y": 2024, "n": 9, "ns": 17.0, "c": 26.7}, {"y": 2024, "n": 10, "ns": 16.0, "c": 24.7}, {"y": 2024, "n": 11, "ns": 16.9, "c": 24.7}, {"y": 2024, "n": 12, "ns": 17.7, "c": 25.5}, {"y": 2025, "n": 1, "ns": 16.5, "c": 26.3}, {"y": 2025, "n": 2, "ns": 15.7, "c": 26.4}, {"y": 2025, "n": 3, "ns": 15.6, "c": 25.5}, {"y": 2025, "n": 4, "ns": 16.3, "c": 24.9}, {"y": 2025, "n": 5, "ns": 17.0, "c": 25.4}, {"y": 2025, "n": 6, "ns": 17.5, "c": 25.4}, {"y": 2025, "n": 7, "ns": 16.6, "c": 26.0}, {"y": 2025, "n": 8, "ns": 16.4, "c": 24.3}, {"y": 2025, "n": 9, "ns": 18.4, "c": 25.4}, {"y": 2025, "n": 10, "ns": 18.4, "c": 24.9}, {"y": 2025, "n": 11, "ns": 19.0, "c": 26.4}, {"y": 2025, "n": 12, "ns": 17.8, "c": 28.6}, {"y": 2026, "n": 1, "ns": 17.9, "c": 30.3}, {"y": 2026, "n": 2, "ns": 18.6, "c": 29.7}, {"y": 2026, "n": 3, "ns": 18.8, "c": 25.0}, {"y": 2026, "n": 4, "ns": 18.6, "c": 25.7}, {"y": 2026, "n": 5, "ns": 20.2, "c": 25.9}, {"y": 2026, "n": 6, "ns": 20.2, "c": 24.6}, {"y": 2026, "n": 7, "ns": 20.0, "c": 26.8}, {"y": 2026, "n": 8, "ns": 19.2, "c": 25.2}];
+const LOC=[{"l": "Bronx Concourse", "c23": 4066, "c24": 3055, "c25": 2683, "cf": 2581, "c26": 2402, "ns26": 27.5, "nsJul": 27.4, "can26": 22.6, "demand": 4284, "jode": 23.5, "aode": 23.5, "jvpd": 109.8, "avpd": 102.2, "momAdj": -6.9}, {"l": "Bronx Fordham", "c23": null, "c24": 1942, "c25": 1929, "cf": 1754, "c26": 1924, "ns26": 29.3, "nsJul": 32.2, "can26": 18.9, "demand": 3358, "jode": 23.5, "aode": 23.5, "jvpd": 74.6, "avpd": 81.9, "momAdj": 9.7}, {"l": "Elmhurst", "c23": 2651, "c24": 2254, "c25": 2223, "cf": 2177, "c26": 2064, "ns26": 18.7, "nsJul": 20.0, "can26": 24.0, "demand": 3340, "jode": 23.5, "aode": 23.5, "jvpd": 92.6, "avpd": 87.8, "momAdj": -5.2}, {"l": "Flushing Northern", "c23": 3175, "c24": 3458, "c25": 2720, "cf": 2854, "c26": 2641, "ns26": 13.2, "nsJul": 12.8, "can26": 28.7, "demand": 4266, "jode": 23.5, "aode": 23.0, "jvpd": 121.4, "avpd": 114.8, "momAdj": -5.5}, {"l": "Fort Lee", "c23": 2431, "c24": 2431, "c25": 2470, "cf": 2403, "c26": 2729, "ns26": 10.5, "nsJul": 10.6, "can26": 28.8, "demand": 4281, "jode": 22.5, "aode": 23.5, "jvpd": 106.8, "avpd": 116.1, "momAdj": 8.7}, {"l": "Glen Oaks", "c23": null, "c24": null, "c25": 1090, "cf": 1273, "c26": 1238, "ns26": 12.9, "nsJul": 14.4, "can26": 28.6, "demand": 1992, "jode": 23.5, "aode": 23.5, "jvpd": 54.2, "avpd": 52.7, "momAdj": -2.7}];
+const CATSER={"Follow-up": [5575, 5456, 6146, 6320, 6895, 6435, 6984, 7152, 6506, 7206, 6373, 6205, 6859, 5963, 6746, 6265, 7160, 7055, 7450, 7211, 6962, 7383, 6023, 6679, 6508, 5613, 7091, 6804, 6785, 7421, 7276, 7231], "Procedures": [2115, 2135, 2308, 2368, 2470, 2442, 2483, 2641, 2504, 2614, 2507, 2406, 2387, 2234, 2573, 2505, 2544, 2570, 2444, 2488, 2462, 2526, 2349, 2137, 2004, 1811, 2012, 2104, 1951, 2028, 2028, 2073], "New Patient": [1234, 1341, 1427, 1424, 1548, 1519, 1962, 1999, 1683, 1913, 1609, 1491, 1755, 1538, 1734, 1637, 1910, 1882, 2095, 1934, 1856, 1870, 1430, 1506, 1622, 1526, 1830, 1994, 1826, 2075, 1933, 1984], "Chronic Disease Mgmt": [589, 561, 642, 627, 700, 640, 688, 721, 688, 687, 665, 665, 743, 755, 789, 704, 774, 796, 784, 796, 734, 797, 727, 840, 846, 803, 921, 865, 946, 968, 926, 908], "Walk-in": [459, 446, 431, 545, 573, 574, 318, 272, 279, 253, 221, 203, 182, 173, 258, 275, 318, 288, 313, 328, 272, 271, 222, 238, 241, 225, 334, 401, 386, 464, 437, 376], "Screening & Diagnostics": [63, 63, 97, 88, 105, 75, 89, 118, 124, 111, 90, 95, 114, 86, 109, 103, 120, 99, 119, 136, 130, 127, 128, 117, 111, 92, 126, 144, 137, 143, 153, 167]};
+const CATSUM=[{"c": "Follow-up", "v": 7231, "mom": -0.6, "yoy": 0.3, "ns": 22.6, "can": 28.5}, {"c": "Procedures", "v": 2073, "mom": 2.2, "yoy": -16.7, "ns": 14.8, "can": 18.5}, {"c": "New Patient", "v": 1984, "mom": 2.6, "yoy": 2.6, "ns": 15.7, "can": 19.2}, {"c": "Chronic Disease Mgmt", "v": 908, "mom": -1.9, "yoy": 14.1, "ns": 18.0, "can": 25.4}, {"c": "Walk-in", "v": 376, "mom": -14.0, "yoy": 14.6, "ns": 0.5, "can": 6.9}, {"c": "Screening & Diagnostics", "v": 167, "mom": 9.2, "yoy": 22.8, "ns": 13.9, "can": 32.2}];
+const CATMONTHS=["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"];
+const CATS=["Follow-up", "Procedures", "New Patient", "Chronic Disease Mgmt", "Walk-in", "Screening & Diagnostics"];
+const CATCOL=["#1A3A5C", "#0F766E", "#D85A30", "#7c3aed", "#0369a1", "#a16207"];
+
+// ---- Seasonal -------------------------------------------------------------
+new Chart(document.getElementById('seasonal'),{
+  type:'line',
+  data:{labels:MO,datasets:[
+    {label:'2023',data:SEAS['2023'],borderColor:'#c7ccd1',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
+    {label:'2024',data:SEAS['2024'],borderColor:'#8fb3d9',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:SEAS['2025'],borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
+    {label:'2026',data:SEAS['2026'],borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,0.06)',fill:true,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,tension:.3,spanGaps:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{right:8}},
+    plugins:{tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()} visits`:null}}},
+    scales:{
+      x:monthAxis(MO,12),
+      y:yAxis('Completed visits',{beginAtZero:false,
+        ticks:{font:{size:11},color:'#5a5a5a',padding:6,callback:v=>(v/1000).toFixed(0)+'k'}})
+    }}
+});
+
+// ---- NS / cancellation trend ---------------------------------------------
+(function(){
+  const lbl=RATES.map(r=>MO[r.n-1]+" '"+String(r.y).slice(2));
+  new Chart(document.getElementById('nsTrend'),{
+    type:'line',
+    data:{labels:lbl,datasets:[
+      {label:'No-show rate',data:RATES.map(r=>r.ns),borderColor:'#a81d1d',backgroundColor:'rgba(168,29,29,0.06)',fill:true,borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
+      {label:'Cancellation rate',data:RATES.map(r=>r.c),borderColor:'#e89a9a',backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+      scales:{
+        x:monthAxis(lbl,8),
+        y:yAxis('Rate',{min:10,max:36,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:5,callback:v=>v+'%'}})
+      }}
+  });
+})();
+
+// ---- Location table -------------------------------------------------------
+(function(){
+  const tb=document.querySelector('#locTable tbody');
+  const rows=LOC.slice().sort((x,y)=>y.c26-x.c26);
+  tb.innerHTML=rows.map(r=>{
+    const mom=r.cf?((r.c26-r.cf)/r.cf*100):null;
+    const yoy=r.c25?((r.c26-r.c25)/r.c25*100):null;
+    const f=(v)=>`<span class="pill ${v>=0?'pill-g':'pill-r'}">${v>=0?'+':'\u2212'}${Math.abs(v).toFixed(1)}%</span>`;
+    const nC=r.ns26>=25?'pill-r':r.ns26>=15?'pill-a':'pill-g';
+    return `<tr>
+      <td>${r.l}</td>
+      <td class="r">${r.c23?r.c23.toLocaleString():'&mdash;'}</td>
+      <td class="r">${r.c24?r.c24.toLocaleString():'&mdash;'}</td>
+      <td class="r">${r.c25?r.c25.toLocaleString():'&mdash;'}</td>
+      <td class="r"><strong>${r.c26.toLocaleString()}</strong></td>
+      <td class="r">${mom!==null?f(mom):'&mdash;'}</td>
+      <td class="r">${r.momAdj!==undefined?(Math.abs(r.momAdj-mom)>0.05?'<strong>'+f(r.momAdj)+'</strong>':f(r.momAdj)):'&mdash;'}</td>
+      <td class="r">${yoy!==null?f(yoy):'<span class="pill pill-b">New</span>'}</td>
+      <td class="r"><span class="pill ${nC}">${r.ns26.toFixed(1)}%</span></td>
+    </tr>`;
+  }).join('');
+})();
+
+// ---- Category trend (log) -------------------------------------------------
+(function(){
+  const lbl=CATMONTHS.map(s=>{const[y,m]=s.split('-');return MO[+m-1]+" '"+y.slice(2);});
+  const dash=[[],[],[6,4],[2,3],[8,3],[3,3]];
+  const datasets=CATS.map((c,i)=>({
+    label:c,data:CATSER[c],borderColor:CATCOL[i],backgroundColor:'transparent',
+    borderWidth:i<2?2.4:1.9,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:dash[i]
+  }));
+  const legEl=document.getElementById('catTrendLeg');
+  legEl.innerHTML=CATS.map((c,i)=>`<span><span class="sw" style="background:${CATCOL[i]}"></span>${c}</span>`).join('');
+  new Chart(document.getElementById('catTrend'),{
+    type:'line',data:{labels:lbl,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{right:96}},
+      plugins:{
+        tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}},
+        endLabels:{enabled:true}
+      },
+      scales:{
+        x:monthAxis(lbl,8),
+        y:yAxis('Completed visits (log scale)',{type:'logarithmic',min:50,max:10000,
+          ticks:{font:{size:11},color:'#5a5a5a',padding:6,
+            callback:v=>[50,100,200,500,1000,2000,5000,10000].includes(v)?(v>=1000?(v/1000)+'k':String(v)):''}})
+      }}
+  });
+})();
+
+// ---- Category table -------------------------------------------------------
+(function(){
+  const tb=document.querySelector('#catTable tbody');
+  tb.innerHTML=CATSUM.map(r=>{
+    const f=(v)=>`<span class="pill ${v>=0?'pill-g':'pill-r'}">${v>=0?'+':'\u2212'}${Math.abs(v).toFixed(1)}%</span>`;
+    const nC=r.ns>=20?'pill-r':r.ns>=12?'pill-a':'pill-g';
+    const cC=r.can>=28?'pill-r':r.can>=20?'pill-a':'pill-g';
+    return `<tr>
+      <td>${r.c}</td>
+      <td class="r"><strong>${r.v.toLocaleString()}</strong></td>
+      <td class="r">${f(r.mom)}</td>
+      <td class="r">${f(r.yoy)}</td>
+      <td class="r"><span class="pill ${nC}">${r.ns.toFixed(1)}%</span></td>
+      <td class="r"><span class="pill ${cC}">${r.can.toFixed(1)}%</span></td>
+    </tr>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology — August 2026 Medical Review</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .page{max-width:980px;margin:0 auto;padding:36px 44px 72px;background:#fff;min-height:100vh;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .hdr{border-bottom:3px solid #1A3A5C;padding-bottom:20px;margin-bottom:32px}
+  .hdr h1{font-size:30px;font-weight:600;color:#1A3A5C;letter-spacing:-0.4px;margin-bottom:6px}
+  .hdr-sub{font-size:15px;color:#5a5a5a;display:flex;gap:14px;flex-wrap:wrap}
+  .hdr-sub span{display:flex;align-items:center;gap:5px}
+  .hdr-meta{font-size:13px;color:#6b6b6b;margin-top:10px}
+  .lede{background:#f5f8fc;border-left:4px solid #1A3A5C;padding:20px 24px;margin-bottom:36px;font-size:17px;line-height:1.7}
+  .lede strong{color:#1A3A5C}
+  h2{font-size:22px;font-weight:600;color:#1A3A5C;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e4e4e4}
+  h2 .num{display:inline-block;background:#1A3A5C;color:#fff;width:30px;height:30px;border-radius:50%;text-align:center;line-height:30px;font-size:16px;margin-right:10px;vertical-align:middle}
+  h3{font-size:17px;font-weight:600;color:#1A3A5C;margin:16px 0 8px}
+  p{margin-bottom:14px;font-size:16px}
+  .chart-wrap{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:18px 20px;margin:18px 0}
+  .chart-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:5px}
+  .chart-sub{font-size:13px;color:#5a5a5a;margin-bottom:12px;line-height:1.6}
+  .chart-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:#4a4a4a;margin-bottom:10px}
+  .chart-leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+  .swl{width:22px;height:3px;display:inline-block}
+  .tbl-wrap{margin:18px 0;overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid #e4e4e4;border-radius:6px;overflow:hidden}
+  th{background:#1A3A5C;color:#fff;padding:10px 12px;font-weight:600;text-align:left;font-size:13px}
+  th.r{text-align:right}
+  td{padding:9px 12px;border-bottom:1px solid #f0f0f0}
+  td.r{text-align:right}
+  tr:nth-child(even) td{background:#fafafa}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#14532d}.pill-r{background:#fee2e2;color:#7f1d1d}
+  .pill-a{background:#fef3c7;color:#78350f}.pill-b{background:#dbeafe;color:#1e3a8a}
+  .pill-n{background:#f1f1f1;color:#4a4a4a}
+  .callout{background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 18px;border-radius:0 6px 6px 0;margin:18px 0;font-size:15px;line-height:1.65}
+  .callout strong{color:#78350f}
+  .callout-good{background:#dcfce7;border-left-color:#16a34a}.callout-good strong{color:#14532d}
+  .callout-bad{background:#fee2e2;border-left-color:#dc2626}.callout-bad strong{color:#7f1d1d}
+  .callout-info{background:#eff6ff;border-left-color:#2563eb}.callout-info strong{color:#1e3a8a}
+  .recs{background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:22px 26px;margin-top:22px}
+  .recs h3{margin-top:0;color:#0f172a;font-size:18px}
+  .recs ol{margin-left:20px;line-height:1.75;font-size:15px}
+  .recs ol li{margin-bottom:12px}
+  .recs li strong{color:#0f172a;display:block;margin-bottom:3px}
+  .end{font-size:13px;color:#6b6b6b;margin-top:40px;padding-top:20px;border-top:1px solid #e4e4e4;line-height:1.7}
+  @media print{body{background:#fff}.page{max-width:none;padding:0;box-shadow:none}
+    .chart-wrap,.tbl-wrap,.callout,.recs{break-inside:avoid;page-break-inside:avoid}
+    h2{break-after:avoid}}
+  @media (max-width:760px){.page{padding:20px 18px 48px}.hdr h1{font-size:24px}body{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hdr">
+  <h1>Metro Dermatology &mdash; August 2026 Medical Review</h1>
+  <div class="hdr-sub">
+    <span><strong>Author:</strong> Darell Dado</span><span>&middot;</span>
+    <span><strong>Reporting period:</strong> August 2026</span><span>&middot;</span>
+    <span><strong>Prepared:</strong> September 11, 2026</span><span>&middot;</span>
+    <span><strong>Status:</strong> Confidential</span>
+  </div>
+  <div class="hdr-meta">Companion analysis to the Medical Volume &amp; No-Show dashboard and the Medical Productivity dashboard &mdash; see section P for the corrected hours basis.</div>
+</div>
+
+<div class="lede">
+<strong>July's conversion problem partly corrected itself, and this month there is no calendar effect hiding anything.</strong>
+August and July both carried 23.5 operating-day-equivalents, so every move below is real rather than a
+by-product of days open. Completed medical visits were <strong>12,998</strong>, effectively flat on July
+(&minus;0.3%) and &minus;0.9% against August 2025.
+Underneath that flat line, demand fell <strong>&minus;3.4%</strong> while both failure
+rates improved &mdash; no-show 20.0%&nbsp;&rarr;&nbsp;19.2% and cancellation
+26.8%&nbsp;&rarr;&nbsp;25.2%. The practice converted a better share of a smaller book.
+The year-on-year picture is less comfortable and is the one worth taking to the meeting.
+</div>
+
+<h2><span class="num">1</span>Fewer bookings, better conversion &mdash; the exact inverse of July</h2>
+
+<p>July read as a demand story meeting a failing funnel: bookings up, conversion down, cancellations at a 2026 high.
+August is the mirror image. Total appointment demand fell to <strong>21,521</strong> from 22,286,
+a decline of &minus;3.4%. Because operating-days are unchanged, demand per operating-day
+fell by exactly the same &minus;3.4%, from 948.3 to 915.8.</p>
+
+<p>Completed visits barely moved &mdash; 12,998 against 13,042. That is only possible because conversion
+improved. <strong>-546 cancellations</strong> and <strong>-178 no-shows</strong>
+against July means roughly <strong>724 appointments that would have fallen
+through in July did not fall through in August.</strong> That almost exactly offsets the drop in bookings.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Completed medical visits &mdash; seasonal trend by year</div>
+<div class="chart-sub">August 2026 (12,998) sits just below August 2025 (13,115) and above August 2024. Raw counts; August and July 2026 share the same operating-day count, so no normalisation is needed between them.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#c7ccd1"></span>2023</span>
+  <span><span class="swl" style="background:#8fb3d9"></span>2024</span>
+  <span><span class="swl" style="background:#1A3A5C"></span>2025</span>
+  <span><span class="swl" style="background:#D85A30"></span>2026 YTD</span>
+</div>
+<div style="position:relative;height:250px"><canvas id="cSeason"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Measure</th><th class="r">July 2026</th><th class="r">August 2026</th><th class="r">Change</th></tr></thead>
+<tbody>
+<tr><td>Operating-day-equivalents</td><td class="r">23.5</td><td class="r">23.5</td><td class="r"><span class="pill pill-n">no change</span></td></tr>
+<tr><td>Total appointment demand</td><td class="r">22,286</td><td class="r">21,521</td><td class="r"><span class="pill pill-r">&minus;3.4%</span></td></tr>
+<tr><td>Demand per operating-day</td><td class="r">948.3</td><td class="r">915.8</td><td class="r"><span class="pill pill-r">&minus;3.4%</span></td></tr>
+<tr><td><strong>Completed visits</strong></td><td class="r">13,042</td><td class="r">12,998</td><td class="r"><span class="pill pill-r">&minus;0.3%</span></td></tr>
+<tr><td><strong>Visits per operating-day</strong></td><td class="r">555.0</td><td class="r">553.1</td><td class="r"><span class="pill pill-r">&minus;0.3%</span></td></tr>
+<tr><td>No-show rate</td><td class="r">20.0%</td><td class="r">19.2%</td><td class="r"><span class="pill pill-g">&minus;0.8pp</span></td></tr>
+<tr><td>Cancellation rate</td><td class="r">26.8%</td><td class="r">25.2%</td><td class="r"><span class="pill pill-g">&minus;1.6pp</span></td></tr>
+<tr><td><strong>Conversion (completed / demand)</strong></td><td class="r">58.5%</td><td class="r">60.4%</td><td class="r"><span class="pill pill-g">+1.9pp</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-good">
+<strong>The July cancellation spike was a one-month event, not the start of a trend.</strong>
+Cancellation rate peaked at 26.8% in July &mdash; the highest month of 2026 &mdash; and fell back
+1.6 points in August. On the evidence of two months, July looks like an outlier rather
+than a step change. One more month at or below 25.2% would settle it.
+</div>
+
+<h2><span class="num">2</span>The year-on-year conversion decline is the durable finding</h2>
+
+<p>Month-to-month, August looks like a recovery. Against last August it does not. Demand is
+<strong>+3.9%</strong> year-on-year while completed visits are
+<strong>&minus;0.9%</strong>. More people are asking for appointments and fewer of
+them are being seen.</p>
+
+<p>Conversion is the cleanest way to state it: <strong>63.3% in August 2025, 60.4% in August 2026</strong>
+&mdash; a loss of 2.9 points. Applied to August's demand of 21,521, closing that gap back to
+last year's rate would have produced roughly <strong>627 additional completed
+visits</strong> in the month, without a single extra booking. The 2026 year-to-date average sits at 59.3% against
+61.5% for 2025.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Conversion rate &mdash; completed visits as a share of total appointment demand</div>
+<div class="chart-sub">Monthly, January 2023 to August 2026. Rates are ratios, so they are unaffected by operating-day counts. The decline through 2026 is visible against the 2023&ndash;2025 band.</div>
+<div style="position:relative;height:250px"><canvas id="cConv"></canvas></div>
+</div>
+
+<div class="chart-wrap">
+<div class="chart-title">No-show and cancellation rate &mdash; monthly trend</div>
+<div class="chart-sub">Both improved in August, but both remain above their 2023&ndash;2025 range. The gap between the 2025 level and today is the structural loss.</div>
+<div class="chart-leg">
+  <span><span class="swl" style="background:#a81d1d"></span>No-show rate</span>
+  <span><span class="swl" style="background:#e89a9a"></span>Cancellation rate</span>
+</div>
+<div style="position:relative;height:250px"><canvas id="cNS"></canvas></div>
+</div>
+
+<h2><span class="num">3</span>A flat system total hides a 539-visit swing &mdash; but two sites need a calendar correction first</h2>
+
+<div class="callout callout-info">
+<strong>Two single-site closures distort the location comparison, and they land on the two biggest movers.</strong>
+The system was open every scheduled day in August, so the headline figures above are unaffected. But
+<strong>Fort Lee was closed on Friday 24 July</strong> and <strong>Flushing Northern had no provider on Saturday
+29 August</strong>. Each site therefore needs its own operating-day count, not the system's 23.5:
+<ul style="margin:8px 0 0 20px;line-height:1.7">
+<li>Fort Lee &mdash; July ODE <strong>22.5</strong>, August 23.5. Raw +13.6% becomes <strong>+8.7% per operating-day</strong>.</li>
+<li>Flushing Northern &mdash; July ODE 23.5, August <strong>23.0</strong>. Raw &minus;7.5% becomes <strong>&minus;5.5% per operating-day</strong>.</li>
+</ul>
+<div style="margin-top:8px">The Flushing closure is recorded in the holiday and closure calendar ("No Provider", Flushing).
+The Fort Lee closure is <strong>not on that calendar</strong> &mdash; it was found in the daily data (0 completed visits
+against 7 booked, versus 119&ndash;154 on every other July Friday) and should be added.</div>
+</div>
+
+<p>The system moved -44 visits. That number is the net of two sites gaining
+<strong>+496</strong> and four sites losing
+<strong>-540</strong> &mdash; a gross swing of
+1,036 visits that is entirely invisible at
+system level. On a like-for-like per-operating-day basis the spread runs from
+<strong>+9.7%</strong> to <strong>-6.9%</strong>.</p>
+
+<p><strong>The correction changes the ranking.</strong> Flushing Northern looked like the month's worst site on raw
+numbers; adjusted, <strong>Bronx Concourse is the worst decliner at &minus;6.9%</strong>, with Flushing second at
+&minus;5.5%. Fort Lee remains the strongest site, but roughly a third of its apparent gain was the July closure
+rather than August growth.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Month-on-month change in completed visits by location</div>
+<div class="chart-sub">August 2026 vs July 2026, in visits. Two sites carried the system; four gave ground. Raw visit counts &mdash; Fort Lee's bar is flattered by its closed Friday in July, and Flushing Northern's by its closed Saturday in August.</div>
+<div style="position:relative;height:230px"><canvas id="cLoc"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Location</th><th class="r">Jul '26</th><th class="r">Aug '26</th><th class="r">MoM raw</th><th class="r">MoM / day</th><th class="r">YoY</th><th class="r">No-show rate</th></tr></thead>
+<tbody><tr><td>Fort Lee <span style='color:#a16207;font-size:11px'>ODE 22.5&rarr;23.5</span></td><td class='r'>2,403</td><td class='r'><strong>2,729</strong></td><td class='r'><span class="pill pill-g">+13.6%</span></td><td class='r'><strong><span class="pill pill-g">+8.7%</span></strong></td><td class='r'><span class="pill pill-g">+10.5%</span></td><td class='r'>10.6% &rarr; <strong>10.5%</strong></td></tr><tr><td>Bronx Fordham</td><td class='r'>1,754</td><td class='r'><strong>1,924</strong></td><td class='r'><span class="pill pill-g">+9.7%</span></td><td class='r'><span class="pill pill-g">+9.7%</span></td><td class='r'><span class="pill pill-r">&minus;0.3%</span></td><td class='r'>32.2% &rarr; <strong>29.3%</strong></td></tr><tr><td>Glen Oaks</td><td class='r'>1,273</td><td class='r'><strong>1,238</strong></td><td class='r'><span class="pill pill-r">&minus;2.7%</span></td><td class='r'><span class="pill pill-r">&minus;2.7%</span></td><td class='r'><span class="pill pill-g">+13.6%</span></td><td class='r'>14.4% &rarr; <strong>12.9%</strong></td></tr><tr><td>Elmhurst</td><td class='r'>2,177</td><td class='r'><strong>2,064</strong></td><td class='r'><span class="pill pill-r">&minus;5.2%</span></td><td class='r'><span class="pill pill-r">&minus;5.2%</span></td><td class='r'><span class="pill pill-r">&minus;7.2%</span></td><td class='r'>20.0% &rarr; <strong>18.7%</strong></td></tr><tr><td>Bronx Concourse</td><td class='r'>2,581</td><td class='r'><strong>2,402</strong></td><td class='r'><span class="pill pill-r">&minus;6.9%</span></td><td class='r'><span class="pill pill-r">&minus;6.9%</span></td><td class='r'><span class="pill pill-r">&minus;10.5%</span></td><td class='r'>27.4% &rarr; <strong>27.5%</strong></td></tr><tr><td>Flushing Northern <span style='color:#a16207;font-size:11px'>ODE 23.5&rarr;23.0</span></td><td class='r'>2,854</td><td class='r'><strong>2,641</strong></td><td class='r'><span class="pill pill-r">&minus;7.5%</span></td><td class='r'><strong><span class="pill pill-r">&minus;5.5%</span></strong></td><td class='r'><span class="pill pill-r">&minus;2.9%</span></td><td class='r'>12.8% &rarr; <strong>13.2%</strong></td></tr></tbody>
+</table>
+</div>
+
+<div class="callout">
+<strong>Bronx Fordham improved on both axes at once, and this one is not a calendar effect.</strong>
+Fordham carried the system operating-day count in both months, so its <strong>+9.7%</strong> is a like-for-like gain.
+Its no-show rate fell from 32.2% to 29.3% at the same time &mdash; the
+worst-converting site in the system improving on exactly the measure it is worst at, while growing. No operational
+change at Fordham was reported for August.
+<strong>This is the most transferable finding in the report and is worth a direct ask of the site manager</strong> &mdash;
+if something was changed deliberately, it should be copied to Bronx Concourse, which has the same problem and is
+getting worse.
+<div style="margin-top:8px">Fort Lee also grew, by <strong>+8.7% per operating-day</strong> once its July closure is
+taken out &mdash; still the strongest site, and also unexplained, but a third smaller than the raw +13.6% suggests.</div>
+</div>
+
+<div class="callout callout-bad">
+<strong>Bronx Concourse is declining on both service lines simultaneously.</strong>
+Medical &minus;6.9% MoM
+and &minus;10.5% YoY,
+with no-show stuck at 27.5% &mdash; and cosmetic at the same
+site is &minus;34.5% both MoM and YoY. Two independent books falling together at one location is a site-level signal,
+not a service-line one. This has now been flagged for three consecutive cycles as an observation;
+<strong>it should be escalated to a scheduled site review.</strong>
+</div>
+
+<h2><span class="num">4</span>Procedures remain 17% below last August &mdash; still unexplained</h2>
+
+<p>Procedures recovered +2.2% on the month to 2,073 visits, but sit <strong>&minus;16.7%
+against August 2025</strong>. This is the same gap flagged in the June and July cycles and it has not closed. The
+category is dominated by AS SAAS, Excimer Laser and phototherapy &mdash; treatment types whose volume is driven by
+ordering patterns and payer authorisation rules rather than by patient demand.</p>
+
+<p>The open question from previous cycles is unchanged: is this a <em>permanent payer-rule change</em>, in which case
+the current level is the new baseline and capacity planning should be reset to it, or a <em>change in SAAS ordering
+behaviour</em>, which is clinically addressable? The Fordham and Flushing Northern drill-down proposed several cycles
+ago remains the fastest way to separate the two.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">Completed visits by appointment category &mdash; monthly, log scale</div>
+<div class="chart-sub">January 2024 to August 2026. A log scale is used so the smaller categories are legible alongside Follow-up. Series are labelled at the line end as well as in the legend.</div>
+<div class="chart-leg" id="catLeg"></div>
+<div style="position:relative;height:300px"><canvas id="cCat"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Category</th><th class="r">Aug '26 visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
+<tbody><tr><td>Follow-up</td><td class='r'><strong>7,231</strong></td><td class='r'><span class="pill pill-r">&minus;0.6%</span></td><td class='r'><span class="pill pill-g">+0.3%</span></td><td class='r'>22.6%</td><td class='r'>28.5%</td></tr><tr><td>Procedures</td><td class='r'><strong>2,073</strong></td><td class='r'><span class="pill pill-g">+2.2%</span></td><td class='r'><span class="pill pill-r">&minus;16.7%</span></td><td class='r'>14.8%</td><td class='r'>18.5%</td></tr><tr><td>New Patient</td><td class='r'><strong>1,984</strong></td><td class='r'><span class="pill pill-g">+2.6%</span></td><td class='r'><span class="pill pill-g">+2.6%</span></td><td class='r'>15.7%</td><td class='r'>19.2%</td></tr><tr><td>Chronic Disease Mgmt</td><td class='r'><strong>908</strong></td><td class='r'><span class="pill pill-r">&minus;1.9%</span></td><td class='r'><span class="pill pill-g">+14.1%</span></td><td class='r'>18.0%</td><td class='r'>25.4%</td></tr><tr><td>Walk-in</td><td class='r'><strong>376</strong></td><td class='r'><span class="pill pill-r">&minus;14.0%</span></td><td class='r'><span class="pill pill-g">+14.6%</span></td><td class='r'>0.5%</td><td class='r'>6.9%</td></tr><tr><td>Screening & Diagnostics</td><td class='r'><strong>167</strong></td><td class='r'><span class="pill pill-g">+9.2%</span></td><td class='r'><span class="pill pill-g">+22.8%</span></td><td class='r'>13.9%</td><td class='r'>32.2%</td></tr></tbody>
+</table>
+</div>
+
+<p>Two other category moves are worth noting. <strong>New Patient rose +2.6% to 1,984</strong> and is
++2.6% year-on-year &mdash; the new-patient funnel is not the problem. <strong>Walk-in fell &minus;14.0%</strong>,
+the largest category decline of the month, though it remains +14.6% year-on-year.</p>
+
+<h2><span class="num">5</span>ZocDoc: fourth month with Sponsored Results at zero &mdash; the ad cut is settled</h2>
+
+<p>August produced <strong>874 total ZocDoc bookings and 523 new patients</strong>, with Sponsored
+Results at zero for the fourth consecutive month. Total spend was $6,380, all of it marketplace booking fees
+and none of it advertising.</p>
+
+<p>The honest read is that volume has <strong>plateaued rather than continued recovering</strong>. Bookings have sat in a
+narrow 872&ndash;900 band for four months and new patients in a
+505&ndash;532 band. August is marginally below July on both.
+Against the pre-cut April level (985 total, 696 new) the practice is running about
+11% lower on bookings and 25%
+lower on new patients &mdash; but at zero advertising cost. Four months of stable volume is enough to call this settled:
+the ads were buying incremental new patients at a price the practice has decided not to pay, and the underlying
+marketplace volume is holding without them.</p>
+
+<div class="chart-wrap">
+<div class="chart-title">ZocDoc bookings and new patients vs Sponsored Ads bookings</div>
+<div class="chart-sub">April to August 2026. Ads went to zero in May; total and new-patient volume dipped, recovered through June and July, and has now flattened.</div>
+<div class="chart-leg">
+  <span><span class="sw" style="background:#1A3A5C"></span>Total bookings</span>
+  <span><span class="sw" style="background:#D85A30"></span>New patients</span>
+  <span><span class="sw" style="background:#c7ccd1"></span>Sponsored Ads bookings</span>
+</div>
+<div style="position:relative;height:250px"><canvas id="cZoc"></canvas></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>Month</th><th class="r">Total bookings</th><th class="r">New patients</th><th class="r">Sponsored Ads</th></tr></thead>
+<tbody><tr><td>April 2026</td><td class='r'>985</td><td class='r'>696</td><td class='r'><span class="pill pill-a">83</span></td></tr><tr><td>May 2026</td><td class='r'>872</td><td class='r'>505</td><td class='r'><span class="pill pill-g">0</span></td></tr><tr><td>June 2026</td><td class='r'>889</td><td class='r'>525</td><td class='r'><span class="pill pill-g">0</span></td></tr><tr><td>July 2026</td><td class='r'>900</td><td class='r'>532</td><td class='r'><span class="pill pill-g">0</span></td></tr><tr><td>August 2026</td><td class='r'>874</td><td class='r'>523</td><td class='r'><span class="pill pill-g">0</span></td></tr></tbody>
+</table>
+</div>
+
+<p>August's booking mix: <strong>617 (71%) via website scheduling</strong>,
+242 (28%) from the ZocDoc marketplace itself and 15
+partner bookings. 523 (60%) were new patients and 145
+(17%) were paid bookings, putting the effective cost at
+<strong>$44 per paid booking</strong> and $7.30 per booking overall.</p>
+
+<h2><span class="num">P</span>Productivity is included this cycle</h2>
+
+<div class="callout callout-good">
+<strong>The blocker cleared on 11 September; the productivity dashboard ships with this cycle.</strong>
+Templated hours had been frozen at a ~1&nbsp;June 2026 snapshot for three cycles. They now come from the live daily
+schedule, and the reporting model has been rebuilt and verified against it. The staleness symptoms are gone: August
+reports <strong>2,013 templated hours</strong> and real no-show counts, not zero.
+</div>
+
+<p>Two things changed at once, and both matter for reading August against July:</p>
+<ol style="margin-left:22px;line-height:1.75;margin-bottom:14px">
+<li style="margin-bottom:8px"><strong>The VPH visit count moved to the appointment record.</strong>
+Provider visit counts now come from completed appointments, attributed to the provider who saw the patient, rather than
+from booked-appointment counts carried on the scheduling extract, with the seven treatment-only appointment types excluded.
+The two sources agree on visit counts to 0.01% across all 24 months.</li>
+<li><strong>The hours denominator is live.</strong> The frozen template&rsquo;s forward months subtracted no leave,
+holidays or schedule changes &mdash; running roughly 14% high.</li>
+</ol>
+
+<div class="callout callout-info">
+<strong>July&rsquo;s published VPH was understated.</strong> On the corrected hours July 2026 is <strong>5.50</strong>,
+not the 5.23 published last cycle, and the June&nbsp;&rarr;&nbsp;July move was &minus;4.3%, not the &minus;9.9% reported.
+The 24-month production average moves from 5.07 to <strong>5.12</strong>. Every month in the productivity series
+therefore differs from the July file. Volume, no-show and cancellation figures in <em>this</em> report are unaffected
+&mdash; they have always come live from the appointment record. August system VPH is <strong>5.37</strong>,
+&minus;2.4% on July and +1.1% year-on-year, on 2,013 templated hours across 18 active providers.
+</div>
+
+<div class="recs">
+<h3>What to do with this</h3>
+<ol>
+<li><strong>Ask Bronx Fordham what changed &mdash; it is the cleanest result of the month.</strong>
++9.7% per operating-day with the no-show rate down 2.9 points from the worst
+base in the system, with no calendar effect and no reported driver. Ask Fort Lee too (+8.7% per operating-day).</li>
+<li><strong>Add the Fort Lee closure of Friday 24 July to the holiday and closure calendar.</strong>
+It is absent from that calendar, which is what the operating-day count is built from. Any month with an unrecorded
+single-site closure produces a wrong per-site comparison in both directions &mdash; this one moved Fort Lee by
+4.8 points and changed which site ranked worst.</li>
+<li><strong>Escalate Bronx Concourse from observation to site review.</strong>
+Both service lines are falling together at one site across three cycles. Medical is &minus;10.5% YoY and cosmetic &minus;34.5% YoY.</li>
+<li><strong>Treat conversion, not volume, as the headline metric.</strong>
+Completed visits have been flat for three months and say little. Conversion fell from 63.3% to 60.4%
+year-on-year, worth roughly 627 visits a month at current demand.</li>
+<li><strong>Close the Procedures question.</strong>
+&minus;16.7% YoY has persisted for three cycles without a decision on whether it is a permanent payer-rule change
+or an ordering-behaviour change. The Fordham / Flushing Northern drill-down answers it.</li>
+<li><strong>Review Sit&rsquo;s schedule before the September cycle.</strong>
+Three consecutive monthly VPH falls, 4.80 to 4.15, back under the 4.5 Month-12 milestone cleared in April. August
+is not a denominator effect &mdash; system templated hours rose 1.4% while her VPH fell 3.0%. Garcia stays on the
+intervention flag at 3.34, still under the 3.5 Month-6 target.</li>
+</ol>
+</div>
+
+<div class="end">
+Source: <strong>MetroDermatologyBIData</strong> semantic model (Power BI), live query; model last refreshed 2026-09-10 09:39 AM ET.
+Medical scope is the <code>MED&nbsp;-</code> facility prefix (6 active locations). Volume, no-shows and cancellations from <code>fact_Appointment</code>;
+cancellations counted from <code>appointment_status&nbsp;=&nbsp;"CANCELLED"</code>. NS% = NS / (NS + Completed); Can% = Cancelled / total demand;
+conversion = Completed / total demand. August 2026 ODE = 23.5 (21 weekdays + 5 Saturdays &times; 0.5), confirmed with no closures.
+September 2026 excluded throughout as a partial month. ZocDoc figures are from the platform, which is the source of truth; the EHR captures only ~26&ndash;36% of true ZocDoc volume.
+No operational drivers were reported for August, so no causes are attributed in this report.
+Prepared by Darell Dado, Metro Dermatology.
+</div>
+
+</div>
+<script>
+
+// ---- Rendering fixes (see footer note) -------------------------------------
+// 1. Force a high backing-store resolution so canvas text is as crisp as the
+//    surrounding HTML text, and stays crisp when printed or screenshotted.
+Chart.defaults.devicePixelRatio = Math.max(2, window.devicePixelRatio || 1);
+// 2. Match the page font exactly, and never render chart text below 11px.
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#4a4a4a';
+Chart.defaults.plugins.tooltip.titleFont = {size:12,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont  = {size:12};
+Chart.defaults.plugins.tooltip.padding   = 9;
+Chart.defaults.plugins.legend.display    = false;
+Chart.defaults.animation = false;
+Chart.defaults.interaction = {mode:'index', intersect:false};
+
+// Standard x-axis for a long monthly series: let Chart.js skip labels itself
+// (autoSkip) with NO rotation, so labels can never collide or overlap.
+function monthAxis(labels, maxTicks){
+  var n=labels.length, mt=Math.max(2, maxTicks||9);
+  var step=Math.max(1, Math.ceil((n-1)/(mt-1)));
+  var keep={};
+  for(var i=n-1;i>=0;i-=step) keep[i]=1;   // anchored to the LAST point
+  return {
+    grid:{display:false},
+    afterBuildTicks:function(scale){
+      if(!scale.ticks||!scale.ticks.length) return;
+      scale.ticks=scale.ticks.filter(function(t){ return keep[t.value]; });
+    },
+    ticks:{
+      font:{size:11}, color:'#5a5a5a',
+      autoSkip:false, maxRotation:0, minRotation:0,
+      callback:function(v,i,t){
+        var idx=(t&&t[i]&&t[i].value!=null)?t[i].value:v;
+        return labels[idx];
+      }
+    }
+  };
+}
+function yAxis(title, opts){
+  return Object.assign({
+    grid:{color:'#eceff2', drawTicks:false},
+    border:{display:false},
+    ticks:{font:{size:11}, color:'#5a5a5a', padding:6},
+    title:{display:!!title, text:title, font:{size:11,weight:'600'}, color:'#6b6b6b'}
+  }, opts||{});
+}
+// Draws the series name at the end of each line — secondary encoding so series
+// are identifiable without relying on colour alone.
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart, args, opts){
+    if(!opts || !opts.enabled) return;
+    const {ctx} = chart;
+    ctx.save();
+    ctx.font = '600 11px ' + Chart.defaults.font.family;
+    ctx.textBaseline = 'middle';
+    const placed = [];
+    chart.data.datasets.forEach((ds,di)=>{
+      const meta = chart.getDatasetMeta(di);
+      if(meta.hidden) return;
+      let last = null;
+      for(let i=meta.data.length-1;i>=0;i--){
+        const v = ds.data[i];
+        if(v!==null && v!==undefined && !isNaN(v)){ last = meta.data[i]; break; }
+      }
+      if(!last) return;
+      let y = last.y;
+      while(placed.some(p=>Math.abs(p-y)<12)) y += 12;
+      placed.push(y);
+      ctx.fillStyle = ds.borderColor;
+      ctx.textAlign = 'left';
+      ctx.fillText(ds.label, last.x + 7, y);
+    });
+    ctx.restore();
+  }
+};
+Chart.register(endLabels);
+
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const SEAS={"2023": [7345, 10164, 12213, 10824, 12181, 12467, 11694, 12323, 10027, 10627, 9830, 9014], "2024": [10226, 10231, 11304, 11635, 12566, 11943, 12764, 13140, 11998, 13064, 11711, 11344], "2025": [12339, 10983, 12477, 11725, 13045, 12963, 13475, 13115, 12668, 13285, 11117, 11797], "2026": [11592, 10298, 12553, 12586, 12267, 13353, 13042, 12998, null, null, null, null]};
+const RATES=[{"y": 2023, "n": 1, "ns": 20.8, "c": 19.2}, {"y": 2023, "n": 2, "ns": 18.2, "c": 22.2}, {"y": 2023, "n": 3, "ns": 16.9, "c": 22.6}, {"y": 2023, "n": 4, "ns": 19.4, "c": 21.9}, {"y": 2023, "n": 5, "ns": 18.1, "c": 23.5}, {"y": 2023, "n": 6, "ns": 17.0, "c": 27.1}, {"y": 2023, "n": 7, "ns": 16.6, "c": 25.9}, {"y": 2023, "n": 8, "ns": 16.0, "c": 26.4}, {"y": 2023, "n": 9, "ns": 18.8, "c": 29.2}, {"y": 2023, "n": 10, "ns": 16.7, "c": 28.2}, {"y": 2023, "n": 11, "ns": 18.0, "c": 29.6}, {"y": 2023, "n": 12, "ns": 19.3, "c": 29.1}, {"y": 2024, "n": 1, "ns": 18.5, "c": 28.2}, {"y": 2024, "n": 2, "ns": 16.7, "c": 29.1}, {"y": 2024, "n": 3, "ns": 17.1, "c": 25.5}, {"y": 2024, "n": 4, "ns": 16.9, "c": 25.4}, {"y": 2024, "n": 5, "ns": 16.7, "c": 24.6}, {"y": 2024, "n": 6, "ns": 17.9, "c": 25.3}, {"y": 2024, "n": 7, "ns": 18.9, "c": 27.7}, {"y": 2024, "n": 8, "ns": 16.8, "c": 26.0}, {"y": 2024, "n": 9, "ns": 17.0, "c": 26.7}, {"y": 2024, "n": 10, "ns": 16.0, "c": 24.7}, {"y": 2024, "n": 11, "ns": 16.9, "c": 24.7}, {"y": 2024, "n": 12, "ns": 17.7, "c": 25.5}, {"y": 2025, "n": 1, "ns": 16.5, "c": 26.3}, {"y": 2025, "n": 2, "ns": 15.7, "c": 26.4}, {"y": 2025, "n": 3, "ns": 15.6, "c": 25.5}, {"y": 2025, "n": 4, "ns": 16.3, "c": 24.9}, {"y": 2025, "n": 5, "ns": 17.0, "c": 25.4}, {"y": 2025, "n": 6, "ns": 17.5, "c": 25.4}, {"y": 2025, "n": 7, "ns": 16.6, "c": 26.0}, {"y": 2025, "n": 8, "ns": 16.4, "c": 24.3}, {"y": 2025, "n": 9, "ns": 18.4, "c": 25.4}, {"y": 2025, "n": 10, "ns": 18.4, "c": 24.9}, {"y": 2025, "n": 11, "ns": 19.0, "c": 26.4}, {"y": 2025, "n": 12, "ns": 17.8, "c": 28.6}, {"y": 2026, "n": 1, "ns": 17.9, "c": 30.3}, {"y": 2026, "n": 2, "ns": 18.6, "c": 29.7}, {"y": 2026, "n": 3, "ns": 18.8, "c": 25.0}, {"y": 2026, "n": 4, "ns": 18.6, "c": 25.7}, {"y": 2026, "n": 5, "ns": 20.2, "c": 25.9}, {"y": 2026, "n": 6, "ns": 20.2, "c": 24.6}, {"y": 2026, "n": 7, "ns": 20.0, "c": 26.8}, {"y": 2026, "n": 8, "ns": 19.2, "c": 25.2}];
+const CONV=[{"y": 2023, "n": 1, "v": 64.0}, {"y": 2023, "n": 2, "v": 63.7}, {"y": 2023, "n": 3, "v": 64.3}, {"y": 2023, "n": 4, "v": 62.9}, {"y": 2023, "n": 5, "v": 62.6}, {"y": 2023, "n": 6, "v": 60.5}, {"y": 2023, "n": 7, "v": 61.8}, {"y": 2023, "n": 8, "v": 61.8}, {"y": 2023, "n": 9, "v": 57.4}, {"y": 2023, "n": 10, "v": 59.8}, {"y": 2023, "n": 11, "v": 57.8}, {"y": 2023, "n": 12, "v": 57.2}, {"y": 2024, "n": 1, "v": 58.5}, {"y": 2024, "n": 2, "v": 59.1}, {"y": 2024, "n": 3, "v": 61.7}, {"y": 2024, "n": 4, "v": 62.0}, {"y": 2024, "n": 5, "v": 62.7}, {"y": 2024, "n": 6, "v": 61.3}, {"y": 2024, "n": 7, "v": 58.7}, {"y": 2024, "n": 8, "v": 61.5}, {"y": 2024, "n": 9, "v": 60.9}, {"y": 2024, "n": 10, "v": 63.3}, {"y": 2024, "n": 11, "v": 62.6}, {"y": 2024, "n": 12, "v": 61.3}, {"y": 2025, "n": 1, "v": 61.5}, {"y": 2025, "n": 2, "v": 62.1}, {"y": 2025, "n": 3, "v": 62.9}, {"y": 2025, "n": 4, "v": 62.9}, {"y": 2025, "n": 5, "v": 61.9}, {"y": 2025, "n": 6, "v": 61.6}, {"y": 2025, "n": 7, "v": 61.7}, {"y": 2025, "n": 8, "v": 63.3}, {"y": 2025, "n": 9, "v": 60.9}, {"y": 2025, "n": 10, "v": 61.3}, {"y": 2025, "n": 11, "v": 59.6}, {"y": 2025, "n": 12, "v": 58.6}, {"y": 2026, "n": 1, "v": 57.2}, {"y": 2026, "n": 2, "v": 57.2}, {"y": 2026, "n": 3, "v": 60.9}, {"y": 2026, "n": 4, "v": 60.5}, {"y": 2026, "n": 5, "v": 59.2}, {"y": 2026, "n": 6, "v": 60.2}, {"y": 2026, "n": 7, "v": 58.5}, {"y": 2026, "n": 8, "v": 60.4}];
+const LOC=[{"l": "Fort Lee", "c23": 2431, "c24": 2431, "c25": 2470, "cf": 2403, "c26": 2729, "ns26": 10.5, "nsJul": 10.6, "can26": 28.8, "demand": 4281, "jode": 22.5, "aode": 23.5, "jvpd": 106.8, "avpd": 116.1, "momAdj": 8.7}, {"l": "Bronx Fordham", "c23": null, "c24": 1942, "c25": 1929, "cf": 1754, "c26": 1924, "ns26": 29.3, "nsJul": 32.2, "can26": 18.9, "demand": 3358, "jode": 23.5, "aode": 23.5, "jvpd": 74.6, "avpd": 81.9, "momAdj": 9.7}, {"l": "Glen Oaks", "c23": null, "c24": null, "c25": 1090, "cf": 1273, "c26": 1238, "ns26": 12.9, "nsJul": 14.4, "can26": 28.6, "demand": 1992, "jode": 23.5, "aode": 23.5, "jvpd": 54.2, "avpd": 52.7, "momAdj": -2.7}, {"l": "Elmhurst", "c23": 2651, "c24": 2254, "c25": 2223, "cf": 2177, "c26": 2064, "ns26": 18.7, "nsJul": 20.0, "can26": 24.0, "demand": 3340, "jode": 23.5, "aode": 23.5, "jvpd": 92.6, "avpd": 87.8, "momAdj": -5.2}, {"l": "Bronx Concourse", "c23": 4066, "c24": 3055, "c25": 2683, "cf": 2581, "c26": 2402, "ns26": 27.5, "nsJul": 27.4, "can26": 22.6, "demand": 4284, "jode": 23.5, "aode": 23.5, "jvpd": 109.8, "avpd": 102.2, "momAdj": -6.9}, {"l": "Flushing Northern", "c23": 3175, "c24": 3458, "c25": 2720, "cf": 2854, "c26": 2641, "ns26": 13.2, "nsJul": 12.8, "can26": 28.7, "demand": 4266, "jode": 23.5, "aode": 23.0, "jvpd": 121.4, "avpd": 114.8, "momAdj": -5.5}];
+const ZOC=[{"m": "April 2026", "tot": 985, "new": 696, "ads": 83}, {"m": "May 2026", "tot": 872, "new": 505, "ads": 0}, {"m": "June 2026", "tot": 889, "new": 525, "ads": 0}, {"m": "July 2026", "tot": 900, "new": 532, "ads": 0}, {"m": "August 2026", "tot": 874, "new": 523, "ads": 0}];
+const CATSER={"Follow-up": [5575, 5456, 6146, 6320, 6895, 6435, 6984, 7152, 6506, 7206, 6373, 6205, 6859, 5963, 6746, 6265, 7160, 7055, 7450, 7211, 6962, 7383, 6023, 6679, 6508, 5613, 7091, 6804, 6785, 7421, 7276, 7231], "Procedures": [2115, 2135, 2308, 2368, 2470, 2442, 2483, 2641, 2504, 2614, 2507, 2406, 2387, 2234, 2573, 2505, 2544, 2570, 2444, 2488, 2462, 2526, 2349, 2137, 2004, 1811, 2012, 2104, 1951, 2028, 2028, 2073], "New Patient": [1234, 1341, 1427, 1424, 1548, 1519, 1962, 1999, 1683, 1913, 1609, 1491, 1755, 1538, 1734, 1637, 1910, 1882, 2095, 1934, 1856, 1870, 1430, 1506, 1622, 1526, 1830, 1994, 1826, 2075, 1933, 1984], "Chronic Disease Mgmt": [589, 561, 642, 627, 700, 640, 688, 721, 688, 687, 665, 665, 743, 755, 789, 704, 774, 796, 784, 796, 734, 797, 727, 840, 846, 803, 921, 865, 946, 968, 926, 908], "Walk-in": [459, 446, 431, 545, 573, 574, 318, 272, 279, 253, 221, 203, 182, 173, 258, 275, 318, 288, 313, 328, 272, 271, 222, 238, 241, 225, 334, 401, 386, 464, 437, 376], "Screening & Diagnostics": [63, 63, 97, 88, 105, 75, 89, 118, 124, 111, 90, 95, 114, 86, 109, 103, 120, 99, 119, 136, 130, 127, 128, 117, 111, 92, 126, 144, 137, 143, 153, 167]};
+const CATMONTHS=["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"];
+const CATS=["Follow-up", "Procedures", "New Patient", "Chronic Disease Mgmt", "Walk-in", "Screening & Diagnostics"];
+const CATCOL=["#1A3A5C", "#0F766E", "#D85A30", "#7c3aed", "#0369a1", "#a16207"];
+
+new Chart(document.getElementById('cSeason'),{
+  type:'line',
+  data:{labels:MO,datasets:[
+    {label:'2023',data:SEAS['2023'],borderColor:'#c7ccd1',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
+    {label:'2024',data:SEAS['2024'],borderColor:'#8fb3d9',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
+    {label:'2025',data:SEAS['2025'],borderColor:'#1A3A5C',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
+    {label:'2026',data:SEAS['2026'],borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,0.06)',fill:true,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,tension:.3,spanGaps:false}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:8}},
+    plugins:{tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()} visits`:null}}},
+    scales:{x:monthAxis(MO,12),y:yAxis('Completed visits',{ticks:{font:{size:11},color:'#5a5a5a',padding:6,callback:v=>(v/1000).toFixed(0)+'k'}})}}
+});
+
+(function(){
+  const lbl=CONV.map(r=>MO[r.n-1]+" '"+String(r.y).slice(2));
+  new Chart(document.getElementById('cConv'),{
+    type:'line',
+    data:{labels:lbl,datasets:[{label:'Conversion rate',data:CONV.map(r=>r.v),
+      borderColor:'#1A3A5C',backgroundColor:'rgba(26,58,92,0.07)',fill:true,borderWidth:2.5,
+      pointRadius:0,pointHoverRadius:6,tension:.3}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{callbacks:{label:c=>`Conversion: ${c.parsed.y.toFixed(1)}%`}}},
+      scales:{x:monthAxis(lbl,9),
+        y:yAxis('Completed / demand',{min:54,max:68,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:2,callback:v=>v+'%'}})}}
+  });
+})();
+
+(function(){
+  const lbl=RATES.map(r=>MO[r.n-1]+" '"+String(r.y).slice(2));
+  new Chart(document.getElementById('cNS'),{
+    type:'line',
+    data:{labels:lbl,datasets:[
+      {label:'No-show rate',data:RATES.map(r=>r.ns),borderColor:'#a81d1d',backgroundColor:'rgba(168,29,29,0.06)',fill:true,borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
+      {label:'Cancellation rate',data:RATES.map(r=>r.c),borderColor:'#e89a9a',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
+      scales:{x:monthAxis(lbl,9),y:yAxis('Rate',{min:10,max:36,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:5,callback:v=>v+'%'}})}}
+  });
+})();
+
+(function(){
+  const rows=LOC.slice().sort((a,b)=>(b.c26-b.cf)-(a.c26-a.cf));
+  new Chart(document.getElementById('cLoc'),{
+    type:'bar',
+    data:{labels:rows.map(r=>r.l),datasets:[{label:'Net change in completed visits',
+      data:rows.map(r=>r.c26-r.cf),
+      backgroundColor:rows.map(r=>r.c26>=r.cf?'#0F766E':'#D85A30'),
+      borderRadius:4,borderSkipped:false,barPercentage:.7}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{callbacks:{label:c=>`${c.parsed.x>=0?'+':'\u2212'}${Math.abs(c.parsed.x).toLocaleString()} visits vs July`}}},
+      scales:{
+        x:yAxis('Net change in completed visits vs July',{grid:{color:'#eceff2'},
+          ticks:{font:{size:11},color:'#5a5a5a',callback:v=>(v>0?'+':'')+v}}),
+        y:{grid:{display:false},ticks:{font:{size:12},color:'#1a1a1a'}}
+      }}
+  });
+})();
+
+(function(){
+  new Chart(document.getElementById('cZoc'),{
+    type:'bar',
+    data:{labels:ZOC.map(r=>r.m.replace(' 2026','')),datasets:[
+      {label:'Total bookings',data:ZOC.map(r=>r.tot),backgroundColor:'#1A3A5C',borderRadius:4,borderSkipped:false},
+      {label:'New patients',data:ZOC.map(r=>r.new),backgroundColor:'#D85A30',borderRadius:4,borderSkipped:false},
+      {label:'Sponsored Ads bookings',data:ZOC.map(r=>r.ads),backgroundColor:'#c7ccd1',borderRadius:4,borderSkipped:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:12},color:'#1a1a1a',maxRotation:0}},
+        y:yAxis('Bookings',{beginAtZero:true,ticks:{font:{size:11},color:'#5a5a5a',padding:6}})}}
+  });
+})();
+
+(function(){
+  const lbl=CATMONTHS.map(s=>{const[y,m]=s.split('-');return MO[+m-1]+" '"+y.slice(2);});
+  const dash=[[],[],[6,4],[2,3],[8,3],[3,3]];
+  document.getElementById('catLeg').innerHTML=
+    CATS.map((c,i)=>`<span><span class="sw" style="background:${CATCOL[i]}"></span>${c}</span>`).join('');
+  new Chart(document.getElementById('cCat'),{
+    type:'line',
+    data:{labels:lbl,datasets:CATS.map((c,i)=>({label:c,data:CATSER[c],borderColor:CATCOL[i],
+      borderWidth:i<2?2.4:1.9,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:dash[i]}))},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:100}},
+      plugins:{tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}},endLabels:{enabled:true}},
+      scales:{x:monthAxis(lbl,8),
+        y:yAxis('Completed visits (log scale)',{type:'logarithmic',min:50,max:10000,
+          ticks:{font:{size:11},color:'#5a5a5a',padding:6,
+            callback:v=>[50,100,200,500,1000,2000,5000,10000].includes(v)?(v>=1000?(v/1000)+'k':String(v)):''}})}}
+  });
+})();
+</script>
+</body>
+</html>

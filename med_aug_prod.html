@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Dermatology &mdash; Medical Productivity Dashboard &middot; August 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
+  .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-.3px}
+  .db-header-left p{font-size:12px;color:#5a5a5a;margin-top:4px;line-height:1.6}
+  .db-header-right{text-align:right;font-size:11.5px;color:#6b6b6b;line-height:1.7;white-space:nowrap}
+  .db-header-right strong{color:#1A3A5C}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+  .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
+  .kpi-label{font-size:11px;color:#6b6b6b;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1.1;margin-bottom:7px}
+  .kpi-deltas{display:flex;gap:12px;flex-wrap:wrap}
+  .kpi-delta{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:4px}
+  .kpi-delta .lbl{font-size:11px;color:#767676;font-weight:400}
+  .up{color:#0b6b4a}.dn{color:#a81d1d}.nt{color:#6b6b6b}
+  .sec-label{font-size:11px;font-weight:700;color:#6b6b6b;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .card-title{font-size:13.5px;font-weight:600;margin-bottom:3px}
+  .card-sub{font-size:11.5px;color:#5a5a5a;margin-bottom:12px;line-height:1.6}
+  .leg{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:#4a4a4a;margin-bottom:10px}
+  .leg span{display:flex;align-items:center;gap:6px}
+  .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;display:inline-block}
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#1A3A5C;color:#fff;padding:8px 10px;font-weight:600;text-align:left;font-size:11.5px;white-space:nowrap}
+  th.r{text-align:right} td.r{text-align:right}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+  tr:nth-child(even) td{background:#fafafa} tr:hover td{background:#f0f6ff}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+  .pill-g{background:#dcfce7;color:#14532d}.pill-r{background:#fee2e2;color:#7f1d1d}
+  .pill-a{background:#fef3c7;color:#78350f}.pill-b{background:#dbeafe;color:#1e3a8a}
+  .ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:14px}
+  .ins-card{border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px;background:#fcfcfc}
+  .ins-title{font-size:12px;font-weight:700;margin-bottom:6px}
+  .ins-body{font-size:11.5px;color:#4a4a4a;line-height:1.6}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;border-left:3px solid #2563eb;border-radius:6px;padding:12px 14px;font-size:12px;color:#1e3a8a;margin-bottom:14px;line-height:1.6}
+  .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11.5px;color:#6b6b6b;line-height:1.7}
+  @media print{body{background:#fff}.page{max-width:none;padding:0}.card{break-inside:avoid}}
+  @media (max-width:900px){.page{padding:16px 16px 40px}}
+</style></head><body><div class="page">
+
+<div class="db-header">
+  <div class="db-header-left">
+    <h1>Metro Dermatology &mdash; Medical Productivity Dashboard</h1>
+    <p>Reporting period: August 2026 &nbsp;|&nbsp; Window Sep '24 &ndash; Aug '26 &nbsp;|&nbsp; VPH = Completed visits / Templated hours &nbsp;|&nbsp; Medical locations; non-provider and treatment appointment types excluded</p>
+  </div>
+  <div class="db-header-right"><strong>Prepared September 11, 2026</strong><br>Darell Dado<br>Confidential</div>
+</div>
+
+<div class="note">
+<strong>The hours basis is corrected this cycle, so every month in this series differs from the July dashboard.</strong>
+Templated hours had been carried from a frozen ~1 June 2026 schedule template for three cycles &mdash; a raw template
+that subtracted no leave, holidays or schedule changes, running about 14% high. Hours are now current for every month.
+July's published system VPH of <strong>5.23 was understated; the corrected figure is
+5.50</strong>, and the June&nbsp;&rarr;&nbsp;July move was &minus;4.3%, not the &minus;9.9% reported. The 24-month
+production average moves from 5.07 to <strong>5.12</strong>. Visit counts are unchanged.
+</div>
+
+<div class="kpi-row"><div class="kpi"><div class="kpi-label">System VPH &mdash; August 2026</div><div class="kpi-value">5.37</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;2.4%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+1.1%</div></div></div><div class="kpi"><div class="kpi-label">Templated hours</div><div class="kpi-value">2,013</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+1.4%</div><div class="kpi-delta nt"><span class="lbl">Jul</span>1,986</div></div></div><div class="kpi"><div class="kpi-label">Active providers</div><div class="kpi-value">18</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">Peak</span>20</div><div class="kpi-delta nt"><span class="lbl">Start</span>17</div></div></div><div class="kpi"><div class="kpi-label">Top VPH &mdash; HL Lee</div><div class="kpi-value">6.99</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">3-mo avg</span>712/mo</div><div class="kpi-delta nt"><span class="lbl">NS</span>8.2%</div></div></div><div class="kpi"><div class="kpi-label">Fastest ramp &mdash; CH Huang</div><div class="kpi-value">+0.239</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">VPH/mo</span>R&sup2; 0.86</div><div class="kpi-delta nt"><span class="lbl">Now</span>4.89</div></div></div></div>
+
+<div class="sec-label">1 &mdash; System productivity</div>
+<div class="card">
+  <div class="card-title">System VPH and templated hours &mdash; monthly, Sep '24 &ndash; Aug '26</div>
+  <div class="card-sub">Bars are templated hours (right axis), the line is system VPH (left axis), dashed orange is the 24-month production average of 5.12. Hover any bar for the provider-by-provider hours breakdown. Triangles mark months where three or more providers moved 30+ hours.</div>
+  <div class="leg">
+    <span><span class="sw" style="background:#B5D4F4"></span>Templated hours</span>
+    <span><span class="sw-line" style="background:#1A3A5C"></span>System VPH</span>
+    <span><span class="sw-line" style="background:#D85A30"></span>Production average (5.12)</span>
+  </div>
+  <div style="position:relative;height:330px"><canvas id="sysProd"></canvas></div>
+</div>
+
+<div class="sec-label">2 &mdash; Provider matrix</div>
+<div class="card">
+  <div class="card-title">Provider productivity matrix &mdash; three-month average (Jun&ndash;Aug 2026)</div>
+  <div class="card-sub">VPH against no-show rate. Bubble size is average monthly completed visits; initials are first + last name. Minimum 50 visits over three months to appear. Purple marks a provider still ramping.</div>
+  <div class="leg">
+    <span><span class="sw" style="background:#1e3a8a"></span>Ideal &mdash; high VPH, low no-show</span>
+    <span><span class="sw" style="background:#0d7a55"></span>At or near benchmark</span>
+    <span><span class="sw" style="background:#dc2626"></span>Leaky panel &mdash; no-show &ge; 25%</span>
+    <span><span class="sw" style="background:#b45309"></span>Below benchmark VPH</span>
+    <span><span class="sw" style="background:#9333ea"></span>New provider, ramping</span>
+  </div>
+  <div style="position:relative;height:380px"><canvas id="bubble"></canvas></div>
+  <div class="ins">
+    <div class="ins-card"><div class="ins-title" style="color:#1e3a8a">Ideal quadrant</div>
+      <div class="ins-body">Lee (6.99 / 8.2%), Park (6.65 / 11.5%), Huh (6.44 / 13.5%), Hu (6.39 / 12.5%), Sun (6.14 / 13.9%), Kim (5.45 / 8.9%)<br><br>Six providers clear the 5.12 production average on a no-show rate under 15%. This is the scheduling-density benchmark: Lee runs the system&rsquo;s highest throughput on its lowest no-show rate, and Kim reaches 5.45 on 8.9% &mdash; adherence, not hours, is what separates this group. Three more &mdash; Park&nbsp;H. (6.74), Hussain (5.86) and Li (5.41) &mdash; clear the average on green but run no-show at 17&ndash;21%, so they sit just outside this quadrant.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#dc2626">Leaky panels &mdash; no-show &ge; 25%</div>
+      <div class="ins-body">Ortiz (6.64 / 31.2%), Shin (6.63 / 28.5%), Huang (5.03 / 25.5%), Kwak (4.86 / 27.2%), Sit (4.37 / 25.7%)<br><br>Between them these carry the largest recoverable volume in the system. Two of the three highest-VPH providers sit here, so this is a conversion problem, not a capacity one.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#b45309">Below benchmark</div>
+      <div class="ins-body">Yu (4.71 / 17.1%), Garcia (3.37 / 19.3%)<br><br>Both are ramp cases rather than idle capacity &mdash; Garcia is fifteen months in and Yu carries genuine volume. Providers below the average who <em>also</em> run no-show at or above 25% are counted in the leaky group, not here. Espinal (3.50 / 28.0%) is plotted in purple and held out of all three groups while she is still ramping &mdash; she is the only provider in the system both below the average and above the 25% no-show line.</div></div>
+  </div>
+</div>
+
+<div class="sec-label">3 &mdash; Ramp velocity</div>
+<div class="card">
+  <div class="card-title">2025 cohort VPH velocity and ramp standard</div>
+  <div class="card-sub">Monthly VPH from Jan '25. Solid lines are actual, dashed are the fitted trend. Background bands are the ramp zones. Click a legend entry to isolate a provider. Slopes and R&sup2; are refitted on the corrected hours.</div>
+  <div class="leg" id="cohLeg"></div>
+  <div style="position:relative;height:340px"><canvas id="rising"></canvas></div>
+  <div class="tbl-wrap" style="margin-top:16px">
+    <table><thead><tr><th>Provider</th><th>Started</th><th class="r">Current VPH</th><th class="r">Trend</th>
+    <th class="r">&ge; 2.5 (Mo 3)</th><th class="r">&ge; 3.5 (Mo 6)</th><th class="r">&ge; 4.5 (Mo 12)</th><th class="r">&ge; 5.12 (Mo 18)</th><th>Status</th></tr></thead>
+    <tbody><tr><td>FO — Ortiz</td><td>May '25</td><td class='r'><strong>6.47</strong></td><td class='r'>+0.180/mo R&sup2;=0.56</td><td class='r'>Month 1</td><td class='r'>Month 2</td><td class='r'>Month 3</td><td class='r'>Month 3</td><td><span class='pill pill-g'>At benchmark</span></td></tr><tr><td>CH — Huang</td><td>Mar '25</td><td class='r'><strong>4.89</strong></td><td class='r'>+0.239/mo R&sup2;=0.86</td><td class='r'>Month 4</td><td class='r'>Month 8</td><td class='r'>Month 12</td><td class='r'>Month 13</td><td><span class='pill pill-b'>Approaching</span></td></tr><tr><td>PS — Sit</td><td>Jun '25</td><td class='r'><strong>4.15</strong></td><td class='r'>+0.179/mo R&sup2;=0.76</td><td class='r'>Month 2</td><td class='r'>Month 10</td><td class='r'>Month 11</td><td class='r'>Not yet</td><td><span class='pill pill-a'>Review</span></td></tr><tr><td>GG — Garcia</td><td>Jun '25</td><td class='r'><strong>3.34</strong></td><td class='r'>+0.100/mo R&sup2;=0.78</td><td class='r'>Month 3</td><td class='r'>Month 13</td><td class='r'>Not yet</td><td class='r'>Not yet</td><td><span class='pill pill-r'>Escalate</span></td></tr></tbody></table>
+  </div>
+  <div class="tbl-wrap" style="margin-top:14px">
+    <table><thead><tr><th>Milestone</th><th class="r">Target VPH</th><th class="r">By month</th><th>If below</th><th>Action</th></tr></thead>
+    <tbody><tr><td>Early ramp</td><td class='r'>&ge; 2.5</td><td class='r'>3</td><td>Watch</td><td>Confirm scheduling template built; panel actively populating</td></tr><tr><td>Mid ramp</td><td class='r'>&ge; 3.5</td><td class='r'>6</td><td>Review</td><td>Panel review with operations; assess appointment type mix and available slots</td></tr><tr><td>Approaching benchmark</td><td class='r'>&ge; 4.5</td><td class='r'>12</td><td>Escalate</td><td>Leadership review; increase scheduling density or consider panel transfer</td></tr><tr><td>Full productivity</td><td class='r'>&ge; 5.12</td><td class='r'>18</td><td>Escalate</td><td>Formal remediation plan with Dr. Lee and CIO/CSO; define timeline</td></tr></tbody></table>
+  </div>
+  <div class="ins">
+    <div class="ins-card"><div class="ins-title" style="color:#D85A30">Fastest ramp &mdash; CH (Huang), +0.239/mo, R&sup2; 0.86</div>
+      <div class="ins-body">The fastest and most linear ramp in the cohort: 0.93 in March&nbsp;&rsquo;25 to a 5.91 peak in May&nbsp;&rsquo;26.
+      August&rsquo;s 4.89 recovers on July&rsquo;s 4.80 but is a third month below the 5.12 Month&#8209;18 mark, which she is now due to hold.
+      She is comfortably clear of the 4.5 Month&#8209;12 target and the trend line remains the cohort&rsquo;s cleanest fit.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#7F77DD">Watch this month &mdash; PS (Sit), 4.80 &rarr; 4.15</div>
+      <div class="ins-body">Three consecutive monthly falls from the May peak, back under the 4.5 Month&#8209;12 milestone she cleared in April.
+      Unlike July, this is not a denominator effect: system templated hours rose 1.4% in August while her VPH fell 3.0%, so the visits are genuinely not there.
+      Slope is still positive at +0.179/mo. Worth a schedule and panel review before the September cycle.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#888780">Still short &mdash; GG (Garcia), +0.100/mo</div>
+      <div class="ins-body">August&rsquo;s 3.34 recovers on July&rsquo;s 3.23 but stays under the 3.5 Month&#8209;6 target she first cleared in June at 3.65.
+      The slope is the cohort&rsquo;s shallowest; on that trend the 4.5 Month&#8209;12 mark is roughly a year away.
+      Fifteen months in, this is the one ramp in the cohort that has not converged &mdash; the intervention flag should stay on.</div></div>
+  </div>
+</div>
+
+<div class="db-footer">
+Data source: <strong>MetroDermatologyBIData</strong> semantic model, live query 11 Sep 2026.
+VPH numerator = <code>[Completed Visits]</code> from <code>fact_Appointment</code> via <code>provider_id &rarr; dim_Staff</code>, excluding the seven pseudo-provider treatment types.
+Denominator = <code>[Templated Hours]</code> from <code>fact_Utilization</code>, now sourced from <code>dbo.ema_utilization</code> (rebuilt daily) rather than the frozen snapshot.
+The two sources agree on visit counts to 0.01% across all 24 months. Provider-roster pre-flight passed: no provider has visits without hours.
+September 2026 is excluded as a partial month. Chart text renders at a minimum 2&times; pixel density and 11px so it stays sharp in print, PDF and screenshots.
+Prepared by Darell Dado, Metro Dermatology.
+</div>
+</div>
+<script>
+
+// ---- Rendering fixes (see footer note) -------------------------------------
+// 1. Force a high backing-store resolution so canvas text is as crisp as the
+//    surrounding HTML text, and stays crisp when printed or screenshotted.
+Chart.defaults.devicePixelRatio = Math.max(2, window.devicePixelRatio || 1);
+// 2. Match the page font exactly, and never render chart text below 11px.
+Chart.defaults.font.family = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#4a4a4a';
+Chart.defaults.plugins.tooltip.titleFont = {size:12,weight:'600'};
+Chart.defaults.plugins.tooltip.bodyFont  = {size:12};
+Chart.defaults.plugins.tooltip.padding   = 9;
+Chart.defaults.plugins.legend.display    = false;
+Chart.defaults.animation = false;
+Chart.defaults.interaction = {mode:'index', intersect:false};
+
+// Standard x-axis for a long monthly series: let Chart.js skip labels itself
+// (autoSkip) with NO rotation, so labels can never collide or overlap.
+function monthAxis(labels, maxTicks){
+  var n=labels.length, mt=Math.max(2, maxTicks||9);
+  var step=Math.max(1, Math.ceil((n-1)/(mt-1)));
+  var keep={};
+  for(var i=n-1;i>=0;i-=step) keep[i]=1;   // anchored to the LAST point
+  return {
+    grid:{display:false},
+    afterBuildTicks:function(scale){
+      if(!scale.ticks||!scale.ticks.length) return;
+      scale.ticks=scale.ticks.filter(function(t){ return keep[t.value]; });
+    },
+    ticks:{
+      font:{size:11}, color:'#5a5a5a',
+      autoSkip:false, maxRotation:0, minRotation:0,
+      callback:function(v,i,t){
+        var idx=(t&&t[i]&&t[i].value!=null)?t[i].value:v;
+        return labels[idx];
+      }
+    }
+  };
+}
+function yAxis(title, opts){
+  return Object.assign({
+    grid:{color:'#eceff2', drawTicks:false},
+    border:{display:false},
+    ticks:{font:{size:11}, color:'#5a5a5a', padding:6},
+    title:{display:!!title, text:title, font:{size:11,weight:'600'}, color:'#6b6b6b'}
+  }, opts||{});
+}
+// Draws the series name at the end of each line — secondary encoding so series
+// are identifiable without relying on colour alone.
+const endLabels = {
+  id:'endLabels',
+  afterDatasetsDraw(chart, args, opts){
+    if(!opts || !opts.enabled) return;
+    const {ctx} = chart;
+    ctx.save();
+    ctx.font = '600 11px ' + Chart.defaults.font.family;
+    ctx.textBaseline = 'middle';
+    const placed = [];
+    chart.data.datasets.forEach((ds,di)=>{
+      const meta = chart.getDatasetMeta(di);
+      if(meta.hidden) return;
+      let last = null;
+      for(let i=meta.data.length-1;i>=0;i--){
+        const v = ds.data[i];
+        if(v!==null && v!==undefined && !isNaN(v)){ last = meta.data[i]; break; }
+      }
+      if(!last) return;
+      let y = last.y;
+      while(placed.some(p=>Math.abs(p-y)<12)) y += 12;
+      placed.push(y);
+      ctx.fillStyle = ds.borderColor;
+      ctx.textAlign = 'left';
+      ctx.fillText(ds.label, last.x + 7, y);
+    });
+    ctx.restore();
+  }
+};
+Chart.register(endLabels);
+
+const L=["Sep '24", "Oct '24", "Nov '24", "Dec '24", "Jan '25", "Feb '25", "Mar '25", "Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26", "Apr '26", "May '26", "Jun '26", "Jul '26", "Aug '26"], VPH=[4.98, 4.85, 5.23, 5.1, 4.56, 4.85, 4.87, 5.21, 5.2, 4.86, 5.15, 5.31, 4.84, 4.96, 5.08, 5.15, 4.88, 4.74, 5.27, 5.44, 5.73, 5.74, 5.5, 5.37], HRS=[1895.9, 2137.7, 1749.3, 1740.8, 2168.0, 1795.0, 2017.0, 1756.9, 2007.2, 2123.7, 2128.2, 1990.0, 2095.2, 2151.4, 1708.7, 1862.7, 1950.2, 1775.2, 1981.2, 1906.7, 1785.0, 1957.4, 1986.0, 2013.3], NP=[17, 17, 17, 17, 18, 17, 16, 16, 18, 20, 19, 19, 19, 19, 20, 19, 18, 17, 17, 17, 17, 18, 17, 18];
+const PA=5.12, C3=4;
+const PROVS=[{"name": "Lee, Hyun Soo", "vph": 6.99, "ns": 8.2, "vol": 712, "v": 2135, "h": 305.6, "color": "#1e3a8a", "init": "HL"}, {"name": "Park, Hyeyoon", "vph": 6.74, "ns": 20.6, "vol": 925, "v": 2775, "h": 412.0, "color": "#0d7a55", "init": "HP"}, {"name": "Park, Chohee", "vph": 6.65, "ns": 11.5, "vol": 878, "v": 2633, "h": 396.0, "color": "#1e3a8a", "init": "CP"}, {"name": "Ortiz, Fabian", "vph": 6.64, "ns": 31.2, "vol": 804, "v": 2411, "h": 363.0, "color": "#dc2626", "init": "FO"}, {"name": "Shin, David", "vph": 6.63, "ns": 28.5, "vol": 913, "v": 2738, "h": 413.0, "color": "#dc2626", "init": "DS"}, {"name": "Huh, Ra La", "vph": 6.44, "ns": 13.5, "vol": 799, "v": 2396, "h": 372.0, "color": "#1e3a8a", "init": "RH"}, {"name": "Hu, Stephanie", "vph": 6.39, "ns": 12.5, "vol": 401, "v": 1202, "h": 188.0, "color": "#1e3a8a", "init": "SH"}, {"name": "Sun, Diana", "vph": 6.14, "ns": 13.9, "vol": 383, "v": 1149, "h": 187.0, "color": "#1e3a8a", "init": "DS"}, {"name": "Hussain, Samantha", "vph": 5.86, "ns": 21.2, "vol": 812, "v": 2437, "h": 416.0, "color": "#0d7a55", "init": "SH"}, {"name": "Kim, Yu Jin", "vph": 5.45, "ns": 8.9, "vol": 361, "v": 1084, "h": 199.0, "color": "#1e3a8a", "init": "YK"}, {"name": "Li, Stacy", "vph": 5.41, "ns": 17.6, "vol": 579, "v": 1737, "h": 321.0, "color": "#0d7a55", "init": "SL"}, {"name": "Huang, Cindy", "vph": 5.03, "ns": 25.5, "vol": 575, "v": 1726, "h": 343.0, "color": "#dc2626", "init": "CH"}, {"name": "Kwak, Charles", "vph": 4.86, "ns": 27.2, "vol": 718, "v": 2154, "h": 443.2, "color": "#dc2626", "init": "CK"}, {"name": "Yu, Sophy", "vph": 4.71, "ns": 17.1, "vol": 634, "v": 1903, "h": 404.0, "color": "#b45309", "init": "SY"}, {"name": "Sit, Pui Yi", "vph": 4.37, "ns": 25.7, "vol": 594, "v": 1781, "h": 408.0, "color": "#dc2626", "init": "PS"}, {"name": "Espinal, Aileen", "vph": 3.5, "ns": 28.0, "vol": 456, "v": 1368, "h": 391.0, "color": "#9333ea", "init": "AE"}, {"name": "Garcia, Giselle", "vph": 3.37, "ns": 19.3, "vol": 432, "v": 1295, "h": 384.0, "color": "#b45309", "init": "GG"}];
+const COH={"FO": {"label": "FO \u2014 Ortiz", "firstIdx": 8, "data": [null, null, null, null, null, null, null, null, 2.69, 3.71, 5.9, 5.98, 5.84, 6.03, 6.27, 5.81, 5.93, 6.06, 6.22, 6.95, 6.81, 7.09, 6.53, 6.47], "slope": 0.18, "r2": 0.56, "current": 6.47}, "CH": {"label": "CH \u2014 Huang", "firstIdx": 6, "data": [null, null, null, null, null, null, 0.93, 1.68, 2.41, 2.87, 3.01, 3.28, 3.46, 3.52, 4.21, 3.51, 4.37, 4.75, 5.22, 5.36, 5.91, 5.54, 4.8, 4.89], "slope": 0.239, "r2": 0.86, "current": 4.89}, "PS": {"label": "PS \u2014 Sit", "firstIdx": 9, "data": [null, null, null, null, null, null, null, null, null, 1.65, 2.9, 2.92, 2.58, 2.75, 3.05, 2.7, 3.0, 2.96, 3.7, 4.51, 4.8, 4.63, 4.28, 4.15], "slope": 0.179, "r2": 0.76, "current": 4.15}, "GG": {"label": "GG \u2014 Garcia", "firstIdx": 9, "data": [null, null, null, null, null, null, null, null, null, 2.01, 2.28, 2.52, 2.13, 2.3, 2.32, 2.19, 2.36, 2.47, 2.71, 2.99, 3.2, 3.65, 3.23, 3.34], "slope": 0.1, "r2": 0.78, "current": 3.34}};
+const MPROV={"Sep '24": ["Charles K. \u2014 146h", "Samantha H. \u2014 144h", "Sujin K. \u2014 139h", "Ra H. \u2014 137h", "Hyeyoon P. \u2014 136h", "Sophy Y. \u2014 136h", "Angelina M. \u2014 132h", "Chohee P. \u2014 124h", "Stacy L. \u2014 121h", "Yu K. \u2014 116h", "Curtis C. \u2014 112h", "Yesenia J. \u2014 105h", "Hyun L. \u2014 81h", "David S. \u2014 76h", "Stephanie H. \u2014 64h", "Carey K. \u2014 64h", "Diana S. \u2014 60h"], "Oct '24": ["Sujin K. \u2014 164h", "Charles K. \u2014 162h", "Yesenia J. \u2014 160h", "Hyeyoon P. \u2014 160h", "David S. \u2014 152h", "Sophy Y. \u2014 152h", "Stacy L. \u2014 142h", "Ra H. \u2014 136h", "Chohee P. \u2014 136h", "Curtis C. \u2014 120h", "Samantha H. \u2014 119h", "Angelina M. \u2014 114h", "Yu K. \u2014 113h", "Hyun L. \u2014 97h", "Stephanie H. \u2014 76h", "Carey K. \u2014 72h", "Diana S. \u2014 60h"], "Nov '24": ["Charles K. \u2014 134h", "Curtis C. \u2014 132h", "David S. \u2014 124h", "Angelina M. \u2014 122h", "Stacy L. \u2014 121h", "Chohee P. \u2014 119h", "Hyeyoon P. \u2014 116h", "Yesenia J. \u2014 110h", "Ra H. \u2014 108h", "Yu K. \u2014 107h", "Sophy Y. \u2014 104h", "Sujin K. \u2014 102h", "Samantha H. \u2014 89h", "Hyun L. \u2014 82h", "Carey K. \u2014 68h", "Stephanie H. \u2014 56h", "Diana S. \u2014 53h"], "Dec '24": ["Samantha H. \u2014 154h", "Yu K. \u2014 136h", "Ra H. \u2014 134h", "Yesenia J. \u2014 129h", "Curtis C. \u2014 124h", "Chohee P. \u2014 124h", "Angelina M. \u2014 108h", "Sujin K. \u2014 105h", "Hyeyoon P. \u2014 104h", "Hyun L. \u2014 99h", "Stacy L. \u2014 95h", "Charles K. \u2014 92h", "Sophy Y. \u2014 92h", "David S. \u2014 88h", "Carey K. \u2014 60h", "Stephanie H. \u2014 56h", "Diana S. \u2014 39h"], "Jan '25": ["Sujin K. \u2014 156h", "Curtis C. \u2014 152h", "Ra H. \u2014 147h", "Charles K. \u2014 146h", "Yu K. \u2014 145h", "Hyeyoon P. \u2014 144h", "Sophy Y. \u2014 136h", "Angelina M. \u2014 132h", "Chohee P. \u2014 132h", "Stacy L. \u2014 128h", "Oresta B. \u2014 124h", "Hyun L. \u2014 121h", "Samantha H. \u2014 118h", "Yesenia J. \u2014 102h", "David S. \u2014 85h", "Stephanie H. \u2014 72h", "Carey K. \u2014 72h", "Diana S. \u2014 53h"], "Feb '25": ["Charles K. \u2014 146h", "Samantha H. \u2014 144h", "Ra H. \u2014 136h", "Hyeyoon P. \u2014 136h", "David S. \u2014 136h", "Stacy L. \u2014 135h", "Angelina M. \u2014 126h", "Yesenia J. \u2014 124h", "Chohee P. \u2014 120h", "Hyun L. \u2014 117h", "Yu K. \u2014 116h", "Sophy Y. \u2014 95h", "Carey K. \u2014 64h", "Diana S. \u2014 60h", "Sujin K. \u2014 53h", "Stephanie H. \u2014 44h", "Curtis C. \u2014 40h"], "Mar '25": ["Yesenia J. \u2014 148h", "Hyeyoon P. \u2014 148h", "Sophy Y. \u2014 148h", "Charles K. \u2014 147h", "Chohee P. \u2014 145h", "Samantha H. \u2014 144h", "Stacy L. \u2014 144h", "Yu K. \u2014 143h", "Angelina M. \u2014 141h", "Ra H. \u2014 136h", "David S. \u2014 132h", "Cindy H. \u2014 130h", "Hyun L. \u2014 117h", "Stephanie H. \u2014 68h", "Carey K. \u2014 64h", "Diana S. \u2014 60h"], "Apr '25": ["Samantha H. \u2014 152h", "Sophy Y. \u2014 152h", "Charles K. \u2014 150h", "Chohee P. \u2014 144h", "Hyun L. \u2014 129h", "Ra H. \u2014 128h", "Angelina M. \u2014 126h", "David S. \u2014 124h", "Yesenia J. \u2014 120h", "Hyeyoon P. \u2014 120h", "Cindy H. \u2014 101h", "Carey K. \u2014 71h", "Stacy L. \u2014 70h", "Stephanie H. \u2014 68h", "Diana S. \u2014 60h", "Yu K. \u2014 39h"], "May '25": ["Samantha H. \u2014 160h", "Charles K. \u2014 158h", "Stacy L. \u2014 146h", "Hyeyoon P. \u2014 140h", "Sophy Y. \u2014 140h", "Yu K. \u2014 136h", "Angelina M. \u2014 136h", "Chohee P. \u2014 136h", "David S. \u2014 128h", "Cindy H. \u2014 117h", "Ra H. \u2014 116h", "Yesenia J. \u2014 100h", "Hyun L. \u2014 99h", "Fabian O. \u2014 96h", "Carey K. \u2014 72h", "Stephanie H. \u2014 68h", "Diana S. \u2014 53h", "Curtis C. \u2014 4h"], "Jun '25": ["Chohee P. \u2014 148h", "Stacy L. \u2014 140h", "Angelina M. \u2014 136h", "Fabian O. \u2014 136h", "David S. \u2014 136h", "Yu K. \u2014 129h", "Yesenia J. \u2014 128h", "Sophy Y. \u2014 120h", "Charles K. \u2014 119h", "Samantha H. \u2014 118h", "Cindy H. \u2014 117h", "Hyeyoon P. \u2014 116h", "Pui S. \u2014 116h", "Giselle G. \u2014 112h", "Ra H. \u2014 112h", "Hyun L. \u2014 81h", "Stephanie H. \u2014 68h", "Carey K. \u2014 56h", "Diana S. \u2014 25h", "Curtis C. \u2014 8h"], "Jul '25": ["Angelina M. \u2014 161h", "Samantha H. \u2014 154h", "Giselle G. \u2014 148h", "Yu K. \u2014 144h", "David S. \u2014 144h", "Pui S. \u2014 144h", "Sophy Y. \u2014 144h", "Stacy L. \u2014 134h", "Ra H. \u2014 132h", "Cindy H. \u2014 129h", "Charles K. \u2014 127h", "Hyun L. \u2014 113h", "Fabian O. \u2014 112h", "Chohee P. \u2014 112h", "Hyeyoon P. \u2014 112h", "Diana S. \u2014 71h", "Carey K. \u2014 21h", "Stephanie H. \u2014 16h", "Curtis C. \u2014 8h"], "Aug '25": ["Charles K. \u2014 153h", "Yu K. \u2014 148h", "Samantha H. \u2014 148h", "Fabian O. \u2014 148h", "Pui S. \u2014 148h", "David S. \u2014 132h", "Angelina M. \u2014 127h", "Hyeyoon P. \u2014 120h", "Cindy H. \u2014 117h", "Giselle G. \u2014 116h", "Chohee P. \u2014 112h", "Ra H. \u2014 108h", "Hyun L. \u2014 100h", "Sophy Y. \u2014 92h", "Stacy L. \u2014 76h", "Diana S. \u2014 64h", "Carey K. \u2014 35h", "Stephanie H. \u2014 32h", "Curtis C. \u2014 12h"], "Sep '25": ["Charles K. \u2014 153h", "Ra H. \u2014 144h", "Samantha H. \u2014 144h", "Hyeyoon P. \u2014 144h", "Sophy Y. \u2014 144h", "David S. \u2014 136h", "Giselle G. \u2014 136h", "Stacy L. \u2014 136h", "Chohee P. \u2014 130h", "Cindy H. \u2014 126h", "Pui S. \u2014 120h", "Angelina M. \u2014 117h", "Fabian O. \u2014 116h", "Yu K. \u2014 103h", "Hyun L. \u2014 77h", "Stephanie H. \u2014 68h", "Diana S. \u2014 60h", "Carey K. \u2014 28h", "Curtis C. \u2014 8h"], "Oct '25": ["David S. \u2014 159h", "Charles K. \u2014 157h", "Fabian O. \u2014 152h", "Hyeyoon P. \u2014 152h", "Ra H. \u2014 151h", "Sophy Y. \u2014 151h", "Chohee P. \u2014 148h", "Giselle G. \u2014 136h", "Cindy H. \u2014 127h", "Angelina M. \u2014 123h", "Samantha H. \u2014 116h", "Yu K. \u2014 112h", "Stacy L. \u2014 112h", "Pui S. \u2014 88h", "Hyun L. \u2014 81h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Carey K. \u2014 35h", "Curtis C. \u2014 8h"], "Nov '25": ["Charles K. \u2014 134h", "Pui S. \u2014 128h", "Sophy Y. \u2014 128h", "Fabian O. \u2014 127h", "Giselle G. \u2014 124h", "Ra H. \u2014 111h", "Stacy L. \u2014 109h", "Hyeyoon P. \u2014 108h", "Angelina M. \u2014 105h", "Samantha H. \u2014 96h", "David S. \u2014 88h", "Chohee P. \u2014 82h", "Cindy H. \u2014 76h", "Yu K. \u2014 69h", "Hyun L. \u2014 69h", "Stephanie H. \u2014 56h", "Diana S. \u2014 53h", "Carey K. \u2014 28h", "Curtis C. \u2014 12h", "Oresta B. \u2014 3h"], "Dec '25": ["Fabian O. \u2014 140h", "David S. \u2014 136h", "Pui S. \u2014 136h", "Ra H. \u2014 129h", "Charles K. \u2014 127h", "Stacy L. \u2014 126h", "Angelina M. \u2014 126h", "Chohee P. \u2014 125h", "Hyeyoon P. \u2014 124h", "Hyun L. \u2014 111h", "Yu K. \u2014 103h", "Samantha H. \u2014 97h", "Sophy Y. \u2014 92h", "Giselle G. \u2014 84h", "Cindy H. \u2014 76h", "Stephanie H. \u2014 56h", "Diana S. \u2014 46h", "Carey K. \u2014 17h", "Curtis C. \u2014 8h"], "Jan '26": ["Samantha H. \u2014 148h", "Pui S. \u2014 148h", "Ra H. \u2014 144h", "Fabian O. \u2014 140h", "Charles K. \u2014 138h", "Stacy L. \u2014 136h", "Sophy Y. \u2014 132h", "Chohee P. \u2014 129h", "Hyeyoon P. \u2014 128h", "Cindy H. \u2014 126h", "Giselle G. \u2014 124h", "Angelina M. \u2014 118h", "David S. \u2014 100h", "Hyun L. \u2014 89h", "Stephanie H. \u2014 60h", "Diana S. \u2014 53h", "Yu K. \u2014 26h", "Curtis C. \u2014 8h"], "Feb '26": ["Charles K. \u2014 138h", "Giselle G. \u2014 136h", "Pui S. \u2014 136h", "Ra H. \u2014 128h", "Chohee P. \u2014 127h", "Fabian O. \u2014 124h", "Stacy L. \u2014 121h", "Samantha H. \u2014 120h", "Hyeyoon P. \u2014 120h", "David S. \u2014 119h", "Cindy H. \u2014 117h", "Angelina M. \u2014 102h", "Sophy Y. \u2014 96h", "Hyun L. \u2014 89h", "Diana S. \u2014 53h", "Stephanie H. \u2014 44h", "Carey K. \u2014 3h"], "Mar '26": ["Sophy Y. \u2014 152h", "Fabian O. \u2014 148h", "David S. \u2014 144h", "Pui S. \u2014 144h", "Ra H. \u2014 140h", "Giselle G. \u2014 136h", "Samantha H. \u2014 136h", "Angelina M. \u2014 136h", "Stacy L. \u2014 128h", "Hyeyoon P. \u2014 128h", "Chohee P. \u2014 124h", "Cindy H. \u2014 122h", "Charles K. \u2014 119h", "Hyun L. \u2014 80h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Carey K. \u2014 3h"], "Apr '26": ["Pui S. \u2014 156h", "Charles K. \u2014 154h", "Sophy Y. \u2014 152h", "David S. \u2014 151h", "Chohee P. \u2014 144h", "Giselle G. \u2014 136h", "Cindy H. \u2014 133h", "Samantha H. \u2014 132h", "Ra H. \u2014 128h", "Hyeyoon P. \u2014 120h", "Fabian O. \u2014 116h", "Hyun L. \u2014 105h", "Stacy L. \u2014 94h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Angelina M. \u2014 43h", "Carey K. \u2014 3h"], "May '26": ["Ra H. \u2014 140h", "Fabian O. \u2014 140h", "Chohee P. \u2014 140h", "Aileen E. \u2014 135h", "Charles K. \u2014 129h", "Giselle G. \u2014 128h", "Samantha H. \u2014 128h", "Cindy H. \u2014 121h", "David S. \u2014 120h", "Stacy L. \u2014 117h", "Hyeyoon P. \u2014 108h", "Sophy Y. \u2014 108h", "Hyun L. \u2014 89h", "Pui S. \u2014 64h", "Stephanie H. \u2014 60h", "Diana S. \u2014 53h", "Carey K. \u2014 3h"], "Jun '26": ["Charles K. \u2014 161h", "Hyeyoon P. \u2014 152h", "David S. \u2014 152h", "Pui S. \u2014 148h", "Aileen E. \u2014 144h", "Sophy Y. \u2014 144h", "Ra H. \u2014 136h", "Chohee P. \u2014 136h", "Samantha H. \u2014 124h", "Stacy L. \u2014 115h", "Hyun L. \u2014 107h", "Giselle G. \u2014 92h", "Cindy H. \u2014 91h", "Fabian O. \u2014 87h", "Stephanie H. \u2014 68h", "Diana S. \u2014 67h", "Yu K. \u2014 28h", "Carey K. \u2014 3h"], "Jul '26": ["Samantha H. \u2014 156h", "Hyeyoon P. \u2014 148h", "Giselle G. \u2014 144h", "David S. \u2014 137h", "Fabian O. \u2014 132h", "Cindy H. \u2014 129h", "Pui S. \u2014 128h", "Charles K. \u2014 127h", "Sophy Y. \u2014 124h", "Chohee P. \u2014 116h", "Aileen E. \u2014 111h", "Hyun L. \u2014 108h", "Stacy L. \u2014 104h", "Ra H. \u2014 100h", "Yu K. \u2014 96h", "Stephanie H. \u2014 72h", "Diana S. \u2014 53h"], "Aug '26": ["Charles K. \u2014 154h", "Giselle G. \u2014 148h", "Fabian O. \u2014 144h", "Chohee P. \u2014 144h", "Aileen E. \u2014 136h", "Ra H. \u2014 136h", "Samantha H. \u2014 136h", "Sophy Y. \u2014 136h", "Pui S. \u2014 132h", "David S. \u2014 124h", "Cindy H. \u2014 121h", "Hyeyoon P. \u2014 112h", "Stacy L. \u2014 102h", "Hyun L. \u2014 90h", "Yu K. \u2014 73h", "Diana S. \u2014 67h", "Stephanie H. \u2014 48h", "Angelina M. \u2014 8h"]};
+const EVENTS=[{"idx": 4, "dir": "up", "label": "Oresta B.\nCharles K.\nSujin K."}, {"idx": 5, "dir": "down", "label": "Oresta B.\nCurtis C.\nSujin K."}, {"idx": 10, "dir": "down", "label": "Yesenia J.\nStephanie H.\nDiana S."}, {"idx": 14, "dir": "down", "label": "David S.\nChohee P.\nCindy H."}];
+
+// provider-count label above each bar
+const provCount={id:'provCount',afterDatasetsDraw(c){
+  const ctx=c.ctx, meta=c.getDatasetMeta(0); ctx.save();
+  ctx.font='700 10px '+Chart.defaults.font.family; ctx.fillStyle='#185FA5'; ctx.textAlign='center';
+  meta.data.forEach((b,i)=>ctx.fillText(NP[i]+'p', b.x, b.y-6)); ctx.restore();
+}};
+// hour-change annotations
+const annot={id:'annot',afterDatasetsDraw(c){
+  const ctx=c.ctx, meta=c.getDatasetMeta(0), top=c.chartArea.top; ctx.save();
+  EVENTS.forEach(e=>{
+    const b=meta.data[e.idx]; if(!b) return;
+    const dn=e.dir==='down', col=dn?'#b45309':'#0d7a55';
+    ctx.fillStyle=col; ctx.textAlign='center';
+    ctx.font='700 12px '+Chart.defaults.font.family;
+    ctx.fillText(dn?'\u25BD':'\u25B3', b.x, top-58);
+    ctx.font='400 10px '+Chart.defaults.font.family; ctx.fillStyle='#6b6b6b';
+    e.label.split('\n').forEach((t,i)=>ctx.fillText(t, b.x, top-46+i*11));
+  });
+  ctx.restore();
+}};
+new Chart(document.getElementById('sysProd'),{
+  data:{labels:L,datasets:[
+    {type:'bar',label:'Templated hours',data:HRS,backgroundColor:'#B5D4F4',yAxisID:'y1',order:3,borderRadius:3},
+    {type:'line',label:'System VPH',data:VPH,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,pointHoverRadius:6,tension:.25,yAxisID:'y',order:1},
+    {type:'line',label:'Production average',data:L.map(()=>PA),borderColor:'#D85A30',borderWidth:1.5,borderDash:[6,4],pointRadius:0,yAxisID:'y',order:2}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:76}},
+    plugins:{tooltip:{callbacks:{
+        afterBody:(items)=>{const l=L[items[0].dataIndex];return ['',...(MPROV[l]||[])];}
+    }}},
+    scales:{
+      x:monthAxis(L,12),
+      y:yAxis('System VPH',{min:3,max:7,position:'left',ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:0.5}}),
+      y1:{position:'right',min:0,max:3000,grid:{display:false},border:{display:false},
+          ticks:{font:{size:11},color:'#5a5a5a',padding:6,callback:v=>(v/1000).toFixed(1)+'k'},
+          title:{display:true,text:'Templated hours',font:{size:11,weight:'600'},color:'#6b6b6b'}}
+    }},
+  plugins:[provCount,annot]
+});
+
+// bubble matrix
+const initLbl={id:'initLbl',afterDatasetsDraw(c){
+  const ctx=c.ctx; ctx.save();
+  ctx.font='700 10px '+Chart.defaults.font.family; ctx.fillStyle='#fff';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  c.getDatasetMeta(0).data.forEach((p,i)=>ctx.fillText(PROVS[i].init,p.x,p.y));
+  ctx.restore();
+}};
+new Chart(document.getElementById('bubble'),{
+  type:'bubble',
+  data:{datasets:[{label:'Providers',
+    data:PROVS.map(p=>({x:p.vph,y:p.ns,r:Math.sqrt(p.vol)*0.72})),
+    backgroundColor:PROVS.map(p=>p.color+'E6'),
+    borderColor:PROVS.map(p=>p.color),borderWidth:1.5}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{tooltip:{callbacks:{label:c=>{const p=PROVS[c.dataIndex];
+      return [p.name,'VPH '+p.vph.toFixed(2)+'  ·  no-show '+p.ns.toFixed(1)+'%','avg '+p.vol.toLocaleString()+' visits/month'];}}}},
+    scales:{
+      x:yAxis('VPH (3-month average)',{min:2.5,max:7.5,grid:{color:'#eceff2'},
+        ticks:{font:{size:11},color:'#5a5a5a',stepSize:0.5}}),
+      y:yAxis('No-show rate',{min:0,max:38,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:5,callback:v=>v+'%'}})
+    }},
+  plugins:[initLbl]
+});
+
+// cohort
+const rampZones={id:'rampZones',beforeDatasetsDraw(c){
+  const {ctx,chartArea:a,scales:{y}}=c;
+  const bands=[[0,2.5,'rgba(220,38,38,0.05)'],[2.5,3.5,'rgba(180,83,9,0.05)'],
+               [3.5,4.5,'rgba(180,83,9,0.04)'],[4.5,PA,'rgba(13,122,85,0.05)'],[PA,8,'rgba(13,122,85,0.08)']];
+  ctx.save(); bands.forEach(([lo,hi,col])=>{ctx.fillStyle=col;
+    ctx.fillRect(a.left,y.getPixelForValue(hi),a.right-a.left,y.getPixelForValue(lo)-y.getPixelForValue(hi));});
+  ctx.restore();
+}};
+(function(){
+  const lab=L.slice(C3);
+  const ds=[];
+  Object.entries(COH).forEach(([k,v])=>{
+    const act=v.data.slice(C3);
+    ds.push({label:v.label,data:act,borderColor:v.color||{FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'}[k],
+      backgroundColor:'transparent',borderWidth:2.5,pointRadius:2,pointHoverRadius:6,tension:.25,spanGaps:true});
+    const trend=act.map((_,i)=>{const gi=i+C3; if(gi<v.firstIdx) return null;
+      return +(v.slope*(gi-v.firstIdx)+ (v.data[v.firstIdx]||0)).toFixed(2);});
+    ds.push({label:v.label+' trend',data:trend,
+      borderColor:({FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'})[k],
+      borderWidth:1,borderDash:[5,4],pointRadius:0,tension:0,spanGaps:true});
+  });
+  ds.push({label:'Production average',data:lab.map(()=>PA),borderColor:'#D85A30',borderWidth:1.5,borderDash:[6,4],pointRadius:0});
+  document.getElementById('cohLeg').innerHTML=Object.entries(COH).map(([k,v])=>
+    `<span><span class="sw" style="background:${({FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'})[k]}"></span>${v.label}</span>`).join('')
+    + `<span><span class="sw-line" style="background:#D85A30"></span>Production average (${PA})</span>`;
+  new Chart(document.getElementById('rising'),{
+    type:'line',data:{labels:lab,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{tooltip:{filter:i=>!i.dataset.label.includes('trend'),
+        callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toFixed(2)}`:null}}},
+      scales:{x:monthAxis(lab,9),
+        y:yAxis('VPH',{min:0,max:8,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:1}})}},
+    plugins:[rampZones]
+  });
+})();
+</script></body></html>
