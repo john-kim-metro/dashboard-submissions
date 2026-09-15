@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metro Dermatology — Volume &amp; No-Show Dashboard · August 2026</title>
+<title>Metro Dermatology &mdash; Medical Productivity Dashboard &middot; August 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5;
-       -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
   .page{max-width:1440px;margin:0 auto;padding:24px 32px 56px}
   .db-header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1A3A5C;padding-bottom:14px;margin-bottom:22px;gap:24px;flex-wrap:wrap}
-  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-0.3px}
+  .db-header-left h1{font-size:22px;font-weight:600;color:#1A3A5C;letter-spacing:-.3px}
   .db-header-left p{font-size:12px;color:#5a5a5a;margin-top:4px;line-height:1.6}
   .db-header-right{text-align:right;font-size:11.5px;color:#6b6b6b;line-height:1.7;white-space:nowrap}
   .db-header-right strong{color:#1A3A5C}
-  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin-bottom:20px}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
   .kpi{background:#fff;border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px}
   .kpi-label{font-size:11px;color:#6b6b6b;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
   .kpi-value{font-size:26px;font-weight:600;color:#1A3A5C;line-height:1.1;margin-bottom:7px}
@@ -24,134 +21,117 @@
   .kpi-delta .lbl{font-size:11px;color:#767676;font-weight:400}
   .up{color:#0b6b4a}.dn{color:#a81d1d}.nt{color:#6b6b6b}
   .sec-label{font-size:11px;font-weight:700;color:#6b6b6b;text-transform:uppercase;letter-spacing:.08em;margin:22px 0 10px}
-  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px}
-  .card-title{font-size:13.5px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+  .card{background:#fff;border:1px solid #e4e4e4;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .card-title{font-size:13.5px;font-weight:600;margin-bottom:3px}
   .card-sub{font-size:11.5px;color:#5a5a5a;margin-bottom:12px;line-height:1.6}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-  .grid-6040{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
-  .full{margin-bottom:14px}
   .leg{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:#4a4a4a;margin-bottom:10px}
   .leg span{display:flex;align-items:center;gap:6px}
-  .sw{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
-  .sw-line{width:20px;height:3px;border-radius:2px;flex-shrink:0;display:inline-block}
+  .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .sw-line{width:20px;height:3px;border-radius:2px;display:inline-block}
   .tbl-wrap{overflow-x:auto}
   table{width:100%;border-collapse:collapse;font-size:12px}
   th{background:#1A3A5C;color:#fff;padding:8px 10px;font-weight:600;text-align:left;font-size:11.5px;white-space:nowrap}
-  th.r{text-align:right}
-  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;color:#1a1a1a;white-space:nowrap}
-  td.r{text-align:right}
-  tr:nth-child(even) td{background:#fafafa}
-  tr:hover td{background:#f0f6ff}
+  th.r{text-align:right} td.r{text-align:right}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+  tr:nth-child(even) td{background:#fafafa} tr:hover td{background:#f0f6ff}
   .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
-  .pill-g{background:#dcfce7;color:#14532d}
-  .pill-r{background:#fee2e2;color:#7f1d1d}
-  .pill-a{background:#fef3c7;color:#78350f}
-  .pill-b{background:#dbeafe;color:#1e3a8a}
-  .pill-n{background:#f1f1f1;color:#4a4a4a}
-  .cat-def{margin-top:14px;border-top:1px solid #f0f0f0;padding-top:12px}
-  .cat-def h4{font-size:11.5px;font-weight:600;color:#4a4a4a;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
-  .cat-rows{display:flex;flex-direction:column;gap:7px}
-  .cat-row{display:grid;grid-template-columns:150px 1fr;gap:8px;font-size:11.5px}
-  .cat-row-name{font-weight:600;color:#1A3A5C;padding-top:1px}
-  .cat-row-types{color:#5a5a5a;line-height:1.6}
-  .excl-note{font-size:11px;color:#767676;margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5;line-height:1.6}
+  .pill-g{background:#dcfce7;color:#14532d}.pill-r{background:#fee2e2;color:#7f1d1d}
+  .pill-a{background:#fef3c7;color:#78350f}.pill-b{background:#dbeafe;color:#1e3a8a}
+  .ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:14px}
+  .ins-card{border:1px solid #e4e4e4;border-radius:8px;padding:14px 16px;background:#fcfcfc}
+  .ins-title{font-size:12px;font-weight:700;margin-bottom:6px}
+  .ins-body{font-size:11.5px;color:#4a4a4a;line-height:1.6}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;border-left:3px solid #2563eb;border-radius:6px;padding:12px 14px;font-size:12px;color:#1e3a8a;margin-bottom:14px;line-height:1.6}
   .db-footer{border-top:1px solid #e4e4e4;padding-top:14px;margin-top:32px;font-size:11.5px;color:#6b6b6b;line-height:1.7}
-  .note{background:#fffbeb;border:1px solid #fde68a;border-left:3px solid #d97706;border-radius:6px;padding:12px 14px;font-size:12px;color:#78350f;margin-bottom:14px;line-height:1.6}
-  .note strong{color:#78350f}
-  @media (max-width:900px){.grid-2,.grid-6040{grid-template-columns:1fr} .page{padding:16px 16px 40px}}
-  @media print{
-    body{background:#fff}
-    .page{max-width:none;padding:0}
-    .card{break-inside:avoid;page-break-inside:avoid;border:1px solid #ccc}
-    .kpi{break-inside:avoid}
-    .grid-2,.grid-6040{grid-template-columns:1fr 1fr}
-  }
-</style>
-</head>
-<body>
-<div class="page">
+  @media print{body{background:#fff}.page{max-width:none;padding:0}.card{break-inside:avoid}}
+  @media (max-width:900px){.page{padding:16px 16px 40px}}
+</style></head><body><div class="page">
 
-  <div class="db-header">
-    <div class="db-header-left">
-      <h1>Metro Dermatology &mdash; Volume &amp; No-Show Dashboard</h1>
-      <p>Reporting period: August 2026 (23.5 operating-days) &nbsp;|&nbsp; All 6 medical locations &nbsp;|&nbsp; NS% = NS / (NS + Completed) &nbsp;|&nbsp; Can% = Cancelled / total demand &nbsp;|&nbsp; VPD = Completed / operating-day (Mon&ndash;Fri = 1, Sat = 0.5)</p>
-    </div>
-    <div class="db-header-right"><strong>Prepared September 11, 2026</strong><br>Darell Dado<br>Confidential</div>
+<div class="db-header">
+  <div class="db-header-left">
+    <h1>Metro Dermatology &mdash; Medical Productivity Dashboard</h1>
+    <p>Reporting period: August 2026 &nbsp;|&nbsp; Window Sep '24 &ndash; Aug '26 &nbsp;|&nbsp; VPH = Completed visits / Templated hours &nbsp;|&nbsp; Medical locations; non-provider and treatment appointment types excluded</p>
   </div>
+  <div class="db-header-right"><strong>Prepared September 11, 2026</strong><br>Darell Dado<br>Confidential</div>
+</div>
 
-  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Completed visits</div><div class="kpi-value">12,998</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.3%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&minus;0.9%</div></div></div><div class="kpi"><div class="kpi-label">Visits / operating-day</div><div class="kpi-value">553.1</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.3%</div><div class="kpi-delta dn"><span class="lbl">YoY</span>&minus;0.9%</div></div></div><div class="kpi"><div class="kpi-label">No-show rate</div><div class="kpi-value">19.2%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&minus;0.8pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+2.8pp</div></div></div><div class="kpi"><div class="kpi-label">Cancellation rate</div><div class="kpi-value">25.2%</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>&minus;1.6pp</div><div class="kpi-delta dn"><span class="lbl">YoY</span>+0.9pp</div></div></div><div class="kpi"><div class="kpi-label">Total appt demand</div><div class="kpi-value">21,521</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;3.4%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+3.9%</div></div></div><div class="kpi"><div class="kpi-label">Top type &mdash; Follow-up</div><div class="kpi-value">7,231</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;0.6%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+0.3%</div></div></div><div class="kpi"><div class="kpi-label">New patients (all types)</div><div class="kpi-value">1,984</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+2.6%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+2.6%</div></div></div></div>
 
-  <div class="sec-label">Volume trend</div>
-  <div class="full card">
-    <div class="card-title">Completed visits &mdash; seasonal trend by year (2023&ndash;2026)</div>
-    <div class="card-sub">August closed at 12,998 completed, &minus;0.3% MoM and &minus;0.9% YoY. August and July carry the same operating-day count (23.5), so unlike the last three months there is no calendar effect to unwind &mdash; the per-day move equals the raw move.</div>
-    <div class="leg">
-      <span><span class="sw-line" style="background:#c7ccd1"></span>2023</span>
-      <span><span class="sw-line" style="background:#8fb3d9"></span>2024</span>
-      <span><span class="sw-line" style="background:#1A3A5C"></span>2025</span>
-      <span><span class="sw-line" style="background:#D85A30"></span>2026 YTD</span>
-    </div>
-    <div style="position:relative;height:240px"><canvas id="seasonal"></canvas></div>
+<div class="kpi-row"><div class="kpi"><div class="kpi-label">System VPH &mdash; August 2026</div><div class="kpi-value">5.37</div><div class="kpi-deltas"><div class="kpi-delta dn"><span class="lbl">MoM</span>&minus;2.4%</div><div class="kpi-delta up"><span class="lbl">YoY</span>+1.1%</div></div></div><div class="kpi"><div class="kpi-label">Templated hours</div><div class="kpi-value">2,013</div><div class="kpi-deltas"><div class="kpi-delta up"><span class="lbl">MoM</span>+1.4%</div><div class="kpi-delta nt"><span class="lbl">Jul</span>1,986</div></div></div><div class="kpi"><div class="kpi-label">Active providers</div><div class="kpi-value">18</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">Peak</span>20</div><div class="kpi-delta nt"><span class="lbl">Start</span>17</div></div></div><div class="kpi"><div class="kpi-label">Top VPH &mdash; HL Lee</div><div class="kpi-value">6.99</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">3-mo avg</span>712/mo</div><div class="kpi-delta nt"><span class="lbl">NS</span>8.2%</div></div></div><div class="kpi"><div class="kpi-label">Fastest ramp &mdash; CH Huang</div><div class="kpi-value">+0.239</div><div class="kpi-deltas"><div class="kpi-delta nt"><span class="lbl">VPH/mo</span>R&sup2; 0.86</div><div class="kpi-delta nt"><span class="lbl">Now</span>4.89</div></div></div></div>
+
+<div class="sec-label">1 &mdash; System productivity</div>
+<div class="card">
+  <div class="card-title">System VPH and templated hours &mdash; monthly, Sep '24 &ndash; Aug '26</div>
+  <div class="card-sub">Bars are templated hours (right axis), the line is system VPH (left axis), dashed orange is the 24-month production average of 5.12. Hover any bar for the provider-by-provider hours breakdown. Triangles mark months where three or more providers moved 30+ hours.</div>
+  <div class="leg">
+    <span><span class="sw" style="background:#B5D4F4"></span>Templated hours</span>
+    <span><span class="sw-line" style="background:#1A3A5C"></span>System VPH</span>
+    <span><span class="sw-line" style="background:#D85A30"></span>Production average (5.12)</span>
   </div>
+  <div style="position:relative;height:330px"><canvas id="sysProd"></canvas></div>
+</div>
 
-  <div class="grid-6040">
-    <div class="card">
-      <div class="card-title">System no-show &amp; cancellation rate &mdash; monthly trend (2023&ndash;2026)</div>
-      <div class="card-sub">Both rates improved this month: no-show 20.0% &rarr; 19.2% and cancellation 26.8% &rarr; 25.2%, off July's 2026 high. Both remain well above their 2023&ndash;2025 range.</div>
-      <div class="leg">
-        <span><span class="sw-line" style="background:#a81d1d"></span>No-show rate</span>
-        <span><span class="sw-line" style="background:#e89a9a"></span>Cancellation rate</span>
-      </div>
-      <div style="position:relative;height:240px"><canvas id="nsTrend"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">August completed visits by location</div>
-      <div class="card-sub">August of each year, with MoM vs July 2026, YoY vs August 2025, and August no-show rate. <strong>MoM/day</strong> normalises for two single-site closures &mdash; see the note below the table.</div>
-      <div class="tbl-wrap">
-        <table id="locTable">
-          <thead><tr><th>Location</th><th class="r">2023</th><th class="r">2024</th><th class="r">2025</th><th class="r">Aug '26</th><th class="r">MoM</th><th class="r">MoM/day</th><th class="r">YoY</th><th class="r">NS%</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="excl-note">Ranked by August 2026 completed visits. Bronx Fordham opened during 2024, so it has no 2023 column.
-      <strong>Two single-site closures affect the MoM comparison:</strong> Fort Lee was closed Friday 24 July (July ODE 22.5) and Flushing Northern had no provider Saturday 29 August (August ODE 23.0). <strong>MoM/day</strong> divides each site by its own operating-days and is the like-for-like figure; raw MoM is kept because it is what reconciles against Power BI. All other sites carry the system ODE of 23.5 in both months, so their two columns are identical.</div>
-    </div>
+<div class="sec-label">2 &mdash; Provider matrix</div>
+<div class="card">
+  <div class="card-title">Provider productivity matrix &mdash; three-month average (Jun&ndash;Aug 2026)</div>
+  <div class="card-sub">VPH against no-show rate. Bubble size is average monthly completed visits; initials are first + last name. Minimum 50 visits over three months to appear. Purple marks a provider still ramping.</div>
+  <div class="leg">
+    <span><span class="sw" style="background:#1e3a8a"></span>Ideal &mdash; high VPH, low no-show</span>
+    <span><span class="sw" style="background:#0d7a55"></span>At or near benchmark</span>
+    <span><span class="sw" style="background:#dc2626"></span>Leaky panel &mdash; no-show &ge; 25%</span>
+    <span><span class="sw" style="background:#b45309"></span>Below benchmark VPH</span>
+    <span><span class="sw" style="background:#9333ea"></span>New provider, ramping</span>
   </div>
+  <div style="position:relative;height:380px"><canvas id="bubble"></canvas></div>
+  <div class="ins">
+    <div class="ins-card"><div class="ins-title" style="color:#1e3a8a">Ideal quadrant</div>
+      <div class="ins-body">Lee (6.99 / 8.2%), Park (6.65 / 11.5%), Huh (6.44 / 13.5%), Hu (6.39 / 12.5%), Sun (6.14 / 13.9%), Kim (5.45 / 8.9%)<br><br>Six providers clear the 5.12 production average on a no-show rate under 15%. This is the scheduling-density benchmark: Lee runs the system&rsquo;s highest throughput on its lowest no-show rate, and Kim reaches 5.45 on 8.9% &mdash; adherence, not hours, is what separates this group. Three more &mdash; Park&nbsp;H. (6.74), Hussain (5.86) and Li (5.41) &mdash; clear the average on green but run no-show at 17&ndash;21%, so they sit just outside this quadrant.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#dc2626">Leaky panels &mdash; no-show &ge; 25%</div>
+      <div class="ins-body">Ortiz (6.64 / 31.2%), Shin (6.63 / 28.5%), Huang (5.03 / 25.5%), Kwak (4.86 / 27.2%), Sit (4.37 / 25.7%)<br><br>Between them these carry the largest recoverable volume in the system. Two of the three highest-VPH providers sit here, so this is a conversion problem, not a capacity one.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#b45309">Below benchmark</div>
+      <div class="ins-body">Yu (4.71 / 17.1%), Garcia (3.37 / 19.3%)<br><br>Both are ramp cases rather than idle capacity &mdash; Garcia is fifteen months in and Yu carries genuine volume. Providers below the average who <em>also</em> run no-show at or above 25% are counted in the leaky group, not here. Espinal (3.50 / 28.0%) is plotted in purple and held out of all three groups while she is still ramping &mdash; she is the only provider in the system both below the average and above the 25% no-show line.</div></div>
+  </div>
+</div>
 
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">Completed visits by category &mdash; monthly (2024&ndash;2026) &middot; log scale</div>
-      <div class="card-sub">A log scale is used so the smaller categories are readable alongside Follow-up, which is roughly 20&times; larger than Screening &amp; Diagnostics. Series are labelled at the line end as well as in the legend.</div>
-      <div class="leg" id="catTrendLeg"></div>
-      <div style="position:relative;height:280px"><canvas id="catTrend"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">August 2026 &mdash; appointment category summary</div>
-      <div class="card-sub">Six consolidated categories. MoM vs July 2026, YoY vs August 2025.</div>
-      <div class="tbl-wrap">
-        <table id="catTable">
-          <thead><tr><th>Category</th><th class="r">Visits</th><th class="r">MoM</th><th class="r">YoY</th><th class="r">NS%</th><th class="r">Can%</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="cat-def">
-        <h4>Category definitions</h4>
-        <div class="cat-rows"><div class="cat-row"><div class="cat-row-name">Follow-up</div><div class="cat-row-types">Follow-up &middot; Follow-up 12 Months &middot; Follow-Up 36 Months &middot; Telehealth Follow up &middot; Urgent Follow-up</div></div><div class="cat-row"><div class="cat-row-name">Procedures</div><div class="cat-row-types">AS SAAS &middot; Excimer Laser &middot; Photochemotherapy 96910 &middot; Photo NBUVB 96900 &middot; Hand Foot Unit</div></div><div class="cat-row"><div class="cat-row-name">New Patient</div><div class="cat-row-types">New Patient &middot; Walk In NEW PT &middot; ZocDoc New &middot; Telehealth NEW &middot; Urgent New Pt</div></div><div class="cat-row"><div class="cat-row-name">Chronic Disease Mgmt</div><div class="cat-row-types">Biologics &middot; Accutane &middot; Telehealth Accutane</div></div><div class="cat-row"><div class="cat-row-name">Walk-in</div><div class="cat-row-types">Walk In</div></div><div class="cat-row"><div class="cat-row-name">Screening & Diagnostics</div><div class="cat-row-types">Total Body Exam &middot; Labs</div></div></div>
-        <div class="excl-note">Categories cover 12,739 of 12,998 completed medical visits (98.0%). The remainder are surgical, biopsy, patch-test and other types that sit outside the six consolidated categories and are included in all system totals.</div>
-      </div>
-    </div>
+<div class="sec-label">3 &mdash; Ramp velocity</div>
+<div class="card">
+  <div class="card-title">2025 cohort VPH velocity and ramp standard</div>
+  <div class="card-sub">Monthly VPH from Jan '25. Solid lines are actual, dashed are the fitted trend. Background bands are the ramp zones. Click a legend entry to isolate a provider. Slopes and R&sup2; are refitted on the corrected hours.</div>
+  <div class="leg" id="cohLeg"></div>
+  <div style="position:relative;height:340px"><canvas id="rising"></canvas></div>
+  <div class="tbl-wrap" style="margin-top:16px">
+    <table><thead><tr><th>Provider</th><th>Started</th><th class="r">Current VPH</th><th class="r">Trend</th>
+    <th class="r">&ge; 2.5 (Mo 3)</th><th class="r">&ge; 3.5 (Mo 6)</th><th class="r">&ge; 4.5 (Mo 12)</th><th class="r">&ge; 5.12 (Mo 18)</th><th>Status</th></tr></thead>
+    <tbody><tr><td>FO — Ortiz</td><td>May '25</td><td class='r'><strong>6.47</strong></td><td class='r'>+0.180/mo R&sup2;=0.56</td><td class='r'>Month 1</td><td class='r'>Month 2</td><td class='r'>Month 3</td><td class='r'>Month 3</td><td><span class='pill pill-g'>At benchmark</span></td></tr><tr><td>CH — Huang</td><td>Mar '25</td><td class='r'><strong>4.89</strong></td><td class='r'>+0.239/mo R&sup2;=0.86</td><td class='r'>Month 4</td><td class='r'>Month 8</td><td class='r'>Month 12</td><td class='r'>Month 13</td><td><span class='pill pill-b'>Approaching</span></td></tr><tr><td>PS — Sit</td><td>Jun '25</td><td class='r'><strong>4.15</strong></td><td class='r'>+0.179/mo R&sup2;=0.76</td><td class='r'>Month 2</td><td class='r'>Month 10</td><td class='r'>Month 11</td><td class='r'>Not yet</td><td><span class='pill pill-a'>Review</span></td></tr><tr><td>GG — Garcia</td><td>Jun '25</td><td class='r'><strong>3.34</strong></td><td class='r'>+0.100/mo R&sup2;=0.78</td><td class='r'>Month 3</td><td class='r'>Month 13</td><td class='r'>Not yet</td><td class='r'>Not yet</td><td><span class='pill pill-r'>Escalate</span></td></tr></tbody></table>
   </div>
+  <div class="tbl-wrap" style="margin-top:14px">
+    <table><thead><tr><th>Milestone</th><th class="r">Target VPH</th><th class="r">By month</th><th>If below</th><th>Action</th></tr></thead>
+    <tbody><tr><td>Early ramp</td><td class='r'>&ge; 2.5</td><td class='r'>3</td><td>Watch</td><td>Confirm scheduling template built; panel actively populating</td></tr><tr><td>Mid ramp</td><td class='r'>&ge; 3.5</td><td class='r'>6</td><td>Review</td><td>Panel review with operations; assess appointment type mix and available slots</td></tr><tr><td>Approaching benchmark</td><td class='r'>&ge; 4.5</td><td class='r'>12</td><td>Escalate</td><td>Leadership review; increase scheduling density or consider panel transfer</td></tr><tr><td>Full productivity</td><td class='r'>&ge; 5.12</td><td class='r'>18</td><td>Escalate</td><td>Formal remediation plan with Dr. Lee and CIO/CSO; define timeline</td></tr></tbody></table>
+  </div>
+  <div class="ins">
+    <div class="ins-card"><div class="ins-title" style="color:#D85A30">Fastest ramp &mdash; CH (Huang), +0.239/mo, R&sup2; 0.86</div>
+      <div class="ins-body">The fastest and most linear ramp in the cohort: 0.93 in March&nbsp;&rsquo;25 to a 5.91 peak in May&nbsp;&rsquo;26.
+      August&rsquo;s 4.89 recovers on July&rsquo;s 4.80 but is a third month below the 5.12 Month&#8209;18 mark, which she is now due to hold.
+      She is comfortably clear of the 4.5 Month&#8209;12 target and the trend line remains the cohort&rsquo;s cleanest fit.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#7F77DD">Watch this month &mdash; PS (Sit), 4.80 &rarr; 4.15</div>
+      <div class="ins-body">Three consecutive monthly falls from the May peak, back under the 4.5 Month&#8209;12 milestone she cleared in April.
+      Unlike July, this is not a denominator effect: system templated hours rose 1.4% in August while her VPH fell 3.0%, so the visits are genuinely not there.
+      Slope is still positive at +0.179/mo. Worth a schedule and panel review before the September cycle.</div></div>
+    <div class="ins-card"><div class="ins-title" style="color:#888780">Still short &mdash; GG (Garcia), +0.100/mo</div>
+      <div class="ins-body">August&rsquo;s 3.34 recovers on July&rsquo;s 3.23 but stays under the 3.5 Month&#8209;6 target she first cleared in June at 3.65.
+      The slope is the cohort&rsquo;s shallowest; on that trend the 4.5 Month&#8209;12 mark is roughly a year away.
+      Fifteen months in, this is the one ramp in the cohort that has not converged &mdash; the intervention flag should stay on.</div></div>
+  </div>
+</div>
 
-  <div class="db-footer">
-    Data source: <strong>MetroDermatologyBIData</strong> semantic model (Power BI), live query 2026-09-10; model last refreshed 2026-09-10 09:39 AM ET.
-    Volume, no-shows and cancellations come from <code>fact_Appointment</code>; medical scope is the <code>MED&nbsp;-</code> facility prefix (6 active locations).
-    Cancellations are counted from <code>appointment_status&nbsp;=&nbsp;"CANCELLED"</code>, not derived by subtraction.
-    NS% = NS / (NS + Completed); cancellations are excluded from that denominator. September 2026 is excluded throughout as a partial month.
-    Three cosmetic-typed appointments booked at medical locations were left in the demand total (0 completed, immaterial).
-    System ODE = 23.5 (21 weekdays + 5 Saturdays &times; 0.5), no practice-wide closure in August. Single-site closures are taken from <code>metroapp_shared.schedule_holiday</code> and verified against daily visit counts.
-    Chart text is rendered at a minimum 2&times; pixel density and 11px so it stays sharp in print, PDF export and screenshots.
-    Prepared by Darell Dado, Metro Dermatology.
-  </div>
+<div class="db-footer">
+Data source: <strong>MetroDermatologyBIData</strong> semantic model, live query 11 Sep 2026.
+VPH numerator = <code>[Completed Visits]</code> from <code>fact_Appointment</code> via <code>provider_id &rarr; dim_Staff</code>, excluding the seven pseudo-provider treatment types.
+Denominator = <code>[Templated Hours]</code> from <code>fact_Utilization</code>, now sourced from <code>dbo.ema_utilization</code> (rebuilt daily) rather than the frozen snapshot.
+The whole VPH series is restated on that basis: July 2026 is 5.50 rather than the 5.23 published last cycle, the June &rarr; July move was &minus;4.3%, and the 24-month average is 5.12.
+The two sources agree on visit counts to 0.01% across all 24 months. Provider-roster pre-flight passed: no provider has visits without hours.
+September 2026 is excluded as a partial month. Chart text renders at a minimum 2&times; pixel density and 11px so it stays sharp in print, PDF and screenshots.
+Prepared by Darell Dado, Metro Dermatology.
+</div>
 </div>
 <script>
 
@@ -233,120 +213,112 @@ const endLabels = {
 };
 Chart.register(endLabels);
 
-const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const SEAS={"2023": [7345, 10164, 12213, 10824, 12181, 12467, 11694, 12323, 10027, 10627, 9830, 9014], "2024": [10226, 10231, 11304, 11635, 12566, 11943, 12764, 13140, 11998, 13064, 11711, 11344], "2025": [12339, 10983, 12477, 11725, 13045, 12963, 13475, 13115, 12668, 13285, 11117, 11797], "2026": [11592, 10298, 12553, 12586, 12267, 13353, 13042, 12998, null, null, null, null]};
-const RATES=[{"y": 2023, "n": 1, "ns": 20.8, "c": 19.2}, {"y": 2023, "n": 2, "ns": 18.2, "c": 22.2}, {"y": 2023, "n": 3, "ns": 16.9, "c": 22.6}, {"y": 2023, "n": 4, "ns": 19.4, "c": 21.9}, {"y": 2023, "n": 5, "ns": 18.1, "c": 23.5}, {"y": 2023, "n": 6, "ns": 17.0, "c": 27.1}, {"y": 2023, "n": 7, "ns": 16.6, "c": 25.9}, {"y": 2023, "n": 8, "ns": 16.0, "c": 26.4}, {"y": 2023, "n": 9, "ns": 18.8, "c": 29.2}, {"y": 2023, "n": 10, "ns": 16.7, "c": 28.2}, {"y": 2023, "n": 11, "ns": 18.0, "c": 29.6}, {"y": 2023, "n": 12, "ns": 19.3, "c": 29.1}, {"y": 2024, "n": 1, "ns": 18.5, "c": 28.2}, {"y": 2024, "n": 2, "ns": 16.7, "c": 29.1}, {"y": 2024, "n": 3, "ns": 17.1, "c": 25.5}, {"y": 2024, "n": 4, "ns": 16.9, "c": 25.4}, {"y": 2024, "n": 5, "ns": 16.7, "c": 24.6}, {"y": 2024, "n": 6, "ns": 17.9, "c": 25.3}, {"y": 2024, "n": 7, "ns": 18.9, "c": 27.7}, {"y": 2024, "n": 8, "ns": 16.8, "c": 26.0}, {"y": 2024, "n": 9, "ns": 17.0, "c": 26.7}, {"y": 2024, "n": 10, "ns": 16.0, "c": 24.7}, {"y": 2024, "n": 11, "ns": 16.9, "c": 24.7}, {"y": 2024, "n": 12, "ns": 17.7, "c": 25.5}, {"y": 2025, "n": 1, "ns": 16.5, "c": 26.3}, {"y": 2025, "n": 2, "ns": 15.7, "c": 26.4}, {"y": 2025, "n": 3, "ns": 15.6, "c": 25.5}, {"y": 2025, "n": 4, "ns": 16.3, "c": 24.9}, {"y": 2025, "n": 5, "ns": 17.0, "c": 25.4}, {"y": 2025, "n": 6, "ns": 17.5, "c": 25.4}, {"y": 2025, "n": 7, "ns": 16.6, "c": 26.0}, {"y": 2025, "n": 8, "ns": 16.4, "c": 24.3}, {"y": 2025, "n": 9, "ns": 18.4, "c": 25.4}, {"y": 2025, "n": 10, "ns": 18.4, "c": 24.9}, {"y": 2025, "n": 11, "ns": 19.0, "c": 26.4}, {"y": 2025, "n": 12, "ns": 17.8, "c": 28.6}, {"y": 2026, "n": 1, "ns": 17.9, "c": 30.3}, {"y": 2026, "n": 2, "ns": 18.6, "c": 29.7}, {"y": 2026, "n": 3, "ns": 18.8, "c": 25.0}, {"y": 2026, "n": 4, "ns": 18.6, "c": 25.7}, {"y": 2026, "n": 5, "ns": 20.2, "c": 25.9}, {"y": 2026, "n": 6, "ns": 20.2, "c": 24.6}, {"y": 2026, "n": 7, "ns": 20.0, "c": 26.8}, {"y": 2026, "n": 8, "ns": 19.2, "c": 25.2}];
-const LOC=[{"l": "Bronx Concourse", "c23": 4066, "c24": 3055, "c25": 2683, "cf": 2581, "c26": 2402, "ns26": 27.5, "nsJul": 27.4, "can26": 22.6, "demand": 4284, "jode": 23.5, "aode": 23.5, "jvpd": 109.8, "avpd": 102.2, "momAdj": -6.9}, {"l": "Bronx Fordham", "c23": null, "c24": 1942, "c25": 1929, "cf": 1754, "c26": 1924, "ns26": 29.3, "nsJul": 32.2, "can26": 18.9, "demand": 3358, "jode": 23.5, "aode": 23.5, "jvpd": 74.6, "avpd": 81.9, "momAdj": 9.7}, {"l": "Elmhurst", "c23": 2651, "c24": 2254, "c25": 2223, "cf": 2177, "c26": 2064, "ns26": 18.7, "nsJul": 20.0, "can26": 24.0, "demand": 3340, "jode": 23.5, "aode": 23.5, "jvpd": 92.6, "avpd": 87.8, "momAdj": -5.2}, {"l": "Flushing Northern", "c23": 3175, "c24": 3458, "c25": 2720, "cf": 2854, "c26": 2641, "ns26": 13.2, "nsJul": 12.8, "can26": 28.7, "demand": 4266, "jode": 23.5, "aode": 23.0, "jvpd": 121.4, "avpd": 114.8, "momAdj": -5.5}, {"l": "Fort Lee", "c23": 2431, "c24": 2431, "c25": 2470, "cf": 2403, "c26": 2729, "ns26": 10.5, "nsJul": 10.6, "can26": 28.8, "demand": 4281, "jode": 22.5, "aode": 23.5, "jvpd": 106.8, "avpd": 116.1, "momAdj": 8.7}, {"l": "Glen Oaks", "c23": null, "c24": null, "c25": 1090, "cf": 1273, "c26": 1238, "ns26": 12.9, "nsJul": 14.4, "can26": 28.6, "demand": 1992, "jode": 23.5, "aode": 23.5, "jvpd": 54.2, "avpd": 52.7, "momAdj": -2.7}];
-const CATSER={"Follow-up": [5575, 5456, 6146, 6320, 6895, 6435, 6984, 7152, 6506, 7206, 6373, 6205, 6859, 5963, 6746, 6265, 7160, 7055, 7450, 7211, 6962, 7383, 6023, 6679, 6508, 5613, 7091, 6804, 6785, 7421, 7276, 7231], "Procedures": [2115, 2135, 2308, 2368, 2470, 2442, 2483, 2641, 2504, 2614, 2507, 2406, 2387, 2234, 2573, 2505, 2544, 2570, 2444, 2488, 2462, 2526, 2349, 2137, 2004, 1811, 2012, 2104, 1951, 2028, 2028, 2073], "New Patient": [1234, 1341, 1427, 1424, 1548, 1519, 1962, 1999, 1683, 1913, 1609, 1491, 1755, 1538, 1734, 1637, 1910, 1882, 2095, 1934, 1856, 1870, 1430, 1506, 1622, 1526, 1830, 1994, 1826, 2075, 1933, 1984], "Chronic Disease Mgmt": [589, 561, 642, 627, 700, 640, 688, 721, 688, 687, 665, 665, 743, 755, 789, 704, 774, 796, 784, 796, 734, 797, 727, 840, 846, 803, 921, 865, 946, 968, 926, 908], "Walk-in": [459, 446, 431, 545, 573, 574, 318, 272, 279, 253, 221, 203, 182, 173, 258, 275, 318, 288, 313, 328, 272, 271, 222, 238, 241, 225, 334, 401, 386, 464, 437, 376], "Screening & Diagnostics": [63, 63, 97, 88, 105, 75, 89, 118, 124, 111, 90, 95, 114, 86, 109, 103, 120, 99, 119, 136, 130, 127, 128, 117, 111, 92, 126, 144, 137, 143, 153, 167]};
-const CATSUM=[{"c": "Follow-up", "v": 7231, "mom": -0.6, "yoy": 0.3, "ns": 22.6, "can": 28.5}, {"c": "Procedures", "v": 2073, "mom": 2.2, "yoy": -16.7, "ns": 14.8, "can": 18.5}, {"c": "New Patient", "v": 1984, "mom": 2.6, "yoy": 2.6, "ns": 15.7, "can": 19.2}, {"c": "Chronic Disease Mgmt", "v": 908, "mom": -1.9, "yoy": 14.1, "ns": 18.0, "can": 25.4}, {"c": "Walk-in", "v": 376, "mom": -14.0, "yoy": 14.6, "ns": 0.5, "can": 6.9}, {"c": "Screening & Diagnostics", "v": 167, "mom": 9.2, "yoy": 22.8, "ns": 13.9, "can": 32.2}];
-const CATMONTHS=["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"];
-const CATS=["Follow-up", "Procedures", "New Patient", "Chronic Disease Mgmt", "Walk-in", "Screening & Diagnostics"];
-const CATCOL=["#1A3A5C", "#0F766E", "#D85A30", "#7c3aed", "#0369a1", "#a16207"];
+const L=["Sep '24", "Oct '24", "Nov '24", "Dec '24", "Jan '25", "Feb '25", "Mar '25", "Apr '25", "May '25", "Jun '25", "Jul '25", "Aug '25", "Sep '25", "Oct '25", "Nov '25", "Dec '25", "Jan '26", "Feb '26", "Mar '26", "Apr '26", "May '26", "Jun '26", "Jul '26", "Aug '26"], VPH=[4.98, 4.85, 5.23, 5.1, 4.56, 4.85, 4.87, 5.21, 5.2, 4.86, 5.15, 5.31, 4.84, 4.96, 5.08, 5.15, 4.88, 4.74, 5.27, 5.44, 5.73, 5.74, 5.5, 5.37], HRS=[1895.9, 2137.7, 1749.3, 1740.8, 2168.0, 1795.0, 2017.0, 1756.9, 2007.2, 2123.7, 2128.2, 1990.0, 2095.2, 2151.4, 1708.7, 1862.7, 1950.2, 1775.2, 1981.2, 1906.7, 1785.0, 1957.4, 1986.0, 2013.3], NP=[17, 17, 17, 17, 18, 17, 16, 16, 18, 20, 19, 19, 19, 19, 20, 19, 18, 17, 17, 17, 17, 18, 17, 18];
+const PA=5.12, C3=4;
+const PROVS=[{"name": "Lee, Hyun Soo", "vph": 6.99, "ns": 8.2, "vol": 712, "v": 2135, "h": 305.6, "color": "#1e3a8a", "init": "HL"}, {"name": "Park, Hyeyoon", "vph": 6.74, "ns": 20.6, "vol": 925, "v": 2775, "h": 412.0, "color": "#0d7a55", "init": "HP"}, {"name": "Park, Chohee", "vph": 6.65, "ns": 11.5, "vol": 878, "v": 2633, "h": 396.0, "color": "#1e3a8a", "init": "CP"}, {"name": "Ortiz, Fabian", "vph": 6.64, "ns": 31.2, "vol": 804, "v": 2411, "h": 363.0, "color": "#dc2626", "init": "FO"}, {"name": "Shin, David", "vph": 6.63, "ns": 28.5, "vol": 913, "v": 2738, "h": 413.0, "color": "#dc2626", "init": "DS"}, {"name": "Huh, Ra La", "vph": 6.44, "ns": 13.5, "vol": 799, "v": 2396, "h": 372.0, "color": "#1e3a8a", "init": "RH"}, {"name": "Hu, Stephanie", "vph": 6.39, "ns": 12.5, "vol": 401, "v": 1202, "h": 188.0, "color": "#1e3a8a", "init": "SH"}, {"name": "Sun, Diana", "vph": 6.14, "ns": 13.9, "vol": 383, "v": 1149, "h": 187.0, "color": "#1e3a8a", "init": "DS"}, {"name": "Hussain, Samantha", "vph": 5.86, "ns": 21.2, "vol": 812, "v": 2437, "h": 416.0, "color": "#0d7a55", "init": "SH"}, {"name": "Kim, Yu Jin", "vph": 5.45, "ns": 8.9, "vol": 361, "v": 1084, "h": 199.0, "color": "#1e3a8a", "init": "YK"}, {"name": "Li, Stacy", "vph": 5.41, "ns": 17.6, "vol": 579, "v": 1737, "h": 321.0, "color": "#0d7a55", "init": "SL"}, {"name": "Huang, Cindy", "vph": 5.03, "ns": 25.5, "vol": 575, "v": 1726, "h": 343.0, "color": "#dc2626", "init": "CH"}, {"name": "Kwak, Charles", "vph": 4.86, "ns": 27.2, "vol": 718, "v": 2154, "h": 443.2, "color": "#dc2626", "init": "CK"}, {"name": "Yu, Sophy", "vph": 4.71, "ns": 17.1, "vol": 634, "v": 1903, "h": 404.0, "color": "#b45309", "init": "SY"}, {"name": "Sit, Pui Yi", "vph": 4.37, "ns": 25.7, "vol": 594, "v": 1781, "h": 408.0, "color": "#dc2626", "init": "PS"}, {"name": "Espinal, Aileen", "vph": 3.5, "ns": 28.0, "vol": 456, "v": 1368, "h": 391.0, "color": "#9333ea", "init": "AE"}, {"name": "Garcia, Giselle", "vph": 3.37, "ns": 19.3, "vol": 432, "v": 1295, "h": 384.0, "color": "#b45309", "init": "GG"}];
+const COH={"FO": {"label": "FO \u2014 Ortiz", "firstIdx": 8, "data": [null, null, null, null, null, null, null, null, 2.69, 3.71, 5.9, 5.98, 5.84, 6.03, 6.27, 5.81, 5.93, 6.06, 6.22, 6.95, 6.81, 7.09, 6.53, 6.47], "slope": 0.18, "r2": 0.56, "current": 6.47}, "CH": {"label": "CH \u2014 Huang", "firstIdx": 6, "data": [null, null, null, null, null, null, 0.93, 1.68, 2.41, 2.87, 3.01, 3.28, 3.46, 3.52, 4.21, 3.51, 4.37, 4.75, 5.22, 5.36, 5.91, 5.54, 4.8, 4.89], "slope": 0.239, "r2": 0.86, "current": 4.89}, "PS": {"label": "PS \u2014 Sit", "firstIdx": 9, "data": [null, null, null, null, null, null, null, null, null, 1.65, 2.9, 2.92, 2.58, 2.75, 3.05, 2.7, 3.0, 2.96, 3.7, 4.51, 4.8, 4.63, 4.28, 4.15], "slope": 0.179, "r2": 0.76, "current": 4.15}, "GG": {"label": "GG \u2014 Garcia", "firstIdx": 9, "data": [null, null, null, null, null, null, null, null, null, 2.01, 2.28, 2.52, 2.13, 2.3, 2.32, 2.19, 2.36, 2.47, 2.71, 2.99, 3.2, 3.65, 3.23, 3.34], "slope": 0.1, "r2": 0.78, "current": 3.34}};
+const MPROV={"Sep '24": ["Charles K. \u2014 146h", "Samantha H. \u2014 144h", "Sujin K. \u2014 139h", "Ra H. \u2014 137h", "Hyeyoon P. \u2014 136h", "Sophy Y. \u2014 136h", "Angelina M. \u2014 132h", "Chohee P. \u2014 124h", "Stacy L. \u2014 121h", "Yu K. \u2014 116h", "Curtis C. \u2014 112h", "Yesenia J. \u2014 105h", "Hyun L. \u2014 81h", "David S. \u2014 76h", "Stephanie H. \u2014 64h", "Carey K. \u2014 64h", "Diana S. \u2014 60h"], "Oct '24": ["Sujin K. \u2014 164h", "Charles K. \u2014 162h", "Yesenia J. \u2014 160h", "Hyeyoon P. \u2014 160h", "David S. \u2014 152h", "Sophy Y. \u2014 152h", "Stacy L. \u2014 142h", "Ra H. \u2014 136h", "Chohee P. \u2014 136h", "Curtis C. \u2014 120h", "Samantha H. \u2014 119h", "Angelina M. \u2014 114h", "Yu K. \u2014 113h", "Hyun L. \u2014 97h", "Stephanie H. \u2014 76h", "Carey K. \u2014 72h", "Diana S. \u2014 60h"], "Nov '24": ["Charles K. \u2014 134h", "Curtis C. \u2014 132h", "David S. \u2014 124h", "Angelina M. \u2014 122h", "Stacy L. \u2014 121h", "Chohee P. \u2014 119h", "Hyeyoon P. \u2014 116h", "Yesenia J. \u2014 110h", "Ra H. \u2014 108h", "Yu K. \u2014 107h", "Sophy Y. \u2014 104h", "Sujin K. \u2014 102h", "Samantha H. \u2014 89h", "Hyun L. \u2014 82h", "Carey K. \u2014 68h", "Stephanie H. \u2014 56h", "Diana S. \u2014 53h"], "Dec '24": ["Samantha H. \u2014 154h", "Yu K. \u2014 136h", "Ra H. \u2014 134h", "Yesenia J. \u2014 129h", "Curtis C. \u2014 124h", "Chohee P. \u2014 124h", "Angelina M. \u2014 108h", "Sujin K. \u2014 105h", "Hyeyoon P. \u2014 104h", "Hyun L. \u2014 99h", "Stacy L. \u2014 95h", "Charles K. \u2014 92h", "Sophy Y. \u2014 92h", "David S. \u2014 88h", "Carey K. \u2014 60h", "Stephanie H. \u2014 56h", "Diana S. \u2014 39h"], "Jan '25": ["Sujin K. \u2014 156h", "Curtis C. \u2014 152h", "Ra H. \u2014 147h", "Charles K. \u2014 146h", "Yu K. \u2014 145h", "Hyeyoon P. \u2014 144h", "Sophy Y. \u2014 136h", "Angelina M. \u2014 132h", "Chohee P. \u2014 132h", "Stacy L. \u2014 128h", "Oresta B. \u2014 124h", "Hyun L. \u2014 121h", "Samantha H. \u2014 118h", "Yesenia J. \u2014 102h", "David S. \u2014 85h", "Stephanie H. \u2014 72h", "Carey K. \u2014 72h", "Diana S. \u2014 53h"], "Feb '25": ["Charles K. \u2014 146h", "Samantha H. \u2014 144h", "Ra H. \u2014 136h", "Hyeyoon P. \u2014 136h", "David S. \u2014 136h", "Stacy L. \u2014 135h", "Angelina M. \u2014 126h", "Yesenia J. \u2014 124h", "Chohee P. \u2014 120h", "Hyun L. \u2014 117h", "Yu K. \u2014 116h", "Sophy Y. \u2014 95h", "Carey K. \u2014 64h", "Diana S. \u2014 60h", "Sujin K. \u2014 53h", "Stephanie H. \u2014 44h", "Curtis C. \u2014 40h"], "Mar '25": ["Yesenia J. \u2014 148h", "Hyeyoon P. \u2014 148h", "Sophy Y. \u2014 148h", "Charles K. \u2014 147h", "Chohee P. \u2014 145h", "Samantha H. \u2014 144h", "Stacy L. \u2014 144h", "Yu K. \u2014 143h", "Angelina M. \u2014 141h", "Ra H. \u2014 136h", "David S. \u2014 132h", "Cindy H. \u2014 130h", "Hyun L. \u2014 117h", "Stephanie H. \u2014 68h", "Carey K. \u2014 64h", "Diana S. \u2014 60h"], "Apr '25": ["Samantha H. \u2014 152h", "Sophy Y. \u2014 152h", "Charles K. \u2014 150h", "Chohee P. \u2014 144h", "Hyun L. \u2014 129h", "Ra H. \u2014 128h", "Angelina M. \u2014 126h", "David S. \u2014 124h", "Yesenia J. \u2014 120h", "Hyeyoon P. \u2014 120h", "Cindy H. \u2014 101h", "Carey K. \u2014 71h", "Stacy L. \u2014 70h", "Stephanie H. \u2014 68h", "Diana S. \u2014 60h", "Yu K. \u2014 39h"], "May '25": ["Samantha H. \u2014 160h", "Charles K. \u2014 158h", "Stacy L. \u2014 146h", "Hyeyoon P. \u2014 140h", "Sophy Y. \u2014 140h", "Yu K. \u2014 136h", "Angelina M. \u2014 136h", "Chohee P. \u2014 136h", "David S. \u2014 128h", "Cindy H. \u2014 117h", "Ra H. \u2014 116h", "Yesenia J. \u2014 100h", "Hyun L. \u2014 99h", "Fabian O. \u2014 96h", "Carey K. \u2014 72h", "Stephanie H. \u2014 68h", "Diana S. \u2014 53h", "Curtis C. \u2014 4h"], "Jun '25": ["Chohee P. \u2014 148h", "Stacy L. \u2014 140h", "Angelina M. \u2014 136h", "Fabian O. \u2014 136h", "David S. \u2014 136h", "Yu K. \u2014 129h", "Yesenia J. \u2014 128h", "Sophy Y. \u2014 120h", "Charles K. \u2014 119h", "Samantha H. \u2014 118h", "Cindy H. \u2014 117h", "Hyeyoon P. \u2014 116h", "Pui S. \u2014 116h", "Giselle G. \u2014 112h", "Ra H. \u2014 112h", "Hyun L. \u2014 81h", "Stephanie H. \u2014 68h", "Carey K. \u2014 56h", "Diana S. \u2014 25h", "Curtis C. \u2014 8h"], "Jul '25": ["Angelina M. \u2014 161h", "Samantha H. \u2014 154h", "Giselle G. \u2014 148h", "Yu K. \u2014 144h", "David S. \u2014 144h", "Pui S. \u2014 144h", "Sophy Y. \u2014 144h", "Stacy L. \u2014 134h", "Ra H. \u2014 132h", "Cindy H. \u2014 129h", "Charles K. \u2014 127h", "Hyun L. \u2014 113h", "Fabian O. \u2014 112h", "Chohee P. \u2014 112h", "Hyeyoon P. \u2014 112h", "Diana S. \u2014 71h", "Carey K. \u2014 21h", "Stephanie H. \u2014 16h", "Curtis C. \u2014 8h"], "Aug '25": ["Charles K. \u2014 153h", "Yu K. \u2014 148h", "Samantha H. \u2014 148h", "Fabian O. \u2014 148h", "Pui S. \u2014 148h", "David S. \u2014 132h", "Angelina M. \u2014 127h", "Hyeyoon P. \u2014 120h", "Cindy H. \u2014 117h", "Giselle G. \u2014 116h", "Chohee P. \u2014 112h", "Ra H. \u2014 108h", "Hyun L. \u2014 100h", "Sophy Y. \u2014 92h", "Stacy L. \u2014 76h", "Diana S. \u2014 64h", "Carey K. \u2014 35h", "Stephanie H. \u2014 32h", "Curtis C. \u2014 12h"], "Sep '25": ["Charles K. \u2014 153h", "Ra H. \u2014 144h", "Samantha H. \u2014 144h", "Hyeyoon P. \u2014 144h", "Sophy Y. \u2014 144h", "David S. \u2014 136h", "Giselle G. \u2014 136h", "Stacy L. \u2014 136h", "Chohee P. \u2014 130h", "Cindy H. \u2014 126h", "Pui S. \u2014 120h", "Angelina M. \u2014 117h", "Fabian O. \u2014 116h", "Yu K. \u2014 103h", "Hyun L. \u2014 77h", "Stephanie H. \u2014 68h", "Diana S. \u2014 60h", "Carey K. \u2014 28h", "Curtis C. \u2014 8h"], "Oct '25": ["David S. \u2014 159h", "Charles K. \u2014 157h", "Fabian O. \u2014 152h", "Hyeyoon P. \u2014 152h", "Ra H. \u2014 151h", "Sophy Y. \u2014 151h", "Chohee P. \u2014 148h", "Giselle G. \u2014 136h", "Cindy H. \u2014 127h", "Angelina M. \u2014 123h", "Samantha H. \u2014 116h", "Yu K. \u2014 112h", "Stacy L. \u2014 112h", "Pui S. \u2014 88h", "Hyun L. \u2014 81h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Carey K. \u2014 35h", "Curtis C. \u2014 8h"], "Nov '25": ["Charles K. \u2014 134h", "Pui S. \u2014 128h", "Sophy Y. \u2014 128h", "Fabian O. \u2014 127h", "Giselle G. \u2014 124h", "Ra H. \u2014 111h", "Stacy L. \u2014 109h", "Hyeyoon P. \u2014 108h", "Angelina M. \u2014 105h", "Samantha H. \u2014 96h", "David S. \u2014 88h", "Chohee P. \u2014 82h", "Cindy H. \u2014 76h", "Yu K. \u2014 69h", "Hyun L. \u2014 69h", "Stephanie H. \u2014 56h", "Diana S. \u2014 53h", "Carey K. \u2014 28h", "Curtis C. \u2014 12h", "Oresta B. \u2014 3h"], "Dec '25": ["Fabian O. \u2014 140h", "David S. \u2014 136h", "Pui S. \u2014 136h", "Ra H. \u2014 129h", "Charles K. \u2014 127h", "Stacy L. \u2014 126h", "Angelina M. \u2014 126h", "Chohee P. \u2014 125h", "Hyeyoon P. \u2014 124h", "Hyun L. \u2014 111h", "Yu K. \u2014 103h", "Samantha H. \u2014 97h", "Sophy Y. \u2014 92h", "Giselle G. \u2014 84h", "Cindy H. \u2014 76h", "Stephanie H. \u2014 56h", "Diana S. \u2014 46h", "Carey K. \u2014 17h", "Curtis C. \u2014 8h"], "Jan '26": ["Samantha H. \u2014 148h", "Pui S. \u2014 148h", "Ra H. \u2014 144h", "Fabian O. \u2014 140h", "Charles K. \u2014 138h", "Stacy L. \u2014 136h", "Sophy Y. \u2014 132h", "Chohee P. \u2014 129h", "Hyeyoon P. \u2014 128h", "Cindy H. \u2014 126h", "Giselle G. \u2014 124h", "Angelina M. \u2014 118h", "David S. \u2014 100h", "Hyun L. \u2014 89h", "Stephanie H. \u2014 60h", "Diana S. \u2014 53h", "Yu K. \u2014 26h", "Curtis C. \u2014 8h"], "Feb '26": ["Charles K. \u2014 138h", "Giselle G. \u2014 136h", "Pui S. \u2014 136h", "Ra H. \u2014 128h", "Chohee P. \u2014 127h", "Fabian O. \u2014 124h", "Stacy L. \u2014 121h", "Samantha H. \u2014 120h", "Hyeyoon P. \u2014 120h", "David S. \u2014 119h", "Cindy H. \u2014 117h", "Angelina M. \u2014 102h", "Sophy Y. \u2014 96h", "Hyun L. \u2014 89h", "Diana S. \u2014 53h", "Stephanie H. \u2014 44h", "Carey K. \u2014 3h"], "Mar '26": ["Sophy Y. \u2014 152h", "Fabian O. \u2014 148h", "David S. \u2014 144h", "Pui S. \u2014 144h", "Ra H. \u2014 140h", "Giselle G. \u2014 136h", "Samantha H. \u2014 136h", "Angelina M. \u2014 136h", "Stacy L. \u2014 128h", "Hyeyoon P. \u2014 128h", "Chohee P. \u2014 124h", "Cindy H. \u2014 122h", "Charles K. \u2014 119h", "Hyun L. \u2014 80h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Carey K. \u2014 3h"], "Apr '26": ["Pui S. \u2014 156h", "Charles K. \u2014 154h", "Sophy Y. \u2014 152h", "David S. \u2014 151h", "Chohee P. \u2014 144h", "Giselle G. \u2014 136h", "Cindy H. \u2014 133h", "Samantha H. \u2014 132h", "Ra H. \u2014 128h", "Hyeyoon P. \u2014 120h", "Fabian O. \u2014 116h", "Hyun L. \u2014 105h", "Stacy L. \u2014 94h", "Stephanie H. \u2014 72h", "Diana S. \u2014 67h", "Angelina M. \u2014 43h", "Carey K. \u2014 3h"], "May '26": ["Ra H. \u2014 140h", "Fabian O. \u2014 140h", "Chohee P. \u2014 140h", "Aileen E. \u2014 135h", "Charles K. \u2014 129h", "Giselle G. \u2014 128h", "Samantha H. \u2014 128h", "Cindy H. \u2014 121h", "David S. \u2014 120h", "Stacy L. \u2014 117h", "Hyeyoon P. \u2014 108h", "Sophy Y. \u2014 108h", "Hyun L. \u2014 89h", "Pui S. \u2014 64h", "Stephanie H. \u2014 60h", "Diana S. \u2014 53h", "Carey K. \u2014 3h"], "Jun '26": ["Charles K. \u2014 161h", "Hyeyoon P. \u2014 152h", "David S. \u2014 152h", "Pui S. \u2014 148h", "Aileen E. \u2014 144h", "Sophy Y. \u2014 144h", "Ra H. \u2014 136h", "Chohee P. \u2014 136h", "Samantha H. \u2014 124h", "Stacy L. \u2014 115h", "Hyun L. \u2014 107h", "Giselle G. \u2014 92h", "Cindy H. \u2014 91h", "Fabian O. \u2014 87h", "Stephanie H. \u2014 68h", "Diana S. \u2014 67h", "Yu K. \u2014 28h", "Carey K. \u2014 3h"], "Jul '26": ["Samantha H. \u2014 156h", "Hyeyoon P. \u2014 148h", "Giselle G. \u2014 144h", "David S. \u2014 137h", "Fabian O. \u2014 132h", "Cindy H. \u2014 129h", "Pui S. \u2014 128h", "Charles K. \u2014 127h", "Sophy Y. \u2014 124h", "Chohee P. \u2014 116h", "Aileen E. \u2014 111h", "Hyun L. \u2014 108h", "Stacy L. \u2014 104h", "Ra H. \u2014 100h", "Yu K. \u2014 96h", "Stephanie H. \u2014 72h", "Diana S. \u2014 53h"], "Aug '26": ["Charles K. \u2014 154h", "Giselle G. \u2014 148h", "Fabian O. \u2014 144h", "Chohee P. \u2014 144h", "Aileen E. \u2014 136h", "Ra H. \u2014 136h", "Samantha H. \u2014 136h", "Sophy Y. \u2014 136h", "Pui S. \u2014 132h", "David S. \u2014 124h", "Cindy H. \u2014 121h", "Hyeyoon P. \u2014 112h", "Stacy L. \u2014 102h", "Hyun L. \u2014 90h", "Yu K. \u2014 73h", "Diana S. \u2014 67h", "Stephanie H. \u2014 48h", "Angelina M. \u2014 8h"]};
+const EVENTS=[{"idx": 4, "dir": "up", "label": "Oresta B.\nCharles K.\nSujin K."}, {"idx": 5, "dir": "down", "label": "Oresta B.\nCurtis C.\nSujin K."}, {"idx": 10, "dir": "down", "label": "Yesenia J.\nStephanie H.\nDiana S."}, {"idx": 14, "dir": "down", "label": "David S.\nChohee P.\nCindy H."}];
 
-// ---- Seasonal -------------------------------------------------------------
-new Chart(document.getElementById('seasonal'),{
-  type:'line',
-  data:{labels:MO,datasets:[
-    {label:'2023',data:SEAS['2023'],borderColor:'#c7ccd1',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
-    {label:'2024',data:SEAS['2024'],borderColor:'#8fb3d9',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]},
-    {label:'2025',data:SEAS['2025'],borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
-    {label:'2026',data:SEAS['2026'],borderColor:'#D85A30',backgroundColor:'rgba(216,90,48,0.06)',fill:true,borderWidth:2.5,pointRadius:3,pointHoverRadius:6,tension:.3,spanGaps:false}
+// provider-count label above each bar
+const provCount={id:'provCount',afterDatasetsDraw(c){
+  const ctx=c.ctx, meta=c.getDatasetMeta(0); ctx.save();
+  ctx.font='700 10px '+Chart.defaults.font.family; ctx.fillStyle='#185FA5'; ctx.textAlign='center';
+  meta.data.forEach((b,i)=>ctx.fillText(NP[i]+'p', b.x, b.y-6)); ctx.restore();
+}};
+// hour-change annotations
+const annot={id:'annot',afterDatasetsDraw(c){
+  const ctx=c.ctx, meta=c.getDatasetMeta(0), top=c.chartArea.top; ctx.save();
+  EVENTS.forEach(e=>{
+    const b=meta.data[e.idx]; if(!b) return;
+    const dn=e.dir==='down', col=dn?'#b45309':'#0d7a55';
+    ctx.fillStyle=col; ctx.textAlign='center';
+    ctx.font='700 12px '+Chart.defaults.font.family;
+    ctx.fillText(dn?'\u25BD':'\u25B3', b.x, top-58);
+    ctx.font='400 10px '+Chart.defaults.font.family; ctx.fillStyle='#6b6b6b';
+    e.label.split('\n').forEach((t,i)=>ctx.fillText(t, b.x, top-46+i*11));
+  });
+  ctx.restore();
+}};
+new Chart(document.getElementById('sysProd'),{
+  data:{labels:L,datasets:[
+    {type:'bar',label:'Templated hours',data:HRS,backgroundColor:'#B5D4F4',yAxisID:'y1',order:3,borderRadius:3},
+    {type:'line',label:'System VPH',data:VPH,borderColor:'#1A3A5C',backgroundColor:'transparent',borderWidth:2.5,pointRadius:2.5,pointHoverRadius:6,tension:.25,yAxisID:'y',order:1},
+    {type:'line',label:'Production average',data:L.map(()=>PA),borderColor:'#D85A30',borderWidth:1.5,borderDash:[6,4],pointRadius:0,yAxisID:'y',order:2}
   ]},
-  options:{responsive:true,maintainAspectRatio:false,
-    layout:{padding:{right:8}},
-    plugins:{tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()} visits`:null}}},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:76}},
+    plugins:{tooltip:{callbacks:{
+        afterBody:(items)=>{const l=L[items[0].dataIndex];return ['',...(MPROV[l]||[])];}
+    }}},
     scales:{
-      x:monthAxis(MO,12),
-      y:yAxis('Completed visits',{beginAtZero:false,
-        ticks:{font:{size:11},color:'#5a5a5a',padding:6,callback:v=>(v/1000).toFixed(0)+'k'}})
-    }}
+      x:monthAxis(L,12),
+      y:yAxis('System VPH',{min:3,max:7,position:'left',ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:0.5}}),
+      y1:{position:'right',min:0,max:3000,grid:{display:false},border:{display:false},
+          ticks:{font:{size:11},color:'#5a5a5a',padding:6,callback:v=>(v/1000).toFixed(1)+'k'},
+          title:{display:true,text:'Templated hours',font:{size:11,weight:'600'},color:'#6b6b6b'}}
+    }},
+  plugins:[provCount,annot]
 });
 
-// ---- NS / cancellation trend ---------------------------------------------
+// bubble matrix
+const initLbl={id:'initLbl',afterDatasetsDraw(c){
+  const ctx=c.ctx; ctx.save();
+  ctx.font='700 10px '+Chart.defaults.font.family; ctx.fillStyle='#fff';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  c.getDatasetMeta(0).data.forEach((p,i)=>ctx.fillText(PROVS[i].init,p.x,p.y));
+  ctx.restore();
+}};
+new Chart(document.getElementById('bubble'),{
+  type:'bubble',
+  data:{datasets:[{label:'Providers',
+    data:PROVS.map(p=>({x:p.vph,y:p.ns,r:Math.sqrt(p.vol)*0.72})),
+    backgroundColor:PROVS.map(p=>p.color+'E6'),
+    borderColor:PROVS.map(p=>p.color),borderWidth:1.5}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{tooltip:{callbacks:{label:c=>{const p=PROVS[c.dataIndex];
+      return [p.name,'VPH '+p.vph.toFixed(2)+'  ·  no-show '+p.ns.toFixed(1)+'%','avg '+p.vol.toLocaleString()+' visits/month'];}}}},
+    scales:{
+      x:yAxis('VPH (3-month average)',{min:2.5,max:7.5,grid:{color:'#eceff2'},
+        ticks:{font:{size:11},color:'#5a5a5a',stepSize:0.5}}),
+      y:yAxis('No-show rate',{min:0,max:38,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:5,callback:v=>v+'%'}})
+    }},
+  plugins:[initLbl]
+});
+
+// cohort
+const rampZones={id:'rampZones',beforeDatasetsDraw(c){
+  const {ctx,chartArea:a,scales:{y}}=c;
+  const bands=[[0,2.5,'rgba(220,38,38,0.05)'],[2.5,3.5,'rgba(180,83,9,0.05)'],
+               [3.5,4.5,'rgba(180,83,9,0.04)'],[4.5,PA,'rgba(13,122,85,0.05)'],[PA,8,'rgba(13,122,85,0.08)']];
+  ctx.save(); bands.forEach(([lo,hi,col])=>{ctx.fillStyle=col;
+    ctx.fillRect(a.left,y.getPixelForValue(hi),a.right-a.left,y.getPixelForValue(lo)-y.getPixelForValue(hi));});
+  ctx.restore();
+}};
 (function(){
-  const lbl=RATES.map(r=>MO[r.n-1]+" '"+String(r.y).slice(2));
-  new Chart(document.getElementById('nsTrend'),{
-    type:'line',
-    data:{labels:lbl,datasets:[
-      {label:'No-show rate',data:RATES.map(r=>r.ns),borderColor:'#a81d1d',backgroundColor:'rgba(168,29,29,0.06)',fill:true,borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3},
-      {label:'Cancellation rate',data:RATES.map(r=>r.c),borderColor:'#e89a9a',backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:[5,4]}
-    ]},
+  const lab=L.slice(C3);
+  const ds=[];
+  Object.entries(COH).forEach(([k,v])=>{
+    const act=v.data.slice(C3);
+    ds.push({label:v.label,data:act,borderColor:v.color||{FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'}[k],
+      backgroundColor:'transparent',borderWidth:2.5,pointRadius:2,pointHoverRadius:6,tension:.25,spanGaps:true});
+    const trend=act.map((_,i)=>{const gi=i+C3; if(gi<v.firstIdx) return null;
+      return +(v.slope*(gi-v.firstIdx)+ (v.data[v.firstIdx]||0)).toFixed(2);});
+    ds.push({label:v.label+' trend',data:trend,
+      borderColor:({FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'})[k],
+      borderWidth:1,borderDash:[5,4],pointRadius:0,tension:0,spanGaps:true});
+  });
+  ds.push({label:'Production average',data:lab.map(()=>PA),borderColor:'#D85A30',borderWidth:1.5,borderDash:[6,4],pointRadius:0});
+  document.getElementById('cohLeg').innerHTML=Object.entries(COH).map(([k,v])=>
+    `<span><span class="sw" style="background:${({FO:'#0C447C',CH:'#D85A30',PS:'#7F77DD',GG:'#888780'})[k]}"></span>${v.label}</span>`).join('')
+    + `<span><span class="sw-line" style="background:#D85A30"></span>Production average (${PA})</span>`;
+  new Chart(document.getElementById('rising'),{
+    type:'line',data:{labels:lab,datasets:ds},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},
-      scales:{
-        x:monthAxis(lbl,8),
-        y:yAxis('Rate',{min:10,max:36,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:5,callback:v=>v+'%'}})
-      }}
+      plugins:{tooltip:{filter:i=>!i.dataset.label.includes('trend'),
+        callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toFixed(2)}`:null}}},
+      scales:{x:monthAxis(lab,9),
+        y:yAxis('VPH',{min:0,max:8,ticks:{font:{size:11},color:'#5a5a5a',padding:6,stepSize:1}})}},
+    plugins:[rampZones]
   });
 })();
-
-// ---- Location table -------------------------------------------------------
-(function(){
-  const tb=document.querySelector('#locTable tbody');
-  const rows=LOC.slice().sort((x,y)=>y.c26-x.c26);
-  tb.innerHTML=rows.map(r=>{
-    const mom=r.cf?((r.c26-r.cf)/r.cf*100):null;
-    const yoy=r.c25?((r.c26-r.c25)/r.c25*100):null;
-    const f=(v)=>`<span class="pill ${v>=0?'pill-g':'pill-r'}">${v>=0?'+':'\u2212'}${Math.abs(v).toFixed(1)}%</span>`;
-    const nC=r.ns26>=25?'pill-r':r.ns26>=15?'pill-a':'pill-g';
-    return `<tr>
-      <td>${r.l}</td>
-      <td class="r">${r.c23?r.c23.toLocaleString():'&mdash;'}</td>
-      <td class="r">${r.c24?r.c24.toLocaleString():'&mdash;'}</td>
-      <td class="r">${r.c25?r.c25.toLocaleString():'&mdash;'}</td>
-      <td class="r"><strong>${r.c26.toLocaleString()}</strong></td>
-      <td class="r">${mom!==null?f(mom):'&mdash;'}</td>
-      <td class="r">${r.momAdj!==undefined?(Math.abs(r.momAdj-mom)>0.05?'<strong>'+f(r.momAdj)+'</strong>':f(r.momAdj)):'&mdash;'}</td>
-      <td class="r">${yoy!==null?f(yoy):'<span class="pill pill-b">New</span>'}</td>
-      <td class="r"><span class="pill ${nC}">${r.ns26.toFixed(1)}%</span></td>
-    </tr>`;
-  }).join('');
-})();
-
-// ---- Category trend (log) -------------------------------------------------
-(function(){
-  const lbl=CATMONTHS.map(s=>{const[y,m]=s.split('-');return MO[+m-1]+" '"+y.slice(2);});
-  const dash=[[],[],[6,4],[2,3],[8,3],[3,3]];
-  const datasets=CATS.map((c,i)=>({
-    label:c,data:CATSER[c],borderColor:CATCOL[i],backgroundColor:'transparent',
-    borderWidth:i<2?2.4:1.9,pointRadius:0,pointHoverRadius:5,tension:.3,borderDash:dash[i]
-  }));
-  const legEl=document.getElementById('catTrendLeg');
-  legEl.innerHTML=CATS.map((c,i)=>`<span><span class="sw" style="background:${CATCOL[i]}"></span>${c}</span>`).join('');
-  new Chart(document.getElementById('catTrend'),{
-    type:'line',data:{labels:lbl,datasets},
-    options:{responsive:true,maintainAspectRatio:false,
-      layout:{padding:{right:96}},
-      plugins:{
-        tooltip:{callbacks:{label:c=>c.parsed.y!=null?`${c.dataset.label}: ${c.parsed.y.toLocaleString()}`:null}},
-        endLabels:{enabled:true}
-      },
-      scales:{
-        x:monthAxis(lbl,8),
-        y:yAxis('Completed visits (log scale)',{type:'logarithmic',min:50,max:10000,
-          ticks:{font:{size:11},color:'#5a5a5a',padding:6,
-            callback:v=>[50,100,200,500,1000,2000,5000,10000].includes(v)?(v>=1000?(v/1000)+'k':String(v)):''}})
-      }}
-  });
-})();
-
-// ---- Category table -------------------------------------------------------
-(function(){
-  const tb=document.querySelector('#catTable tbody');
-  tb.innerHTML=CATSUM.map(r=>{
-    const f=(v)=>`<span class="pill ${v>=0?'pill-g':'pill-r'}">${v>=0?'+':'\u2212'}${Math.abs(v).toFixed(1)}%</span>`;
-    const nC=r.ns>=20?'pill-r':r.ns>=12?'pill-a':'pill-g';
-    const cC=r.can>=28?'pill-r':r.can>=20?'pill-a':'pill-g';
-    return `<tr>
-      <td>${r.c}</td>
-      <td class="r"><strong>${r.v.toLocaleString()}</strong></td>
-      <td class="r">${f(r.mom)}</td>
-      <td class="r">${f(r.yoy)}</td>
-      <td class="r"><span class="pill ${nC}">${r.ns.toFixed(1)}%</span></td>
-      <td class="r"><span class="pill ${cC}">${r.can.toFixed(1)}%</span></td>
-    </tr>`;
-  }).join('');
-})();
-</script>
-</body>
-</html>
+</script></body></html>

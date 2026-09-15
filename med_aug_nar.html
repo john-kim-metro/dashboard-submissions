@@ -290,65 +290,33 @@ partner bookings. 523 (60%) were new patients and 145
 (17%) were paid bookings, putting the effective cost at
 <strong>$44 per paid booking</strong> and $7.30 per booking overall.</p>
 
-<h2><span class="num">P</span>Productivity is included this cycle</h2>
+<h2><span class="num">P</span>Productivity eased in August but stayed above the two-year average</h2>
 
-<div class="callout callout-good">
-<strong>The blocker cleared on 11 September; the productivity dashboard ships with this cycle.</strong>
-Templated hours had been frozen at a ~1&nbsp;June 2026 snapshot for three cycles. They now come from the live daily
-schedule, and the reporting model has been rebuilt and verified against it. The staleness symptoms are gone: August
-reports <strong>2,013 templated hours</strong> and real no-show counts, not zero.
-</div>
+<p><strong>System VPH was 5.37 in August</strong> &mdash; &minus;2.4% on July and +1.1% year-on-year, on
+2,013 templated hours across 18 active providers. That is 4.9% above the 24-month average of 5.12, and the
+year-on-year gain means the system is turning slightly more completed visits out of each scheduled hour than
+it did a year ago.</p>
 
-<p>Two things changed at once, and both matter for reading August against July:</p>
-<ol style="margin-left:22px;line-height:1.75;margin-bottom:14px">
-<li style="margin-bottom:8px"><strong>The VPH visit count moved to the appointment record.</strong>
-Provider visit counts now come from completed appointments, attributed to the provider who saw the patient, rather than
-from booked-appointment counts carried on the scheduling extract, with the seven treatment-only appointment types excluded.
-The two sources agree on visit counts to 0.01% across all 24 months.</li>
-<li><strong>The hours denominator is live.</strong> The frozen template&rsquo;s forward months subtracted no leave,
-holidays or schedule changes &mdash; running roughly 14% high.</li>
-</ol>
+<p>The month-on-month dip is not a scheduling story. Templated hours <em>rose</em> 1.4% while completed visits
+slipped about 1%, so what moved is how densely the scheduled hours were used, not how many were put on the
+calendar. On a two-year view August still ranks fifth of the 24 months, and the four months above it are the
+April&ndash;July 2026 run.</p>
 
-<div class="callout callout-info">
-<strong>July&rsquo;s published VPH was understated.</strong> On the corrected hours July 2026 is <strong>5.50</strong>,
-not the 5.23 published last cycle, and the June&nbsp;&rarr;&nbsp;July move was &minus;4.3%, not the &minus;9.9% reported.
-The 24-month production average moves from 5.07 to <strong>5.12</strong>. Every month in the productivity series
-therefore differs from the July file. Volume, no-show and cancellation figures in <em>this</em> report are unaffected
-&mdash; they have always come live from the appointment record. August system VPH is <strong>5.37</strong>,
-&minus;2.4% on July and +1.1% year-on-year, on 2,013 templated hours across 18 active providers.
-</div>
-
-<div class="recs">
-<h3>What to do with this</h3>
-<ol>
-<li><strong>Ask Bronx Fordham what changed &mdash; it is the cleanest result of the month.</strong>
-+9.7% per operating-day with the no-show rate down 2.9 points from the worst
-base in the system, with no calendar effect and no reported driver. Ask Fort Lee too (+8.7% per operating-day).</li>
-<li><strong>Add the Fort Lee closure of Friday 24 July to the holiday and closure calendar.</strong>
-It is absent from that calendar, which is what the operating-day count is built from. Any month with an unrecorded
-single-site closure produces a wrong per-site comparison in both directions &mdash; this one moved Fort Lee by
-4.8 points and changed which site ranked worst.</li>
-<li><strong>Escalate Bronx Concourse from observation to site review.</strong>
-Both service lines are falling together at one site across three cycles. Medical is &minus;10.5% YoY and cosmetic &minus;34.5% YoY.</li>
-<li><strong>Treat conversion, not volume, as the headline metric.</strong>
-Completed visits have been flat for three months and say little. Conversion fell from 63.3% to 60.4%
-year-on-year, worth roughly 627 visits a month at current demand.</li>
-<li><strong>Close the Procedures question.</strong>
-&minus;16.7% YoY has persisted for three cycles without a decision on whether it is a permanent payer-rule change
-or an ordering-behaviour change. The Fordham / Flushing Northern drill-down answers it.</li>
-<li><strong>Review Sit&rsquo;s schedule before the September cycle.</strong>
-Three consecutive monthly VPH falls, 4.80 to 4.15, back under the 4.5 Month-12 milestone cleared in April. August
-is not a denominator effect &mdash; system templated hours rose 1.4% while her VPH fell 3.0%. Garcia stays on the
-intervention flag at 3.34, still under the 3.5 Month-6 target.</li>
-</ol>
-</div>
+<p>Two providers move against the system. <strong>Sit is down a third consecutive month</strong>, 4.80 to 4.15,
+back under the 4.5 mark cleared in April, and August is not a denominator effect &mdash; system hours rose while
+her VPH fell 3.0%. <strong>Garcia remains the lowest in the cohort at 3.34</strong>, still short of the 3.5
+six-month target. At the other end Lee leads the system at 6.99, and Huang holds the fastest ramp in the
+cohort, now 4.89.</p>
 
 <div class="end">
 Source: <strong>MetroDermatologyBIData</strong> semantic model (Power BI), live query; model last refreshed 2026-09-10 09:39 AM ET.
 Medical scope is the <code>MED&nbsp;-</code> facility prefix (6 active locations). Volume, no-shows and cancellations from <code>fact_Appointment</code>;
 cancellations counted from <code>appointment_status&nbsp;=&nbsp;"CANCELLED"</code>. NS% = NS / (NS + Completed); Can% = Cancelled / total demand;
 conversion = Completed / total demand. August 2026 ODE = 23.5 (21 weekdays + 5 Saturdays &times; 0.5), confirmed with no closures.
-September 2026 excluded throughout as a partial month. ZocDoc figures are from the platform, which is the source of truth; the EHR captures only ~26&ndash;36% of true ZocDoc volume.
+September 2026 excluded throughout as a partial month.
+Productivity: VPH = completed visits &divide; templated hours. Templated hours now come live from <code>dbo.ema_utilization</code>
+via the rebuilt <code>view_Utilization</code> rather than the ~1&nbsp;June 2026 frozen snapshot, so the whole VPH series is restated:
+July 2026 is <strong>5.50</strong>, not the 5.23 published last cycle, and the 24-month average is 5.12. ZocDoc figures are from the platform, which is the source of truth; the EHR captures only ~26&ndash;36% of true ZocDoc volume.
 No operational drivers were reported for August, so no causes are attributed in this report.
 Prepared by Darell Dado, Metro Dermatology.
 </div>
