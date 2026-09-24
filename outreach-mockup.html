@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Outreach: referring provider CRM prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2F1;--surface:#FFFFFF;--surface-2:#F4F7F6;--ink:#16282B;--muted:#526468;--line:#D3DDDA;
+  --primary:#0F5E57;--primary-ink:#FFFFFF;--primary-soft:#DCEBE8;
+  --prelim:#7A4F00;--prelim-soft:#FBEFD6;--danger:#A33A2B;--up:#1E7A5E;
+  --email:#2F63A8;--call:#1E7A5E;--visit:#6A4AA5;--dropby:#A8620E;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E181A;--surface:#162326;--surface-2:#1C2C2F;--ink:#E6EEEC;--muted:#A3B5B8;--line:#2B3E41;
+    --primary:#5FC0B2;--primary-ink:#0B1C1B;--primary-soft:#1D3A37;
+    --prelim:#F0BE62;--prelim-soft:#3A2E16;--danger:#F08A7A;--up:#5FC39F;
+    --email:#7FA8E0;--call:#5FC39F;--visit:#A992DA;--dropby:#E0A357;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E181A;--surface:#162326;--surface-2:#1C2C2F;--ink:#E6EEEC;--muted:#A3B5B8;--line:#2B3E41;
+  --primary:#5FC0B2;--primary-ink:#0B1C1B;--primary-soft:#1D3A37;
+  --prelim:#F0BE62;--prelim-soft:#3A2E16;--danger:#F08A7A;--up:#5FC39F;
+  --email:#7FA8E0;--call:#5FC39F;--visit:#A992DA;--dropby:#E0A357;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif;margin:0;letter-spacing:-.01em;line-height:1.2}
+h1{font-size:24px}h2{font-size:17px}
+p{margin:0}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px 20px;padding:10px 20px;flex-wrap:wrap}
+.brand{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:19px;display:flex;align-items:center;gap:8px;color:var(--primary)}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;padding:0 14px;border-radius:7px;font:inherit;font-size:14px;color:var(--muted);cursor:pointer;min-height:38px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgb(0 0 0 / .1)}
+.proto-note{margin-left:auto;font-size:13px;color:var(--muted)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--primary);padding:0 8px}
+.btn.block{width:100%}
+.btn.small{min-height:36px;font-size:14px;padding:0 12px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* field device */
+.device{max-width:440px;margin:24px auto 40px;background:var(--surface);border:1px solid var(--line);border-radius:28px;min-height:760px;overflow:hidden;position:relative}
+@media (max-width:520px){.device{margin:0;border-radius:0;border:0;min-height:calc(100vh - 60px)}}
+.screen{padding:20px 18px 32px}
+.screen-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.search{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:12px;padding:0 12px;background:var(--surface-2);min-height:48px;margin-top:14px;color:var(--muted)}
+.search:focus-within{border-color:var(--primary)}
+.search input{border:0;background:transparent;flex:1;font:inherit;color:var(--ink);min-height:44px;outline:none;min-width:0}
+.chips{display:flex;gap:8px;margin:12px 0 4px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.count{font-size:13px;color:var(--muted);margin:10px 0 2px}
+.prow{display:flex;gap:12px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 4px;font:inherit;color:inherit;cursor:pointer;align-items:flex-start}
+.prow:hover{background:var(--surface-2)}
+.prow .body{flex:1;min-width:0}
+.prow .name{font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.prow .sub{font-size:14px;color:var(--muted)}
+.prow .last{font-size:13px;color:var(--muted);margin-top:3px}
+.avatar{flex:none;width:42px;height:42px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:700;font-size:15px}
+.avatar.prelim{background:var(--prelim-soft);color:var(--prelim)}
+.avatar.lg{width:56px;height:56px;font-size:19px}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--prelim-soft);color:var(--prelim);white-space:nowrap;line-height:1.5}
+.badge.ehr{background:var(--primary-soft);color:var(--primary)}
+.empty{padding:28px 8px;text-align:center;color:var(--muted)}
+.empty .btn{margin-top:12px}
+
+.back{display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--primary);font:inherit;font-weight:700;cursor:pointer;min-height:40px;padding:0;margin-left:-4px}
+.phead{display:flex;gap:14px;align-items:center;margin:8px 0 16px}
+.phead p{color:var(--muted);font-size:15px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.quick div{background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.quick b{display:block;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:18px}
+.quick span{font-size:12px;color:var(--muted);line-height:1.3;display:block}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:14px;background:var(--surface)}
+.card.locked{background:var(--surface-2)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.lock{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.lock svg.i{width:16px;height:16px}
+.kv{display:grid;grid-template-columns:minmax(96px,auto) 1fr;gap:6px 14px;margin:0;font-size:15px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.fine{font-size:13px;color:var(--muted);margin-top:10px}
+.notice{background:var(--prelim-soft);border-radius:12px;padding:12px 14px;font-size:14px;margin-top:14px}
+.notice strong{color:var(--prelim)}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field label,.flabel{font-size:14px;font-weight:700}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inp{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;min-height:44px;width:100%}
+.inp:focus{border-color:var(--primary);outline:none}
+textarea.inp{min-height:110px;resize:vertical;line-height:1.45}
+.msg{font-size:14px;margin:-4px 0 12px}
+.msg.err{color:var(--danger)}
+.msg.ok{color:var(--up)}
+
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+.tl{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.tl:last-child{border-bottom:0}
+.tl-icon{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.tl-body{flex:1;min-width:0}
+.tl-top{display:flex;justify-content:space-between;gap:4px 8px;flex-wrap:wrap}
+time,.meta{font-size:13px;color:var(--muted)}
+ul.summary{margin:6px 0 4px;padding-left:18px;font-size:15px}
+ul.summary li{margin:2px 0}
+details summary{cursor:pointer;color:var(--primary);font-size:14px;font-weight:700;padding:4px 0}
+details p{font-size:14px;color:var(--ink);background:var(--surface-2);padding:10px 12px;border-radius:10px;margin-top:4px}
+
+/* bottom sheet */
+.backdrop{position:fixed;inset:0;background:rgb(8 18 20 / .5);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:440px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px 18px calc(12px + env(safe-area-inset-bottom,0px));animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:.5}}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.icon-btn{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}
+.type-btn{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font:inherit;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;line-height:1.2}
+.type-btn svg{color:var(--c)}
+.type-btn[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface))}
+.rec{display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 14px;border:1.5px dashed var(--line);border-radius:14px;text-align:center}
+.rec p{font-size:14px;color:var(--muted)}
+.mic{width:76px;height:76px;border-radius:50%;border:0;background:var(--primary);color:var(--primary-ink);display:grid;place-items:center;cursor:pointer}
+.mic svg.i{width:30px;height:30px}
+.mic.live{background:var(--danger);color:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--danger) 50%,transparent)}100%{box-shadow:0 0 0 18px transparent}}
+.timer{font-variant-numeric:tabular-nums;font-size:22px;font-weight:700}
+.spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--primary);animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.transcript{background:var(--surface-2);border-radius:12px;padding:12px;font-size:14px;margin:4px 0 14px}
+.lbl-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:4px}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.sheet-foot{display:flex;gap:10px;margin-top:16px;position:sticky;bottom:calc(-12px - env(safe-area-inset-bottom,0px));background:var(--surface);padding:10px 0 12px}
+.sheet-foot .btn{flex:1}
+.linkish{border:0;background:none;color:var(--primary);font:inherit;font-weight:700;font-size:14px;cursor:pointer;padding:6px 0}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:10px;font-weight:700;z-index:60;font-size:15px}
+
+/* admin */
+.admin{max-width:1180px;margin:0 auto;padding:26px 20px 56px}
+.admin-head p{color:var(--muted);margin-top:4px}
+.admin-head h1{font-size:30px}
+.filters{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end}
+.filters .grp{display:flex;flex-direction:column;gap:6px}
+.filters .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filters .inp{width:auto;min-height:40px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;background:var(--c);flex:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stat .l{font-size:14px;color:var(--muted)}
+.stat .v{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:30px;font-weight:700;line-height:1.15;margin:2px 0}
+.stat .s{font-size:13px;color:var(--muted)}
+.up{color:var(--up)}.down{color:var(--danger)}
+.grid2{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+@media (max-width:880px){.grid2{grid-template-columns:1fr}}
+.grid2 .card{margin-top:14px}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font-size:11px;font-family:'Atkinson Hyperlegible',system-ui,sans-serif}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.hbar{display:grid;grid-template-columns:130px 1fr 34px;gap:10px;align-items:center;margin:12px 0;font-size:14px}
+.hbar .track{height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+.hbar .fill{height:100%;background:var(--c);border-radius:6px}
+.hbar b{text-align:right;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto;margin:0 -16px;padding:0 16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:700;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 10px;white-space:nowrap}
+th button{border:0;background:none;font:inherit;color:inherit;cursor:pointer;padding:4px 0;display:inline-flex;gap:4px;align-items:center}
+th button[aria-sort]{color:var(--ink)}
+td{padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.sel{background:var(--primary-soft)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+th.num button{margin-left:auto}
+.linkbtn{border:0;background:none;font:inherit;font-weight:700;color:var(--ink);cursor:pointer;padding:0;text-align:left}
+.trend-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:6px 0 10px}
+.trend-facts div{background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.trend-facts b{display:block;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:20px}
+.trend-facts span{font-size:13px;color:var(--muted)}
+
+/* field tabs + action items */
+.ftabs{display:flex;border-bottom:1px solid var(--line);background:var(--surface)}
+.ftabs button{flex:1;min-height:50px;border:0;border-bottom:3px solid transparent;background:none;font:inherit;font-weight:700;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.ftabs button[aria-pressed="true"]{color:var(--primary);border-bottom-color:var(--primary)}
+.pill{font-size:12px;line-height:20px;background:var(--primary-soft);color:var(--primary);border-radius:999px;padding:0 7px;min-width:20px;text-align:center}
+.ai-list{list-style:none;margin:0;padding:0}
+.ai{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.ai:last-child{border-bottom:0}
+.ai input[type=checkbox]{width:22px;height:22px;margin:2px 0 0;accent-color:var(--primary);flex:none;cursor:pointer}
+.ai-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.ai-text{cursor:pointer;font-size:15px}
+.ai.done .ai-text{text-decoration:line-through;color:var(--muted)}
+.ai-meta{display:flex;gap:4px 10px;flex-wrap:wrap;align-items:center}
+.linkish.sm{font-size:13px;padding:0}
+.icon-btn.sm{width:36px;height:36px;border-color:transparent;color:var(--muted)}
+.icon-btn.sm svg.i{width:16px;height:16px}
+.ai-add{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}
+.ai-add #ai-new{grid-column:1 / -1}
+.ai-add #ai-due{min-width:0}
+.ai-group{font-size:15px;margin:18px 0 2px}
+.tl-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.tl-foot .linkish{display:inline-flex;align-items:center;gap:4px;font-size:13px}
+.tl-foot .linkish svg.i{width:14px;height:14px}
+
+/* dev notes */
+.doc{max-width:760px;margin:0 auto;padding:32px 20px 64px}
+.doc h1{font-size:30px}
+.doc .lede{color:var(--muted);margin:6px 0 18px;font-size:17px}
+.doc h2{font-size:21px;margin:30px 0 8px}
+.doc h3{font-size:16px;margin:18px 0 4px}
+.doc p{max-width:68ch}
+.doc .table-wrap{margin:8px 0 0;padding:0}
+.doc table{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.notice.demo{font-size:15px}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Outreach</div>
+  <div class="seg" role="group" aria-label="Switch view">
+    <button data-action="role" data-v="field" aria-pressed="true">Field app</button>
+    <button data-action="role" data-v="admin" aria-pressed="false">Admin dashboard</button>
+    <button data-action="role" data-v="dev" aria-pressed="false">Dev notes</button>
+  </div>
+  <p class="proto-note">Prototype with sample data. Changes aren't saved.</p>
+</header>
+
+<main id="field" class="device" aria-label="Field app"></main>
+<main id="admin" hidden aria-label="Admin dashboard"></main>
+<main id="dev" hidden aria-label="Notes for the development team">
+  <article class="doc">
+    <h1>Notes for the development team</h1>
+    <p class="lede">What this app is for, how it should work, and what in this mockup is real versus simulated.</p>
+
+    <div class="notice demo"><strong>The admin dashboard is for demonstration purposes only.</strong> Every number and chart on it comes from generated sample data. It is not connected to ModMed, the MSSQL data dump, or any app database. It shows the intended layout and metrics, not real results.</div>
+
+    <h2>Purpose</h2>
+    <p>A simple CRM for our outreach field agent to track referring providers. The agent finds a provider, logs each interaction, and keeps office details up to date. Admins use a dashboard to see outreach activity and whether it lines up with new patient referrals. We benchmarked Salesforce; this app deliberately covers only what we need, so it stays fast and simple to use in the field.</p>
+
+    <h2>How it works</h2>
+    <h3>Provider list</h3>
+    <p>ModMed is the source of truth. Provider records come from the daily ModMed data dump already loaded into our MSSQL database. The app reads these records and never edits them; corrections happen in ModMed.</p>
+    <h3>Office details</h3>
+    <p>The agent can add information ModMed doesn't hold, such as office hours, number of employees, office manager, and best time to visit. Store this in the app's own table, keyed to the ModMed provider ID, so the nightly refresh never overwrites it.</p>
+    <h3>Preliminary providers</h3>
+    <p>If the agent visits an office that isn't in ModMed, they can add the provider in the app. These records are marked Preliminary (Not in EHR). When a record with the same NPI appears in the ModMed dump, the preliminary record is matched to it, its interactions and office details move over, and the label is removed. Uncertain matches go to an admin for review.</p>
+    <h3>Logging interactions</h3>
+    <p>Each interaction records the provider, type (Email, Call, Pre-arranged visit, Drop by), date and time, and the agent. The agent records a short voice note; the app transcribes it and generates a brief summary. Both are saved and shown: the transcript stays as recorded, and the summary can be edited. Typed notes are a fallback. Speech-to-text and summarization must use a HIPAA-eligible service covered by a signed BAA, since notes may mention patient details.</p>
+    <h3>Editing summaries</h3>
+    <p>The agent can edit a saved summary to fix transcription mistakes or add details. The recorded transcript is never changed. Keep the original AI summary and record who edited it and when, so the history is auditable.</p>
+    <h3>Action items</h3>
+    <p>Each provider page has a simple checklist of follow-ups (text and an optional due date) that can be checked off. Completed items stay visible, crossed off. A separate Action items tab lists open items across all providers, grouped as overdue, due in the next 7 days, later, and no due date.</p>
+    <h3>Admin dashboard</h3>
+    <p>Shows interactions by action type and date range, providers reached, and new patient referrals per provider over time, with outreach dates marked so trends can be compared before and after visits. A new patient referral is counted when the patient's first appointment is created in ModMed, regardless of appointment status.</p>
+
+    <h2>Data at a glance</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Data</th><th>Source</th><th>App can edit?</th></tr></thead>
+      <tbody>
+        <tr><td>Provider records</td><td>ModMed daily dump (MSSQL)</td><td>No</td></tr>
+        <tr><td>New patient referrals</td><td>ModMed daily dump (MSSQL)</td><td>No</td></tr>
+        <tr><td>Office details</td><td>App table</td><td>Yes</td></tr>
+        <tr><td>Preliminary providers</td><td>App table</td><td>Yes, until matched</td></tr>
+        <tr><td>Interactions, audio, transcripts, summaries</td><td>App tables and file storage</td><td>Summary only (original kept)</td></tr>
+        <tr><td>Action items</td><td>App table</td><td>Yes</td></tr>
+      </tbody>
+    </table></div>
+    <p class="fine">Suggestion: keep the app's tables in a separate schema from the ModMed dump so the two never mix.</p>
+
+    <h2>What's simulated in this mockup</h2>
+    <p>Everything runs in the browser with sample data, and nothing is saved; a refresh resets it. Voice recording, transcription, AI summaries, and the NPI lookup are simulated. All providers, names, and phone numbers are fictional. The admin dashboard is a demonstration only, as noted above.</p>
+  </article>
+</main>
+<div id="sheet-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- helpers ---------- */
+const DAY = 86400000;
+const now = new Date();
+const TODAY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const AGENT = 'Jordan Reyes';
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const addDays = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const fmtDate = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const fmtDT = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ', ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+const toInputDate = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const toInputDT = d => `${toInputDate(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const parseInputDate = v => { const [y,m,d] = v.split('-').map(Number); return new Date(y,m-1,d); };
+const mmss = s => `${Math.floor(s/60)}:${pad(s%60)}`;
+function rel(d){
+  const days = Math.floor((TODAY - new Date(d.getFullYear(),d.getMonth(),d.getDate()))/DAY);
+  if (days <= 0) return 'Today';
+  if (days === 1) return 'Yesterday';
+  if (days < 45) return days + ' days ago';
+  return fmtDate(d);
+}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const rand = mulberry32(20260921);
+
+const ICONS = {
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/>',
+  door:'<path d="M4 21h16"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><circle cx="14.5" cy="12" r="1"/>',
+  lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+  stop:'<rect x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  back:'<path d="m15 18-6-6 6-6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  close:'<path d="M6 6l12 12M18 6 6 18"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>'
+};
+const icon = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+
+const TYPES = {
+  dropby:{label:'Drop by', c:'var(--dropby)', icon:'door'},
+  visit:{label:'Pre-arranged visit', c:'var(--visit)', icon:'cal'},
+  call:{label:'Call', c:'var(--call)', icon:'phone'},
+  email:{label:'Email', c:'var(--email)', icon:'mail'}
+};
+const TYPE_ORDER = ['dropby','visit','call','email'];
+
+/* ---------- sample data ---------- */
+const providers = [
+  {id:'p1',status:'ehr',ehrId:'RP-10482',npi:'1437201958',name:'Dr. Priya Natarajan',last:'Natarajan',credential:'MD',specialty:'Family Medicine',practice:'Riverside Family Health',address:'412 Elm St, Suite 200',city:'Riverside',phone:'(555) 010-2231',fax:'(555) 010-2232',base:4,
+   profile:{officeHours:'Mon–Fri 8:00–5:00, closed 12–1',employees:'14',officeManager:'Denise Walker',bestTime:'Tue or Thu after 2 pm',notes:'Prefers e-referral over fax. Lunch-and-learn held in June.'}},
+  {id:'p2',status:'ehr',ehrId:'RP-10517',npi:'1780664329',name:'Dr. Marcus Bell',last:'Bell',credential:'DO',specialty:'Internal Medicine',practice:'Bell Internal Medicine',address:'90 Station Rd',city:'Maple Grove',phone:'(555) 010-4410',fax:'(555) 010-4411',base:2.5,
+   profile:{officeHours:'Mon–Thu 7:30–4:30',employees:'6',officeManager:'Luis Ortega',bestTime:'Early morning',notes:''}},
+  {id:'p3',status:'ehr',ehrId:'RP-10533',npi:'1528049176',name:'Dr. Elena Vasquez',last:'Vasquez',credential:'MD',specialty:'Pediatrics',practice:'Little Oaks Pediatrics',address:'1500 Willow Ave',city:'Cedar Falls',phone:'(555) 010-7782',fax:'(555) 010-7783',base:5,
+   profile:{officeHours:'Mon–Sat 8:00–6:00',employees:'22',officeManager:'Karen Fitz',bestTime:'Wed afternoon',notes:'Busy front desk, call ahead before dropping by.'}},
+  {id:'p4',status:'ehr',ehrId:'RP-10601',npi:'1295837460',name:'Dr. Thomas Greer',last:'Greer',credential:'MD',specialty:'Family Medicine',practice:'Northgate Primary Care',address:'7 Commerce Blvd',city:'Northgate',phone:'(555) 010-3309',fax:'(555) 010-3310',base:1.5,profile:{}},
+  {id:'p5',status:'ehr',ehrId:'RP-10622',npi:'1861470025',name:'Angela Moore',last:'Moore',credential:'CRNP',specialty:'Urgent Care',practice:'QuickCare Urgent Care',address:'2210 River Pkwy',city:'Riverside',phone:'(555) 010-6650',fax:'(555) 010-6651',base:3,
+   profile:{officeHours:'Daily 8:00–8:00',employees:'18',officeManager:'',bestTime:'Weekday mid-morning',notes:''}},
+  {id:'p6',status:'ehr',ehrId:'RP-10688',npi:'1053391872',name:'Dr. Samuel Okafor',last:'Okafor',credential:'MD',specialty:'Endocrinology',practice:'Lakeside Endocrine Associates',address:'44 Harbor View Dr',city:'Lakeside',phone:'(555) 010-9021',fax:'(555) 010-9022',base:1,profile:{}},
+  {id:'p7',status:'ehr',ehrId:'RP-10710',npi:'1609926341',name:'Dr. Hannah Kim',last:'Kim',credential:'MD',specialty:'OB/GYN',practice:"Harbor Women's Health",address:'300 Pier St',city:'Harbor Point',phone:'(555) 010-5518',fax:'(555) 010-5519',base:2,
+   profile:{officeHours:'Mon–Fri 9:00–5:00',employees:'11',officeManager:'Tanya Brooks',bestTime:'',notes:''}},
+  {id:'p8',status:'ehr',ehrId:'RP-10745',npi:'1346758092',name:'Dr. David Lieberman',last:'Lieberman',credential:'MD',specialty:'Internal Medicine',practice:'Summit Medical Group',address:'12 Summit Hill Rd, Bldg B',city:'Summit Hill',phone:'(555) 010-2847',fax:'(555) 010-2848',base:3.5,
+   profile:{officeHours:'Mon–Fri 8:00–5:00',employees:'35',officeManager:'Grace Liu',bestTime:'Fridays before noon',notes:'Six physicians share one referral coordinator.'}},
+  {id:'p9',status:'ehr',ehrId:'RP-10790',npi:'1972504813',name:'Rachel Ortiz',last:'Ortiz',credential:'PA-C',specialty:'Family Medicine',practice:'Westbrook Community Clinic',address:'610 Main St',city:'Westbrook',phone:'(555) 010-1174',fax:'(555) 010-1175',base:1.2,profile:{}},
+  {id:'p10',status:'ehr',ehrId:'RP-10823',npi:'1184620597',name:'Dr. Michael Chen',last:'Chen',credential:'MD',specialty:'Rheumatology',practice:'Valley Rheumatology',address:'85 Orchard Ln',city:'Maple Grove',phone:'(555) 010-8836',fax:'(555) 010-8837',base:.8,profile:{}},
+  {id:'p11',status:'prelim',ehrId:null,npi:'1710395528',name:'Dr. Laura Benson',last:'Benson',credential:'MD',specialty:'Family Medicine',practice:'Benson Family Practice',address:'19 Birch Ct',city:'Cedar Falls',phone:'(555) 010-4093',fax:'',base:0,
+   profile:{officeHours:'Mon–Fri 9:00–4:00',employees:'4',officeManager:'',bestTime:'',notes:'New practice, opened in the summer.'}},
+  {id:'p12',status:'prelim',ehrId:null,npi:'',name:'Dr. Kwame Asante',last:'Asante',credential:'MD',specialty:'Pediatrics',practice:'Brightside Pediatrics',address:'230 Lake Rd',city:'Lakeside',phone:'(555) 010-6217',fax:'',base:0,profile:{}}
+];
+
+const TPL = {
+  dropby:[
+    {t:"Stopped by {practice} around lunchtime. {who} was with patients, so I spoke with the office manager. She said new-patient wait times have been a concern for them, so I left fresh referral pads and our direct scheduling line. She asked for a list of which of our providers take their most common insurance plans. I'll send that list next week.",
+     s:["Spoke with the office manager; {who} was with patients","Concern: wait times for new patients","Left referral pads and the direct scheduling line","Follow-up: send insurance acceptance list next week"]},
+    {t:"Quick drop by at {practice}. Brought the updated provider directory and talked with the front desk for a few minutes. They mentioned they've been sending most referrals to another group because of a faster callback. I explained our 48-hour callback commitment and left my card. Want to book a proper visit with {who} next month.",
+     s:["Dropped off the updated provider directory","Competitor is getting referrals due to faster callback","Shared our 48-hour callback commitment","Follow-up: book a pre-arranged visit with {who}"]}
+  ],
+  visit:[
+    {t:"Pre-arranged visit with {who} and two of the nurses at {practice}. We walked through the e-referral process and turnaround time for urgent consults. {who} said communication back from our team has been good but they want visit notes faster. They're open to a lunch-and-learn next month, so I'll coordinate dates with the office manager.",
+     s:["Met {who} and two nurses","Reviewed e-referral process and urgent consult turnaround","Feedback: wants visit notes sent back faster","Follow-up: schedule a lunch-and-learn next month"]},
+    {t:"Scheduled visit at {practice}. Met with {who} for about fifteen minutes. We talked about the new Saturday clinic hours, which they were excited about for working patients. They asked if our schedulers can call patients directly instead of the patient calling us. I said I'd check with the scheduling lead and get back to them.",
+     s:["Introduced the new Saturday clinic hours; well received","Request: have our schedulers call referred patients directly","Follow-up: confirm with scheduling lead and reply"]}
+  ],
+  call:[
+    {t:"Called the front desk at {practice} to confirm they received the new referral forms. The office manager confirmed and said they referred two patients last week. She asked about Saturday availability. I told her I'd check and call back by Friday.",
+     s:["Referral forms received","Two patients referred last week","Question about Saturday availability","Follow-up: call back by Friday"]},
+    {t:"Follow-up call to {practice} about the lunch-and-learn. We settled on a tentative date in three weeks, around twelve people attending. They'd like a short handout on referral criteria.",
+     s:["Lunch-and-learn tentatively set, about 12 attendees","Request: one-page handout on referral criteria","Follow-up: confirm date and prepare handout"]}
+  ],
+  email:[
+    {t:"",s:["Sent provider list by insurance plan and the new-patient scheduling link","Asked for a time for a lunch-and-learn in the next few weeks"]},
+    {t:"",s:["Emailed a thank-you after the visit with the referral criteria handout","Shared direct contact for the referral coordinator"]}
+  ]
+};
+function fill(str,p){
+  const who = p.name.startsWith('Dr.') ? 'Dr. ' + p.last : p.name.split(' ')[0];
+  return str.replace(/\{who\}/g, who).replace(/\{practice\}/g, p.practice);
+}
+function pickType(){ const r = rand(); return r < .35 ? 'dropby' : r < .6 ? 'visit' : r < .85 ? 'call' : 'email'; }
+
+const interactions = [];
+let iid = 0;
+const outreach = [9,6,7,3,5,2,4,6,2,1];
+providers.forEach((p,i) => {
+  const n = p.status === 'prelim' ? 1 + Math.floor(rand()*2) : outreach[i];
+  for (let k=0;k<n;k++){
+    const back = p.status === 'prelim' ? 1 + Math.floor(rand()*40) : 2 + Math.floor(rand()*355);
+    const d = addDays(TODAY,-back); d.setHours(9 + Math.floor(rand()*8), Math.floor(rand()*4)*15);
+    const type = pickType();
+    const set = TPL[type]; const tp = set[Math.floor(rand()*set.length)];
+    interactions.push({id:'i'+(++iid),pid:p.id,type,date:d,agent:AGENT,
+      transcript: tp.t ? fill(tp.t,p) : '', summary: tp.s.map(x=>fill(x,p)).join('\n'),
+      mode: tp.t ? 'voice' : 'typed', dur: 35 + Math.floor(rand()*110)});
+  }
+});
+
+const referrals = [];
+const BOOST = {visit:.9, dropby:.7, call:.25, email:.15};
+providers.filter(p=>p.status==='ehr').forEach(p => {
+  const ints = interactions.filter(i=>i.pid===p.id);
+  for (let d=729; d>=0; d--){
+    const day = addDays(TODAY,-d);
+    let boost = 0;
+    for (const it of ints){ const diff = (day - it.date)/DAY; if (diff >= -0.5 && diff < 75) boost += BOOST[it.type]; }
+    boost = Math.min(boost,1.6);
+    if (rand() < p.base/30*(1+boost)) referrals.push({pid:p.id,date:day});
+  }
+});
+
+/* ---------- action items (sample) ---------- */
+const actionItems = [];
+let aid = 0;
+function addAI(pid, text, due, done, created){
+  const c = created || new Date();
+  actionItems.push({id:'a'+(++aid), pid, text, due:due||null, done:!!done, doneAt: done ? addDays(c,4) : null, createdAt:c, createdBy:AGENT});
+}
+providers.forEach(p => {
+  interactions.filter(i=>i.pid===p.id).sort((a,b)=>b.date-a.date).slice(0,2).forEach(it => {
+    it.summary.split('\n').filter(l=>/^Follow-up:/i.test(l)).forEach(l => {
+      const t = l.replace(/^Follow-up:\s*/i,'');
+      const day = new Date(it.date.getFullYear(), it.date.getMonth(), it.date.getDate());
+      addAI(p.id, t.charAt(0).toUpperCase()+t.slice(1), addDays(day,7), (TODAY-day)/DAY > 30, it.date);
+    });
+  });
+});
+addAI('p1','Bring lunch-and-learn flyer for the break room', addDays(TODAY,3), false, addDays(TODAY,-2));
+addAI('p8',"Ask Grace Liu for the referral coordinator's direct line", null, false, addDays(TODAY,-5));
+addAI('p12','Get the NPI for Dr. Asante so the EHR match works', addDays(TODAY,-1), false, addDays(TODAY,-10));
+
+/* ---------- state ---------- */
+const S = {
+  role:'field', fieldTab:'providers', view:'search', pid:null, q:'', filter:'all', editProfile:false, log:null, timer:null,
+  actFilter:'all', editInt:null, aiFilter:'open',
+  admin:{from:addDays(TODAY,-89), to:TODAY, preset:90, types:new Set(TYPE_ORDER), sort:{k:'refs',d:-1}, sel:null}
+};
+const P = id => providers.find(p=>p.id===id);
+const initials = p => p.name.replace(/^Dr\.\s*/,'').split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const intsFor = pid => interactions.filter(i=>i.pid===pid).sort((a,b)=>b.date-a.date);
+const lastInt = pid => intsFor(pid)[0] || null;
+const refsIn = (pid,a,b) => referrals.filter(r=>(!pid||r.pid===pid) && r.date>=a && r.date<b).length;
+
+function toast(msg){
+  const root = $('#toast-root');
+  root.innerHTML = `<div class="toast">${esc(msg)}</div>`;
+  clearTimeout(toast.t); toast.t = setTimeout(()=>{root.innerHTML='';},2200);
+}
+
+/* ---------- field: search ---------- */
+function viewSearch(){
+  const f = (v,l) => `<button class="chip" data-action="filter" data-v="${v}" aria-pressed="${S.filter===v}">${l}</button>`;
+  return `<section class="screen">
+    <div class="screen-head"><h1>Providers</h1>
+      <button class="btn ghost" data-action="new-provider">${icon('plus')}Add provider</button></div>
+    <label class="search">${icon('search')}
+      <input id="q" type="search" autocomplete="off" placeholder="Name, practice, NPI or city" aria-label="Search providers" value="${esc(S.q)}" data-input="q"></label>
+    <div class="chips" role="group" aria-label="Filter providers">${f('all','All')}${f('ehr','In EHR')}${f('prelim','Preliminary')}</div>
+    <div id="results">${resultsHTML()}</div>
+  </section>`;
+}
+function resultsHTML(){
+  const q = S.q.trim().toLowerCase();
+  let list = providers.filter(p => S.filter==='all' || p.status===S.filter);
+  if (q) list = list.filter(p => [p.name,p.practice,p.specialty,p.npi,p.city].join(' ').toLowerCase().includes(q));
+  list.sort((a,b)=>a.last.localeCompare(b.last));
+  if (!list.length) return `<div class="empty"><p>No providers match “${esc(S.q)}”. Check the spelling, or add them if they're new to us.</p>
+    <button class="btn primary" data-action="new-provider">${icon('plus')}Add provider</button></div>`;
+  return `<p class="count">${list.length} provider${list.length>1?'s':''}</p>` + list.map(p => {
+    const li = lastInt(p.id);
+    return `<button class="prow" data-action="open" data-id="${p.id}">
+      <span class="avatar ${p.status==='prelim'?'prelim':''}" aria-hidden="true">${initials(p)}</span>
+      <span class="body">
+        <span class="name">${esc(p.name)}${p.credential?', '+esc(p.credential):''} ${p.status==='prelim'?'<span class="badge">Preliminary</span>':''}</span>
+        <span class="sub" style="display:block">${esc(p.specialty)}, ${esc(p.practice)}</span>
+        <span class="last" style="display:block">${li ? `Last contact ${rel(li.date).toLowerCase().replace(/^(\w{3} )/, m=>m[0].toUpperCase()+m.slice(1))} (${TYPES[li.type].label.toLowerCase()})` : 'No contact logged yet'}</span>
+      </span></button>`;
+  }).join('');
+}
+
+/* ---------- field: provider ---------- */
+function viewProvider(){
+  const p = P(S.pid);
+  const ints = intsFor(p.id);
+  const li = ints[0];
+  const r90 = p.status==='ehr' ? refsIn(p.id, addDays(TODAY,-89), addDays(TODAY,1)) : null;
+  const pr = p.profile || {};
+  const kv = (k,v) => `<dt>${k}</dt><dd>${v ? esc(v) : '<span class="meta">Not added</span>'}</dd>`;
+
+  const ehrCard = p.status==='ehr' ? `
+    <section class="card locked" aria-labelledby="ehr-h">
+      <div class="card-head"><h2 id="ehr-h">EHR record</h2><span class="lock">${icon('lock')}Read-only from ModMed</span></div>
+      <dl class="kv">${kv('NPI',p.npi)}${kv('Specialty',p.specialty)}${kv('Practice',p.practice)}${kv('Address',p.address+', '+p.city)}${kv('Phone',p.phone)}${kv('Fax',p.fax)}${kv('EHR ID',p.ehrId)}</dl>
+      <p class="fine">Updated nightly from the ModMed data feed. Corrections are made in ModMed.</p>
+    </section>` : `
+    <div class="notice"><strong>Not in EHR yet.</strong> Added in the field. When a ModMed record ${p.npi?`with NPI ${esc(p.npi)} `:''}appears in the nightly feed, it will be matched and this label removed.${p.npi?'':' Add the NPI below to make matching reliable.'}</div>
+    <section class="card" aria-labelledby="ehr-h">
+      <div class="card-head"><h2 id="ehr-h">Provider details</h2><span class="badge">Preliminary</span></div>
+      <dl class="kv">${kv('NPI',p.npi)}${kv('Specialty',p.specialty)}${kv('Practice',p.practice)}${kv('Address',[p.address,p.city].filter(Boolean).join(', '))}${kv('Phone',p.phone)}</dl>
+    </section>`;
+
+  const profileCard = S.editProfile ? `
+    <section class="card" aria-labelledby="od-h">
+      <div class="card-head"><h2 id="od-h">Office details</h2></div>
+      <div class="field"><label for="pf-hours">Office hours</label><input id="pf-hours" class="inp" value="${esc(pr.officeHours)}"></div>
+      <div class="row2">
+        <div class="field"><label for="pf-emp">Number of employees</label><input id="pf-emp" class="inp" inputmode="numeric" value="${esc(pr.employees)}"></div>
+        <div class="field"><label for="pf-mgr">Office manager</label><input id="pf-mgr" class="inp" value="${esc(pr.officeManager)}"></div>
+      </div>
+      <div class="field"><label for="pf-best">Best time to visit</label><input id="pf-best" class="inp" value="${esc(pr.bestTime)}"></div>
+      <div class="field"><label for="pf-notes">Notes</label><textarea id="pf-notes" class="inp">${esc(pr.notes)}</textarea></div>
+      <div style="display:flex;gap:10px"><button class="btn" data-action="cancel-profile">Cancel</button><button class="btn primary" style="flex:1" data-action="save-profile">Save office details</button></div>
+    </section>` : `
+    <section class="card" aria-labelledby="od-h">
+      <div class="card-head"><h2 id="od-h">Office details</h2><button class="btn small" data-action="edit-profile">${icon('edit')}Edit</button></div>
+      <dl class="kv">${kv('Office hours',pr.officeHours)}${kv('Employees',pr.employees)}${kv('Office manager',pr.officeManager)}${kv('Best time',pr.bestTime)}${kv('Notes',pr.notes)}</dl>
+      <p class="fine">Added by the outreach team. Kept separate from the EHR record.</p>
+    </section>`;
+
+  return `<section class="screen">
+    <button class="back" data-action="back">${icon('back')}Providers</button>
+    <div class="phead"><span class="avatar lg ${p.status==='prelim'?'prelim':''}" aria-hidden="true">${initials(p)}</span>
+      <div><h1>${esc(p.name)}${p.credential?', '+esc(p.credential):''}</h1><p>${esc(p.specialty)}, ${esc(p.practice)}</p></div></div>
+    <div class="quick">
+      <div><b>${ints.length}</b><span>Interactions logged</span></div>
+      <div><b>${li ? rel(li.date).replace(' days ago','d ago') : 'None'}</b><span>Last contact</span></div>
+      <div><b>${r90===null?'—':r90}</b><span>${r90===null?'Referrals tracked once in EHR':'New patient referrals, 90 days'}</span></div>
+    </div>
+    <button class="btn primary block" data-action="open-log">${icon('mic')}Log interaction</button>
+    ${ehrCard}
+    ${profileCard}
+    ${aiSection(p)}
+    <div class="section-head"><h2>Activity</h2><span class="meta">${ints.length} total</span></div>
+    ${ints.length ? `<div class="chips" role="group" aria-label="Filter activity by type">
+      <button class="chip" data-action="act-filter" data-v="all" aria-pressed="${S.actFilter==='all'}">All</button>
+      ${TYPE_ORDER.map(k=>`<button class="chip" data-action="act-filter" data-v="${k}" aria-pressed="${S.actFilter===k}"><span class="dot" style="--c:${TYPES[k].c}"></span>${TYPES[k].label} (${ints.filter(i=>i.type===k).length})</button>`).join('')}
+    </div>` : ''}
+    <div id="act-list">${actList(p)}</div>
+  </section>`;
+}
+function actList(p){
+  const ints = intsFor(p.id);
+  if (!ints.length) return '<p class="empty">No interactions yet. Log the first one after your visit.</p>';
+  const list = S.actFilter==='all' ? ints : ints.filter(i=>i.type===S.actFilter);
+  if (!list.length) return `<p class="empty">No ${TYPES[S.actFilter].label.toLowerCase()} logged for this provider yet.</p>`;
+  return list.map(tlItem).join('');
+}
+
+/* ---------- action items ---------- */
+const byDue = (a,b) => (a.due?+a.due:Infinity) - (b.due?+b.due:Infinity);
+const fmtShort = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+function aiRow(a, showProvider){
+  const overdue = !a.done && a.due && a.due < TODAY;
+  const p = P(a.pid);
+  const when = a.done ? `Done ${fmtShort(a.doneAt)}` : a.due ? `<span class="${overdue?'down':''}">${overdue?'Overdue, was due':'Due'} ${fmtShort(a.due)}</span>` : 'No due date';
+  return `<li class="ai ${a.done?'done':''}">
+    <input type="checkbox" id="cb-${a.id}" data-action="ai-toggle" data-id="${a.id}" ${a.done?'checked':''}>
+    <div class="ai-body"><label for="cb-${a.id}" class="ai-text">${esc(a.text)}</label>
+      <span class="meta ai-meta">${showProvider?`<button class="linkish sm" data-action="open" data-id="${p.id}">${esc(p.name)}</button>`:''}<span>${when}</span></span></div>
+    <button class="icon-btn sm" data-action="ai-del" data-id="${a.id}" aria-label="Delete action item: ${esc(a.text)}">${icon('close')}</button></li>`;
+}
+function aiSection(p){
+  const items = actionItems.filter(a=>a.pid===p.id);
+  const open = items.filter(a=>!a.done).sort(byDue), done = items.filter(a=>a.done).sort((a,b)=>b.doneAt-a.doneAt);
+  return `<section class="card" id="ai-sec" aria-labelledby="ai-h">
+    <div class="card-head"><h2 id="ai-h">Action items</h2><span class="meta">${open.length} open${done.length?`, ${done.length} done`:''}</span></div>
+    ${items.length ? `<ul class="ai-list">${open.concat(done).map(a=>aiRow(a)).join('')}</ul>` : '<p class="meta">No action items yet.</p>'}
+    <div class="ai-add">
+      <input id="ai-new" class="inp" placeholder="Add an action item" aria-label="New action item" data-enter="ai-add">
+      <input id="ai-due" type="date" class="inp" aria-label="Due date, optional">
+      <button class="btn" data-action="ai-add">${icon('plus')}Add</button>
+    </div>
+  </section>`;
+}
+function viewActions(){
+  const f = S.aiFilter;
+  const nOpen = actionItems.filter(a=>!a.done).length, nDone = actionItems.length - nOpen;
+  const chip = (v,l) => `<button class="chip" data-action="ai-filter" data-v="${v}" aria-pressed="${f===v}">${l}</button>`;
+  let body = '';
+  if (f==='open'){
+    const open = actionItems.filter(a=>!a.done).sort(byDue);
+    const week = addDays(TODAY,8);
+    const groups = [
+      ['Overdue', open.filter(a=>a.due && a.due<TODAY)],
+      ['Due in the next 7 days', open.filter(a=>a.due && a.due>=TODAY && a.due<week)],
+      ['Later', open.filter(a=>a.due && a.due>=week)],
+      ['No due date', open.filter(a=>!a.due)]
+    ].filter(g=>g[1].length);
+    body = groups.length ? groups.map(g=>`<h2 class="ai-group">${g[0]} <span class="meta">(${g[1].length})</span></h2><ul class="ai-list">${g[1].map(a=>aiRow(a,true)).join('')}</ul>`).join('')
+      : '<p class="empty">All caught up. New action items can be added from any provider page.</p>';
+  } else {
+    const list = actionItems.filter(a=> f==='all' || a.done).sort((a,b)=> (a.done-b.done) || (a.done ? b.doneAt-a.doneAt : byDue(a,b)));
+    body = list.length ? `<ul class="ai-list" style="margin-top:10px">${list.map(a=>aiRow(a,true)).join('')}</ul>` : '<p class="empty">Nothing completed yet.</p>';
+  }
+  return `<section class="screen">
+    <h1>Action items</h1>
+    <p class="meta" style="margin-top:4px">Follow-ups across all providers. Add new ones from a provider's page.</p>
+    <div class="chips" role="group" aria-label="Filter action items">${chip('open',`Open (${nOpen})`)}${chip('done',`Done (${nDone})`)}${chip('all','All')}</div>
+    ${body}
+  </section>`;
+}
+function tabbar(){
+  const open = actionItems.filter(a=>!a.done).length;
+  return `<nav class="ftabs" aria-label="Field app sections">
+    <button data-action="ftab" data-v="providers" aria-pressed="${S.fieldTab==='providers'}">Providers</button>
+    <button data-action="ftab" data-v="actions" aria-pressed="${S.fieldTab==='actions'}">Action items <span class="pill" id="ai-pill">${open}</span></button>
+  </nav>`;
+}
+function refreshAI(){
+  if (S.fieldTab==='actions'){ renderField(); return; }
+  const sec = $('#ai-sec'); if (sec) sec.outerHTML = aiSection(P(S.pid));
+  const pill = $('#ai-pill'); if (pill) pill.textContent = actionItems.filter(a=>!a.done).length;
+}
+function refreshActs(){ const el = $('#act-list'); if (el) el.innerHTML = actList(P(S.pid)); }
+function tlItem(i){
+  const t = TYPES[i.type];
+  const lines = i.summary.split('\n').filter(s=>s.trim());
+  return `<article class="tl">
+    <span class="tl-icon" style="--c:${t.c}">${icon(t.icon)}</span>
+    <div class="tl-body">
+      <div class="tl-top"><strong>${t.label}</strong><time datetime="${i.date.toISOString()}">${fmtDT(i.date)}</time></div>
+      ${S.editInt===i.id ? `
+        <label class="flabel" for="edit-sum" style="display:block;margin-top:8px">Edit summary</label>
+        <textarea id="edit-sum" class="inp">${esc(i.summary)}</textarea>
+        <p class="hint">One point per line. Fix transcription mistakes or add details. The recorded transcript isn't changed.</p>
+        <p class="msg err" id="edit-msg" aria-live="polite"></p>
+        <div style="display:flex;gap:8px;margin-top:6px"><button class="btn small" data-action="int-edit-cancel">Cancel</button><button class="btn small primary" data-action="int-edit-save" data-id="${i.id}">Save summary</button></div>`
+      : `<ul class="summary">${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`}
+      ${i.transcript ? `<details><summary>Show transcript</summary><p>${esc(i.transcript)}</p></details>` : ''}
+      ${i.originalSummary ? `<details><summary>Show original summary</summary><p style="white-space:pre-line">${esc(i.originalSummary)}</p></details>` : ''}
+      <div class="tl-foot"><p class="meta">${esc(i.agent)}, ${i.mode==='voice' ? 'voice note ' + mmss(i.dur) : 'typed note'}${i.editedAt ? `. Summary edited ${fmtShort(i.editedAt)}` : ''}</p>
+        ${S.editInt===i.id ? '' : `<button class="linkish" data-action="int-edit" data-id="${i.id}">${icon('edit')}Edit summary</button>`}</div>
+    </div></article>`;
+}
+
+/* ---------- field: new provider ---------- */
+const SPECS = ['Family Medicine','Internal Medicine','Pediatrics','OB/GYN','Urgent Care','Endocrinology','Rheumatology','Other'];
+function viewNew(){
+  return `<section class="screen">
+    <button class="back" data-action="back">${icon('back')}Providers</button>
+    <h1 style="margin:8px 0 6px">Add provider</h1>
+    <p class="meta" style="margin-bottom:16px">For offices you visit that aren't in ModMed yet. They'll be saved as Preliminary until the EHR record appears.</p>
+    <div class="field"><label for="np-npi">NPI</label>
+      <div style="display:flex;gap:8px"><input id="np-npi" class="inp" inputmode="numeric" maxlength="10" placeholder="10 digits"><button class="btn" data-action="npi-lookup">Look up</button></div></div>
+    <p id="np-msg" class="msg" aria-live="polite"></p>
+    <div class="row2">
+      <div class="field"><label for="np-first">First name</label><input id="np-first" class="inp"></div>
+      <div class="field"><label for="np-last">Last name</label><input id="np-last" class="inp"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="np-cred">Credential</label><input id="np-cred" class="inp" placeholder="MD, DO, PA-C…"></div>
+      <div class="field"><label for="np-spec">Specialty</label><select id="np-spec" class="inp">${SPECS.map(s=>`<option>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><label for="np-practice">Practice name</label><input id="np-practice" class="inp"></div>
+    <div class="field"><label for="np-addr">Street address</label><input id="np-addr" class="inp"></div>
+    <div class="row2">
+      <div class="field"><label for="np-city">City</label><input id="np-city" class="inp"></div>
+      <div class="field"><label for="np-phone">Phone</label><input id="np-phone" class="inp" inputmode="tel"></div>
+    </div>
+    <button class="btn primary block" data-action="np-create">Add as preliminary provider</button>
+  </section>`;
+}
+
+function renderField(){
+  const root = $('#field');
+  root.innerHTML = tabbar() + (S.fieldTab==='actions' ? viewActions() : S.view==='provider' ? viewProvider() : S.view==='new' ? viewNew() : viewSearch());
+  root.scrollTop = 0;
+}
+
+/* ---------- log interaction sheet ---------- */
+function openLog(){
+  S.log = {type:null, when:toInputDT(new Date()), mode:'voice', stage:'idle', secs:0, transcript:'', summary:'', notes:''};
+  renderSheet(true);
+}
+function closeLog(){ clearInterval(S.timer); S.log = null; renderSheet(); }
+function canSave(){
+  const L = S.log; if (!L || !L.type) return false;
+  return L.mode==='voice' ? (L.stage==='done' && L.summary.trim()!=='') : L.notes.trim()!=='';
+}
+function renderSheet(focus){
+  const root = $('#sheet-root');
+  if (!S.log){ root.innerHTML=''; return; }
+  const L = S.log, p = P(S.pid);
+  let voice = '';
+  if (L.stage==='idle') voice = `<div class="rec"><button class="mic" data-action="rec-start" aria-label="Start recording">${icon('mic')}</button>
+      <p>Tap to record a quick summary of the conversation.</p></div>`;
+  else if (L.stage==='rec') voice = `<div class="rec"><button class="mic live" data-action="rec-stop" aria-label="Stop recording">${icon('stop')}</button>
+      <span class="timer" id="rec-timer">${mmss(L.secs)}</span><p>Recording. Tap to stop.</p></div>`;
+  else if (L.stage==='proc') voice = `<div class="rec"><span class="spin" aria-hidden="true"></span><p id="proc-text">Transcribing…</p></div>`;
+  else voice = `
+      <div class="lbl-row"><span class="flabel">Transcript</span><span class="meta">As recorded, ${mmss(L.secs)}</span></div>
+      <div class="transcript">${esc(L.transcript)}</div>
+      <label class="flabel" for="log-summary">Summary</label>
+      <textarea id="log-summary" class="inp" data-input="log-summary">${esc(L.summary)}</textarea>
+      <p class="hint">Generated from the transcript. Edit as needed, one point per line.</p>
+      <button class="linkish" data-action="rec-redo">Record again</button>`;
+  const typed = `<label class="flabel" for="log-notes">Notes</label>
+      <textarea id="log-notes" class="inp" data-input="log-notes" placeholder="What happened, and any follow-up">${esc(L.notes)}</textarea>`;
+
+  root.innerHTML = `<div class="backdrop" data-action="backdrop">
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="log-h">
+      <div class="sheet-head"><div><h2 id="log-h" tabindex="-1">Log interaction</h2><p class="meta">${esc(p.name)}, ${esc(p.practice)}</p></div>
+        <button class="icon-btn" data-action="log-cancel" aria-label="Close">${icon('close')}</button></div>
+      <span class="flabel" id="type-l">Type of interaction</span>
+      <div class="types" role="group" aria-labelledby="type-l">${TYPE_ORDER.map(k=>`<button class="type-btn" style="--c:${TYPES[k].c}" data-action="log-type" data-v="${k}" aria-pressed="${L.type===k}">${icon(TYPES[k].icon)}${TYPES[k].label}</button>`).join('')}</div>
+      <div class="field"><label for="log-when">Date and time</label><input id="log-when" type="datetime-local" class="inp" value="${L.when}" data-input="log-when"></div>
+      <div class="chips" role="group" aria-label="How to add notes" style="margin:4px 0 12px">
+        <button class="chip" data-action="log-mode" data-v="voice" aria-pressed="${L.mode==='voice'}">${icon('mic')}Voice note</button>
+        <button class="chip" data-action="log-mode" data-v="typed" aria-pressed="${L.mode==='typed'}">${icon('edit')}Type notes</button>
+      </div>
+      ${L.mode==='voice' ? voice : typed}
+      <div class="sheet-foot"><button class="btn" data-action="log-cancel">Cancel</button>
+        <button class="btn primary" id="save-log" data-action="log-save" ${canSave()?'':'disabled'}>Save interaction</button></div>
+      ${!L.type ? '<p class="hint" style="text-align:center;margin-top:0">Choose a type of interaction to save.</p>' : ''}
+    </div></div>`;
+  if (focus) $('#log-h').focus();
+}
+function startRec(){
+  S.log.stage='rec'; S.log.secs=0; renderSheet();
+  clearInterval(S.timer);
+  S.timer = setInterval(()=>{
+    if (!S.log) return clearInterval(S.timer);
+    S.log.secs++; const el = $('#rec-timer'); if (el) el.textContent = mmss(S.log.secs);
+    if (S.log.secs >= 180) stopRec();
+  },1000);
+}
+function stopRec(){
+  clearInterval(S.timer);
+  if (S.log.secs < 3) S.log.secs = 3 + Math.floor(Math.random()*40);
+  S.log.stage='proc'; renderSheet();
+  setTimeout(()=>{ const el=$('#proc-text'); if (el) el.textContent='Summarizing…'; },1000);
+  setTimeout(()=>{
+    if (!S.log || S.log.stage!=='proc') return;
+    const type = S.log.type || 'dropby';
+    const pool = TPL[type].filter(t=>t.t).length ? TPL[type].filter(t=>t.t) : TPL.call;
+    const tp = pool[Math.floor(Math.random()*pool.length)];
+    const p = P(S.pid);
+    S.log.transcript = fill(tp.t,p); S.log.summary = tp.s.map(x=>fill(x,p)).join('\n');
+    S.log.stage='done'; renderSheet();
+  },2100);
+}
+function saveLog(){
+  if (!canSave()) return;
+  const L = S.log;
+  const d = L.when ? new Date(L.when) : new Date();
+  interactions.push({id:'i'+(++iid), pid:S.pid, type:L.type, date:isNaN(d)?new Date():d, agent:AGENT,
+    transcript: L.mode==='voice' ? L.transcript : '', summary: L.mode==='voice' ? L.summary : L.notes,
+    mode: L.mode, dur: L.secs});
+  closeLog(); renderField(); toast('Interaction saved');
+}
+
+/* ---------- admin ---------- */
+function renderAdmin(){
+  const A = S.admin;
+  const preset = (n,l) => `<button class="chip" data-action="preset" data-v="${n}" aria-pressed="${A.preset===n}">${l}</button>`;
+  $('#admin').innerHTML = `<div class="admin">
+    <div class="admin-head"><h1>Outreach dashboard</h1><p>Field activity from the app, with new patient referrals from the ModMed feed.</p></div>
+    <div class="notice demo" style="margin:0 0 14px"><strong>Demonstration only.</strong> All figures are sample data and aren't connected to ModMed or any database.</div>
+    <section class="card filters" aria-label="Filters">
+      <div class="grp"><span class="flabel">Date range</span>
+        <div class="inline">
+          <label class="sr-lbl"><span class="meta">From </span><input type="date" class="inp" id="a-from" value="${toInputDate(A.from)}" data-change="a-from"></label>
+          <label class="sr-lbl"><span class="meta">To </span><input type="date" class="inp" id="a-to" value="${toInputDate(A.to)}" data-change="a-to"></label>
+        </div></div>
+      <div class="grp"><span class="flabel">Quick ranges</span><div class="inline" id="presets">${preset(30,'30 days')}${preset(90,'90 days')}${preset(365,'12 months')}</div></div>
+      <div class="grp"><span class="flabel">Actions</span><div class="inline" id="type-chips">${TYPE_ORDER.map(k=>`<button class="chip" data-action="a-type" data-v="${k}" aria-pressed="${A.types.has(k)}"><span class="dot" style="--c:${TYPES[k].c}"></span>${TYPES[k].label}</button>`).join('')}</div></div>
+    </section>
+    <div id="admin-body"></div></div>`;
+  updateAdmin();
+}
+function niceMax(v){ if (v<=4) return 4; const p=Math.pow(10,Math.floor(Math.log10(v))); for (const m of [1,2,2.5,5,10]) if (m*p>=v) return m*p; return v; }
+
+function updateAdmin(){
+  const A = S.admin;
+  const from = A.from, toEnd = addDays(A.to,1);
+  const days = Math.max(1, Math.round((toEnd-from)/DAY));
+  const pFrom = addDays(from,-days);
+  const ints = interactions.filter(i=>i.date>=from && i.date<toEnd && A.types.has(i.type));
+  const reached = new Set(ints.map(i=>i.pid)).size;
+  const refs = refsIn(null,from,toEnd), prior = refsIn(null,pFrom,from);
+  const pct = prior ? Math.round((refs-prior)/prior*100) : null;
+  const prelims = providers.filter(p=>p.status==='prelim').length;
+  const byType = TYPE_ORDER.map(k=>({k,n:ints.filter(i=>i.type===k).length}));
+  const maxT = Math.max(1,...byType.map(b=>b.n));
+
+  // buckets
+  const weekly = days <= 100;
+  const buckets = [];
+  if (weekly){ for (let d=new Date(from); d<toEnd; d=addDays(d,7)) buckets.push({a:new Date(d), b:new Date(Math.min(+addDays(d,7),+toEnd)), label:d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}); }
+  else { for (let d=new Date(from.getFullYear(),from.getMonth(),1); d<toEnd; d=new Date(d.getFullYear(),d.getMonth()+1,1)) buckets.push({a:new Date(Math.max(+d,+from)), b:new Date(Math.min(+new Date(d.getFullYear(),d.getMonth()+1,1),+toEnd)), label:d.toLocaleDateString('en-US',{month:'short'})}); }
+  buckets.forEach(bk => { bk.c = {}; TYPE_ORDER.forEach(k => bk.c[k] = ints.filter(i=>i.type===k && i.date>=bk.a && i.date<bk.b).length); bk.t = TYPE_ORDER.reduce((s,k)=>s+bk.c[k],0); });
+
+  // provider rows
+  const rows = providers.map(p => {
+    const n = ints.filter(i=>i.pid===p.id).length;
+    const li = lastInt(p.id);
+    const r = p.status==='ehr' ? refsIn(p.id,from,toEnd) : null;
+    const pr = p.status==='ehr' ? refsIn(p.id,pFrom,from) : null;
+    return {p, n, li, last: li ? +li.date : 0, refs:r, prior:pr, chg: r===null ? null : r-pr};
+  });
+  const {k,d} = A.sort;
+  rows.sort((a,b)=>{ const av = k==='name' ? a.p.last : a[k], bv = k==='name' ? b.p.last : b[k];
+    if (av===null && bv===null) return 0; if (av===null) return 1; if (bv===null) return -1;
+    return (typeof av==='string' ? av.localeCompare(bv) : av-bv) * d; });
+  if (!A.sel) A.sel = [...rows].filter(r=>r.refs!==null).sort((a,b)=>b.refs-a.refs)[0].p.id;
+
+  const th = (key,label,num) => `<th class="${num?'num':''}"><button data-action="sort" data-k="${key}" ${A.sort.k===key?`aria-sort="${A.sort.d>0?'ascending':'descending'}"`:''}>${label}${A.sort.k===key?(A.sort.d>0?' ↑':' ↓'):''}</button></th>`;
+
+  $('#admin-body').innerHTML = `
+    <div class="stats">
+      <div class="stat"><p class="l">Interactions</p><p class="v">${ints.length}</p><p class="s">${byType.filter(b=>b.n).map(b=>`${b.n} ${TYPES[b.k].label.toLowerCase()}`).join(', ') || 'None in this range'}</p></div>
+      <div class="stat"><p class="l">Providers reached</p><p class="v">${reached}</p><p class="s">of ${providers.length} in the list</p></div>
+      <div class="stat"><p class="l">New patient referrals</p><p class="v">${refs}</p><p class="s">${pct===null?'No prior-period data':`<span class="${pct>=0?'up':'down'}">${pct>=0?'+':''}${pct}%</span> vs the previous ${days} days (${prior})`}</p></div>
+      <div class="stat"><p class="l">Waiting for EHR match</p><p class="v">${prelims}</p><p class="s">Preliminary providers added in the field</p></div>
+    </div>
+    <div class="grid2">
+      <section class="card"><div class="card-head"><h2>Interactions by ${weekly?'week':'month'}</h2></div>
+        ${stackedChart(buckets)}
+        <div class="legend">${TYPE_ORDER.filter(k=>A.types.has(k)).map(k=>`<span><span class="dot" style="--c:${TYPES[k].c}"></span>${TYPES[k].label}</span>`).join('')}</div></section>
+      <section class="card"><div class="card-head"><h2>By action</h2></div>
+        ${byType.map(b=>`<div class="hbar" style="--c:${TYPES[b.k].c}"><span>${TYPES[b.k].label}</span><span class="track"><span class="fill" style="display:block;width:${b.n/maxT*100}%"></span></span><b>${b.n}</b></div>`).join('')}
+        <p class="fine">Only selected actions are counted.</p></section>
+    </div>
+    <section class="card" aria-labelledby="pt-h">
+      <div class="card-head"><h2 id="pt-h">Providers</h2><span class="meta">Select a row to see the referral trend</span></div>
+      <div class="table-wrap"><table>
+        <thead><tr>${th('name','Provider')}<th>Status</th>${th('n','Interactions',1)}${th('last','Last contact')}${th('refs','New referrals',1)}${th('prior','Previous period',1)}${th('chg','Change',1)}</tr></thead>
+        <tbody>${rows.map(r=>`<tr data-action="select-prov" data-id="${r.p.id}" class="${A.sel===r.p.id?'sel':''}">
+          <td><button class="linkbtn" data-action="select-prov" data-id="${r.p.id}">${esc(r.p.name)}</button><br><span class="meta">${esc(r.p.practice)}</span></td>
+          <td>${r.p.status==='ehr'?'<span class="badge ehr">In EHR</span>':'<span class="badge">Preliminary</span>'}</td>
+          <td class="num">${r.n}</td>
+          <td>${r.li ? `${rel(r.li.date)}<br><span class="meta">${TYPES[r.li.type].label}</span>` : '<span class="meta">Never</span>'}</td>
+          <td class="num">${r.refs===null?'—':r.refs}</td>
+          <td class="num">${r.prior===null?'—':r.prior}</td>
+          <td class="num">${r.chg===null?'—':`<span class="${r.chg>0?'up':r.chg<0?'down':''}">${r.chg>0?'+':''}${r.chg}</span>`}</td></tr>`).join('')}</tbody>
+      </table></div>
+      <p class="fine">A new patient referral is counted when the patient's first appointment is created in ModMed, whatever its status. Previous period is the same number of days just before the selected range.</p>
+    </section>
+    ${trendSection(P(A.sel))}`;
+}
+
+function stackedChart(buckets){
+  const W=680,H=230,pl=34,pr=6,pt=10,pb=28, n=buckets.length;
+  const yMax = niceMax(Math.max(1,...buckets.map(b=>b.t)));
+  const ih = H-pt-pb, bw = (W-pl-pr)/n, w = Math.max(3,bw*.66);
+  let g = '';
+  for (let i=0;i<=4;i++){ const y = pt + ih - ih*i/4; const v = Math.round(yMax*i/4*10)/10;
+    g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" style="stroke:var(--line)"/><text x="${pl-6}" y="${y+4}" text-anchor="end">${v}</text>`; }
+  const every = Math.ceil(n/9);
+  buckets.forEach((b,i) => {
+    let y = pt+ih; const x = pl + i*bw + (bw-w)/2;
+    TYPE_ORDER.forEach(k => { if (!b.c[k]) return; const h = b.c[k]/yMax*ih; y -= h;
+      g += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2" style="fill:${TYPES[k].c}"><title>${b.label}: ${b.c[k]} ${TYPES[k].label.toLowerCase()}</title></rect>`; });
+    if (i%every===0) g += `<text x="${(pl+i*bw+bw/2).toFixed(1)}" y="${H-8}" text-anchor="middle">${b.label}</text>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Stacked bar chart of interactions over time">${g}</svg>`;
+}
+
+function trendSection(p){
+  const months = [];
+  for (let i=11;i>=0;i--){ const a = new Date(TODAY.getFullYear(), TODAY.getMonth()-i, 1); months.push({a, b:new Date(a.getFullYear(),a.getMonth()+1,1)}); }
+  const start = months[0].a, end = addDays(TODAY,1);
+  const ints = interactions.filter(i=>i.pid===p.id && i.date>=start && i.date<end);
+  const W=680,H=250,pl=30,pr=6,pt=12,barBottom=172,lane=200, mw=(W-pl-pr)/12;
+  let g='';
+  if (p.status==='ehr'){
+    months.forEach(m => m.n = referrals.filter(r=>r.pid===p.id && r.date>=m.a && r.date<m.b).length);
+    const yMax = niceMax(Math.max(1,...months.map(m=>m.n))), ih = barBottom-pt;
+    for (let i=0;i<=4;i++){ const y = barBottom - ih*i/4; g += `<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" style="stroke:var(--line)"/><text x="${pl-6}" y="${y+4}" text-anchor="end">${Math.round(yMax*i/4)}</text>`; }
+    months.forEach((m,i) => { const h = m.n/yMax*ih; g += `<rect x="${(pl+i*mw+mw*.2).toFixed(1)}" y="${(barBottom-h).toFixed(1)}" width="${(mw*.6).toFixed(1)}" height="${h.toFixed(1)}" rx="3" style="fill:var(--primary);opacity:.8"><title>${m.a.toLocaleDateString('en-US',{month:'long',year:'numeric'})}: ${m.n} new patient referrals</title></rect>`; });
+  } else {
+    g += `<text x="${W/2}" y="${barBottom/2}" text-anchor="middle" style="font-size:13px">Referral data starts once this provider is matched to a ModMed record.</text>`;
+  }
+  g += `<line x1="${pl}" x2="${W-pr}" y1="${lane}" y2="${lane}" style="stroke:var(--line);stroke-dasharray:3 4"/>`;
+  ints.forEach(it => {
+    const mi = (it.date.getFullYear()-start.getFullYear())*12 + it.date.getMonth()-start.getMonth();
+    const dim = new Date(it.date.getFullYear(), it.date.getMonth()+1, 0).getDate();
+    const x = pl + (mi + (it.date.getDate()-1)/dim)*mw;
+    g += `<line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pt}" y2="${lane}" style="stroke:${TYPES[it.type].c};opacity:.35"/><circle cx="${x.toFixed(1)}" cy="${lane}" r="6" style="fill:${TYPES[it.type].c};stroke:var(--surface);stroke-width:2"><title>${TYPES[it.type].label}, ${fmtDate(it.date)}</title></circle>`;
+  });
+  months.forEach((m,i) => g += `<text x="${(pl+i*mw+mw/2).toFixed(1)}" y="${H-10}" text-anchor="middle">${m.a.toLocaleDateString('en-US',{month:'short'})}</text>`);
+
+  let facts = '';
+  if (p.status==='ehr'){
+    const inPerson = intsFor(p.id).filter(i=>i.type==='visit'||i.type==='dropby')[0];
+    const last12 = referrals.filter(r=>r.pid===p.id && r.date>=start).length;
+    if (inPerson){
+      const vd = new Date(inPerson.date.getFullYear(),inPerson.date.getMonth(),inPerson.date.getDate());
+      const since = Math.max(1, Math.round((TODAY - vd)/DAY));
+      const win = Math.min(90, since);
+      const before = refsIn(p.id, addDays(vd,-win), vd), after = refsIn(p.id, vd, addDays(vd,win));
+      facts = `<div><b>${fmtDate(inPerson.date)}</b><span>Last in-person contact (${TYPES[inPerson.type].label.toLowerCase()})</span></div>
+        <div><b>${before}</b><span>Referrals in the ${win} days before</span></div>
+        <div><b>${after}</b><span>Referrals in the ${win} days after</span></div>`;
+    } else facts = `<div><b>None</b><span>No in-person contact in the last 12 months</span></div>`;
+    facts = `<div><b>${last12}</b><span>New patient referrals, last 12 months</span></div>` + facts;
+  }
+  return `<section class="card" id="trend" aria-labelledby="tr-h">
+    <div class="card-head"><div><h2 id="tr-h">${esc(p.name)}: referrals and outreach</h2><p class="meta">${esc(p.practice)}, last 12 months</p></div>
+      ${p.status==='ehr'?'<span class="badge ehr">In EHR</span>':'<span class="badge">Preliminary</span>'}</div>
+    ${facts?`<div class="trend-facts">${facts}</div>`:''}
+    <svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly new patient referrals with outreach dates marked">${g}</svg>
+    <div class="legend"><span><span class="dot" style="--c:var(--primary)"></span>New patient referrals per month</span>${TYPE_ORDER.map(k=>`<span><span class="dot" style="--c:${TYPES[k].c};border-radius:50%"></span>${TYPES[k].label}</span>`).join('')}</div>
+    <p class="fine">Markers show when outreach happened. A rise after a visit suggests impact but doesn't prove it; compare the same window before and after.</p>
+  </section>`;
+}
+
+/* ---------- events ---------- */
+function setRole(r){
+  S.role = r;
+  document.querySelectorAll('[data-action="role"]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===r)));
+  $('#field').hidden = r!=='field'; $('#admin').hidden = r!=='admin'; $('#dev').hidden = r!=='dev';
+  if (r==='field') renderField(); else if (r==='admin') renderAdmin();
+  window.scrollTo(0,0);
+}
+const actions = {
+  role: el => setRole(el.dataset.v),
+  filter: el => { S.filter = el.dataset.v; document.querySelectorAll('[data-action="filter"]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===S.filter))); $('#results').innerHTML = resultsHTML(); },
+  open: el => { S.pid = el.dataset.id; S.fieldTab='providers'; S.view='provider'; S.editProfile=false; S.actFilter='all'; S.editInt=null; renderField(); window.scrollTo(0,0); },
+  back: () => { S.view='search'; S.editProfile=false; S.editInt=null; renderField(); },
+  ftab: el => { S.fieldTab = el.dataset.v; if (S.fieldTab==='providers'){ S.view='search'; S.editInt=null; } renderField(); window.scrollTo(0,0); },
+  'act-filter': el => { S.actFilter = el.dataset.v; S.editInt=null; document.querySelectorAll('[data-action="act-filter"]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===S.actFilter))); refreshActs(); },
+  'int-edit': el => { S.editInt = el.dataset.id; refreshActs(); const t=$('#edit-sum'); if (t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); } },
+  'int-edit-cancel': () => { S.editInt=null; refreshActs(); },
+  'int-edit-save': el => {
+    const it = interactions.find(i=>i.id===el.dataset.id); const v = $('#edit-sum').value.trim();
+    if (!v){ $('#edit-msg').textContent='The summary can\'t be empty.'; return; }
+    if (v !== it.summary){ if (!it.originalSummary) it.originalSummary = it.summary; it.summary = v; it.editedAt = new Date(); it.editedBy = AGENT; }
+    S.editInt=null; refreshActs(); toast('Summary updated');
+  },
+  'ai-toggle': el => { const a = actionItems.find(x=>x.id===el.dataset.id); a.done = el.checked; a.doneAt = a.done ? new Date() : null; refreshAI(); toast(a.done ? 'Marked as done' : 'Moved back to open'); },
+  'ai-del': el => { const i = actionItems.findIndex(x=>x.id===el.dataset.id); if (i>-1) actionItems.splice(i,1); refreshAI(); toast('Action item deleted'); },
+  'ai-add': () => {
+    const t = $('#ai-new'), text = t.value.trim(); if (!text){ t.focus(); return; }
+    const dv = $('#ai-due').value;
+    addAI(S.pid, text, dv ? parseInputDate(dv) : null, false, new Date());
+    refreshAI(); $('#ai-new').focus(); toast('Action item added');
+  },
+  'ai-filter': el => { S.aiFilter = el.dataset.v; renderField(); },
+  'new-provider': () => { S.view='new'; renderField(); window.scrollTo(0,0); },
+  'edit-profile': () => { S.editProfile=true; renderField(); const el=$('#pf-hours'); if (el) el.focus(); },
+  'cancel-profile': () => { S.editProfile=false; renderField(); },
+  'save-profile': () => {
+    const p = P(S.pid);
+    p.profile = {officeHours:$('#pf-hours').value.trim(), employees:$('#pf-emp').value.trim(), officeManager:$('#pf-mgr').value.trim(), bestTime:$('#pf-best').value.trim(), notes:$('#pf-notes').value.trim()};
+    S.editProfile=false; renderField(); toast('Office details saved');
+  },
+  'npi-lookup': () => {
+    const v = $('#np-npi').value.trim(), msg = $('#np-msg');
+    if (!/^\d{10}$/.test(v)){ msg.className='msg err'; msg.textContent='Enter a 10-digit NPI to look it up.'; return; }
+    const dup = providers.find(p=>p.npi===v);
+    if (dup){ msg.className='msg err'; msg.innerHTML = `This NPI is already in the list as ${esc(dup.name)}. <button class="linkish" data-action="open" data-id="${dup.id}">Open provider</button>`; return; }
+    $('#np-first').value='Nadia'; $('#np-last').value='Farouk'; $('#np-cred').value='MD'; $('#np-spec').value='Family Medicine';
+    $('#np-practice').value='Orchard Family Medicine'; $('#np-addr').value='88 Orchard Rd'; $('#np-city').value='Westbrook'; $('#np-phone').value='(555) 010-3386';
+    msg.className='msg ok'; msg.textContent='Filled from the NPI Registry (sample). Check the details before adding.';
+  },
+  'np-create': () => {
+    const g = id => $('#'+id).value.trim();
+    const msg = $('#np-msg');
+    if (!g('np-last') || !g('np-practice')){ msg.className='msg err'; msg.textContent='Add at least a last name and practice name.'; ($('#np-last').value.trim()?$('#np-practice'):$('#np-last')).focus(); return; }
+    const cred = g('np-cred');
+    const dr = /\b(MD|DO)\b/i.test(cred);
+    const id = 'p' + (providers.length + 1) + '_' + Date.now();
+    providers.push({id, status:'prelim', ehrId:null, npi:g('np-npi'), name:(dr?'Dr. ':'') + [g('np-first'),g('np-last')].filter(Boolean).join(' '), last:g('np-last'), credential:cred,
+      specialty:g('np-spec'), practice:g('np-practice'), address:g('np-addr'), city:g('np-city'), phone:g('np-phone'), fax:'', base:0, profile:{}});
+    S.pid = id; S.view='provider'; renderField(); toast('Provider added as Preliminary');
+  },
+  'open-log': openLog,
+  'log-cancel': closeLog,
+  backdrop: (el,e) => { if (e.target===el) closeLog(); },
+  'log-type': el => { S.log.type = el.dataset.v; renderSheet(); },
+  'log-mode': el => { clearInterval(S.timer); if (S.log.stage==='rec'||S.log.stage==='proc') S.log.stage='idle'; S.log.mode = el.dataset.v; renderSheet(); },
+  'rec-start': startRec,
+  'rec-stop': stopRec,
+  'rec-redo': () => { S.log.stage='idle'; S.log.transcript=''; S.log.summary=''; renderSheet(); },
+  'log-save': saveLog,
+  preset: el => { const n = +el.dataset.v; S.admin.preset=n; S.admin.to=TODAY; S.admin.from=addDays(TODAY,-(n-1));
+    $('#a-from').value=toInputDate(S.admin.from); $('#a-to').value=toInputDate(S.admin.to);
+    document.querySelectorAll('[data-action="preset"]').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.v===n))); updateAdmin(); },
+  'a-type': el => { const t = S.admin.types; const k = el.dataset.v; if (t.has(k)) { if (t.size>1) t.delete(k); } else t.add(k);
+    document.querySelectorAll('[data-action="a-type"]').forEach(b=>b.setAttribute('aria-pressed', String(t.has(b.dataset.v)))); updateAdmin(); },
+  sort: el => { const k = el.dataset.k; const s = S.admin.sort; if (s.k===k) s.d*=-1; else { s.k=k; s.d = k==='name' ? 1 : -1; } updateAdmin(); },
+  'select-prov': el => { S.admin.sel = el.dataset.id; updateAdmin(); const t = $('#trend'); if (t) t.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'start'}); }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]'); if (!el) return;
+  const fn = actions[el.dataset.action]; if (!fn) return;
+  if (el.dataset.action==='select-prov' && el.tagName==='TR' && e.target.closest('button')) return;
+  fn(el,e);
+});
+document.addEventListener('input', e => {
+  const k = e.target.dataset && e.target.dataset.input; if (!k) return;
+  if (k==='q'){ S.q = e.target.value; $('#results').innerHTML = resultsHTML(); return; }
+  if (!S.log) return;
+  if (k==='log-summary') S.log.summary = e.target.value;
+  if (k==='log-notes') S.log.notes = e.target.value;
+  if (k==='log-when') S.log.when = e.target.value;
+  const b = $('#save-log'); if (b) b.disabled = !canSave();
+});
+document.addEventListener('change', e => {
+  const k = e.target.dataset && e.target.dataset.change; if (!k || !e.target.value) return;
+  const d = parseInputDate(e.target.value);
+  if (k==='a-from') S.admin.from = d; else S.admin.to = d;
+  if (S.admin.from > S.admin.to){ const t = S.admin.from; S.admin.from = S.admin.to; S.admin.to = t; $('#a-from').value=toInputDate(S.admin.from); $('#a-to').value=toInputDate(S.admin.to); }
+  S.admin.preset = null;
+  document.querySelectorAll('[data-action="preset"]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  updateAdmin();
+});
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape' && S.log) closeLog();
+  if (e.key==='Enter' && e.target.dataset && e.target.dataset.enter){ e.preventDefault(); actions[e.target.dataset.enter](e.target,e); }
+});
+
+renderField();
+})();
+</script>
+</body>
+</html>
