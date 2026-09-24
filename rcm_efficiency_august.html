@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCM Efficiency &amp; Costs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:#f7f8fa; color:#1a1d23; }
+  .wrap { max-width:1280px; margin:0 auto; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:#6b7280; font-size:13px; margin:0 0 24px; }
+  .grid { display:grid; grid-template-columns:1fr; gap:20px; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:22px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .card h2 { font-size:16px; margin:0 0 2px; }
+  .card .csub { color:#6b7280; font-size:12px; margin:0 0 16px; }
+  .stats { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+  .stat { flex:1; min-width:150px; background:#f9fafb; border:1px solid #eef0f3; border-radius:9px; padding:10px 12px; }
+  .stat .label { font-size:11px; letter-spacing:.02em; color:#6b7280; }
+  .stat .val { font-size:19px; font-weight:600; margin-top:3px; }
+  .stat .val.impr { color:#16a34a; }
+  .chart-box { position:relative; height:420px; }
+  .note { font-size:11.5px; color:#6b7280; margin-top:20px; line-height:1.5; }
+  .card + .card { }
+  .stat .sub2 { font-size:11px; color:#9ca3af; margin-top:3px; }
+  .controls { display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px solid #eef0f3; }
+  .ctrl { display:flex; align-items:center; gap:7px; font-size:13px; cursor:pointer; user-select:none; }
+  .ctrl input { position:absolute; opacity:0; width:1px; height:1px; }
+  .ctrl:focus-within { outline:2px solid #2563eb; outline-offset:3px; border-radius:4px; }
+  .swatch { width:22px; height:12px; border-radius:3px; flex:none; }
+  .ctrl.off { opacity:.4; }
+  .ctrl.off .name { text-decoration:line-through; }
+  .viewtoggle { display:inline-flex; border:1px solid #d1d5db; border-radius:8px; overflow:hidden; margin-bottom:14px; }
+  .viewtoggle button { border:none; background:#fff; padding:6px 16px; font-size:13px; cursor:pointer; color:#6b7280; }
+  .viewtoggle button.active { background:#16a34a; color:#fff; font-weight:600; }
+  .viewtoggle button:not(.active):hover { background:#f3f4f6; }
+  .card .note { margin-top:16px; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>RCM Efficiency Metrics</h1>
+  <p class="sub">Before vs. after the March 2026 management change &middot; efficiency (dashed segments are not yet mature) and monthly costs</p>
+  <div class="grid">
+    <div class="card">
+      <h2 style="color:#2563eb">Cost per Claim</h2>
+      <p class="csub">RCM cost (actual) &divide; claim count &mdash; what it costs us to process one claim. Lower is better.</p>
+      <div class="stats">
+        <div class="stat"><div class="label">Before &middot; Feb 2025&ndash;Feb 2026</div><div class="val">$4.68</div></div>
+        <div class="stat"><div class="label">After &middot; Mar&ndash;May 2026</div><div class="val">$3.51</div></div>
+        <div class="stat"><div class="label">Improvement</div><div class="val impr">25.1% better</div></div>
+      </div>
+      <div class="chart-box"><canvas id="chartCpc" aria-label="Cost per claim by service month"></canvas></div>
+    </div>
+    <div class="card">
+      <h2 style="color:#16a34a">Collected per $ Cost</h2>
+      <p class="csub">Month collections &divide; RCM cost (actual) &mdash; dollars collected for every $1 spent running RCM. Higher is better.</p>
+      <div class="stats">
+        <div class="stat"><div class="label">Before &middot; Feb 2025&ndash;Feb 2026</div><div class="val">28.1x</div></div>
+        <div class="stat"><div class="label">After &middot; Mar&ndash;May 2026</div><div class="val">40.1x</div></div>
+        <div class="stat"><div class="label">Improvement</div><div class="val impr">42.9% better</div></div>
+      </div>
+      <div class="chart-box"><canvas id="chartRoi" aria-label="Collected per dollar of RCM cost by service month"></canvas></div>
+    </div>
+    <p class="note" style="margin-top:0">Solid line and filled points = mature service months (through May 2026 under the 90-day rule, as of Sep 23, 2026). <strong>Dashed line and hollow points</strong> = immature months: payments are still arriving, so collected per $ cost is understated and will rise. Claim counts settle within about two months, so cost per claim is closer to final but still preliminary. KPI values use mature months only and are simple averages of the monthly figures in each window. Cost is actual dollars paid (employee payroll + estimated HVA pay + consulting), so months with a third biweekly paycheck (Mar 2024, Aug 2024, Jan 2025, Aug 2025, Jan 2026, Jul 2026) show as temporary dips. Dashed red line marks the Mar 2026 management change.</p>
+    <div class="card">
+      <h2 style="color:#16a34a">Monthly RCM Costs</h2>
+      <p class="csub">Employee payroll, estimated HVA pay and external consulting &middot; Jan 2024&ndash;Aug 2026</p>
+      
+    <div class="stats">
+      <div class="stat"><div class="label">Avg monthly cost &middot; before (Feb25&ndash;Feb26)</div><div class="val">$65,510/mo</div></div>
+      <div class="stat"><div class="label">Avg monthly cost &middot; after (Mar&ndash;Aug26)</div><div class="val">$50,875/mo</div></div>
+      <div class="stat"><div class="label">Cost reduction after change</div><div class="val impr">&minus;$14,635/mo</div><div class="sub2">&asymp; $175,616/yr &middot; 22% lower</div></div>
+    </div>
+    <div class="viewtoggle" id="viewToggle" role="group" aria-label="Time grouping">
+      <button data-mode="monthly" class="active">Monthly</button><button data-mode="quarterly">Quarterly</button>
+    </div>
+    <div class="chart-box"><canvas id="costChart" aria-label="RCM cost by month"></canvas></div>
+    <div class="controls" id="controls"></div>
+    <p class="note"><strong>&#9670; Diamond markers</strong> flag months with <strong>3 pay dates</strong> instead of the usual 2 (biweekly payroll: Mar 2024, Aug 2024, Jan 2025, Aug 2025, Jan 2026, and Jul 2026). The extra paycheck lifts that month's total by ~50%. <strong>&#11088; December peaks</strong> reflect year-end employee bonuses. Aug 2026 employee pay is lower because one staff member was on a ~3-week vacation. Est. HVA pay = $400/wk &times; 4.33 per active HVA (billers and virtual assistants). Consulting = combined Griffin + Moore vendor bills by bill date; all engagements have ended. Q3 2026 in the quarterly view covers Jul&ndash;Aug only. Use the checkboxes below the chart to show or hide each category, or turn on <strong>Total (all categories)</strong> for combined spend. Dashed red line marks the Mar 2026 management change.</p>
+    </div>
+  </div>
+</div>
+<script>
+const data = [{"label": "Jan 2024", "pay": 21379.06, "pdates": 2, "hvaCount": 9, "hva": 15588.0, "consult": 0, "bonus": false, "leave": false, "claims": 11783, "payments": 1507004.88, "ncr": 95.0, "mature": true, "cost": 36967.06, "cpc": 3.137, "roi": 40.77}, {"label": "Feb 2024", "pay": 16963.92, "pdates": 2, "hvaCount": 10, "hva": 17320.0, "consult": 2000, "bonus": false, "leave": false, "claims": 11732, "payments": 1502270.82, "ncr": 96.0, "mature": true, "cost": 36283.92, "cpc": 3.093, "roi": 41.4}, {"label": "Mar 2024", "pay": 24824.52, "pdates": 3, "hvaCount": 11, "hva": 19052.0, "consult": 7847.71, "bonus": false, "leave": false, "claims": 13018, "payments": 1619585.92, "ncr": 94.4, "mature": true, "cost": 51724.23, "cpc": 3.973, "roi": 31.31}, {"label": "Apr 2024", "pay": 21251.71, "pdates": 2, "hvaCount": 11, "hva": 19052.0, "consult": 10943.75, "bonus": false, "leave": false, "claims": 13472, "payments": 1739243.09, "ncr": 95.6, "mature": true, "cost": 51247.46, "cpc": 3.804, "roi": 33.94}, {"label": "May 2024", "pay": 23219.77, "pdates": 2, "hvaCount": 12, "hva": 20784.0, "consult": 7096.25, "bonus": false, "leave": false, "claims": 14508, "payments": 1905833.48, "ncr": 95.1, "mature": true, "cost": 51100.02, "cpc": 3.522, "roi": 37.3}, {"label": "Jun 2024", "pay": 22947.75, "pdates": 2, "hvaCount": 13, "hva": 22516.0, "consult": 10089.2, "bonus": false, "leave": false, "claims": 13938, "payments": 1684888.93, "ncr": 94.8, "mature": true, "cost": 55552.95, "cpc": 3.986, "roi": 30.33}, {"label": "Jul 2024", "pay": 23075.68, "pdates": 2, "hvaCount": 14, "hva": 24248.0, "consult": 5647.05, "bonus": false, "leave": false, "claims": 14814, "payments": 1780376.5, "ncr": 94.3, "mature": true, "cost": 52970.73, "cpc": 3.576, "roi": 33.61}, {"label": "Aug 2024", "pay": 34668.22, "pdates": 3, "hvaCount": 14, "hva": 24248.0, "consult": 20975.33, "bonus": false, "leave": false, "claims": 15077, "payments": 1850104.31, "ncr": 94.4, "mature": true, "cost": 79891.55, "cpc": 5.299, "roi": 23.16}, {"label": "Sep 2024", "pay": 23141.28, "pdates": 2, "hvaCount": 14, "hva": 24248.0, "consult": 14572.5, "bonus": false, "leave": false, "claims": 14061, "payments": 1728093.87, "ncr": 95.6, "mature": true, "cost": 61961.78, "cpc": 4.407, "roi": 27.89}, {"label": "Oct 2024", "pay": 23284.29, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 14348.3, "bonus": false, "leave": false, "claims": 15156, "payments": 1988038.63, "ncr": 97.5, "mature": true, "cost": 63612.59, "cpc": 4.197, "roi": 31.25}, {"label": "Nov 2024", "pay": 23344.2, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 10962.5, "bonus": false, "leave": false, "claims": 13497, "payments": 1718181.98, "ncr": 95.9, "mature": true, "cost": 60286.7, "cpc": 4.467, "roi": 28.5}, {"label": "Dec 2024", "pay": 31163.48, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 14018.25, "bonus": true, "leave": false, "claims": 12996, "payments": 1719562.26, "ncr": 96.3, "mature": true, "cost": 71161.73, "cpc": 5.476, "roi": 24.16}, {"label": "Jan 2025", "pay": 34229.06, "pdates": 3, "hvaCount": 15, "hva": 25980.0, "consult": 9087.5, "bonus": false, "leave": false, "claims": 14204, "payments": 1806517.69, "ncr": 94.0, "mature": true, "cost": 69296.56, "cpc": 4.879, "roi": 26.07}, {"label": "Feb 2025", "pay": 23405.68, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 9290, "bonus": false, "leave": false, "claims": 12529, "payments": 1626635.42, "ncr": 94.8, "mature": true, "cost": 58675.68, "cpc": 4.683, "roi": 27.72}, {"label": "Mar 2025", "pay": 23468.47, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 6455, "bonus": false, "leave": false, "claims": 14349, "payments": 1840974.94, "ncr": 95.9, "mature": true, "cost": 55903.47, "cpc": 3.896, "roi": 32.93}, {"label": "Apr 2025", "pay": 29585.68, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 11862.53, "bonus": false, "leave": false, "claims": 13564, "payments": 1862579.24, "ncr": 96.5, "mature": true, "cost": 67428.21, "cpc": 4.971, "roi": 27.62}, {"label": "May 2025", "pay": 31923.35, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 11551.25, "bonus": false, "leave": false, "claims": 14997, "payments": 2003922.72, "ncr": 96.3, "mature": true, "cost": 69454.6, "cpc": 4.631, "roi": 28.85}, {"label": "Jun 2025", "pay": 32119.58, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 8513.75, "bonus": false, "leave": false, "claims": 14971, "payments": 1826294.08, "ncr": 94.5, "mature": true, "cost": 66613.33, "cpc": 4.449, "roi": 27.42}, {"label": "Jul 2025", "pay": 31791.79, "pdates": 2, "hvaCount": 16, "hva": 27712.0, "consult": 6151.25, "bonus": false, "leave": false, "claims": 15357, "payments": 1917432.24, "ncr": 95.6, "mature": true, "cost": 65655.04, "cpc": 4.275, "roi": 29.2}, {"label": "Aug 2025", "pay": 48351.25, "pdates": 3, "hvaCount": 15, "hva": 25980.0, "consult": 7737.5, "bonus": false, "leave": false, "claims": 15118, "payments": 1931686.48, "ncr": 95.4, "mature": true, "cost": 82068.75, "cpc": 5.429, "roi": 23.54}, {"label": "Sep 2025", "pay": 32494.62, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 7872.5, "bonus": false, "leave": false, "claims": 14790, "payments": 1882990.78, "ncr": 95.6, "mature": true, "cost": 66347.12, "cpc": 4.486, "roi": 28.38}, {"label": "Oct 2025", "pay": 28056.83, "pdates": 2, "hvaCount": 16, "hva": 27712.0, "consult": 8581.25, "bonus": false, "leave": false, "claims": 15427, "payments": 1946975.56, "ncr": 95.1, "mature": true, "cost": 64350.08, "cpc": 4.171, "roi": 30.26}, {"label": "Nov 2025", "pay": 23095.65, "pdates": 2, "hvaCount": 16, "hva": 27712.0, "consult": 8210, "bonus": false, "leave": false, "claims": 12878, "payments": 1658677.91, "ncr": 96.4, "mature": true, "cost": 59017.65, "cpc": 4.583, "roi": 28.1}, {"label": "Dec 2025", "pay": 28990.78, "pdates": 2, "hvaCount": 16, "hva": 27712.0, "consult": 6353.75, "bonus": true, "leave": false, "claims": 13547, "payments": 1913533.57, "ncr": 95.8, "mature": true, "cost": 63056.53, "cpc": 4.655, "roi": 30.35}, {"label": "Jan 2026", "pay": 36193.73, "pdates": 3, "hvaCount": 16, "hva": 27712.0, "consult": 5163.75, "bonus": false, "leave": false, "claims": 13290, "payments": 1761753.81, "ncr": 95.2, "mature": true, "cost": 69069.48, "cpc": 5.197, "roi": 25.51}, {"label": "Feb 2026", "pay": 31482.4, "pdates": 2, "hvaCount": 16, "hva": 27712.0, "consult": 4792.5, "bonus": false, "leave": false, "claims": 11696, "payments": 1610805.71, "ncr": 96.1, "mature": true, "cost": 63986.9, "cpc": 5.471, "roi": 25.17}, {"label": "Mar 2026", "pay": 22271.13, "pdates": 2, "hvaCount": 14, "hva": 24248.0, "consult": 4083.75, "bonus": false, "leave": false, "claims": 14522, "payments": 2015270.47, "ncr": 96.5, "mature": true, "cost": 50602.88, "cpc": 3.485, "roi": 39.83}, {"label": "Apr 2026", "pay": 23101.62, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 2700, "bonus": false, "leave": false, "claims": 14572, "payments": 2117472.89, "ncr": 94.3, "mature": true, "cost": 51781.62, "cpc": 3.554, "roi": 40.89}, {"label": "May 2026", "pay": 23282.57, "pdates": 2, "hvaCount": 15, "hva": 25980.0, "consult": 0, "bonus": false, "leave": false, "claims": 14103, "payments": 1955730.92, "ncr": 94.8, "mature": true, "cost": 49262.57, "cpc": 3.493, "roi": 39.7}, {"label": "Jun 2026", "pay": 24500.26, "pdates": 2, "hvaCount": 14, "hva": 24248.0, "consult": 0, "bonus": false, "leave": false, "claims": 15380, "payments": 2005950.16, "ncr": 95.0, "mature": false, "cost": 48748.26, "cpc": 3.17, "roi": 41.15}, {"label": "Jul 2026", "pay": 36824.52, "pdates": 3, "hvaCount": 13, "hva": 22516.0, "consult": 0, "bonus": false, "leave": false, "claims": 14989, "payments": 1910236.18, "ncr": 93.2, "mature": false, "cost": 59340.52, "cpc": 3.959, "roi": 32.19}, {"label": "Aug 2026", "pay": 22998.79, "pdates": 2, "hvaCount": 13, "hva": 22516.0, "consult": 0, "bonus": false, "leave": true, "claims": 14460, "payments": 1708177.55, "ncr": 81.2, "mature": false, "cost": 45514.79, "cpc": 3.148, "roi": 37.53}];
+const marchIdx=data.findIndex(d=>d.label==='Mar 2026');
+const labels=data.map(d=>d.label);
+
+Chart.Tooltip.positioners.midAnchor=function(elements){
+  if(!elements.length) return false;
+  const x=elements.reduce((s,e)=>s+e.element.x,0)/elements.length;
+  const a=this.chart.chartArea;
+  return { x:x, y:a.top+(a.bottom-a.top)*0.55 };
+};
+
+function makeChart(canvasId, metric, color, tickFmt, valFmt, axisText){
+  return new Chart(document.getElementById(canvasId), {
+    type:'line',
+    data:{ labels, datasets:[{
+      label:axisText, data:data.map(d=>d[metric]),
+      borderColor:color, backgroundColor:color, fill:false, tension:.25,
+      pointRadius:3, pointHoverRadius:6, borderWidth:2.5,
+      pointBackgroundColor:data.map(d=>d.mature?color:'#fff'),
+      pointBorderColor:color,
+      segment:{ borderDash:ctx=> data[ctx.p1DataIndex].mature ? undefined : [6,5] }
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ display:false },
+        annotation:{ annotations:{ mgmt:{ type:'line', scaleID:'x', value:marchIdx,
+          borderColor:'#dc2626', borderWidth:2, borderDash:[6,4],
+          label:{ display:true, content:'Mgmt change', position:'start',
+            backgroundColor:'#dc2626', color:'#fff', font:{size:10,weight:'bold'}, padding:4 } } } },
+        tooltip:{
+          position:'midAnchor', yAlign:'top', xAlign:'center', caretSize:0,
+          bodyFont:{size:11}, titleFont:{size:12,weight:'bold'}, padding:10,
+          callbacks:{
+            title:(items)=>{ const d=data[items[0].dataIndex]; return d.label+(d.mature?'':'  (immature)'); },
+            label:(item)=>{ const d=data[item.dataIndex]; return axisText+': '+valFmt(d[metric])+(d.mature?'':' (preliminary)'); },
+            afterBody:(items)=>{
+              const d=data[items[0].dataIndex];
+              const money=n=>'$'+Math.round(n).toLocaleString();
+              const l=['RCM cost: '+money(d.cost)];
+              if(metric==='roi') l.push('Collected: '+money(d.payments));
+              else l.push('Claims: '+d.claims.toLocaleString());
+              if(!d.mature) l.push('\u26a0 Payments still arriving');
+              return l;
+            }
+          }
+        }
+      },
+      scales:{
+        y:{ beginAtZero:true, ticks:{ callback:tickFmt }, title:{ display:true, text:axisText, color:color }, grid:{ color:'#eef0f3' } },
+        x:{ ticks:{ maxRotation:90, minRotation:90, font:{size:9} }, grid:{ display:false } }
+      }
+    }
+  });
+}
+makeChart('chartCpc','cpc','#2563eb', v=>'$'+v.toFixed(0), v=>'$'+v.toFixed(2), 'Cost per claim');
+makeChart('chartRoi','roi','#16a34a', v=>v+'x', v=>v.toFixed(1)+'x', 'Collected per $ cost');
+
+// ================= Monthly RCM Costs =================
+(function(){
+const f=n=>'$'+Math.round(n).toLocaleString();
+
+function quarterOf(label){
+  const [mon,yr]=label.split(' ');
+  const q=Math.floor(['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(mon)/3)+1;
+  return 'Q'+q+' '+yr;
+}
+const quarterly=(()=>{
+  const map=new Map();
+  data.forEach(d=>{
+    const key=quarterOf(d.label);
+    if(!map.has(key)) map.set(key,{label:key, pay:0, hva:0, consult:0, months:[]});
+    const q=map.get(key);
+    q.pay+=d.pay; q.hva+=d.hva; q.consult+=d.consult; q.months.push(d.label);
+  });
+  return [...map.values()];
+})();
+let view=data, mode='monthly';
+
+Chart.Tooltip.positioners.costTopAnchor=function(elements){
+  if(!elements.length) return false;
+  const x=elements.reduce((s,e)=>s+e.element.x,0)/elements.length;
+  return { x:x, y:this.chart.chartArea.top+10 };
+};
+
+const chart=new Chart(document.getElementById('costChart'), {
+  type:'line',
+  data:{
+    labels:data.map(d=>d.label),
+    datasets:[{
+      label:'Employee pay', data:data.map(d=>d.pay),
+      borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,.08)',
+      fill:true, tension:.25,
+      pointRadius:data.map(d=>d.pdates===3?6:3),
+      pointStyle:data.map(d=>d.pdates===3?'rectRot':'circle'),
+      pointBackgroundColor:data.map(d=>d.pdates===3?'#f59e0b':'#16a34a'),
+      pointBorderColor:data.map(d=>d.pdates===3?'#b45309':'#16a34a'),
+      pointHoverRadius:7, borderWidth:2, order:2
+    },{
+      label:'Est. HVA pay', data:data.map(d=>d.hva),
+      borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,.05)',
+      fill:false, tension:.25, pointRadius:2, pointHoverRadius:5, borderWidth:2,
+      borderDash:[4,3], order:1, hidden:true
+    },{
+      label:'Consulting expense', data:data.map(d=>d.consult),
+      borderColor:'#7c3aed', backgroundColor:'rgba(124,58,237,.05)',
+      fill:false, tension:.25, pointRadius:2, pointHoverRadius:5, borderWidth:2,
+      borderDash:[1,3], order:0, hidden:true
+    },{
+      label:'Total (all categories)', data:data.map(d=>d.pay+d.hva+d.consult),
+      borderColor:'#1a1d23', backgroundColor:'rgba(26,29,35,.05)',
+      fill:false, tension:.25, pointRadius:3, pointHoverRadius:6, borderWidth:2.5,
+      order:-1, hidden:true
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    interaction:{ mode:'index', intersect:false },
+    plugins:{
+      legend:{ display:false },
+      annotation:{ annotations:{
+        mgmt:{ type:'line', scaleID:'x', value:data.findIndex(d=>d.label==='Mar 2026'),
+          borderColor:'#dc2626', borderWidth:2, borderDash:[6,4],
+          label:{ display:true, content:'Management change', position:'start',
+            backgroundColor:'#dc2626', color:'#fff', font:{size:11,weight:'bold'}, padding:5 } },
+        bonus24:{ type:'label', xValue:data.findIndex(d=>d.label==='Dec 2024'), yValue:data.find(d=>d.label==='Dec 2024').pay, yAdjust:-22,
+          content:['\u2b50 Bonuses'], color:'#7c3aed', font:{size:10,weight:'bold'},
+          backgroundColor:'rgba(124,58,237,.10)', padding:3, borderRadius:4 },
+        bonus25:{ type:'label', xValue:data.findIndex(d=>d.label==='Dec 2025'), yValue:data.find(d=>d.label==='Dec 2025').pay, yAdjust:-22,
+          content:['\u2b50 Bonuses'], color:'#7c3aed', font:{size:10,weight:'bold'},
+          backgroundColor:'rgba(124,58,237,.10)', padding:3, borderRadius:4 }
+      }},
+      tooltip:{
+        position:'costTopAnchor', yAlign:'bottom', xAlign:'center', caretSize:0,
+        bodyFont:{ size:11 }, titleFont:{ size:13, weight:'bold' },
+        padding:12, boxPadding:4,
+        callbacks:{
+          title:(items)=>view[items[0].dataIndex].label,
+          label:()=>'',
+          afterBody:(items)=>{
+            const d=view[items[0].dataIndex];
+            const lines=[
+              'Employee pay: '+f(d.pay)+(mode==='monthly'?'  ('+d.pdates+' pay dates)':''),
+              'Est. HVA pay: '+f(d.hva)+(mode==='monthly'?'  ('+d.hvaCount+' HVAs)':''),
+              'Consulting: '+f(d.consult),
+              'Total: '+f(d.pay+d.hva+d.consult)
+            ];
+            if(mode==='monthly'){
+              if(d.pdates===3) lines.push('\u25c6 3-paycheck month');
+              if(d.bonus) lines.push('\u2b50 Year-end bonuses included');
+              if(d.leave) lines.push('One staff member on ~3-week vacation');
+            } else {
+              const n=d.months.length;
+              lines.push('('+n+' month'+(n>1?'s':'')+': '+d.months[0]+'\u2013'+d.months[n-1]+(n<3?', partial quarter':'')+')');
+            }
+            return lines;
+          }
+        }
+      }
+    },
+    scales:{
+      y:{ beginAtZero:true, ticks:{ callback:v=>'$'+(v/1000)+'k' }, title:{ display:true, text:'Monthly pay', color:'#16a34a' }, grid:{ color:'#eef0f3' } },
+      x:{ ticks:{ maxRotation:90, minRotation:90 }, grid:{ display:false } }
+    }
+  }
+});
+
+// ---- Monthly / Quarterly switching ----
+function renderView(newMode){
+  mode=newMode;
+  view = mode==='monthly' ? data : quarterly;
+  const labels=view.map(d=>d.label);
+  chart.data.labels=labels;
+  const e=chart.data.datasets[0];
+  e.data=view.map(d=>d.pay);
+  if(mode==='monthly'){
+    e.pointRadius=view.map(d=>d.pdates===3?6:3);
+    e.pointStyle=view.map(d=>d.pdates===3?'rectRot':'circle');
+    e.pointBackgroundColor=view.map(d=>d.pdates===3?'#f59e0b':'#16a34a');
+    e.pointBorderColor=view.map(d=>d.pdates===3?'#b45309':'#16a34a');
+  } else {
+    e.pointRadius=4; e.pointStyle='circle'; e.pointBackgroundColor='#16a34a'; e.pointBorderColor='#16a34a';
+  }
+  chart.data.datasets[1].data=view.map(d=>d.hva);
+  chart.data.datasets[2].data=view.map(d=>d.consult);
+  chart.data.datasets[3].data=view.map(d=>d.pay+d.hva+d.consult);
+  const ann=chart.options.plugins.annotation.annotations;
+  ann.mgmt.value=labels.indexOf(mode==='monthly'?'Mar 2026':'Q1 2026');
+  const monthly=(mode==='monthly');
+  ann.bonus24.display=ann.bonus25.display=monthly;
+  // keep x positions numeric so the category axis never gains extra labels
+  ann.bonus24.xValue=monthly?data.findIndex(d=>d.label==='Dec 2024'):0;
+  ann.bonus25.xValue=monthly?data.findIndex(d=>d.label==='Dec 2025'):0;
+  chart.options.scales.y.title.text=mode==='monthly'?'Monthly pay':'Quarterly pay';
+  chart.options.scales.x.ticks.maxRotation=chart.options.scales.x.ticks.minRotation=(mode==='monthly'?90:0);
+  chart.update();
+}
+document.querySelectorAll('#viewToggle button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#viewToggle button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); renderView(btn.dataset.mode);
+  });
+});
+
+// ---- Category toggles ----
+const controls=document.getElementById('controls');
+chart.data.datasets.forEach((ds,i)=>{
+  const on=!ds.hidden;
+  const el=document.createElement('label');
+  el.className='ctrl'+(on?'':' off');
+  el.innerHTML='<input type="checkbox" '+(on?'checked':'')+'><span class="swatch" style="background:'+ds.borderColor+'"></span><span class="name">'+ds.label+'</span>';
+  const box=el.querySelector('input');
+  box.addEventListener('change',()=>{ chart.setDatasetVisibility(i,box.checked); el.classList.toggle('off',!box.checked); chart.update(); });
+  controls.appendChild(el);
+});
+
+
+})();
+</script>
+</body>
+</html>
